@@ -1,0 +1,58 @@
+.table-responsive {
+    display: block;
+    overflow-x: auto;
+    background-color: rgb(211, 228, 228);
+  }
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;   
+  }
+/* .flex-container {
+  display: flex;
+  height: 200px;
+  align-items: stretch;
+} */
+
+/*  Centrado*/
+/* .flex-container {
+  display: flex;
+  height: 300px;
+  justify-content: center;
+  align-items: center;
+} */
+
+.fa {
+font-size: 10px;
+color: chocolate;
+}
+
+.flex-center {
+                width: 100%;
+                align-items: center;/*These two properties center vetically*/
+                height: 100vh;/*These two properties center vetically*/
+                display: flex;/*This is the attribute that separates into columns*/
+                justify-content: center;
+                text-align: center;
+                position: relative;
+            }
+ 
+  /* *{
+    border-radius: 0px !important;
+  } */
+  .btn-group .btn {
+    width: 30%;
+  }
+  .btn-group {
+    width: 100%;
+  }
+
+  hr{    
+    border: solid 2px;
+    border-color:rgb(178, 224, 11);
+    margin-top: 1px;  
+} 
+#form{
+  background-color: rgb(247, 244, 241);
+  color: blue;
+}

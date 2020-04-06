@@ -1,0 +1,274 @@
+<!-- <p style="background-color: rgb(222, 236, 20)">recipe-details works!</p>
+ -->
+ <div>
+     <h2 style="color: cadetblue;">
+        {{recipeDet.name|uppercase}} <br>
+        DATOS <br>
+        {{recipeDet.toString()}}
+     </h2>
+ </div>
+
+<div *ngIf="dato ==='si'; else infoText">
+    <h5 style="background-color: rgb(95, 90, 90); color: rgb(245, 225, 46);">
+        You have a recipe
+    </h5>
+    <!-- <app-recipe-details 
+                    *ngIf="recipeWasSelected; else infoText" 
+                    [recipeDet]="recipeWasSelected"
+                >            
+                </app-recipe-details>  -->
+</div>
+
+<ng-template #infoText>
+    <p style="background-color: rgb(95, 90, 90); color: rgb(245, 225, 46);">
+        Please, you must select a recipe fot view details
+    </p>
+</ng-template>
+
+<div>
+    <p style="color: rgb(99, 184, 15);"> Datos desde Subjects:
+        <!-- {{recipeSubj.name|uppercase}} --> 
+    </p>    
+</div>
+<hr style="color: violet;">
+ 
+<h2 style="text-align: left; color: darkmagenta;">Detail</h2>
+<p>Title 1: {{dato|uppercase}}</p>
+<p>Title 2:  {{recName|uppercase}}</p>
+<p>Title 2:  {{recipeDet.name|uppercase}}</p>
+<!-- Esto de abajo seria para cuando paso los datos por emmiter -->
+<div class="row">
+    <div class="col-xs-4">Rating:</div>
+    <div class="col-xs-8">
+        <app-recipe-star 
+            [rating]=recipeDet.rating 
+            (notifyClicked)="onNotify($event)">
+        </app-recipe-star>
+    </div>
+</div>
+
+<h2>  CULO- {{recName}} - </h2>
+<!-- {{recipeDet.rating}} -->
+<div class="row">
+    <div class="col-xs-4">
+        <h4>Name: {{recipeDet.name | uppercase}}</h4>
+    </div>    
+    <div class="col-xs-4">
+        <h4>Rating: {{recipeDet.rating | currency:'Rating ': true: '1.2-2'}}</h4>
+    </div>
+    <div class="col-xs-4">
+        <h4> Name: {{recName}}</h4>
+    </div>    
+</div>
+
+<div class="row">
+    Imagen
+    <div class="col-xs-12">
+        <img [src]="recipeDet.imageUrl" alt="{{recipeDet.name}}" class="img-responsive" style="max-height: 150px;">
+    </div>
+    <hr>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h4>Description:</h4>
+        ID = {{recipeDet.id}}
+        {{recipeDet.description}}
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h3>Ingredients:</h3>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let ing of recipeDet.ingredients">
+                {{ing.toString()}}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<hr style="border: 1px solid darkmagenta;">
+
+<div style="background-color: lightgray;">
+    <pre>Trying to rearrange the ingredients again by = {{propertyName}}; reverse = {{reverse}}</pre>
+    <button class="btn-success" ng-click="sortBy(null)">Set to unsorted</button>
+    <table class="friends">
+        <tr>
+            <th>
+                <button  ng-click="sortBy('id')">Code</button>
+                <span class="sortorder" ng-show="propertyName === 'id'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th>
+                <button ng-click="sortBy('name')">Name</button>
+                <span class="sortorder" ng-show="propertyName === 'name'" ng-class="{reverse: reverse}"></span>
+            </th>
+            <th>
+                <button ng-click="sortBy('amount')">Amount</button>
+                <span class="sortorder" ng-show="propertyName === 'amount'" ng-class="{reverse: reverse}"></span>
+            </th>
+        </tr>
+        <tr *ngFor="let ing of recipeDet.ingredients"> <!-- | orderBy:'ing.name' -->
+            <td>{{ing.id}}</td>
+            <td>{{ing.name}}</td>
+            <td>{{ing.amount}}</td>
+        </tr>
+    </table>
+    <hr>
+    <div>
+        <p>TRY Sort customers whith ("| orderBy:'city'")</p>
+        <ul>
+            <li *ngFor="let x of customers"> <!-- | orderBy:'city' -->               
+                {{x.name + " of " + x.city}}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<hr style="border: 1px solid darkmagenta;">
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="btn-group" appDropdown style="float: right; width: auto; padding-right: 22px;">
+            <button type="button" class="btn btn-primary dropdown-toggle">
+                Menage Recipe <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a style="cursor: pointer;" (click)="onAddToShoppingList()">To Shopping list</a></li>
+                <li><a style="cursor: pointer;"  (click)="onEditRecipe()">Edit Recipe</a></li>
+                <li><a style="cursor: pointer;" routerLink="/recipes/new">New Recipe</a></li>
+                <li><a style="cursor: pointer;"routerLink="/recipes/start">Delete Recipe</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<hr style="border: 1px solid darkmagenta;">
+<hr style="border: 1px solid darkmagenta;">
+
+<div class="row">
+    <div class="col-xs-12">
+        <div style="text-align: center;">
+            <h4><i>Add ingredients</i></h4>
+        </div>
+
+        <div class="col-xs-4">
+            <p class="select">
+                Elija una opcion:
+                <select name="select" #valorParaSwitch [(ngModel)]="seleccion" style="cursor: pointer;">
+                    <option value="" disabled>Select one</option>
+                    <option value="shoppingList" ><!-- <a (click)="onAddToShoppingList()" style="cursor: pointer;">-->Add To Shopping <!--</a>--></option>
+                    <option value="enable" >Enable</option>
+                    <option value="mute">Mute</option>
+                    <option value="home">
+                        <a href="#"><span class="glyphicon glyphicon-home"></span>Home</a>
+                    </option>
+                    <optgroup label="Ferrari">
+                        <option>458 Spider</option>
+                        <option>F12 Berlinetta</option>
+                    </optgroup>
+                    <option value="mute">Mute</option>
+                </select>
+            </p>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" [placeholder]="seleccion"
+                style="background-color: pink;color: whitesmoke;font-size: 17px;">
+        </div>
+        <div class="col-xs-4">
+            <p>
+                <button class="btn btn-warning" (click)="alertConData(seleccion)" (click)="viewJuego()">Confirm</button>
+            </p>
+            <button><a routerLink="/error">error</a>
+            </button >
+        </div>
+    </div>
+</div>
+<hr>
+<!-- <div [ngSwitch]="dato">
+    <p *ngSwitchCase='mute'>value is : {{dato}}</p>
+    <p *ngSwitchCase='enable'>value is : {{dato}}</p>
+    <p *ngSwitchCase='shoppingList'>value is : {{dato}}</p>
+    <p *ngSwitchDefault> Value must be  1, 10 or 100 to be valid</p>
+</div> -->
+
+
+<div class="row">
+    <div class="col-xs-4">
+        <label for="" style="color: limegreen;">Elija una opcion</label>
+    </div>
+    <div class="col-xs-7">
+        <ul class="selected" style="cursor:pointer">
+            <li><a (click)="onAddToShoppingList()">Add To Shopping list</a></li>
+            <li><a (click)="alertConData('alerta Con Datos')">Alerta</a></li>
+            <li><a><span class="glyphicon glyphicon-home"></span> Sign Up</a></li>
+            <li><a routerLink="/test"><span class="glyphicon glyphicon-heart"></span> Login</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- <a [routerLink]="/home">HOME</a> -->
+
+<hr style="border: 1px solid darkmagenta;">
+
+<ul class="nav navbar-nav navbar-right">
+    <li class="dropdown" appDropdown>
+        <!-- appDropdown es una directiva -->
+        <!-- open para abrirla -->
+        <a class="dropdown-toogle" role="button">
+            Sesamo! <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="#">Save Data</a></li>
+            <li><a href="#">Fetch Data</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-home"></span> Sign Up</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-heart"></span> Login</a></li>
+        </ul>
+    </li>
+</ul>
+
+<hr style="border: 1px solid rgb(180, 240, 39);">
+
+<h5>New Dropdown</h5>
+<div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav navbar-left">
+        <li class="dropdown" appDropdown>
+            <a style="cursor: pointer;" class="dropdown-toggle" role="button">
+                Menage<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a style="cursor: pointer;">Save Data</a></li>
+                <li><a style="cursor: pointer;">Fetch Data</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<hr style="border: 1px solid rgb(180, 240, 39);">
+
+<div class="row">
+    <div class="col-sm-12 col-md-8 col-md-offset-2">
+        <button style="width: 40%;" type="button" class="btn btn-secondary"  (click)="onAddToShoppingList()">Add To Shipping list</button>
+        <button style="width: 30%;" type="button" class="btn btn-success">Edit Recipe</button>
+        <button style="width: 30%;" type="button" class="btn btn-danger">Delete Recipe</button>
+    </div>
+</div>
+<hr style="border: 1px solid darkmagenta;">
+
+<div class="row">
+    <div class="col-xs-4">
+        <button class="btn btn-block btn-success" (click)="onAddToShoppingList()">To Shipping list</button>
+    </div>
+    <div class="col-xs-4">
+        <button class="btn btn-block btn-danger" (click)="editRecipe()">Edit Recipe</button>
+    </div>
+    <div class="col-xs-4">
+        <button class="btn btn-block btn-success" (click)="deleteRecipe()">Delete Recipe</button>
+    </div>
+</div>
+
+<br>
+
+<div class="col-md-6-offset-2 " >
+    <button class="btn btn-secondary" style="display: block; width: 100%;
+                 border: darkmagenta solid 2px; background-color: royalblue;"
+        [disabled]='isActualizado' (click)='youWelcome()'>
+        You're welcome !
+    </button>
+</div>

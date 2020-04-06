@@ -1,0 +1,10 @@
+.header{
+    color:rgb(171, 247, 171);
+    background-color: rgb(31, 143, 63);
+    border: solid 2px rgb(24, 78, 82);
+}
+hr{    
+    border: solid 1px;
+    border-color: rgb(240, 113, 113);
+    margin-top: 1px;  
+} 

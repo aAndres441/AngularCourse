@@ -1,0 +1,8 @@
+label, p{
+    color: rgb(235, 79, 32);
+}
+input{
+    font-size: 14px;
+    color: yellow;
+    background-color: violet;
+}

@@ -1,0 +1,30 @@
+<h3>Active Users</h3>
+<ul class="list-group">
+
+  <li class="list-group-item" *ngFor="let user of users; let i = index">
+
+    <div *ngIf="users.length>1; else infoText"> </div>
+    <ng-template #infoText>
+      <p style="background-color: greenyellow; text-align: center">Careful: there's one left</p>
+    </ng-template>
+
+    (ID: {{ user.id }}) -{{ user.name }} {{ user.lastname }}- (Fecha {{user.timeStamp|date}} ) | <a
+      (click)="onSetStatus(i)">Set to Inactive</a>
+  </li>
+
+  <div *ngIf="users.length===0">
+    <p style="background-color: rgb(255, 200, 47); text-align: center">Sorry: there's not users active</p>
+  </div>
+</ul>
+<!-- <app-recipe-details 
+                *ngIf="recipeWasSelected; else infoText" 
+                [recipeDet]="recipeWasSelected"
+            >            
+            </app-recipe-details>
+            
+            <ng-template #infoText>
+                <p>Please select a rcecipe - No selecciono nada</p>
+            </ng-template> 
+          
+          [ngStyle]="{backgroundColor: user.id> 1 ? 'green' : 'violet'}"
+          -->

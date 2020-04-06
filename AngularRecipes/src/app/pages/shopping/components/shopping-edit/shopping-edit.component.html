@@ -1,0 +1,38 @@
+<div class="col-xs-12" style="background-color: violet;">
+
+
+    <h4>EDIT RECIPE <i>Add ingredient</i></h4>
+    <form action="">
+        <div class="row">
+            <div class="col-sm-5 form-group">
+                <!-- <label for="name">Name</label> -->
+                <input type="text" #nameInput id="name" placeholder="Name" class="form-control">
+            </div>
+            <div class="col-sm-5 form-group">
+                <!-- <label for="amount">Amount</label> -->
+                <input type="number" #amountInput id="amount" placeholder="amount" class="form-control">
+            </div>
+            <div class="col-sm-4 " *ngIf="other">
+                <!-- <label >Add other shopp</label> -->
+                <button style="width: 100%; background-color: rgb(31, 16, 31);" class="btn btn-success"
+                    (click)="addOther()">Other</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="text-align:center; margin: auto;">
+                <button style="width: 30%;" class="btn btn-success" type="submit"
+                    (click)="addIngred()">Add</button>
+                <button style="width: 30%;" class="btn btn-danger" type="button"
+                    (click)="deleteIngred(nameInput, amountInput)">Delete</button>
+                <button style="width: 30%;" class="btn btn-primary" type="button">Clear</button>
+
+            </div>
+        </div>
+
+    </form>
+
+    <div [ngStyle]="{backgroundColor: getColor()}">
+        <p *ngIf="textError!=''">{{textError}} - <span class="glyphicon glyphicon-heart"></span> </p>
+    </div>
+
+</div>

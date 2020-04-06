@@ -1,0 +1,23 @@
+<div class="content">
+    <p>hobbie works!</p>
+<h3>List of hobbies</h3>
+<ul>
+    <li *ngFor="let ho of hobbies" style="text-decoration: none; font-family: fantasy; color: darkslategrey;">
+        {{ho.name}} {{ho.description}} - ({{ho.timeStamp|date}})
+    </li>
+</ul>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-4" style="border:2px solid darkorange  ;" >
+            <app-hobbie-list></app-hobbie-list>
+        </div>
+        <div class="col-xs-4" style="border:2px solid darkorange  ;">
+            <app-hobbie-details></app-hobbie-details>
+        </div>
+        <div class="col-xs-4" style="border:2px solid darkorange  ;">
+            <app-hobbie-form></app-hobbie-form>
+        </div>
+    </div>
+
+</div>
+</div>

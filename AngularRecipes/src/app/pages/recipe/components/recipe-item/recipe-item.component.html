@@ -1,0 +1,41 @@
+<a class="list-group-item clearfix"
+        [routerLink]="[index]"
+        routerLinkActive='active'
+
+        [queryParams]= "{ID: [index] }"
+        fragment= {{recipe.name}}
+        
+    >
+        <!--invento Subject (click)="InventoSubject()" -->
+
+    <!-- [queryParams]="{feniEdit:'1'}"
+                fragment='loading' -->
+
+    <!-- elimine este metodo que estaba entre las <a> despues de cursor: pointer;"
+         pues paso el item por url en [routerLink]="[index]" desde html list    
+    (click)="addDetail()" -->
+
+    <!-- [routerLink]="[index]" 
+    le paso numero index a la ruta para ir al detalle -->
+
+    <!--  routerLink="['/start]" -->
+
+    <!-- [routerLink]="['/reipe',recipe.id]"  -->
+
+    
+    
+    
+    <div class="pull-left">
+        <h4 class="list-group-item-heading">
+            Name: {{recipe.name}}
+        </h4>
+    </div>
+    <span class="pull-right">
+        <img [src]="recipe.imageUrl"
+            alt="{{recipe.name}}" 
+            class="img-responsive"
+            style="max-height: 50px;"
+        >
+    </span>
+</a>
+

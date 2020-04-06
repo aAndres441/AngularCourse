@@ -1,0 +1,93 @@
+<div class="container" style="border: orange solid 1px;">
+    <h3 style="text-align: center;" > Here you can view directives: </h3>
+    <p>*ngIf, *ngFor, ngClass, ngStyle,</p>
+    <p>Also from module Directivas: @HostListener con Renderer2 y nativeElement y @HostBinding</p>
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btt btn-primary" style="width: 100%;" (click)="onlyOdd = !onlyOdd">
+                Only show odd number
+            </button>
+            <br><br>
+            <ul class="list-group">              
+                <div *ngIf="onlyOdd">
+                    <li class="list-group-item" 
+                    *ngFor="let od of oddNumbers"
+                    [ngClass]="{myOdd: od % 2 !== 0}"
+                    [ngStyle]="{backgroundColor: od  % 2 !== 0 ? 'green' : 'transparent'}">
+                        {{od}}
+                    </li>
+                </div>
+                <div *ngIf="!onlyOdd">
+                        <li class="list-group-item" 
+                        *ngFor="let ev of evenNumbers"
+                        [ngClass]="{myOdd: ev % 2 !== 0}"
+                        [ngStyle]="{backgroundColor: ev % 2 !== 0 ? 'yellow' : 'transparent'}">
+                            {{ev}}
+                        </li>
+                </div>
+                
+                <!-- ****  sin estrella *  -->
+                <ng-template [ngIf]="!onlyOdd">                   
+                    <div style="color: cadetblue;">
+                            <h5 style="align-content: center;">Using interpolacion [ngIf]=..., without stars</h5>
+                        <li class="list-group-item" 
+                        *ngFor="let ev of evenNumbers"
+                        [ngClass]="{myOdd: ev % 2 !== 0}"
+                        [ngStyle]="{backgroundColor: ev % 2 !== 0 ? 'transparent' : 'pink'}">
+                            {{ev}}
+                        </li>
+                    </div>
+                </ng-template>
+                
+            </ul>
+        </div>
+
+        <div>
+            <h5> <s>
+               Here only to show the use of directives that are not currently in use because I can't make them work.</s>
+            </h5>
+            Con directiva mia (oposite) que se actualiza desde DOM
+                 <!-- ojo agregarle * sino debo crear ng-template-->
+               <!-- en la de abajo se usa el bool onlyOdd para cambiar -->
+                 <!--  <div *appDirectiveOposite="onlyOdd">   
+                        <h5 style="align-content: center;">Usando mi directiva con condiciones </h5>                
+                    <li class="list-group-item" *ngFor="let ev of evenNumbers" 
+                        [ngClass]="{myOdd: ev % 2 !== 0}"
+                        [ngStyle]="{backgroundColor: ev % 2 !== 0 ? 'orange' : 'pink'}">
+                        {{ev}}
+                    </li>
+                </div> -->
+               
+            <p appDirectiveBasic>Style whith Directive Basic highlight</p>
+            <p appDirectivBetter>Style whit directive, better than first</p>
+<!--        <p appDirectivBetter [colorDefault]="'green'" colorSecond="blue">Style whit directive, colorDefault</p>--> 
+            <p appDirectivBetter >Style whit directive, colorDefault</p>
+
+        </div>
+        <hr>
+        <!-- IMAGEN CON  DIRECTIVA -->
+       <!--  <img appDirectiveCard [cardNumber] = " cc .value" />
+         -->
+        <hr>
+        <div style="border: lightslategrey dashed 1px">
+            <h4><em>SWITCH</em> con@ViewChild- @Output - @Input</h4>
+            <div class="col-sm-5">
+                <input type="number" #valorParaSwitch placeholder="Numero">
+            </div>
+            <div class="col-sm-2">
+                <input type="text" [value]="valorParaSwitch.value">
+            </div>
+            <br>
+            <button class="btn btn-success" style="width: 90%;" (click)="addNumero()">Add Numero</button>
+        
+            <div [ngSwitch]="valor">
+                <p *ngSwitchCase='1'>value is : {{valor}}</p>
+                <p *ngSwitchCase='10'>value is : {{valor}}</p>
+                <p *ngSwitchCase='100'>value is : {{valor}}</p>
+                <p *ngSwitchDefault> Value must be  1, 10 or 100 to be valid</p>
+            </div>
+            
+            <hr>
+        </div>
+    </div>
+</div>

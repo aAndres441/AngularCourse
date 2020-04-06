@@ -1,0 +1,61 @@
+<div class="container-fluid" style="border: blue solid 2px;">
+    <h2><em>Listado</em> con @Output - @Input</h2>
+    
+    <div class="panel-heading"  style="text-align: center;">
+            <p #panel>Agregamos plantas!!</p>
+    </div>
+    
+    <!--usamos  <ng-content></ng-content> que se carga al iniciar el componente-->
+    <!-- <div class="panel-body">
+        <ng-content></ng-content>
+    </div> -->
+
+    <div class="row">
+        <div class="col-sm-5">
+            <label for="">Name</label>
+            <input type="text" class="form-control" [(ngModel)]="newName">
+        </div>
+        <div class="col-sm-5">
+            <input type="text" [value]="newName">
+        </div>
+        <br>
+        <div class="col-sm-5">
+            <label for="">Description</label>
+            <input type="text" class="form-control" [(ngModel)]="newDescription">
+        </div>
+        <div class="col-sm-5">
+            <input type="text" [value]="newDescription">
+        </div>
+        <br>
+        <div class="col-sm-2">
+            <label for="">Position</label>
+            <input type="number" class="form-control" [(ngModel)]="newPos" id="newPos">
+        </div>
+        <div class="col-sm-2">
+            <input type="number" [value]="newPos">
+        </div>
+        <div class="col-sm-12">
+            <label for="">Name for tuna</label>
+            <input type="text" class="form-control" #address>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" [value]="address.value">
+        </div>
+        <br>
+        <button class="btn btn-primary" style="width: 30%;" (click)="onAddTunas(address)">Add Tuna</button>
+        <button class="btn btn-primary" style="width: 30%;" (click)="onAddCrasas()">Add Crasa</button>
+        <button class="btn btn-primary" style="width: 30%;" (click)="delete()">Delete Plant</button>
+
+
+    </div>
+
+    <div class="row" style=" padding: 12px;" >
+        <div class="col-xs-12" style="border: rgb(255, 196, 0) dotted  2px;">
+                <strong>Las comidas del padre con @Input</strong>
+            <ul *ngFor="let c of lasComidasDelPadre let i = index">                  
+                <li>{{c.name}} ( {{c.content}} )</li>
+            </ul>
+        </div>
+    </div>
+
+</div>

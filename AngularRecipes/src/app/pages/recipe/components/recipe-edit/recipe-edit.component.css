@@ -1,0 +1,10 @@
+.myColorEdit{
+    color: rgb(147, 252, 121);
+    background-color: rgb(89, 89, 95);
+    float: right
+}
+
+.myColorNew{
+    color: rgb(229, 235, 227);
+    background-color: rgb(120, 153, 0);
+}

@@ -1,0 +1,142 @@
+
+<app-header></app-header>
+
+<app-navbar (viewSelected)="onNavigate($event)"></app-navbar>
+<!--  -->
+<!-- <div class="container"></div> -->
+<div  style="border: rgb(96, 186, 238) solid 2px;">
+  <!-- <div class="row">
+    <h3>ROUTES</h3>
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs"> -->
+         <!--<li role="presentation"><a href="/recipes">Recipes</a> </li> (NO VA MAS HRef,para no actualizar pag)-->
+        <!-- <li role="presentation" class="active"><a routerLink="/">Home</a> </li>       
+        <li role="presentation"><a routerLink="/recipes">Recipes</a> </li>
+        <li role="presentation"><a routerLink="/shopping">Shopping</a> </li>
+        <li role="presentation"><a routerLink="/users">Users</a> </li>
+        <li role="presentation"><a routerLink="/login">Login</a> </li>
+        <li role="presentation"><a routerLink="test">Test</a> </li>
+        <li role="presentation"><a routerLink="/account">Account</a> </li>
+        <li role="presentation"><a routerLink="/server">Server</a> </li>
+        <li role="presentation"><a routerLink="/game">Game</a> </li>
+        <li role="presentation"><a routerLink="/error">Error</a> </li>
+      </ul> -->
+     <!--  <ul class="nav navbar-nav ml-auto " role="tablist">
+        <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="shopping" role="tab" aria-controls="shopping"
+            aria-selected="true">shopping</a></li>
+        <li class="nav-item "><a class="nav-link " data-toggle="tab" href="account" 
+            role="tab" aria-controls="falcon" aria-selected="false">Account</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="users"  role="tab"
+            aria-controls="owl" aria-selected="false">Users</a></li>
+      </ul> -->
+    <!-- </div>
+  </div> -->
+  
+  <!-- <div class="row"> -->
+<!--     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+ -->      <router-outlet></router-outlet>
+   <!--  </div> -->
+ <!--  </div>   -->
+</div>
+
+
+<!-- lo de abajo lo suprimi por poner < router>-->
+<!-- <div class="container col-xs-12" style="background-color: rgb(240, 252, 221);"> -->
+
+  <!-- style="text-align:center" -->
+  <!--   <ol style="text-align: right;">
+    <a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour in angular.io</a>
+  </ol>
+  <img width="400" height="200" alt="Angular Logo" src="src\assets\Imagenes\centro-atletico-fenix.jpg">
+ -->
+
+  <!-- ERROR -->
+  <!-- <div class="row">
+    <hr>
+    <h3>ERROR</h3>
+    <div class="col-xs-12">
+      <app-error *ngIf="viewPage === 'error'"></app-error>
+    </div>
+  </div>
+  <br> -->
+  
+
+<!-- HOME -->
+<!-- <div class="row">
+  <hr>
+  <h3>HOME</h3>
+  <div class="col-xs-12">
+    <app-home *ngIf="viewPage === 'home'"></app-home>
+  </div>
+</div>
+<br> -->
+
+  <!-- RECIPE y SHOPPING-->
+  <!-- <div class="row">
+    <hr>
+    <h3>RECETAS-APP</h3>
+    <div class="col-xs-12">
+      <app-recipe *ngIf="viewPage === 'recipe'"></app-recipe>
+ 
+      <app-shopping *ngIf="viewPage === 'shopp'"></app-shopping>      
+    </div>
+  </div>
+  <br>-->
+
+  <!-- GAME -->
+  <!-- <div class="row">
+    <hr>
+    <h3>GAME</h3>
+    <div class="col-xs-12">
+      <app-game *ngIf="viewPage === 'game'"> </app-game>
+    </div>
+  </div>
+  <br> -->
+
+  <!-- TEST -->
+  <!-- <div class="row">
+    <hr>
+    <h3>TEST</h3>
+    <app-my-test *ngIf="viewPage === 'test'"> </app-my-test>
+  </div>
+  <br> -->
+
+  <!-- SERVER-->
+  <!-- <div class="row">
+    <hr>
+    <h3>SERVER</h3>
+    <app-server *ngIf="viewPage === 'server'"> </app-server>
+  </div>
+  <br>
+ -->
+  <!-- ACCOUNT-->
+ <!--  <div class="row">
+    <hr>
+    <h3>ACCOUNT</h3>
+    <app-account *ngIf="viewPage === 'account'"> </app-account>
+  </div>
+  <br> -->
+
+  <!-- USERS-->
+  <!-- <div class="row">
+    <hr>
+    <h3>USERS</h3>
+    <app-user *ngIf="viewPage === 'user'"> </app-user>
+  </div>
+  <br>
+ -->
+<!-- </div> -->
+
+<!-- <div class="row" style="background-color: rgb(199, 245, 241);">
+  <div class="col-xs-8" [ngStyle]="{color: 'blue'}">
+    <p>hello</p>
+  </div>
+
+  <div class="col-xs-2">
+    <button class="btn-danger" style="width: 100%;">boton</button>
+  </div>
+</div> -->
+
+<app-footer></app-footer>
+
+<!-- <app-borrar></app-borrar> -->

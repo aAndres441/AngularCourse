@@ -1,0 +1,46 @@
+<p style="text-align: center;">edit-server works!</p>
+
+<h4 *ngIf="!allowEdit" style="color: crimson;">You're not allowed to edit</h4>
+
+<div *ngIf="allowEdit">
+  <div class="form-group">
+    <label for="name">Server Name</label>
+    <input
+      type="text"
+      id="name"
+      class="form-control"
+      [(ngModel)]="serverName">
+  </div>
+  <div class="form-group">
+    <label for="status">Server Status</label>
+    <select
+      id="status"
+      class="form-control"
+      [(ngModel)]="serverStatus">
+      <option value="online">Online</option>
+      <option value="offline">Offline</option>
+    </select>
+  </div>
+
+  <div >
+    <label for="servId">Server ID</label>
+    <input type="text" [(ngModel)]="servId" >
+    <br>
+    <label for="servId">Status</label>
+    <input type="text" [(ngModel)]="serverStatus" >
+  </div>
+
+  <button class="btn btn-default"
+    (click)="onUpdateServer()">Update 
+  </button>
+
+  <button class="btn btn-info" 
+    (click)="alListado()">al listado
+  </button>
+
+  <button class="btn btn-warning" 
+    (click)="confirm()">confirm
+  </button>
+  
+
+</div>

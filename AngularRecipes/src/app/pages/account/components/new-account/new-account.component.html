@@ -1,0 +1,40 @@
+<div class="container" [ngClass]="{miEstilo:isBackground}">
+    <div class="row" style="align-content: flex-end;">
+     
+
+        <div class="col-sm-10" >
+            <div class="row">
+                <div class="col-sm-8">
+                        <h3><i>NEW ACCOUNT</i></h3>
+                </div>
+                <div class="col-sm-3">
+                     <button  (click)="isBackground=!isBackground" class="btn btn-success">change background style</button>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12 col-md-8 col-md-offset-2">
+                    <div class="form-group">
+                        <label for="">Account name</label>
+                        <input type="text" class="form-control" #accountName name="accountName">
+                        <!-- <input type="text" [(ngModel)]="accountName" style="color: rgb(189, 0, 164);"> -->
+                        <!-- <input type="number" [value]="accountName"> -->
+
+                    </div>
+                    <div class="form-group">
+                        <select name="" id="" #status>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="unknown">Unknown</option>
+                        </select>
+
+                    </div>
+                    <button class="btn btn-primary" (click)="onCreateAccount(accountName.value, status.value )">
+                        Add account
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

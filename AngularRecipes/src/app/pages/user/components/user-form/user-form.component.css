@@ -1,0 +1,29 @@
+.container{
+    background-color: rgb(169, 207, 240); 
+    border: aqua solid 1px;
+    
+    }
+    
+    .myColorDeClase{
+        color: wheat;
+    }
+    
+    .buttonlink{
+        display:block;
+        border-style:solid;
+        border-color:#bbb #888 #666 #aaa;
+        border-width:3px 4px 4px 3px;
+        width:9em;
+        height:2em;
+        background:rgb(10, 204, 20);
+        color:#333;
+        line-height:2;
+        text-align:center;
+        text-decoration:none;
+        font-weight:900;
+    }
+    .buttonlink:hover{
+        border-color: rgb(9, 240, 21) rgb(13, 175, 121) rgb(44, 27, 201) rgb(235, 4, 223);
+        border-width:4px 3px 3px 4px;
+        color:#000;
+    }

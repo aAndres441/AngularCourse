@@ -1,0 +1,153 @@
+<div class="row" style="border: cornflowerblue solid 2px;">
+    <div class="col-xs-12">
+        <h4 style="text-align: center;"><b>Formulario - (test-form)</b></h4>
+        <h5><i>Acceso a datos con referencias diferentes:
+            [(ngModel)],#address.value, @viewChild()
+             </i>
+        </h5>
+
+        <!--             <form action="" novalidate style="border: rgb(238, 243, 167) solid 2px;">
+           -->
+           
+        <div class="row">
+            <div class="col-sm-4">
+                <input type="text" [(ngModel)]="userName" placeholder="SIN form-control">
+            </div>            
+            <div class="col-sm-4 ">
+                <input type="text" [value]="userName">
+            </div>
+            <div class="col-sm-3">
+                <p style="border: olive solid 3px;">..{{userName}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                Name: (con [(ngModel)])
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" [(ngModel)]="userName" style="color: rgb(189, 0, 164);"
+                    id="usuario" required placeholder="CON form-control">
+            </div>
+            <div class="col-sm-4">
+                <input type="text" [value]="userName">
+            </div>
+        </div>
+
+        <div class="row">
+                <div class="col-sm-3">
+                    City:(con @Output() para mandar evento)
+                </div>
+                <div class="col-sm-4">  
+                    <input type="text" class="form-control" [(ngModel)]="newCity"
+                         required placeholder="newCity">                   
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" [value]=newCity>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-sm-3">
+                    Address:(con referencia #address.value, la referencia al DOM NO VA ngModel)
+                </div>
+                <div class="col-sm-4">
+                    <!-- con la freferencia al DOM  NO VA ESTO [(ngModel)]="address" -->
+                    <input type="text" class="form-control" #address required placeholder="address">
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" [value]=address.value>
+                </div>
+            </div>
+
+                <div class="panel-body">
+                    <select ng-model="selectedName" name="selectedName" #selectedName>
+                        <option value="" disabled selected>Seleccione una comida...</option>
+                        <option value="x"  *ngFor="let x of alimentos; let i = index ">{{x}}</option>
+                    </select>
+
+                    <!-- <select ng-model="selectedCar" ng-options="x.model for x in alimentos">
+                    </select> -->
+                    
+                    <h3>You selected: {{selectedName.name}}</h3>
+                   <!--  <p>Its color is: {{selectedCar.color}}</p> -->
+                </div>
+
+                <!-- <select name="provincia" id="provincia">
+                    <option value="" disabled selected>Seleccione una Provincia...</option>
+                    <option value="AB">Albacete</option>
+                    <option value="AL">Almería</option>
+                    <option value="AR">Araba</option>
+                    <option value="AV">Ávila</option>
+                    <option value="BA">Badajoz</option>
+                </select>
+                <h1>You selected: {{provincia.option.value}}</h1>
+                <input type="text" [value]="provincia.option.value"> -->
+        <div class="row">
+            <div class="col-sm-3">
+                Alimentos: (@ViewChild() con la referencia al DOM y  NO VA ngModel)
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" #alimento required placeholder="alim"> 
+            </div>
+            <div class="col-sm-4">
+                <input type="text" [value]="alimento.value">
+            </div>
+            
+            <div class="col-sm-12" *ngFor="let m of mascotas; let i=index" (click)="showDetail(p)" (ionSelect)="set(i)">
+                <h5 style="text-align: center"><strong>Nombre: {{m.tipo  | uppercase}} - Gender: <i> {{m.gender}}</i></strong></h5>
+            </div>
+            
+            
+            <div class="col-md-12 ">
+                <button class="btn btn-primary" style="width: 100%;" (click)='userName = "";' (click)='eliminar()'>
+                    Reset
+                </button>
+            </div>
+            <div class="col-md-4 " style="background-color: #ddd;">
+                <button class="btn btn-danger" style="display: block; width: 100%;" [disabled]='isActualizado'
+                    (click)='addUser()' (click)='cargaDatos(address)'>
+                    AddUser
+                </button>
+            </div>
+            <!-- </form> -->
+        </div>
+    </div>
+
+    <br>
+    
+    <div class="flex-container">
+
+        <div class="col-xs-12">
+            <h3 style="text-align: center;">Prueba de bindeo</h3>
+
+            <button class="btn btn-block btn-danger" (click)="toogleView1()">Display paragraph and sum</button>
+            <button class="btn btn-block btn-warning" (click)="view = !view" (click)="toogleView2()"> Other form to
+                Display</button>
+            <button class="btn btn-block btn-success" (click)="actualiza()"> actualiza libre/ocupado</button>
+            <button class="btn btn-block btn-warning" (click)="view = !view" (click)="addDates()"> Display date
+            </button>
+            <button class="btn btn-block btn-info" (click)="reset()">Reset</button>
+
+            <br>
+            <a class="buttonlink" href="#">Al Inicio</a>
+
+            <p *ngIf="view">Secret Paragraph </p>
+
+            <p *ngFor="let c of clicks; let i=index " [ngStyle]="{backgroundColor: getColor()}"
+                [ngClass]="{myClase: c>4}">
+                {{c}}</p>
+
+            <div *ngFor="let p of log; let i = index" [ngStyle]="{backgroundColor: p > 2 ? 'green' : 'violet'}"
+                [ngClass]="{'myClase': p>3}">{{p}}
+            </div>
+
+            <p *ngFor="let d of dates; let i = index "
+                [ngStyle]="{ color: i>2 ? 'green' : 'blue', backgroundColor: i> 2 || i===1 ? 'transparent' : 'orange'}">
+                {{d}}</p>
+            <!--  color: i>8 ? 'blue' 'orange' transparent 
+        backgroundColor: i> 3 ? 'green' : 'orange'-->
+
+        </div>
+    </div>
+    <p>END of  test form</p>
+    <hr style="border: 2px solid  rgb(236, 29, 236) ;">

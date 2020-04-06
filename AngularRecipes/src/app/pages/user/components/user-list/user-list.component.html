@@ -1,0 +1,76 @@
+
+<div class="flex-container" style="border: rgb(97, 241, 68) 3px solid;">
+  <!-- <div class="container" style="border: rgb(97, 241, 68) 3px solid;">-->
+  <div class="row">
+    <div class="col-md-6 offset-4">
+      <h3 style="text-align: center; ">All Users</h3>
+    </div>
+  </div>
+  <div class="row">
+    <!-- <div class="col-md-6 col-sm-6 col-xs-12">
+    </div>  -->
+    <div class="col-md-12 col-sm-12 col-xs-12">
+    <p style="text-align: center; color: rgb(197, 211, 9)">
+      By clicking below, the information generated can be seen at the top of the page.
+    </p>
+  </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <p>The information passes with event emmiter</p>
+      <button class="btn btn-default"  style="color:rgb(197, 211, 9)" (click)="activateEmitter()" >  activate  EMITTER</button>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <p>The information passes with new  Subject from 'rxjs'</p>
+      <button class="btn btn-default" style="color:rgb(197, 211, 9)" (click)="activateSubject()" >  activate  SUBJECT</button>
+    </div>
+  </div>
+
+  
+  <div class="panel-body" style="background-color: rgb(202, 209, 218);">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- <ul class="list-group">
+    <li class="list-group-item" *ngFor="let user of allUsers; let i = index">
+      <div *ngIf="allUsers.length>3; else infoTextUsusu">
+        <p>Que lo pario</p>
+      </div>
+      <ng-template #infoTextUsusu>
+        <p style="background-color: greenyellow; text-align: center">Careful: there's few users</p>
+      </ng-template>
+      <a>
+        (ID: {{ user.id }}) -{{ user.name }} {{ user.lastname }}- (Fecha {{user.timeStamp|date}} ) |
+      </a>
+      <button class="btn btn-success" style="width: 30%;" (click)="delete(i)">DELETE</button>
+    </li>
+  </ul> -->
+
+
+  <div class="row" style="border: rgb(88, 139, 127) 2px solid;">
+
+    <div class="col-xs-12">
+      <p style="color:blueviolet"> Aca abajo agrego parametros, ademas si delete cambia otros params,
+        y recupero info del ususario
+      </p>
+
+
+      <div class="list-group"
+          *ngIf="allUsers.length>3; else infoTextUsusu">
+      </div>
+      <a [routerLink]="['/users',user.id]" 
+        [queryParams]="{ID: user.id}" 
+        fragment={{user.name}} 
+        class="list-group-item"
+        *ngFor="let user of allUsers; let i = index">
+        (ID: {{ user.id }}) -{{ user.name }} {{ user.lastname }}- (Fecha {{user.timeStamp|date}} ) |
+        <button class="btn btn-primary" style="width: 30%;">
+          DELETE
+        </button> <!--  (click)="delete(i)" -->
+      </a>
+
+    </div>
+    <ng-template #infoTextUsusu>
+      <p style="background-color: greenyellow; text-align: center">Careful: there's few users</p>
+    </ng-template>
+
+  </div>
+</div>

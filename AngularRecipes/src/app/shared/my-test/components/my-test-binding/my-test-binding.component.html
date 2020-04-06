@@ -1,0 +1,165 @@
+<div class="container" style="border: rgb(97, 241, 68) 3px solid;">
+    <div class="col-xs-12" style=" text-align: center;">
+        <h2 style="color: brown;">USUARIOw<i><span class="glyphicon glyphicon-user"></span></i></h2>
+        <h4 style="color: rgb(94, 175, 13);">(test-binding)</h4>
+        <h5><strong><i>[ngStyle],[ngClass],random()>n?'A':'B',ng-template</i></strong></h5>
+    </div>
+    <br>
+    <hr>
+    <hr>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" appDropdown          
+        >
+        <!-- appDropdown es una directiva -->
+        <!-- open para abrirla -->
+          <a class="dropdown-toogle" role="button">
+            Menage <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Save Data</a></li>
+            <li><a href="#">Fetch Data</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-home"></span> Sign Up</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-heart"></span> Login</a></li>
+          </ul>
+        </li>
+      </ul>
+      <hr>
+    <div class="navbar">
+        <a routerLink="/home">Home</a>
+        <a href="#news">News</a>
+        <div class="dropdown">
+            <button class="dropbtn">Dropdown
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Link 1</a>
+                <!-- ['/users', 'inactive'] -->
+                <a routerLink="/test/bindeo" class="active"><i class="fa fa-home"></i></a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+                <a routerLink="/hobbie"><i class="fas fa-user-check" style="color:greenyellow; font-size: 20px"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <hr style="border: rgb(226, 43, 195) dotted  3px;">
+
+    <div class="row">
+        <h2 style="text-align: center;">MASCOTAS <i>(Binding)</i></h2>
+        Name:
+        <br>
+        <div class="col-md-4">
+            <input type="text" [(ngModel)]="userName" style="color: rgb(38, 189, 0);" placeholder="name mascota">
+        </div>
+        <div class="col-md-4 ">
+            <input type="text" [value]="userName">
+        </div>
+        <div class="col-md-4">
+            <p style="border: lime solid 1px;">..{{userName}}..{{lastName}}</p>
+
+            <p *ngIf="isActualizado; else parrafoOculto" [ngClass]="{onLine:!isActualizado}">Visble, #parrafoOculto -
+                {{lastName}}</p>
+
+            <!-- <ng-template> -->
+                
+            <ng-template #parrafoOculto>
+                <p>muestra parrafo oculto: #parrafoOculto</p>
+            </ng-template>
+
+            <p [ngStyle]="{backgroundColor: getColor()}">{{lastName}} es {{getStatus()}} y {{isActualizado}}</p>
+            getColor()
+            <br>
+
+            <p [ngClass]="{onLine: status === 'Ocupado' }">{{lastName}} es {{getStatus()}}</p>
+
+            <div [ngStyle]="{backgroundColor: getColor()}">
+                <h3>[ngStyle]</h3>
+            </div>
+            <div [ngClass]="{onLine: status === 'Ocupado' }">
+                <h3>[ngClass]</h3>
+            </div>
+
+            <br>
+            <button class="btn btn-success btn-block" (click)='actualiza()'>
+                CAMBIOS [ngStyle],[ngClass]
+            </button>
+            <!--  <img [src]="../assets/Imagenes/centro-atletico-fenix.jpg"> -->
+        </div>
+
+        <div class="col-md-12 " style="background-color: #ddd;">
+            <button class="btn btn-danger" style="display: block; width: 100%;" [disabled]='isActualizado'
+                (click)='addUser()'>
+                Add Animal Successful (verde desbloq)
+            </button>
+        </div>
+        <div class="col-md-12 ">
+            <button class="btn btn-primary" style="width: 100%;" (click)='userName = ""' (click)='eliminar()'>
+                Reset Name
+            </button>
+        </div>
+
+        <hr>
+        <div class="row" style="padding-left: 42px;">
+            <div class="col-xs-2">
+                <p *ngFor="let a of alimentos">ff </p>
+            </div>
+            <div class="col-xs-6">
+                <app-succes-alert *ngFor="let a of alimentos">gg</app-succes-alert>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12">
+            <button class="btn btn-block btn-danger" (click)="toogleView1()">Display paragraph and sum</button>
+            <button class="btn btn-block btn-warning" (click)="view = !view" (click)="toogleView2()"> Other form to
+                Display</button>
+            <button class="btn btn-block btn-success" (click)="actualiza()"> actualiza cosas</button>
+            <button class="btn btn-block btn-success" (click)="isActualizado = !isActualizado"> actualiza solo libre/ocupado</button>
+            <button class="btn btn-block btn-warning" (click)="view = !view" (click)="addDates()"> Display date
+            </button>
+            <button class="btn btn-block btn-info" (click)="reset()">Reset</button>
+            <br>
+            <button> <a class="buttonlink" href="/"><i class="glyphicon glyphicon-move"></i>Al INICIO</a></button>
+
+            <a class="buttonlink" href="#">Al INICIO</a>
+
+            <p *ngIf="view">Secret Paragraph </p>
+
+            <p *ngFor="let c of clicks; let i=index "
+                 [ngStyle]="{backgroundColor: getColor()}"
+                [ngClass]="{myStyle: c>4}">
+                {{c}}</p>
+
+            <div *ngFor="let p of log; let i = index" 
+                [ngStyle]="{backgroundColor: p > 2 ? 'green' : 'violet'}"
+                [ngClass]="{'onLine': p>3}">
+                INDICE = {{p}}
+            </div>
+
+            <p *ngFor="let d of dates; let i = index "
+                [ngStyle]="{ color: i>2 ? 'red' : 'blue', backgroundColor: i%7===0 || i%3===0 ? 'transparent' : 'orange'}">
+                {{d | date }} - {{i}}</p>
+            <!--  color: i>8 ? 'blue' 'orange' transparent 
+        backgroundColor: i> 3 ? 'green' : 'orange'-->
+
+        </div>
+    </div>
+    <br>
+    
+    <div class="col-md-12" style="align-content: center; text-align: center; background-color: rgb(226, 211, 149);">
+        <p>
+            <strong><span style="color: crimson;"> @Input() </span></strong> comida desde padre que tiene lista de todas
+            "LasComidas": <br>
+        </p>
+        <p>
+            <em>Bebida1-</em> {{myBebida | uppercase}} <em> Bebida2-</em> {{bebida2}}
+        </p>
+    </div>
+    <div class="col-xs-12">
+        <label for="">Listado de Comidas del Padre</label>
+        <ul *ngFor="let c of lstComidas let i = index">
+            <li style="background-color: yellow;">{{c.name}} <i>( {{c.content}} )</i></li>
+        </ul>
+
+    </div>
+</div>

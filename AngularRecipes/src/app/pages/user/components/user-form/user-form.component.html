@@ -1,0 +1,46 @@
+
+<div ><!--class="row"  -->
+    <div class="col-xs-12" style="border: darkviolet 3px solid;">
+        <h3>Formulario</h3>
+        <form action="" novalidate style="border: chartreuse solid 2px;">
+            <div class="col-xs-4">
+                <input type="text" [(ngModel)]="userName2" style="color: rgb(189, 0, 164);">
+            </div>
+             <!-- 
+                 ERROR Error: If ngModel is used within a form tag, either the name attribute must be set or the form
+      control must be defined as 'standalone' in ngModelOptions.
+
+      Example 1: <input [(ngModel)]="person.firstName" name="first">
+      Example 2: <input [(ngModel)]="person.firstName" 
+              -->
+            <div class="col-xs-4 ">
+                <input type="text" [value]="userName2">
+            </div>
+            <div class="col-xs-12">
+                <p>{{userName2}}</p>
+            </div>
+            Name:
+            <input type="text" class="form-control" [(ngModel)]="userName" id="usuario" required>
+            <input type="text" [value]="userName">
+            <br>
+            Alimentos:
+            <input type="text" class="form-control" [(ngModel)]="alimento" id="alimento" required>
+            <input type="text" [value]="alimento">
+
+            <div *ngFor="let m of mascotas; let i=index" (click)="showDetail(p)" (ionSelect)="setPerson(i)">
+                <h5 style="text-align: center"><strong>Nombre:{{m.tipo  | uppercase}} - Gender: <i> {{m.gender}}</i>
+                    </strong></h5>
+            </div>
+            <div class="col-md-12 ">
+                <button class="btn btn-primary" style="width: 100%;" (click)='userName = ""' (click)='eliminar()'>
+                    Reset
+                </button>
+            </div>
+            <div class="col-md-4 " style="background-color: #ddd;">
+                <button class="btn btn-danger" style="display: block; width: 100%;" [disabled]='isActualizado'
+                    (click)='addUser()'>AddUser
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+.header{
+    color:rgb(252, 244, 244);
+    background-color: rgb(143, 8, 8);
+    border:1px solid blue;
+}
+p {
+    padding: 5px;
+    /* background-color:  white; */
+    font-family: cursive;   
+    text-align: center; 
+  }

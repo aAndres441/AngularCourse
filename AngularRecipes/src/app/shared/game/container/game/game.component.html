@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12" style="text-align: center;">
+            <h4>GAME</h4>
+        </div>
+        <div class="col-xs-12">
+
+            <app-game-control
+             (intervalFire)="onIntervalFire($event)">
+            </app-game-control>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-2" style="border: darkolivegreen solid 1px;">
+            <app-odd *ngFor="let ood of oddNumbers" [numero]="ood" style="background-color: springgreen;"></app-odd>
+           </div>
+            <div class="col-xs-4" style="border: darkolivegreen solid 1px;">
+            <app-even *ngFor="let eve of evenNumbers" [numero]="eve" style="background-color: springgreen;"></app-even>
+       
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,53 @@
+.selected{
+    border: 2px solid limegreen;
+}
+.selected li a:hover{
+    background-color:limegreen ; /* Add a hover color */
+    color: white;
+    font-weight: bold;
+  }
+
+  .selected li a:active {
+    background-color: brown; /* Add an active/current color */
+  }
+
+  .select option {
+    background-color:rgb(244, 247, 238) ; /* Add a hover color */
+    color: rgb(94, 219, 100);
+    font-weight: bold;
+  }
+
+  .friends {
+    border-collapse: collapse;
+  }
+  
+  .friends th {
+    border-bottom: 1px solid rgb(94, 219, 100);
+
+  }
+  .friends td, .friends th {
+    border-left: 1px solid red;
+    padding:15px 10px;
+  }
+  .friends td:first-child, .friends th:first-child {
+    border-left: none;
+  }
+
+  .dropdown-menu li{
+    background-color:rgb(145, 252, 145) ; /* Add a hover color */
+    
+  }
+  .dropdown-menu li a:active {
+    background-color: brown; /* Add an active/current color */
+  }
+
+  .dropdown-menu li a:hover {
+    color: rgb(212, 235, 11); /* Add an active/current color */
+    background-color:rgb(169, 172, 169) ; 
+    font-weight: bold;
+  }
+  .dropdown option {
+    background-color:rgb(244, 247, 238) ; /* Add a hover color */
+    color: rgb(117, 94, 219);
+    font-weight: bold;
+  }

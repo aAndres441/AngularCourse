@@ -1,0 +1,87 @@
+<div class="container">   
+
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+    <br>
+    <h3>Here , must be router outlet from Test component</h3>
+    <hr>
+    <br>
+
+    <app-my-test-binding 
+        [lstComidas]=todasLasComidas 
+        [myBebida]="refresco2">
+    </app-my-test-binding>
+    
+    <h3 style="text-align: center;">
+        <b><i><span class="glyphicon glyphicon-grain"></span></i></b>
+        TEST (component "test")
+        <b><i><span class="glyphicon glyphicon-grain"></span></i></b></h3>
+    <button class="btn btn-danger" style="display: block; width: 100%;" (click)="testBindeo()">Bindeo
+    </button>
+
+    <br>
+    <app-my-directivas> </app-my-directivas>
+    <br>
+    
+    <app-my-test-form> </app-my-test-form>
+
+    <!-- llamamos a Crear plantas al iniciar este componente y MANDA al padre con $datos
+    ademas con @Input RECIBE las comidas desde el padre -->
+     <!-- este es con alias  "nuevoNombre_LaTun"-->
+     <!--Abajo en firedNumber es ejercicio -->
+    <app-my-test-list 
+
+        (alias_LaTuna)="addTuna($event)"
+        (crearCrasa)="addCrasa($event)"
+        (deleteListaPlantas)="deletePlantasLista($event)"
+    
+        [lasComidasDelPadre] = todasLasComidas       
+    >
+        <!--  (firedNumber)="onIncrementing($event)" -->
+        <!-- idParaContentChild y tambien esta usandose el ng-content que se carga al iniciar el componente-->
+
+        <div class="container" style="background-color: rgb(129, 205, 235);" >
+            <h3  > Esto es NG_CONTENT </h3>
+            <hr>
+            <p #idParaContentChild> FENI NOMA!!</p>
+            <div class="container" style="background-color: rgb(228, 199, 255);" *ngIf= "plantas  &&  plantas.length>0" >
+                <h3  >Existen {{plantas.length}} plantas diferentes</h3>
+                <p>(Cambia el fondo segun el tipo de planta)</p>
+                <p *ngFor="let p of plantas; let i = index"         
+                [ngStyle]="{backgroundColor: p.type==='Tuna' ? 'rgb(142, 211, 85)' : 'rgb(247, 129, 28)'}"
+                ><strong>Nº {{i}}_{{p.type  | uppercase}} </strong> 
+                    - Nombre : {{p.name}}, {{p.description}}
+                </p>
+            </div>
+            <hr>        
+        </div>
+
+    </app-my-test-list>
+
+    <div class="container" style="background-color: rgb(252, 228, 196);" *ngIf= "plantas  &&  plantas.length>0" >
+       <h3>Existen {{plantas.length}} plantas diferentes</h3>
+        <p *ngFor="let p of plantas; let i = index"         
+        [ngStyle]="{backgroundColor: i%2===0 ? 'yellow' : 'violet'}"
+        ><strong>Nº {{i}}_{{p.type  | uppercase}} </strong> 
+            - Nombre : {{p.name}}, {{p.description}}
+        </p>
+    </div>
+
+ <!--    <app-my-test-binding 
+        [lstComidas]=  todasLasComidas
+        [myBebida]="refresco2"
+        > 
+                     
+    </app-my-test-binding> -->
+    
+    <!-- <app-my-test-binding *ngFor="let c of todasLasComidas; let i = index" 
+        [comida]="c"
+        [bebida1]="refresco1"
+        [myBebida]="refresco2"
+        [lstComidas]=  todasLasComidas
+        >              
+    </app-my-test-binding> -->
+
+   
+</div>

@@ -1,0 +1,20 @@
+
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    /*  height: 100px; */
+    align-items: center; 
+    
+  }
+
+  .footer{
+    background-color: black;
+    color: #f1f1f1;
+    text-align: center;
+}
+a{
+    color: rgb(171, 235, 155);
+}
+

@@ -1,0 +1,17 @@
+<p>recipe-edit works!</p>
+
+<div class="row">
+    <div class="col-xs-6" edita *ngIf="editMode" [ngClass]="{myColorEdit: editMode}">
+        <h1>EDIT</h1>
+    </div>
+    
+    <div class="col-xs-6" novoa *ngIf= "!editMode"  [ngClass]="{myColorNew: !editMode}">
+        <h1>NEW</h1>
+    </div>
+</div>
+
+<!-- [ngClass]="{myOdd: ev % 2 !== 0}"
+     [ngStyle]="{backgroundColor: ev % 2 !== 0 ? 'orange' : 'pink'}"> 
+ -->
+
+                        

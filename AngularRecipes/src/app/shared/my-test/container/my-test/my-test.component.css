@@ -1,0 +1,17 @@
+.container{
+    border: rgb(231, 28, 170) dashed 2px;
+    margin-top: 12px;
+}
+p{
+    color: rgb(137, 82, 240);
+}
+
+h3{
+    font-family: cursive;
+    color: fuchsia;
+    font-style: oblique;
+}
+
+text{
+    background-color: rgb(26, 206, 2);
+}

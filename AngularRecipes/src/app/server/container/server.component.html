@@ -1,0 +1,98 @@
+<div class="body">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4" style="border: 2px dotted orange;">
+            <h3><em>List of servers</em></h3>
+            <div class="list-group">
+                <!-- servidor con id 5,y luego la ruta creada para esto en routers -->
+                <a 
+                    [routerLink]="['/server',serv.id]" 
+                    [queryParams]="{allowEditee: serv.status === 'online' ? 'si' : 'no'}" 
+                    fragment='loading-list'
+                    class="list-group-item" 
+                    *ngFor="let serv of servers">
+                    <h3>{{ serv.name }}</h3>                    
+                </a>
+            </div>
+            <hr>
+            <button class="btn btn-warning"
+             (click)="onLoadServer(4)">Load server
+            </button>
+            <button class="btn btn-danger"
+             (click)="toAdd()">Add server
+            </button>
+
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            
+            <router-outlet></router-outlet>
+
+            <!--  *ngIf="serverId===-1; else infoText" -->
+            <!--  <app-edit-server >
+            </app-edit-server> -->
+            <hr>
+            <!-- <app-list-server></app-list-server> -->
+        </div>
+
+        <ng-template #infoText>
+            <p style="background-color: white; color: tomato;">Please </p>
+            <button class="btn btn-danger" (click)="alListado()">al listado</button>
+        </ng-template>
+    </div>
+</div>
+<hr>
+<div class="content">
+    <div class="body">
+
+        <h4 style="color: rgb(34, 27, 19); font-family: Georgia, 'Times New Roman', Times, serif;"> {{title}} !!</h4>
+
+        <p>{{'Servidor'}} whith ID= {{serverId}} - Status {{getServerStatus()}}; Suma={{2*5*6}}</p>
+        <hr />
+        <br>
+        <table class="table-responsive" style="align-content: center; border:2px solid;margin: auto; ">
+            <thead>
+                <tr>
+                    <th>Boton</th>
+                    <th> Boton con prop: [disabled]</th>
+                    <th> Interpolacion de cadena</th>
+                    <th> Data binding</th>
+                </tr>
+            </thead>
+            <tbody style="align-content: center; border:1px solid">
+                <tr style="align-content: center; border:1px solid">
+                    <td><button class="btn btn-primary" [disabled]="!allowNewServer" (click)="allow()">Allow </button>
+                    </td>
+                    <td>{{textButton}}</td>
+                    <td><input type="text" [(ngModel)]="allowNewServer"></td>
+                    <td [innerText]="allowNewServer" style="background-color: burlywood;"></td>
+                </tr>
+                <tr style="align-content: center; border:1px solid">
+                    <!--  <button class='btn btn-primary'
+                      (click)='toggleImage()'>
+                {{showImage ? 'Hide' : 'Show'}} Image
+              </button> -->
+                    <td><button class="btn btn-primary" (click)='activate()'>{{showTextbutton ? 'Hide' : 'Show'}}
+                            <!-- Go --></button>
+                    </td>
+                    <td><input type="text" [(ngModel)]="textButton"></td>
+                    <td><input type="text" [value]="textButton"></td>
+                    <td [innerText]="textButton" style="background-color: rgb(247, 219, 128);"></td>
+                    <td><input type="text" [(ngModel)]="serverId"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+    <div style=" background-color: rgb(214, 241, 202);  text-align: left;">
+        <app-borrar></app-borrar>
+    </div>
+    
+    <p>no esta mostrando app-borrar</p>
+   
+    <hr style="border-width:2px; border-color: darkorange;">
+
+    <app-succes-alert></app-succes-alert>
+    <app-warning-alert></app-warning-alert>
+
+</div>

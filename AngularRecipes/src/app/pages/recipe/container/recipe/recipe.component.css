@@ -1,0 +1,19 @@
+.container-fluid{
+    border: tomato dotted 2px;
+    margin: 8px ;
+}
+
+.btn a  {
+    font-size: 36px;
+    width: 100%;
+   /*  display: none; */
+  padding: 2px 4px;
+  border: 1px solid magenta;
+  color:white;
+    background-color: rgb(163, 163, 163);
+}
+.btn{
+    background-color: transparent;
+    padding-right: 20%;
+    float: right;
+}

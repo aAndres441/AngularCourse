@@ -1,0 +1,85 @@
+
+<div class="container-fluid">
+    
+    <div class="row">
+        <h3 style="text-align: center; color:cornflowerblue"><i>{{title}}</i></h3>
+       
+        <button class="btn btn-primary" 
+            style="width: 100%;"
+            (click)="reload()" >
+            Reload to index
+        </button>
+      
+        
+        <button class="btn " style="">
+            <a  href="https://api.whatsapp.com/send?phone=59895563103">
+                <i class="fab fa-whatsapp" aria-hidden="true"
+                    >
+                 </i>
+            </a>
+        </button>
+       
+<!-- <span style="color:white;">Hijita</span> -->
+       
+        <div class="col-sm-5" style="border: 2px solid yellow;">
+            <app-recipe-list >
+                
+            <!-- /////////////////(otroDetalle)="recipeWasSelected = $event"
+            lo saco por el servicio, ahora emite con metodo del servicio
+         -->
+             </app-recipe-list>
+
+        </div>
+
+        <!-- <div class="col-sm-7" style="border: blueviolet solid 1px;">
+
+            <app-recipe-details 
+                *ngIf="recipeWasSelected; else infoText" 
+                [recipeDet]="recipeWasSelected"
+            >            
+            </app-recipe-details>  -->
+            
+            <!-- //////////////////si quiero eliminar esto, lo cambio por emmiter -->
+            
+           <!--  <ng-template #infoText >
+                <p style="background-color: white; color: tomato;">Please select a rcecipe - No selecciono nada</p>
+            </ng-template> -->
+
+            <!--  NO ANDA --> 
+            <!-- <router-outlet>aca router-outlet NO ANDA</router-outlet>
+
+
+            <app-recipe-start></app-recipe-start>
+        </div> -->
+
+        <div class="col-sm-7" style="border: 2px solid green;">
+           <!--  <app-recipe-star 
+                [rating] = 3
+                (notifyClicked)= "onNotify($event)"> -->
+            <!-- aca muestra el evento que viene del hijo output -->
+            <!-- 
+            </app-recipe-star> -->
+           <!--  <app-recipe-edit></app-recipe-edit>
+            <hr style="border:solid 2px rgb(226, 10, 28) ;">
+            <app-recipe-start></app-recipe-start>
+             -->
+             
+            <router-outlet> </router-outlet>
+
+            <hr style="border:dotted 3px rgb(10, 226, 46) ;">
+            <!-- <div>
+                <app-recipe-details></app-recipe-details>
+            </div>
+            <hr style="border:solid 2px rgb(50, 10, 226) ;">
+             -->
+        </div>
+        
+
+    </div>
+   
+    <button class="btn btn-warning" style="width: 100%;" 
+        (click)="onLoadServer()">
+        Load server is random
+    </button>
+
+</div>
