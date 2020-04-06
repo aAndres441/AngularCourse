@@ -6,7 +6,7 @@
     <div class="col-xs-12 col-xs-10 col-md-8 col-sm-offset-1 col-md-2">
 
       <p id="messag" style="color: blueviolet;"
-        *ngIf="!formEx.valid && formEx.touched"> FENIX
+        *ngIf="!formEx.valid && formEx.touched"> Check for invalid data
       </p>
 
       <form (ngSubmit)="onSubmitExample(formEx)"
@@ -22,7 +22,7 @@
                         id="emmmail"
                         name="emmmail"
                         ngModel
-                        [(ngModel)]="eemail"
+                        [(ngModel)]="emmmail"
                         #emmail="ngModel"
                         title="mail"
                         required
@@ -30,29 +30,34 @@
                         placeholder="**">
                         <!--    -->
                 </div>
+                <span style="color: rgb(163, 140, 8);"
+                  class="help-block"
+                  *ngIf="!emmail.valid && emmail.touched"
+                  >Enter mail valid
+                </span>
 
-                <div class="form-group">
+                <div class="form-group" >
                   <label for="">Select any subscription</label>
                   <select name="subscription" 
                           class="form-control"
                           id="subscription"
-                          name="subscription"
                           ngModel
-                          [(ngModel)]="ssubscription"
-                          #subscription="ngModel"
+                          [ngModel]="defaultSelect"
+                          #subscription="ngModel"                          
                           >
-                          <option value="Basic">Basic</option>
-                          <option value="Advanced">Advanced</option>
-                          <option value="Pro">Pro</option>
+                          <option *ngFor="let sus of subscriptions"
+                           [value]="sus">{{sus}}</option>
+                          
                   </select>
-                </div>              
+                </div>    
+                
 
                 <div class="form-group">
                   <label for="">Password</label>
                   <input type="text" 
                         class="form-control"
                         ngForm
-                        [(ngModel)]="apssword"
+                        [(ngModel)]="thePass"
                         id="password"
                         name="password"
                         #password="ngModel"
@@ -60,6 +65,12 @@
                         title="Password"
                         placeholder="**">
                 </div>
+
+                <span style="color: rgb(163, 140, 8);"
+                  class="help-block"
+                  *ngIf="!password.valid && password.touched"
+                  >Enter password valid
+                </span>
 
                 <button type="submit"
                         class="btn btn-warning"
@@ -78,25 +89,14 @@
     <div class="col-xs-12" 
         style="width:70%; color: darkolivegreen; border: 1px solid darkolivegreen"
         *ngIf="isOkform">
-        <h3 style="color: chartreuse;">Your Data, after submit subscription:</h3>
+        <h3 style="color: chartreuse;">Data of subscription:</h3>
         <p>Mail : {{ theMail }}</p>
         <p>password: {{ thePass }}</p>
         <p>Subscription type: {{ theSubscr }}</p>
     </div>
   </div>
-  
-    <div class="row" style="border: 1px solid chartreuse;">
-      <div class="col-xs-12" *ngIf="submitted">
-        <h3 style="color: chartreuse;">Your Data, after submit data:</h3>
-        <p>Username : {{ user.myUsernombre }}</p>
-        <p>Mail: {{ user.myMail }}</p>
-        <p>Secret Quedtion: {{ user.mySecretQuestion }}</p>
-        <p>Answer: {{ user.myAnswer }}</p>
-        <p>Gender: {{ user.myGender }}</p>
-      </div>
-    </div>
-
 </div>
+
 <hr style="border: 4px solid brown;">
 
 <div class="container" >

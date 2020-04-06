@@ -31,9 +31,10 @@ export class ContactComponent implements OnInit {
    isOkform = false;
    theMail = '';
    thePass = '';
-   ssubscription = '';
-   mySubs = ['uno','dos','tres'];
-
+   theSubscr = '';
+   subscriptions = ['Basic', 'Advanced', 'Pro'];
+   defaultSelect = 'Advanced';
+   
   constructor() { }
 
   ngOnInit() {
@@ -88,7 +89,7 @@ export class ContactComponent implements OnInit {
   onSubmitExample() {
     this.isOkform = true;
     this.theMail = this.myFormExample.value.exData.emmmail;
-    this.ssubscription = this.myFormExample.value.exData.subscription;
+    this.theSubscr = this.myFormExample.value.exData.subscription;
     this.thePass = this.myFormExample.value.exData.password;
 
     this.myFormExample.reset();
