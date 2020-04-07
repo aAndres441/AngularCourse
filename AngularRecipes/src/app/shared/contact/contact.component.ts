@@ -32,9 +32,11 @@ export class ContactComponent implements OnInit {
    theMail = '';
    thePass = '';
    theSubscr = '';
+   user2 = { email: "", subscription: "", password: "" };
    subscriptions = ['Basic', 'Advanced', 'Pro'];
    defaultSelect = 'Advanced';
-   
+   theCity = '';
+
   constructor() { }
 
   ngOnInit() {
@@ -91,6 +93,7 @@ export class ContactComponent implements OnInit {
     this.theMail = this.myFormExample.value.exData.emmmail;
     this.theSubscr = this.myFormExample.value.exData.subscription;
     this.thePass = this.myFormExample.value.exData.password;
+    this.theCity = this.myFormExample.value.exData.city;
 
     this.myFormExample.reset();
   }
