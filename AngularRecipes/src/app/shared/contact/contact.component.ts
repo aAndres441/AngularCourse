@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { NgForm, NgModel, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-contact',
@@ -7,7 +7,14 @@ import { NgForm, NgModel } from '@angular/forms';
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
+  
+/*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
+/* lo de abajo es usado para form reactivo */
+    signupForm: FormGroup;
+    isOkformReact = false;
 
+/*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
+/* lo de abajo es usado para form de plantilla */
    @ViewChild('myForm', { static: false }) formReferido: NgForm;
    @ViewChild('username', { static: false }) refieroName: ElementRef;
    @ViewChild('elemail', { static: false }) elemail: ElementRef;
@@ -26,7 +33,8 @@ export class ContactComponent implements OnInit {
      myGender: ''
    };
 
-   /* lo de abajo es solo para example */
+/*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
+   /* lo de abajo es solo para ejetrcicio */
    @ViewChild('formEx', { static: false }) myFormExample: NgForm;
    isOkform = false;
    theMail = '';
@@ -36,11 +44,19 @@ export class ContactComponent implements OnInit {
    subscriptions = ['Basic', 'Advanced', 'Pro'];
    defaultSelect = 'Advanced';
    theCity = '';
+/*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
 
   constructor() { }
 
   ngOnInit() {
     this.submitted = false; // solo para cambiar valor de envio
+
+    /* Aca es todo para form rectivo */
+    this.signupForm = new FormGroup({
+      username: new FormControl('Andres', [Validators.required , Validators.minLength(10)]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      gender: new FormControl('male')
+    });
   }
 
   suggestUserName() {
@@ -98,5 +114,12 @@ export class ContactComponent implements OnInit {
     this.myFormExample.reset();
   }
 
+  onSubmitReactiv(){
+    this.isOkformReact = true;
+    alert (this.signupForm.controls.username.value);
+    alert (this.signupForm.controls.gender.value);
+    alert (this.isOkformReact);
+    
+  }
   
 }
