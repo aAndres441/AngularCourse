@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { NgForm, NgModel, FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm, NgModel, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-contact',
@@ -7,11 +7,7 @@ import { NgForm, NgModel, FormGroup, FormControl, Validators } from '@angular/fo
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
-  
-/*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
-/* lo de abajo es usado para form reactivo */
-    signupForm: FormGroup;
-    isOkformReact = false;
+
 
 /*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
 /* lo de abajo es usado para form de plantilla */
@@ -23,8 +19,8 @@ export class ContactComponent implements OnInit {
    answer = '';
    mail = '';
    genders = ['male', 'famale'];
-   submitted = false; // solo para cambiar valor de envio 
-  
+   submitted = false; // solo para cambiar valor de envio
+
    user = {
      myUsernombre: '',
      myMail: '',
@@ -40,22 +36,35 @@ export class ContactComponent implements OnInit {
    theMail = '';
    thePass = '';
    theSubscr = '';
-   user2 = { email: "", subscription: "", password: "" };
+   user2 = { email: '', subscription: '', password: '' };
    subscriptions = ['Basic', 'Advanced', 'Pro'];
    defaultSelect = 'Advanced';
    theCity = '';
-/*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
+   /*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
+
+    /* lo de abajo es usado para form reactivo */
+    signupForm: FormGroup;
+    /*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
+    /* lo de abajo es usado para Form Array */
+    listHobbies = new FormArray([new FormControl('Pelota'),new FormControl('Pelota')], Validators.required);
+    listHobbies2 = new FormArray([new FormControl('Pelota')]);
+
+  /*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
 
   constructor() { }
 
   ngOnInit() {
     this.submitted = false; // solo para cambiar valor de envio
 
-    /* Aca es todo para form rectivo */
+    /* Aca es todo para form reactivo y con form anidado */
     this.signupForm = new FormGroup({
-      username: new FormControl('Andres', [Validators.required , Validators.minLength(10)]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      gender: new FormControl('male')
+      formAnidado: new FormGroup({
+         username: new FormControl('Andres', [Validators.required , Validators.minLength(10)]),
+         email: new FormControl(null, [Validators.required, Validators.email]),
+      }),
+
+      address: new FormControl(null, Validators.required),
+      gender2: new FormControl('famale'),
     });
   }
 
@@ -90,6 +99,7 @@ export class ContactComponent implements OnInit {
 
   // sera parta ver como envio datos con @ViewChild
   onSubmit() {
+
     console.log(this.formReferido);
 
     this.submitted = true; // solo para cambiar valor de envio
@@ -99,9 +109,9 @@ export class ContactComponent implements OnInit {
     this.user.mySecretQuestion = this.formReferido.value.secret;
     this.user.myAnswer = this.formReferido.value.question;
     this.user.myGender = this.formReferido.value.gender;
-    
+
     this.formReferido.reset(); // resetea todo el form; hasta el valid y touched
-   
+
   }
 
   onSubmitExample() {
@@ -114,12 +124,32 @@ export class ContactComponent implements OnInit {
     this.myFormExample.reset();
   }
 
-  onSubmitReactiv(){
-    this.isOkformReact = true;
-    alert (this.signupForm.controls.username.value);
-    alert (this.signupForm.controls.gender.value);
-    alert (this.isOkformReact);
+  onSubmitReactiv() {
+     alert (this.signupForm.controls.address.value);
+     alert (this.signupForm.controls.gender2.value);
+    
+     alert (this.signupForm.value.formAnidado.email);
+/* formAnidado */
+     this.signupForm.reset();
+  }
+
+  getControls() {
+    
+    return (this.signupForm.get('listHobbies') as FormArray).controls;
     
   }
-  
+  get controls() {
+    return (this.signupForm.get('listHobbies') as FormArray).controls;
+  }
+
+  onAddHobbie() {
+    const control = new FormControl(null, Validators.required);
+
+    alert ('SON ' + control.setValue.name + this.listHobbies.length);
+
+    // (this.signupForm.get('listHobbies') as FormArray).push(control); // Agrega el control a la matriz de controles listHobbies
+    (this.getControls()).push(control); // Agrega el control a la matriz de controles listHobbies
+
+    // formato viejo (<FormArray> this.signupForm.get('listHobbies')).push(control);
+  }
 }
