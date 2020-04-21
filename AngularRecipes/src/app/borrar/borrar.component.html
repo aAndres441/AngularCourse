@@ -103,36 +103,86 @@
                 </div>
                 <div class="col-xs-6">
                     Lastname:
-                    <input type="text" id="usuario" >
+                    <input type="text" id="usuario">
                 </div>
                 <div class="col-xs-6">
                     Password:
-            <input type="password" id="password" required>
+                    <input type="password" id="password" required>
                 </div>
                 <div class="col-xs-6">
                     E-mail:
-                        <input type="email" id="email" name="email" size="30"  placeholder="aaa@gmail.com"required>
+                    <input type="email" id="email" name="email" size="30" placeholder="aaa@gmail.com" required title="Email complete">
                 </div>
                 <div class="col-xs-6">
                     Telephone:
-                    <input type="text" id="telephone" >
+                    <input type="text" id="telephone">
                 </div>
                 <div class="col-xs-6">
                     Ingrese un valor entre 1 y 10:
-                <input type="number" id="valor" name="valor" min="1" max="10">
+                    <input type="number" id="valor" name="valor" min="1" max="10">
                 </div>
                 <br>
-                <div >
-                <label for="description">Description:</label>
-                    <textarea cols =" 40 "rows =" 5 " class="form-control" placeholder="description"
-                    id="description" name="description">                      
-                        </textarea>
-                </div>               
-            </div>           
+                <div>
+                    <label for="description">Description:</label>
+                    <textarea cols=" 40 " rows=" 5 " 
+                            class="form-control" 
+                            placeholder="description" 
+                            id="description"
+                            name="description">
+                    </textarea>
+                </div>
+            </div>
             <br>
-                <input type="submit" class="btn btn-block btn-primary
-                " id="ingresar" value="Ingresar">
-                <br>
-            </form>
+            <input type="submit" 
+                    class="btn btn-block btn-primary" 
+                    id="ingresar" 
+                    value="Ingresar"
+                    >
+            <br>
+        </form>
+    </div>
+</div>
+<br><hr style =  "border:2px dotted yellow"><br>
+<!-- ACA EMPIEZA CSS-GRID -->
+<div class="container">
+    <div class="header">
+      <!-- <em> <s> <b> <q> <u> <i> -->
+      <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-10">
+          <h1><b>CSS-GRID</b></h1>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2">
+          <button class="btn" id="wahtsapp">
+            <a href="https://api.whatsapp.com/send?phone=59895563103">
+              <i class="fab fa-whatsapp" aria-hidden="true"> </i>
+            </a>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- CSS grid-container -->
+    <div class="grid-container">
+      <div style="background-color: gold;">One </div>
+      <div style="background-color: rgb(68, 0, 255);">Two</div>
+      <div style="background-color: rgb(224, 66, 164);">Three</div>
+      <div style="background-color: rgb(79, 224, 66);">Four</div>
+      <div style="background-color: rgb(180, 119, 50);">Five</div>
+    </div>
+    <hr>
+    <!-- layout -->
+    <div class="layout">
+      <div class="header">HEADER</div>
+      <div class="main">MAIN</div>
+      <div class="footer">FOOTER</div>
+    </div>
+    <hr>
+    <!-- Areas -->
+    <h4><b>LAYOUT</b> - Grid container con display: grid, Areas</h4>
+    <div class="area-contenedora">    
+      <div class="customHeader">HEADER</div>
+      <div class="customMain"> MAIN Lorem ipsum, dolor sit. Vero, earum necessitatibus.</div>
+      <div class="customSidebar">  SIDEBAR </div>
+      <div class="customFooter"> FOOTER </div>
     </div>
 </div>

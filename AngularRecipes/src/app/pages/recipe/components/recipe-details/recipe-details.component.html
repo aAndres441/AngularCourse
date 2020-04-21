@@ -40,14 +40,16 @@
 <div class="row">
     <div class="col-xs-4">Rating:</div>
     <div class="col-xs-8">
+
         <app-recipe-star 
             [rating]=recipeDet.rating 
             (notifyClicked)="onNotify($event)">
         </app-recipe-star>
+        
     </div>
 </div>
 
-<h2>  CULO- {{recName}} - </h2>
+<h2> {{recName}} - </h2>
 <!-- {{recipeDet.rating}} -->
 <div class="row">
     <div class="col-xs-4">

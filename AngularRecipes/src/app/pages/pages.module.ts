@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { PaymentModule } from './payment/payment.module';
@@ -16,8 +16,8 @@ const COMPONENTS = [
 const MODULES = [
   CommonModule,
   FormsModule,
-  /* RouterModule,
-   */
+  /* RouterModule,*/
+  ReactiveFormsModule,
   PaymentModule,
   RecipeModule,
   ShoppingModule,

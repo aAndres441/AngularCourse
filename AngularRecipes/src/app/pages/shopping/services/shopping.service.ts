@@ -8,6 +8,7 @@ export class ShoppingService {
   ingredientsChange = new EventEmitter<Ingredient[]>(); // ya no va, sera subject
   
   ingredientsChange2 = new Subject<Ingredient[]>();
+  startIngredEdit = new Subject<number>(); // para editar con el id desde la lista
 
   errorToAdd = new EventEmitter<string>();
 
@@ -25,6 +26,28 @@ export class ShoppingService {
       return this.ingredients.slice(); /* Devuelve copia*/
     }
     return null;
+  }
+
+  getIngredient(index: number): Ingredient {
+    return this.ingredients[index];
+    /* let res: Ingredient =  null;
+    this.ingredients.forEach(element => {
+      if (element.id === index) {
+        res = element;
+      }      
+    });
+    alert( res.name + ' the name ');
+    return res; */
+
+
+/* return this.ingredients.find(index);*/
+    /* return res; */ 
+
+    /* .subscribe(
+      (ings: Ingredient[]) => {
+        this.misIngredientes = ings;
+      }
+    ); */
   }
 
   addIngredient(oneIngredient: Ingredient) {

@@ -15,7 +15,7 @@ export class Recipe {
         
         this.id = id++,
         this.name = name;
-        this.description = description;
+        this.description = description; // proceso
         this.imageUrl = image;
         this.ingredients = ingreds;
         this.rating = rating;

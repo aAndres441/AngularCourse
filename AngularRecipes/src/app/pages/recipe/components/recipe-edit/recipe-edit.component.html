@@ -1,14 +1,153 @@
 <p>recipe-edit works!</p>
 
-<div class="row">
-    <div class="col-xs-6" edita *ngIf="editMode" [ngClass]="{myColorEdit: editMode}">
-        <h1>EDIT</h1>
+<!-- <div class="row"> -->
+
+        <!--  **************   EDIT   *********************** -->
+
+    <div class="col-xs-12"  *ngIf="editMode" [ngClass]="{myColorEdit: editMode}">
+        <h1>EDIT of {{id}} + {{recipeName|uppercase}}</h1>
+<form #formEdit="ngForm" 
+        (ngSubmit)="onEditForm()"> <!-- obtengo referencia al form , al control con #xx
+                                        [ngModel] = "unaMascota" trae a la prop unaMascota  
+                                    [(ngModel)]="answer" carga y trae la prop answer y la muestra en el area--> 
+    <div class="form-group">
+        <label for="nameEdit">Name</label>
+        <input class="form-control"
+            [(ngModel)]='nameEditDEfault'
+            ngModel
+            #nameEdit="ngModel"
+            type="text" 
+            title="Name" id="nameEdit" name="nameEdit"> 
     </div>
+<!-- #nameEdit="ngModel" obtengo referencia a este control  -->
+<!-- Lo pondria asi 
+[(ngModel)]="forDefaultQuestions" para enlace unidereccional, y carga select por defecto 
+     forDefaultQuestions = ' pet'; -->
+
+    <span class="help-block" *ngIf="!nameEdit.valid && nameEdit.touched">Ingreso invalido
+    </span>
+
+    <div class="form-group">
+        <label for="">ID</label>
+        <input class="form-control"
+            ngModel
+            [(ngModel)]="idEditDefault"
+            #idEdit="ngModel" 
+            name="idEdit"
+            type="text" id="idEdit">
+    </div>
+    <span class="help-block" *ngIf="!idEdit.valid && idEdit.touched">Invalid ID
+    </span>
+
+    <div class="form-group">
+        <label for="">Description</label>
+        <textarea class="form-control"
+            ngModel
+            [(ngModel)]='descriptionEditDefault'
+            #descripEdit="ngModel" 
+            name="descripEdit" id="descripEdit" cols="2" rows="7"></textarea>
+    </div>
+    <span class="help-block" *ngIf="!descripEdit.valid && descripEdit.touched">Invalid description
+    </span>
     
-    <div class="col-xs-6" novoa *ngIf= "!editMode"  [ngClass]="{myColorNew: !editMode}">
-        <h1>NEW</h1>
+    
+    <!--  id = 0;
+    name: string;
+    description: string;
+    imageUrl: string;
+    timeStamp: Date;
+    ingredients: Ingredient[];
+    rating: number; -->
+    
+
+    <button class="btn btn-success" type="submit" [disabled]="!formEdit.valid"
+            style="width: 50%; border-color: rgb(50, 73, 205)">
+            Submit
+          </button>
+    <button class="btn btn-warning" type="submit" (click)="addValuea()"
+            style="width: 50%; border-color: rgb(50, 73, 205)">
+            Add values
+          </button>
+</form>
+
     </div>
-</div>
+
+    <!--  **************   NEW   *********************** -->
+    <div class="col-xs-12"  *ngIf="!editMode" [ngClass]="{myColorNew: !editMode}">
+        <h1>NEW</h1>
+        <div class="flex-container">
+            <h3>New recipe </h3>
+            <div class="header">
+                <form [formGroup]='formNewRecipe' (ngSubmit)='onAddRecipe'>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input  class="form-control" 
+                                formControlName="name" 
+                                name="name"
+                                type="text" id="name" title="Name" placeholder="Name">
+                    </div>
+                    <span *ngIf="!formNewRecipe.get('name').valid && formNewRecipe.get('name').touched"
+                        class="help-block" style="color: hotpink;">
+                        <span *ngIf="formNewRecipe.get('name').errors['required']">
+                            enter data
+                        </span>
+                    </span>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea cols=" 40 " rows=" 5 " class="form-control" formControlName="description"
+                            id="description" name="description" title="description" placeholder="no Permite 'Test'">
+                </textarea>
+                    </div>
+                    <span *ngIf="!formNewRecipe.get('description').valid && formNewRecipe.get('description').touched"
+                        class="help-block" style="color: hotpink;">
+                        <span *ngIf="formNewRecipe.get('description').errors['required']">
+                            enter data
+                        </span>
+                        <span *ngIf="formNewRecipe.get('description').errors['noPermite']">
+                            not valid
+                        </span>
+                        <!-- <span *ngIf="formNewRecipe.get('description').errors['maxLength']">
+                            max 10
+                        </span> -->
+                    </span>
+
+                    <div class="form-group">
+                        <label for="ingredients">Ingredients</label>
+                        <input type="text" class="form-control" formControlName="ingredients" id="ingredients"
+                            name="ingredients" title="ingredients" placeholder="Name">
+                    </div>
+                    <span *ngIf="!formNewRecipe.get('ingredients').valid && formNewRecipe.get('ingredients').touched"
+                        class="help-block" style="color: hotpink;">
+                        <span *ngIf="formNewRecipe.get('ingredients').errors['required']">
+                            enter data
+                        </span>
+                        
+                    </span>
+
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <input type="number" class="form-control" formControlName="rating" id="rating" name="rating"
+                            title="rating" placeholder="rating">
+                    </div>
+                    <span *ngIf="!formNewRecipe.get('rating').valid && formNewRecipe.get('rating').touched"
+                        class="help-block" style="color: hotpink;">
+                        <span *ngIf="formNewRecipe.get('rating').errors['required']">
+                            enter data
+                        </span>
+                    </span>
+
+                    <div class="form-group">
+                        <label for="imagen">Imagen</label>
+                        <input type="image" class="form-control" formControlName="imagen" id="imagen" name="imagen">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+<!-- </div> -->
 
 <!-- [ngClass]="{myOdd: ev % 2 !== 0}"
      [ngStyle]="{backgroundColor: ev % 2 !== 0 ? 'orange' : 'pink'}"> 
