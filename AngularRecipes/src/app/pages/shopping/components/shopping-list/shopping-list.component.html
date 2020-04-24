@@ -5,27 +5,27 @@
 </div>  -->
 
 
-<div class="flex-container" >
+<!-- <div class="flex-container" >
    <h2>FENIX</h2>
-    <div class="col-xs-12" >
+    <div class="col-xs-12" > -->
         <div class="row" style="text-align:center; margin: auto;" 
             *ngIf="misIngredientes else parrafoOculto" 
             >
-            <h3 appDirectiveBasic>Listado</h3>            
+            <!-- <h2 appDirectiveBasic><i>Ingredient list</i></h2>  -->           
+            <h2 style="color: darksalmon;"><i>Ingredient list</i></h2>            
             <ul class="list-group">
                 <a class="list-group-item" style="cursor: pointer;"
                  *ngFor=" let ingred of misIngredientes; let i = index"                 
                  (click)="onEditItem(i)">  
-            <!-- (click)="(toDelete(i))" -->
                     {{ingred.name | uppercase}} - quantity: {{ingred.amount}} <i>(ID: {{i+1}})</i>
                 </a>
             </ul>
         </div>
 
-        <label for=""> {{txtError}} sss </label>
+        <label for=""> {{txtError2}} +</label>
         
-    </div> 
-</div>
+<!--     </div> 
+</div> -->
 
 <div>
        <!--  <p *ngIf="misIngredientes else parrafoOculto"  style="border: lime solid 1px;">

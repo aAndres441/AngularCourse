@@ -15,8 +15,8 @@ export class RecipeItemComponent implements OnInit {
   // @Output() detail = new EventEmitter<void>();
 
 // usado para Subject
-recipeSubject: Recipe;
-
+/* recipeSubject: Recipe;
+ */
   constructor(private router: Router,
               private route: ActivatedRoute,
               private service: RecipeService) { }
@@ -46,26 +46,27 @@ recipeSubject: Recipe;
   } */
 
   /* el metodo de abajo ya no lo uso, pues paso recipe a detalle por param  desde html*/
-  addDetail(num: number) {
+/*   addDetail(num: number) {
     confirm('A la pelotita' + num + `index ` + this.index);
     this.router.navigate(['/recipes', num],
-      /* start
-          {relativeTo: this.route, queryParamsHandling: 'preserve'});
-         */
+      
       {
         queryParams: { ID: num },
         fragment: 'loading' + this.recipe.name
       }
     );
+} */
+    /* 
+  Llama al metodo del servicio y emite la receta seleccionada en html (click)="addDetail()"
+     this.serviceRecipe.recipeSelected.emit(this.recipe);
+     Tambien elimino este servicio pues paso datos dinamicamente por URL    */
+    /* start
+          {relativeTo: this.route, queryParamsHandling: 'preserve'});
+         */
 
-    // llama al metodo del servicio y emite la receta seleccionada en html (click)="addDetail()"
-    // this.serviceRecipe.recipeSelected.emit(this.recipe);
-    // Tambien elimino este servicio pues paso datos dinamicamente por URL    
-  }
-
-  InventoSubject() {
+ /*  InventoSubject() {
     this.recipeSubject = this.service.getOneRecipe(this.index);
     this.service.recipeSelectSub.next(this.recipeSubject);
-  }
+  } */
 
 }

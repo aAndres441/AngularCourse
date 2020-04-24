@@ -69,7 +69,7 @@ const myRoutes: Routes = [
     {path: ':id/edit', component: RecipeEditComponent},
     
   ]},
-  {path: 'item', component: RecipeItemComponent},
+ // {path: 'item', component: RecipeItemComponent},
   
   {path: 'shopping', component: ShoppingComponent, children: [
     {path: 'list', component: ShoppingListComponent},

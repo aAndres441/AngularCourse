@@ -8,7 +8,7 @@ export class ShoppingService {
   ingredientsChange = new EventEmitter<Ingredient[]>(); // ya no va, sera subject
   
   ingredientsChange2 = new Subject<Ingredient[]>();
-  startIngredEdit = new Subject<number>(); // para editar con el id desde la lista
+  startIngredEdit = new Subject<number>(); // para editar con el id desde la lista y lo escucha edit
 
   errorToAdd = new EventEmitter<string>();
 
@@ -72,9 +72,26 @@ export class ShoppingService {
     
     // this.ingredientsChange.emit(this.ingredients.slice());
     // /*uso subjects en lugar de emitter */
-    this.ingredientsChange.next(this.ingredients.slice());
+    this.ingredientsChange2.next(this.ingredients.slice());
+    // o sera este? this.ingredientsChange2.next(this.ingredients.slice());
 
     alert('SUCCESS !! all the ingredients were added from shopping service.');
 
   }
+
+  updateIngredient(index: number, newIng: Ingredient): void {
+    this.ingredients[index] = newIng;
+    this.ingredientsChange2.next(this.ingredients.slice()); // mando a los ingred modificados y los muestro
+
+/* if (this.ingredients[index] !== null) {
+  alert('yes');
+}else{alert('no');} */
+  }
+
+  deleteIngred(index: number) {
+    this.ingredients.splice(index, 1);
+    this.ingredientsChange2.next(this.ingredients.slice());
+  }
+
+ 
 }

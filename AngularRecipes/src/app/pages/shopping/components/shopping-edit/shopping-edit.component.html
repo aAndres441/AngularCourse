@@ -1,22 +1,29 @@
-<div class="col-xs-12" style="background-color: rgb(207, 217, 228);">
-
+<div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-2"
+     style="background-color: rgb(207, 217, 228);">
 
     <!-- **************************  template form********************************** -->
 
-    <h2><i>Add ingredient</i></h2>
-    <h4 style="color: darksalmon;"><q>Form TEMPLATE</q></h4> <!-- <em> <s> <b> <q> <u> <i> -->
+    <h2 style="color: darksalmon;"><i>Add ingredient</i></h2>
+    <h4 ><q>Form TEMPLATE</q></h4> <!-- <em> <s> <b> <q> <u> <i> -->
+        <p *ngIf="!formEdit.valid && formEdit.touched" style="color: crimson; background-color: rgb(248, 248, 215);;">
+            INVALID DATA 
+          </p>
+          <hr *ngIf="!formEdit.valid && formEdit.touched" style="border: 2px solid red;">
+        <br>
+        
     <form #formEdit="ngForm" 
-             (ngSubmit)="onAddItem(formEdit)">
+             (ngSubmit)="onAddOrUpdateItemSubmit(formEdit)">
         <div class="row">
             <div class="col-sm-5 form-group">
                 <!-- <label for="name">Name</label> -->
-                <input type="text"  id="name" placeholder="Name"class="form-control"
-                ngModel
-                
-                name="name"
-                required
+                <input class="form-control"
+                    ngModel
+                    name="name"
+                    required
+                    type="text"  id="name" 
+                    placeholder="Name"     
                 >
-            </div>
+            </div>            
             <!-- <span class="help-block" *ngIf="!name.valid && name.touched">Invalid name
             </span> -->
             <div class="col-sm-5 form-group">
@@ -38,10 +45,21 @@
                     <button type="submit"
                         [disabled]="!formEdit.valid"
                         style="width: 30%;" 
-                        class="btn btn-success">Add</button>
-                    <button style="width: 30%;" class="btn btn-danger" type="button"
-                        (click)="deleteIngred(nameInput, amountInput)">Delete</button>
-                    <button style="width: 30%;" class="btn btn-primary" type="button">Clear</button>
+                        class="btn btn-success"
+                        > {{ editMode ? 'Update' : 'Add' }}
+                    </button>
+                    <button type="button"
+                        *ngIf="editMode"
+                        (click)="onDelete()"
+                        style="width: 30%;" class="btn btn-danger"    
+                        > Delete
+                    </button>
+                    <button type="button"
+                        (click)="onClear()"
+                        style="width: 30%;" 
+                        class="btn btn-primary" 
+                        >Clear
+                    </button>
     
                 </div>
             </div>            

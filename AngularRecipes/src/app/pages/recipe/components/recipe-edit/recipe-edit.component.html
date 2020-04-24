@@ -2,7 +2,7 @@
 
 <!-- <div class="row"> -->
 
-        <!--  **************   EDIT   *********************** -->
+        <!--  **************   EDIT  template *********************** -->
 
     <div class="col-xs-12"  *ngIf="editMode" [ngClass]="{myColorEdit: editMode}">
         <h1>EDIT of {{id}} + {{recipeName|uppercase}}</h1>
@@ -34,7 +34,7 @@
             [(ngModel)]="idEditDefault"
             #idEdit="ngModel" 
             name="idEdit"
-            type="text" id="idEdit">
+            type="number" id="idEdit">
     </div>
     <span class="help-block" *ngIf="!idEdit.valid && idEdit.touched">Invalid ID
     </span>
@@ -72,7 +72,7 @@
 
     </div>
 
-    <!--  **************   NEW   *********************** -->
+    <!--  **************   NEW   reactive *********************** -->
     <div class="col-xs-12"  *ngIf="!editMode" [ngClass]="{myColorNew: !editMode}">
         <h1>NEW</h1>
         <div class="flex-container">

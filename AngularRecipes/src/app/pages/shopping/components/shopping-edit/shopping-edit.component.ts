@@ -3,6 +3,7 @@ import { Ingredient } from 'src/app/shared/ingredient/ingredient.model';
 import { ShoppingService } from '../../services/shopping.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -11,8 +12,8 @@ import { Subscription } from 'rxjs';
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
 
-  @ViewChild('nameInput', { static: false }) nameRef: ElementRef;
-  @ViewChild('amountInput', { static: true }) amountRef: ElementRef;
+ /*  @ViewChild('nameInput', { static: false }) nameRef: ElementRef;
+  @ViewChild('amountInput', { static: true }) amountRef: ElementRef; */
 
  /*  @Output() ingredientAdded = new EventEmitter<{ name: string, amount: number }>();  es el ingrediente*/
  /* @Output() ingredientAdded = new EventEmitter<Ingredient>(); */
@@ -27,7 +28,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editIndexItem: number;
   editedItem: Ingredient;
 
-  constructor(private service: ShoppingService) { }
+  constructor(private service: ShoppingService, private router: Router) { }
 
   ngOnInit() {
     this.textError = '';
@@ -36,7 +37,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         this.editIndexItem = indice;
         this.editMode = true;
         this.editedItem = this.service.getIngredient(indice);
-        confirm('0k ');
+       // confirm('0k onInit edit ');
         this.f.setValue({  // form.patchValue
           name: this.editedItem.name,
           amount: this.editedItem.amount
@@ -44,7 +45,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
       }
     );
-
+    
   }
   ngOnDestroy() {
     this.subscripIngred.unsubscribe();
@@ -61,17 +62,36 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.textError = 'well add ' + this.f.value.name;
     } */
 
-    // aca 2
-   onAddItem() {    
-    alert( 'STATUS: ' + this.f.status );
-    alert(this.f.value.name + '---' + this.f.value.amount);
+    // aca 2 es el del form template
+  onAddOrUpdateItemSubmit() {
+    /*  alert('STATUS: ' + this.f.status);
+     alert(this.f.value.name + '---' + this.f.value.amount); */
 
     const newIngr = new Ingredient(this.f.value.name, this.f.value.amount);
-    this.service.addIngredient(newIngr);
-    this.textError = 'well add ' + this.f.value.name;
+    if (this.editMode) {  // si editMode es true
+      this.service.updateIngredient(this.editIndexItem, newIngr);
+      this.textError = 'you update exelent';
+      
+      this.router.navigate(['/shopping', this.editIndexItem, 'edit'],
+        /* {queryParams: { loEdito: 'si' },
+          fragment: 'loading'
+        } */
+      );
+    } else {
+      this.service.addIngredient(newIngr);
+      this.textError = 'well add ' + this.f.value.name;
+
+      this.router.navigate(['/shopping', 'id', 'edit'],
+        {
+          queryParams: { new: 'ingredient' }
+        }
+      );
+    }
+    this.editMode = false;
+    this.f.reset();
   }
 // aca 3
-    addIngred() {    
+   /*  addIngred() {    
     const ingredName = this.nameRef.nativeElement.value;
     const ingredAmount = this.amountRef.nativeElement.value;
     const newIngredient = new Ingredient(ingredName, ingredAmount);
@@ -83,21 +103,29 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       this.textError = 'Incorrect data or Fake news';
     }
     this.other = true;
+  } */
+
+  // onDelete(name: HTMLInputElement, amount: HTMLInputElement) {
+    onDelete() {
+    this.service.deleteIngred(this.editIndexItem);
+    this.onClear();
   }
 
-  deleteIngred(nameInput: HTMLInputElement, amountInput: HTMLInputElement) {
-    alert('Name name ' + nameInput.value + 'New amount ' +  amountInput.value);
+  onClear() {
+    this.f.reset();
+    this.editMode = false;
+    this.textError = '';
   }
   
-  addOther() {
+  /* addOther() {
     this.nameRef.nativeElement.value = '';
     this.amountRef.nativeElement.value = '';
     this.other = false;
     this.textError = '';
-  }
+  } */
 
   getColor() {
-    return this.textError === 'exelent' ? 'yellow' : 'orange';
+    return  this.textError === 'you update exelent' ? 'red' : 'orange';
 
   }
 

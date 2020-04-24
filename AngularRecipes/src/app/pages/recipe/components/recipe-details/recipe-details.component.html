@@ -86,6 +86,24 @@
         </ul>
     </div>
 </div>
+<hr style="border: 1px solid darkmagenta;">
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="btn-group" appDropdown style="float: right; width: auto; padding-right: 22px;">
+            <button type="button" class="btn btn-primary dropdown-toggle">
+                Opcions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a style="cursor: pointer;" (click)="onAddToShoppingList()">To Shopping list</a></li>
+                <li><a style="cursor: pointer;"  (click)="onEditRecipe()">Edit Recipe</a></li>
+                <li><a style="cursor: pointer;" routerLink="/recipes/new">New Recipe</a></li>
+                <li><a style="cursor: pointer;"routerLink="/recipes/start">Delete Recipe</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 
 <hr style="border: 1px solid darkmagenta;">
 
@@ -124,23 +142,6 @@
     </div>
 </div>
 
-<hr style="border: 1px solid darkmagenta;">
-
-<div class="row">
-    <div class="col-xs-12">
-        <div class="btn-group" appDropdown style="float: right; width: auto; padding-right: 22px;">
-            <button type="button" class="btn btn-primary dropdown-toggle">
-                Menage Recipe <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a style="cursor: pointer;" (click)="onAddToShoppingList()">To Shopping list</a></li>
-                <li><a style="cursor: pointer;"  (click)="onEditRecipe()">Edit Recipe</a></li>
-                <li><a style="cursor: pointer;" routerLink="/recipes/new">New Recipe</a></li>
-                <li><a style="cursor: pointer;"routerLink="/recipes/start">Delete Recipe</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
 
 <hr style="border: 1px solid darkmagenta;">
 <hr style="border: 1px solid darkmagenta;">

@@ -16,9 +16,10 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 @Output() delete = new EventEmitter<number>();
 
 misIngredientes: Ingredient[];
-private ingChangeSubscrib: Subscription; // para desuscribir
+private ingChangeSubscrib: Subscription; // para desuscribir ingredientsChange2 del servicio
 
 @Input() txtError = 'HOLA';
+txtError2 = 'HOLA';
 
 constructor(private servicio: ShoppingService) { }
 
@@ -32,8 +33,10 @@ constructor(private servicio: ShoppingService) { }
     .subscribe(
       (ings: Ingredient[]) => {
         this.misIngredientes = ings;
+        alert('largo' + this. misIngredientes.length);
       }
     );
+    
   }
 
  /* no los uso por ahora*/
@@ -57,8 +60,9 @@ constructor(private servicio: ShoppingService) { }
 /* agrego este subject en el servicio para escucharlo donde quiuera,
  sera en shoppingComponent, en su onInit() ver*/
 this.servicio.startIngredEdit.next(index); // .next(index); o (ingred.id)
-alert(' shopping-list id= ' + index + ' ok');
+// alert(' shopping-list id= ' + index + ' ok');
   }
+
 
   ngOnDestroy() {
     this.ingChangeSubscrib.unsubscribe();

@@ -9,6 +9,8 @@ import { RouterLink, Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./shopping.component.css']
 })
 export class ShoppingComponent implements OnInit {
+  
+  title = 'SHOPPING';
 
 /* @Output() agrega = new EventEmitter<{name: string, amount: number}>(); */
 /* @Input() agrega = new EventEmitter<{elIngredienteAgregado}>(); */

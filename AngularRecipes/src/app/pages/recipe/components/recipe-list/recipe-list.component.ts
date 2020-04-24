@@ -87,12 +87,11 @@ title = '';
   }
 
   Toshoppingnow() {
-    alert('Fenix');
     this.router.navigate(['/shopping'],  // '/shopping', 'list'
-      {
+      /* {
         queryParams: { ID: 'Pepe' },
         fragment: 'loading' + 'Hello'
-      }
+      } */
     );
   }
   

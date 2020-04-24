@@ -1,50 +1,12 @@
 <div class="flex-container" style="border: rgb(204, 86, 7) solid 2px;padding-top: 5px;">
 
-    <h3 style="text-align: center; background-color: rgb(124, 161, 136);">SHOPPING</h3>
+    <h3 style="text-align: center; color:cornflowerblue"><i>{{title}}</i></h3>
 
-    <div class="row">
-        <div class="col-xs-4 offset-3"></div>
-        <div class="col-xs-4">
-            <label for=""><h5>i Want Add</h5></label>
-            <button class="btn btn-default" style="border-color: rgb(117, 175, 63);"
-                (click)="iWantAdd = !iWantAdd">
-                <A>Want Add</A>
-            </button>
-        </div>
-        <div class="col-xs-4">
-            <label for=""> <h5>i Want edit</h5> </label>
-            <button class="btn btn-default" style="border-color: rgb(216, 23, 152);"
-                (click)="edit()">
-                <A>edit</A>
-            </button>
-        </div>
-    </div>
     <hr style="border: blueviolet 2px solid;">
-    <!--  <div class="col-xs-12">
-        <router-outlet></router-outlet>
-    </div> -->
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6">
-            <!--  <app-shopping-edit> -->
-            <!--  (ingredientAdded)= "oningredientAdded($event)"  
-            (ingredientAdded)=  "elIngredienteAgregado = $event"   -->
-            <!-- </app-shopping-edit> --> 
-            
-            <button class="btn btn-primary" 
-                style="width: 30%; border: crimson solid 2px;" 
-                (click)="edit()">
-                edit 
-            </button>
-            <button class="btn btn-info" 
-                style="width: 70%; border: crimson solid 2px;"
-                (click)="onEdit()">
-                list
-            </button>            
-        </div>        
-
-        <div class="col-xs-12 col-sm-12 col-md-6">
-            <router-outlet> <h4>ACA DEBE MOSTRAR router-outlet</h4> </router-outlet>
-        </div>
+    
+    <div class="flex-container" style="border: 2px solid brown">
+        <!-- <router-outlet></router-outlet>-->            
+        <router-outlet> <h4>ACA DEBE MOSTRAR router-outlet</h4> </router-outlet>
     </div>
 
     <hr style="border: blueviolet 2px dotted;">
@@ -60,7 +22,7 @@
             </ng-template>
         </div>
 
-        <div class="col-xs-12 col-sm-6" *ngIf="iWantAdd" style="color: white;">
+        <div class="col-xs-12 col-sm-6"  style="color: white;">   <!-- ingredientsChange2 -->
             <app-shopping-edit>
             </app-shopping-edit>
         </div>
