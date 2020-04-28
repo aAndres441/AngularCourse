@@ -16,6 +16,7 @@ export class RecipeComponent implements OnInit {
   recipeWasSelected: Recipe; // sera la cargada en el oninit con el subscibe desde el emit del servicio  
   title: string;
   valueRandom: boolean;
+  mumberRandom: number;
 
   constructor(private servicioRecipe: RecipeService,
               private router: Router,
@@ -64,8 +65,9 @@ export class RecipeComponent implements OnInit {
 
   onLoadServer() {
     this.valueRandom = (Math.floor(Math.random() * 256) % 2 === 0 ? true : false);  //  Math.random();
-
-    confirm('Random of server is ' + this.valueRandom);
+    this.mumberRandom = (Math.log10(Math.random()) * 1);
+    confirm('Random of server is ' + this.valueRandom + ' number ' + this.mumberRandom);
+    
   }
 
 }

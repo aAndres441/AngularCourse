@@ -2,155 +2,299 @@
 
 <!-- <div class="row"> -->
 
-        <!--  **************   EDIT  template *********************** -->
+<!--  **************   EDIT  template *********************** -->
 
-    <div class="col-xs-12"  *ngIf="editMode" [ngClass]="{myColorEdit: editMode}">
-        <h1>EDIT of {{id}} + {{recipeName|uppercase}}</h1>
-<form #formEdit="ngForm" 
-        (ngSubmit)="onEditForm()"> <!-- obtengo referencia al form , al control con #xx
+<div class="col-xs-12" *ngIf="editMode" [ngClass]="{myColorEdit: editMode}">
+    <h1>EDIT of {{id}} + {{recipeName|uppercase}}</h1>
+    <p><q>Form template</q></p>
+    <span *ngIf="!formEdit.valid && formEdit.touched" style="color: red;">
+        Invalid Data
+    </span>
+    <form #formEdit="ngForm" 
+            (ngSubmit)="onEditForm()"><!-- obtengo referencia al form , al control con #xx
                                         [ngModel] = "unaMascota" trae a la prop unaMascota  
-                                    [(ngModel)]="answer" carga y trae la prop answer y la muestra en el area--> 
-    <div class="form-group">
-        <label for="nameEdit">Name</label>
-        <input class="form-control"
-            [(ngModel)]='nameEditDEfault'
-            ngModel
-            #nameEdit="ngModel"
-            type="text" 
-            title="Name" id="nameEdit" name="nameEdit"> 
-    </div>
-<!-- #nameEdit="ngModel" obtengo referencia a este control  -->
-<!-- Lo pondria asi 
+                                    [(ngModel)]="answer" carga y trae la prop answer y la muestra en el area-->
+        <div class="form-group">
+            <label for="nameEdit">Name</label>
+            <input class="form-control" 
+            [(ngModel)]='nameEditDEfault' 
+            ngModel 
+            name="nameEdit"
+            #nameEdit="ngModel" 
+            type="text"
+            id="nameEdit"
+            title="Name"
+            required  >
+        </div>
+        <!-- #nameEdit="ngModel" obtengo referencia a este control  -->
+        <!-- Lo pondria asi 
 [(ngModel)]="forDefaultQuestions" para enlace unidereccional, y carga select por defecto 
      forDefaultQuestions = ' pet'; -->
 
-    <span class="help-block" *ngIf="!nameEdit.valid && nameEdit.touched">Ingreso invalido
-    </span>
+        <span class="help-block" *ngIf="!nameEdit.valid && nameEdit.touched" style="color: red;">
+            required
+        </span>
 
-    <div class="form-group">
-        <label for="">ID</label>
-        <input class="form-control"
-            ngModel
-            [(ngModel)]="idEditDefault"
-            #idEdit="ngModel" 
-            name="idEdit"
-            type="number" id="idEdit">
-    </div>
-    <span class="help-block" *ngIf="!idEdit.valid && idEdit.touched">Invalid ID
-    </span>
+        <div class="form-group">
+            <label for="">ID</label>
+            <input class="form-control" 
+                ngModel 
+                [(ngModel)]="idEditDefault"
+                name="idEdit"
+                required                 
+                #idEdit="ngModel" 
+                type="number" 
+                id="idEdit">
+        </div>
+        <span class="help-block" *ngIf="!idEdit.valid && idEdit.touched" style="color: red;">
+            Invalid ID
+        </span>
 
-    <div class="form-group">
-        <label for="">Description</label>
-        <textarea class="form-control"
-            ngModel
-            [(ngModel)]='descriptionEditDefault'
-            #descripEdit="ngModel" 
-            name="descripEdit" id="descripEdit" cols="2" rows="7"></textarea>
-    </div>
-    <span class="help-block" *ngIf="!descripEdit.valid && descripEdit.touched">Invalid description
-    </span>
-    
-    
-    <!--  id = 0;
+        <div class="form-group">
+            <label for="">Description</label>
+            <textarea class="form-control" ngModel [(ngModel)]='descriptionEditDefault' #descripEdit="ngModel"
+                name="descripEdit" id="descripEdit" cols="2" rows="7"></textarea>
+        </div>
+        <span class="help-block" *ngIf="!descripEdit.valid && descripEdit.touched">Invalid description
+        </span>
+
+
+        <!--  id = 0;
     name: string;
     description: string;
     imageUrl: string;
     timeStamp: Date;
     ingredients: Ingredient[];
     rating: number; -->
-    
 
-    <button class="btn btn-success" type="submit" [disabled]="!formEdit.valid"
+
+        <button class="btn btn-success" type="submit" [disabled]="!formEdit.valid"
             style="width: 50%; border-color: rgb(50, 73, 205)">
             Submit
-          </button>
-    <button class="btn btn-warning" type="submit" (click)="addValuea()"
+        </button>
+        <button class="btn btn-warning" type="submit" (click)="addValuea()"
             style="width: 50%; border-color: rgb(50, 73, 205)">
             Add values
-          </button>
-</form>
+        </button>
+    </form>
 
-    </div>
+</div>
 
-    <!--  **************   NEW   reactive *********************** -->
-    <div class="col-xs-12"  *ngIf="!editMode" [ngClass]="{myColorNew: !editMode}">
-        <h1>NEW</h1>
-        <div class="flex-container">
-            <h3>New recipe </h3>
-            <div class="header">
-                <form [formGroup]='formNewRecipe' (ngSubmit)='onAddRecipe'>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input  class="form-control" 
-                                formControlName="name" 
-                                name="name"
-                                type="text" id="name" title="Name" placeholder="Name">
-                    </div>
-                    <span *ngIf="!formNewRecipe.get('name').valid && formNewRecipe.get('name').touched"
-                        class="help-block" style="color: hotpink;">
-                        <span *ngIf="formNewRecipe.get('name').errors['required']">
-                            enter data
-                        </span>
+<!--  **************   NEW   reactive *********************** -->
+<div class="col-xs-12" *ngIf="!editMode" [ngClass]="{myColorNew: !editMode}">
+    <h1>NEW</h1>
+    <p><q>Form reactive</q></p>
+    <div class="flex-container">
+        <h3>New recipe </h3>
+        <div class="header">
+            <form [formGroup]='formNewRecipe' 
+                    (ngSubmit)='onAddRecipe()'>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control"
+                         formControlName="name" 
+                         name="name" type="text" id="name" title="Name"
+                        placeholder="Name">
+                </div>
+                <span *ngIf="!formNewRecipe.get('name').valid && formNewRecipe.get('name').touched" class="help-block"
+                    style="color: hotpink;">
+                    <span *ngIf="formNewRecipe.get('name').errors['required']">
+                        enter data
                     </span>
+                </span>
 
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea cols=" 40 " rows=" 5 " class="form-control" formControlName="description"
-                            id="description" name="description" title="description" placeholder="no Permite 'Test'">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea cols=" 40 " rows=" 5 " 
+                        class="form-control" 
+                        formControlName="description" id="description"
+                        name="description" title="description" placeholder="no Permite 'Test'">
                 </textarea>
-                    </div>
-                    <span *ngIf="!formNewRecipe.get('description').valid && formNewRecipe.get('description').touched"
-                        class="help-block" style="color: hotpink;">
-                        <span *ngIf="formNewRecipe.get('description').errors['required']">
-                            enter data
-                        </span>
-                        <span *ngIf="formNewRecipe.get('description').errors['noPermite']">
-                            not valid
-                        </span>
-                        <!-- <span *ngIf="formNewRecipe.get('description').errors['maxLength']">
+                </div>
+                <span *ngIf="!formNewRecipe.get('description').valid && formNewRecipe.get('description').touched"
+                    class="help-block" style="color: hotpink;">
+                    <span *ngIf="formNewRecipe.get('description').errors['required']">
+                        enter data
+                    </span>
+                    <span *ngIf="formNewRecipe.get('description').errors['noPermite']">
+                        not valid
+                    </span>
+                    <!-- <span *ngIf="formNewRecipe.get('description').errors['maxLength']">
                             max 10
                         </span> -->
+                </span>
+
+                <div class="form-group">
+                    <label for="ingredients">Ingredients</label>
+                    <input type="text" class="form-control" formControlName="ingredients" id="ingredients"
+                        name="ingredients" title="ingredients" placeholder="Name">
+                </div>
+                <span *ngIf="!formNewRecipe.get('ingredients').valid && formNewRecipe.get('ingredients').touched"
+                    class="help-block" style="color: hotpink;">
+                    <span *ngIf="formNewRecipe.get('ingredients').errors['required']">
+                        enter data
                     </span>
 
-                    <div class="form-group">
-                        <label for="ingredients">Ingredients</label>
-                        <input type="text" class="form-control" formControlName="ingredients" id="ingredients"
-                            name="ingredients" title="ingredients" placeholder="Name">
-                    </div>
-                    <span *ngIf="!formNewRecipe.get('ingredients').valid && formNewRecipe.get('ingredients').touched"
-                        class="help-block" style="color: hotpink;">
-                        <span *ngIf="formNewRecipe.get('ingredients').errors['required']">
-                            enter data
-                        </span>
-                        
+                </span>
+
+                <div class="form-group">
+                    <label for="rating">Rating</label>
+                    <input type="number" 
+                        class="form-control" 
+                        formControlName="rating" id="rating" 
+                        name="rating"
+                        title="rating" placeholder="rating">
+                </div>
+                <span *ngIf="!formNewRecipe.get('rating').valid && formNewRecipe.get('rating').touched"
+                    class="help-block" style="color: hotpink;">
+                    <span *ngIf="formNewRecipe.get('rating').errors['required']">
+                        enter data
                     </span>
+                </span>
 
-                    <div class="form-group">
-                        <label for="rating">Rating</label>
-                        <input type="number" class="form-control" formControlName="rating" id="rating" name="rating"
-                            title="rating" placeholder="rating">
-                    </div>
-                    <span *ngIf="!formNewRecipe.get('rating').valid && formNewRecipe.get('rating').touched"
-                        class="help-block" style="color: hotpink;">
-                        <span *ngIf="formNewRecipe.get('rating').errors['required']">
-                            enter data
-                        </span>
-                    </span>
+                <div class="form-group">
+                    <label for="imagen">Imagen</label>
+                    <input type="image" 
+                        class="form-control" 
+                        formControlName="imagen" id="imagen" 
+                        name="imagen">
+                </div>
 
-                    <div class="form-group">
-                        <label for="imagen">Imagen</label>
-                        <input type="image" class="form-control" formControlName="imagen" id="imagen" name="imagen">
-                    </div>
+            </form>
+        </div>
+    </div>
 
-                </form>
-            </div>
+</div>
+
+<!--  **************   NEW RECIPE  Form  reactive *********************** -->
+
+<div class="flex-container" >
+    <div class="col-xs-12" *ngIf="!editMode" id="forms">
+        <h3>New Recipe<i> (form reactive)</i></h3>
+
+        <div *ngIf="!fgNew.valid && fgNew.touched">
+            <p style="color: rgb(4, 7, 189); text-align: center;">PLEASE ENTER VALID DATA ! o chupame la verga</p>
         </div>
 
+        <form [formGroup]='fgNew' 
+                (ngSubmit)='onSubmitThis()'>
+            <div class="form-group">
+                <label for="">Name</label>
+                <input class="form-control"
+                    formControlName= "nombre"
+                    name="nombre"
+                    
+                    type="text" id="nombre"
+                    placeholder="Nombre" title="Nombre">
+            </div>
+            <!--  -->
+            <span class="help-block" style="color: hotpink;"
+                  *ngIf="fgNew.get('nombre').valid && fgNew.get('nombre').touched">                  
+                <span *ngIf="fgNew.get('nombre').errors['required']">Nombre requerido si o si</span>
+                 </span>
+<!--  <span *ngIf="fgNew.get('nombre').errors['maxLength']">Largo max 14</span>
+                <span *ngIf="fgNew.get('nombre').required">Req</span>
+                <span *ngIf="fgNew.get('nombre').errors['nombreProhibido']">No puede ingresar ese nombre</span>
+                <span *ngIf="fgNew.get('nombre').errors['nameIsForbiddenObject']">No puede ingresar ese nombre</span>
+           -->
+            <div class="form-group">
+                <label for="">Description</label>
+                <textarea  id="" cols="10" rows="3"
+                    class="form-control"
+                    formControlName="descripcion"
+                    name="descripcion"
+                    required
+                    type="text"
+                    placeholder="Descripcion" id="descripcion">
+                </textarea>
+            </div>
+            <span *ngIf="!fgNew.get(descripcion).valid && fgNew.get(descripcion).touched">descripcion invalid</span>
+
+            <div class="form-group">
+                <label for="imagePath">Image URL</label>
+                <input class="form-control"
+                    formControlName= "imagePath"
+                    name="imagePath"                    
+                    type="text" id="imagePath"
+                    placeholder="Image URL" title="Image URL">
+            </div>
+            <!-- para ver la image despues de pegar URL -->
+            <span class="help-block" style="color: hotpink;"
+                  *ngIf="fgNew.get('imagePath').valid && fgNew.get('imagePath').touched">                  
+                  imagePath
+            </span>
+
+            <div class="col-xs-12">
+               <img src='{{imgDefault}}' alt="" class="img-responsive">
+            </div>
+
+            <div class="form-group">
+                <label for="image">Imagen</label>
+                <input class="form-control"
+                    formControlName="image"
+                    name="image"
+                    type="image"
+                    id="image" 
+                    >
+            </div>
+            <span *ngIf="!fgNew.get(image).valid && fgNew.get(image).touched"
+                style="color: blue;">Imagen invalida
+            </span>
+
+            <div class="form-group">
+                <label for="">Ingredientes</label>
+                <input type="text"
+                    class="form-control"
+                    formControlName="ingres"
+                    name="ingres" id="ingres"
+                    >
+            </div>
+            <span *ngIf="!fgNew.get(ingres).valid && fgNew.get(ingres).touched"
+                 style="color: blue;">Imagen invalida
+            </span>
+
+            <!-- ingredientes -->
+            <div class="row">
+                <label for="Ingredientes">Ingredientes</label>
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <input type="text"
+                                class="form-control"
+                                placeholder="Ingtredient"
+                                id="ingredienteNew">
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="number"
+                                    class="form-control"
+                                    placeholder="Quantity"
+                                    id="quantyti">                                    
+                            </div>
+                        <div class="col-xs-2">
+                               <div class="button btn btn-default">
+                                   +
+                               </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rew">
+                <div class="col-xs-12">
+                    <button type="submit" [disabled]="!fgNew.valid" class="btn btn-success" style="width: 50%;">
+                        SAVE
+                    </button>
+                    <button type="button" [disabled]="!fgNew.valid" class="btn btn-danger" style="width: 50%;">
+                        CANCEL
+                    </button>
+                </div>
+            </div>
+            
+            </form>
     </div>
-<!-- </div> -->
+    <div class="col-xs-12"><!--  --></div>
+</div>
 
 <!-- [ngClass]="{myOdd: ev % 2 !== 0}"
      [ngStyle]="{backgroundColor: ev % 2 !== 0 ? 'orange' : 'pink'}"> 
  -->
-
-                        

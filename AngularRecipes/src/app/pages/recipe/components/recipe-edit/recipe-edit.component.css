@@ -5,6 +5,15 @@
 }
 
 .myColorNew{
-    color: rgb(229, 235, 227);
+    color: rgb(6, 116, 110);
     background-color: rgb(120, 153, 0);
+}
+
+.flex-container form{
+    background-color: rgb(208, 231, 253);
+    border-bottom: 2px, solid, rgb(93, 132, 177);
+}
+#forms{
+    color: blueviolet;
+    background-color: rgb(207, 241, 224);
 }

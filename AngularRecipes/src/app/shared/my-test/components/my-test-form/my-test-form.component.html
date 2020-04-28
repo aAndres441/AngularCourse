@@ -150,4 +150,32 @@
         </div>
     </div>
     <p>END of  test form</p>
+    <hr style="border:solid 2px cornflowerblue ;">
+    <br>
+<div class="flex-container">
+    <label for="">Test input</label>
+    <div class="row">
+        <div class="col-sm-4">
+            <!-- con la freferencia al DOM  NO VA ESTO [(ngModel)]="address" -->
+            <input type="text" class="body" #name required placeholder="name" [(ngModel)]="prueboName2">
+        </div>
+        <!-- <div class="col-sm-4">
+        <input type="text" [value]=name.value>
+    </div> -->
+        <div class="col-sm-4">
+            <input type="text" [value]=prueboName2>
+        </div>
+    </div>
+    <br>
+    <div class="col-sm-5">
+        <input type="text" #unValor required placeholder="un Valor">
+    </div>
+    <div class="col-sm-2">
+        <input type="text" [value]="unValor.value">
+    </div>
+    <button class="btn btn-success" 
+    style="width: 90%;" 
+    (click)="changeName1()">un Valor
+</button>
+</div>
     <hr style="border: 2px solid  rgb(236, 29, 236) ;">

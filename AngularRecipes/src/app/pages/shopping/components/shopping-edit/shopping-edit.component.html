@@ -5,10 +5,10 @@
 
     <h2 style="color: darksalmon;"><i>Add ingredient</i></h2>
     <h4 ><q>Form TEMPLATE</q></h4> <!-- <em> <s> <b> <q> <u> <i> -->
-        <p *ngIf="!formEdit.valid && formEdit.touched" style="color: crimson; background-color: rgb(248, 248, 215);;">
+        <span *ngIf="!formEdit.valid && formEdit.touched" style="color: crimson; background-color: rgb(248, 248, 215);;">
             INVALID DATA 
-          </p>
-          <hr *ngIf="!formEdit.valid && formEdit.touched" style="border: 2px solid red;">
+        </span>
+          <hr *ngIf="!formEdit.valid && formEdit.touched" style="border: 1px solid red;">
         <br>
         
     <form #formEdit="ngForm" 
@@ -20,25 +20,30 @@
                     ngModel
                     name="name"
                     required
-                    type="text"  id="name" 
+                    type="text"  
+                    id="name"                      
+                    #name="ngModel" 
                     placeholder="Name"     
                 >
             </div>            
-            <!-- <span class="help-block" *ngIf="!name.valid && name.touched">Invalid name
-            </span> -->
+            <span class="help-block" style="color: red;"
+                *ngIf="!name.valid && name.touched">Invalid name
+            </span>
             <div class="col-sm-5 form-group">
                 <!-- <label for="name">Name</label> -->
                 <input class="form-control"
                 ngModel                
                 name="amount"
                 required
+                #amount="ngModel" 
                 pattern="^[1-9]+[0-9]*$"
                 type="number"  id="amount" placeholder="amount">
             </div>
             <!--  required
                 pattern="^[1-9]+[0-9]*$" -->
-            <!-- <span class="help-block" *ngIf="!amount.valid && amount.touched">Invalid amount
-            </span> -->
+            <span class="help-block" style="color: red;"
+                *ngIf="!amount.valid && amount.touched">Invalid amount
+            </span>
             
             <div class="row">
                 <div class="col-xs-12" style="text-align:center; margin: auto;">

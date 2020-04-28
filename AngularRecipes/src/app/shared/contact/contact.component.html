@@ -189,7 +189,9 @@
         
            
             <!--  <input type="text" [value]="username.value"> -->
-            <button class="btn btn-info" type="button" (click)="suggestUserName()" [disabled]="!myForm.valid">
+            <button class="btn btn-info" 
+                  type="button" (click)="suggestUserName()"
+                  [disabled]="!myForm.valid">
               <!-- si el form es invalido => deshabilita -->
               Suggest an Username
             </button>

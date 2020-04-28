@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators, NgForm, FormControlName } from '@angular/forms';
 import { Recipe } from '../../recipe.model';
 import { RecipeService } from '../../services/recipe.service';
+import { ValidatorsRecipes } from '../../validators';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -19,8 +20,13 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   recipe1: Recipe;
   formNewRecipe: FormGroup;
 
+  /* new recipe form reactive */
+  fgNew: FormGroup;
+  forbbidenUsernames = ['Guiso', 'Asado'];
+  imgDefault = 'src\assets\Imagenes\flor Pajarito.jpg';
+
   @ViewChild('formEdit', { static: false }) f: NgForm;
- /* esto puedo borrrars solo emntrevera  
+ /* esto puedo borrrars solo entrevera  
   @ViewChild('descriptionEdit', { static: false }) descriptionEdit: ElementRef;
   @ViewChild('descripEdit', { static: false }) descripEdit: ElementRef;
   @ViewChild('idEdit2', { static: false }) idEdit: ElementRef; */
@@ -62,10 +68,10 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
 
         this.editMode = param.id != null;
         
-        this.router.navigate(['recipes', this.id , 'edit'], {
+        /* this.router.navigate(['recipes', this.id , 'edit'], {
           queryParams: { ID: this.id },
           fragment: 'editing'
-        });
+        }); */
         // editMode es true si al comparar param.id con null  me devuelve algo. 
         /* this.status = 'Ocupado' ? 'Libre' : 'Ocupado'; */
         // console.log(this.editMode);
@@ -99,7 +105,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
 
       /* New recipe, reactive */
     this.formNewRecipe = new FormGroup({
-        name: new FormControl('Rabo', Validators.required),
+        name: new FormControl('Rabos', Validators.required),
         description: new FormControl(null, [Validators.required, 
                           this.notValidtDescrip.bind(this),
                           Validators.maxLength(10)]),
@@ -111,6 +117,32 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
    /*  this.formNewRecipe.statusChanges.subscribe(
         (valor) => alert (valor)
       ); */
+
+      /********************New recipe form reactive********************** */
+      /* username: new FormControl('Andres', [Validators.required , 
+                                              Validators.minLength(10), 
+                                              this.forbbidenNames.bind(this)]), */
+    this.fgNew = new FormGroup({
+      nombre: new FormControl('ale', [Validators.required, 
+                                Validators.maxLength(14),
+                              this.forbbidenNames.bind(this),
+                            ValidatorsRecipes.nameForbidden]),
+      descripcion: new FormControl(null, [Validators.required]),
+      imagePath: new FormControl('src\assets\Imagenes\flor Pajarito.jpg', Validators.required),
+      image: new FormControl(null),
+      ingres: new FormControl(null)
+      });
+      /* nombre: new FormControl('ale',[Validators.required,
+                            Validators.minLength(4),
+                          this.forbbidenNames.bind(this),
+                          ValidatorsRecipes.nameForbidden]), */
+   
+     /* solo para mostrar */
+    /* this.fgNew.statusChanges.subscribe(
+      (value) => alert(value)
+    ); */
+
+   /* ***************  termina OnInit() ****************/
   }
 
   /* ngOnDestroy(): void {
@@ -157,6 +189,24 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
       idEdit: '34',
       descripEdit: 'Hello?',
     }); */
+  }
+
+  /* ERRORES */
+  checkValidity(fieldName: string): boolean {
+    return this.getErrorCodes(fieldName) !== null && this.fgNew.get(fieldName).touched;
+  }
+
+  getErrorCodes(fieldName: string) {
+    return this.fgNew.get(fieldName).errors !== null ? Object.keys(this.fgNew.get(fieldName).errors) : null;
+  }
+
+  forbbidenNames(unControl: FormControl): { [s: string]: boolean } {
+    /* clave que pueda interpretarse como una cadena y esto es solo la sintaxis
+     de TypeScript, y el retorno debe otro objeto error string para interpretaese boolean*/
+    if (this.forbbidenUsernames.indexOf(unControl.value) !== -1) {
+      return { nameIsForbiddenObject: true };
+    }
+    return null;
   }
 
 }

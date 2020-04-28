@@ -1,105 +1,61 @@
 <div class="row">
     <div class="col-xs-12">
-        <button class="btn btn-warning" style="display: block;" 
-            (click)="onNewRecipe()">
-             New recipe
-         </button>
+        <button class="btn btn-warning" style="display: block;" (click)="onNewRecipe()">
+            New recipe
+        </button>
     </div>
     <div class="col-xs-12">
+        <h4>Form</h4>
         <form class="navbar-form navbar-right" action="/" styles=" ">
             <div class="form-group">
-                <input type="text" class="form-control" 
-                    placeholder="Search" 
-                    style="color: blueviolet; width: 40%;" 
-                    #search
-                    (input)="changeName($event)"
-                    >
-                <input type="text" 
-                    [value]=search.value 
-                    style=" width: 40%; zoom: 150%;"
-                >
+                <input type="text" class="form-control" placeholder="Search" style="color: blueviolet; width: 40%;"
+                    #search (input)="changeName($event)">
+                <input type="text" [value]=search.value style=" width: 40%; zoom: 150%;">
             </div>
-            <button type="submit" 
-                class="btn btn-success" 
-                style=" inset-block: inherit; color: blueviolet; width: 100%;"
-                (click)="cambio(search.value)">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
+
             <!-- <div class="col-sm-4">
                 <input type="text" [value]=search.value >
             </div>  -->
         </form>
     </div>
 </div>
-
-<hr style="border:solid 2px cornflowerblue ;">
-
-<div class="row">
-    <div class="col-sm-4">  <!-- con la freferencia al DOM  NO VA ESTO [(ngModel)]="address" -->
-        <input type="text"
-             class="body" #name required placeholder="name" 
-             [(ngModel)]="prueboName1"
-        >
-    </div>
-    <!-- <div class="col-sm-4">
-        <input type="text" [value]=name.value>
-    </div> -->
-    <div class="col-sm-4">
-        <input type="text" 
-            [value]=prueboName1 
-        >
-    </div>    
-</div>
-
-<div class="col-sm-5">
-    <input type="text" #unValor required placeholder="un Valor">
-</div>
-<div class="col-sm-2">
-    <input type="text" [value]="unValor.value">
-</div>
 <br>
-<button class="btn btn-success" 
-    style="width: 90%;" 
-    (click)="changeName1()">un Valor
+<button type="submit" class="btn btn-success" style=" inset-block: inherit; color: blueviolet; width: 100%;"
+    (click)="cambio(search.value)">
+    <span class="glyphicon glyphicon-search"></span>
 </button>
+
 
 <hr style="border:solid 2px cornflowerblue ;">
 
 <!-- ********************************************************** -->
+<h2 style="color: darksalmon;"><i>Recipes list</i></h2> 
+<div class="row">
+    <div class="col-xs-12">
 
-<label for=""><i>Recipes list</i></label>
-<div class="row" >
-    <div class="col-xs-12">   
-        
-        <app-recipe-item 
-            *ngFor="let rec of recipes; let i = index" 
-                [recipe]="rec"
-                [index]="i">
-                     <!-- (detail)="otroEventoParaElDetalle(rec)" este metodo
-                        usado en item ,lo saco porque uso servicio -->        
+        <app-recipe-item *ngFor="let rec of recipes; let i = index" [recipe]="rec" [index]="i">
+            <!-- (detail)="otroEventoParaElDetalle(rec)" este metodo
+                        usado en item ,lo saco porque uso servicio -->
         </app-recipe-item>
-            <br>
-        <button class="btn" 
-            style="width: 90%; background-color: yellow; border: 2px solid red; border-radius: 20%;" 
-            (click)="Toshoppingnow()"
-            >To shopping now
+        <br>
+        <button class="btn" style="width: 90%; background-color: yellow; border: 2px solid red; border-radius: 20%;"
+            (click)="Toshoppingnow()">To shopping now
             <!-- (click)="Toshoppingnow()"
                 routerLink="/shopping/list"
-            --> 
+            -->
         </button>
-               
-             <h3><em>List of rec issue</em></h3>
-            <div class="list-group">
-                <!-- servidor con id 5,y luego la ruta creada para esto en routers -->
-                <!-- [routerLink]="['/recipes', rec.id]"
+
+        <h3><em>List of rec issue</em></h3>
+        <div class="list-group">
+            <!-- servidor con id 5,y luego la ruta creada para esto en routers -->
+            <!-- [routerLink]="['/recipes', rec.id]"
                 [queryParams]="{feniEdit:'1'}"
                 fragment='loading' -->
 
-                <a  class="list-group-item" 
-                    *ngFor="let rec of recipes; let i = index" >
-                        <h3>{{ rec.name | convertToK: 'S'}} - {{rec.id}} - rating: {{rec.rating}} </h3>
-                        <!-- <h3>{{ rec.name | convertToK: '-'}} - {{rec.id}}</h3> -->
-                </a>
-            </div>
-    </div>    
+            <a class="list-group-item" *ngFor="let rec of recipes; let i = index">
+                <h3>{{ rec.name | convertToK: 'S'}} - {{rec.id}} - rating: {{rec.rating}} </h3>
+                <!-- <h3>{{ rec.name | convertToK: '-'}} - {{rec.id}}</h3> -->
+            </a>
+        </div>
+    </div>
 </div>

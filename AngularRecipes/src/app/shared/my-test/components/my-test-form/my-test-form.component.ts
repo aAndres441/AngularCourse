@@ -20,6 +20,10 @@ export class MyTestFormComponent implements OnInit {
   dates = [];
   newCity = '';
 
+  
+prueboName2 = '';
+@ViewChild('unValor', { static: false }) unValor: ElementRef;
+
   @Output() eventoCity = new EventEmitter<{city: string, alim: string}>();
  
   /* referencia local que podria ser el mismo compnente */ 
@@ -109,6 +113,16 @@ export class MyTestFormComponent implements OnInit {
        return 'blue';
      }
    } */
+   changeName1() {
+    this.prueboName2 = this.unValor.nativeElement.value;   
+    confirm('probando ' + this.prueboName2);
+    }
+   changeName2(event: Event) {
+    this.prueboName2 = (event.target as HTMLInputElement).value;
+    confirm('prueboName ' + this.prueboName2);
+  }
+
 }
+
 
 

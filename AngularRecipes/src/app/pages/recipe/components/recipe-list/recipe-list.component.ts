@@ -23,10 +23,9 @@ recipes: Recipe[];  // subject
 private ingresdUnsuscribe: Subscription;
 
 prueboName1 = '';
-prueboName2 = '';
 title = '';
 
-@ViewChild('unValor', { static: false }) unValor: ElementRef;
+
 
 
 // @Output() otroDetalle = new EventEmitter<Recipe>();
@@ -58,7 +57,7 @@ title = '';
     this.ingresdUnsuscribe.unsubscribe();
   }
 
-  onNewRecipe(i: number) {
+  onNewRecipe() {
     this.router.navigate(['new'], {relativeTo: this.route});
     // navega a new relativo a que ya estoy parado en recipe
   }
@@ -68,15 +67,7 @@ title = '';
     this.otroDetalle.emit(rec);     
   }*/
 
-  changeName1() {
-    this.prueboName1 = this.unValor.nativeElement.value;   
-    confirm('probando ' + this.prueboName1);
-    }
-
-  changeName2(event: Event) {
-    this.prueboName2 = (event.target as HTMLInputElement).value;
-    confirm('prueboName ' + this.prueboName2);
-  }
+ 
 
   cambio(value: string){
     confirm(value + ' cambio');
