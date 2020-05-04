@@ -3,6 +3,8 @@ import { Recipe } from 'src/app/pages/recipe/recipe.model';
 
 @Pipe({
   name: 'convertToK'
+
+  /* Lo estoy usando en recipe list componente, en la parte que esta comentada  */
 })
 export class ConvertToKPipe implements PipeTransform {
 

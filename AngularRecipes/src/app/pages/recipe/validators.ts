@@ -10,6 +10,13 @@ export class ValidatorsRecipes {
         return null;
     }
 
+    static nameLength (control: FormControl): {} {
+        if ( control.value.length > 20) {
+            return ({nameMaxLength: true});
+        }
+        return null;
+    }
+
     static asyncMailForbidden(control: FormControl): Promise<any> | Observable<any> {
         const res = new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -21,6 +28,13 @@ export class ValidatorsRecipes {
             }, 2000);
         });
         return res;
+    }
+
+    static descMaxLength(control: FormControl): { [sdt: string]: boolean } {
+        if (control.value.length < 4) {
+            return ({ minimoLength: true });
+        }
+        return null;
     }
 
 }

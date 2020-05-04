@@ -1,19 +1,14 @@
-<p>recipe-edit works!</p>
-
-<!-- <div class="row"> -->
 
 <!--  **************   EDIT  template *********************** -->
-
+<!-- 
 <div class="col-xs-12" *ngIf="editMode" [ngClass]="{myColorEdit: editMode}">
-    <h1>EDIT of {{id}} + {{recipeName|uppercase}}</h1>
+    <h1>EDIT of {{id}} + {{nameEditDEfault|uppercase}}</h1>
     <p><q>Form template</q></p>
     <span *ngIf="!formEdit.valid && formEdit.touched" style="color: red;">
         Invalid Data
     </span>
     <form #formEdit="ngForm" 
-            (ngSubmit)="onEditForm()"><!-- obtengo referencia al form , al control con #xx
-                                        [ngModel] = "unaMascota" trae a la prop unaMascota  
-                                    [(ngModel)]="answer" carga y trae la prop answer y la muestra en el area-->
+            (ngSubmit)="onEditForm()">
         <div class="form-group">
             <label for="nameEdit">Name</label>
             <input class="form-control" 
@@ -26,10 +21,6 @@
             title="Name"
             required  >
         </div>
-        <!-- #nameEdit="ngModel" obtengo referencia a este control  -->
-        <!-- Lo pondria asi 
-[(ngModel)]="forDefaultQuestions" para enlace unidereccional, y carga select por defecto 
-     forDefaultQuestions = ' pet'; -->
 
         <span class="help-block" *ngIf="!nameEdit.valid && nameEdit.touched" style="color: red;">
             required
@@ -58,16 +49,6 @@
         <span class="help-block" *ngIf="!descripEdit.valid && descripEdit.touched">Invalid description
         </span>
 
-
-        <!--  id = 0;
-    name: string;
-    description: string;
-    imageUrl: string;
-    timeStamp: Date;
-    ingredients: Ingredient[];
-    rating: number; -->
-
-
         <button class="btn btn-success" type="submit" [disabled]="!formEdit.valid"
             style="width: 50%; border-color: rgb(50, 73, 205)">
             Submit
@@ -77,10 +58,18 @@
             Add values
         </button>
     </form>
-
-</div>
+</div> -->
+<!--con #formEdit="ngForm"  obtengo referencia al form , al control con #xx
+    [ngModel] = "unaMascota" trae a la prop unaMascota  
+    [(ngModel)]="answer" carga y trae la prop answer y la muestra en el area-->
+    
+<!-- #nameEdit="ngModel" obtengo referencia a este control  -->
+<!-- Lo pondria asi 
+[(ngModel)]="forDefaultQuestions" para enlace unidereccional, y carga select por defecto 
+     forDefaultQuestions = ' pet'; -->
 
 <!--  **************   NEW   reactive *********************** -->
+<!-- 
 <div class="col-xs-12" *ngIf="!editMode" [ngClass]="{myColorNew: !editMode}">
     <h1>NEW</h1>
     <p><q>Form reactive</q></p>
@@ -97,7 +86,7 @@
                         placeholder="Name">
                 </div>
                 <span *ngIf="!formNewRecipe.get('name').valid && formNewRecipe.get('name').touched" class="help-block"
-                    style="color: hotpink;">
+                    style="color: red;">
                     <span *ngIf="formNewRecipe.get('name').errors['required']">
                         enter data
                     </span>
@@ -112,16 +101,19 @@
                 </textarea>
                 </div>
                 <span *ngIf="!formNewRecipe.get('description').valid && formNewRecipe.get('description').touched"
-                    class="help-block" style="color: hotpink;">
+                    class="help-block" style="color: red;">
                     <span *ngIf="formNewRecipe.get('description').errors['required']">
                         enter data
                     </span>
                     <span *ngIf="formNewRecipe.get('description').errors['noPermite']">
                         not valid
                     </span>
-                    <!-- <span *ngIf="formNewRecipe.get('description').errors['maxLength']">
+                    <span *ngIf="formNewRecipe.get('description').errors['maxLength']">
                             max 10
-                        </span> -->
+                        </span> 
+                    <span *ngIf="formNewRecipe.get('description').maxLength">
+                            max 10
+                        </span> 
                 </span>
 
                 <div class="form-group">
@@ -130,7 +122,7 @@
                         name="ingredients" title="ingredients" placeholder="Name">
                 </div>
                 <span *ngIf="!formNewRecipe.get('ingredients').valid && formNewRecipe.get('ingredients').touched"
-                    class="help-block" style="color: hotpink;">
+                    class="help-block" style="color: red;">
                     <span *ngIf="formNewRecipe.get('ingredients').errors['required']">
                         enter data
                     </span>
@@ -146,7 +138,7 @@
                         title="rating" placeholder="rating">
                 </div>
                 <span *ngIf="!formNewRecipe.get('rating').valid && formNewRecipe.get('rating').touched"
-                    class="help-block" style="color: hotpink;">
+                    class="help-block" style="color: red;">
                     <span *ngIf="formNewRecipe.get('rating').errors['required']">
                         enter data
                     </span>
@@ -163,40 +155,38 @@
             </form>
         </div>
     </div>
+</div> -->
 
-</div>
-
-<!--  **************   NEW RECIPE  Form  reactive *********************** -->
-
-<div class="flex-container" >
-    <div class="col-xs-12" *ngIf="!editMode" id="forms">
-        <h3>New Recipe<i> (form reactive)</i></h3>
+<!--  **************   NEW RECIPE  Form  reactive , confirmado*********************** -->
+<div class="flex-container"  >
+    <div class="col-xs-12" id="forms" [ngClass]="{myColorNew: editMode, myColorEdit:!editMode}"
+            >
+        <h3>{{title}}<i> (form reactive)</i></h3>
 
         <div *ngIf="!fgNew.valid && fgNew.touched">
-            <p style="color: rgb(4, 7, 189); text-align: center;">PLEASE ENTER VALID DATA ! o chupame la verga</p>
+            <p style="color: rgb(4, 7, 189); text-align: center;">PLEASE ENTER VALID DATA </p>
         </div>
 
         <form [formGroup]='fgNew' 
-                (ngSubmit)='onSubmitThis()'>
+                (ngSubmit)='onSubmitThisRecipe()'>
+
             <div class="form-group">
                 <label for="">Name</label>
                 <input class="form-control"
                     formControlName= "nombre"
-                    name="nombre"
-                    
+                    name="nombre"                    
                     type="text" id="nombre"
                     placeholder="Nombre" title="Nombre">
             </div>
-            <!--  -->
-            <span class="help-block" style="color: hotpink;"
-                  *ngIf="fgNew.get('nombre').valid && fgNew.get('nombre').touched">                  
-                <span *ngIf="fgNew.get('nombre').errors['required']">Nombre requerido si o si</span>
-                 </span>
-<!--  <span *ngIf="fgNew.get('nombre').errors['maxLength']">Largo max 14</span>
-                <span *ngIf="fgNew.get('nombre').required">Req</span>
-                <span *ngIf="fgNew.get('nombre').errors['nombreProhibido']">No puede ingresar ese nombre</span>
-                <span *ngIf="fgNew.get('nombre').errors['nameIsForbiddenObject']">No puede ingresar ese nombre</span>
-           -->
+            <span class="help-block" style="color: red;"
+                  *ngIf="!fgNew.get('nombre').valid && fgNew.get('nombre').touched">                  
+                            <span *ngIf="fgNew.get('nombre').errors['required']">Nombre requerido si o si</span>                 
+                            <span *ngIf="fgNew.get('nombre').errors['nameMaxLength']">Largo max 20</span>
+                            <span *ngIf="fgNew.get('nombre').required">Req</span>
+                            <span *ngIf="fgNew.get('nombre').minLength">Min 4</span>
+                            <span *ngIf="fgNew.get('nombre').errors['nombreProhibido']">No puede ingresar ese nombre</span>
+                            <span *ngIf="fgNew.get('nombre').errors['nameIsForbiddenObject']">Imposible nombre</span>
+            </span>
             <div class="form-group">
                 <label for="">Description</label>
                 <textarea  id="" cols="10" rows="3"
@@ -208,27 +198,37 @@
                     placeholder="Descripcion" id="descripcion">
                 </textarea>
             </div>
-            <span *ngIf="!fgNew.get(descripcion).valid && fgNew.get(descripcion).touched">descripcion invalid</span>
+            <span class="help-block" style="color: red;"
+                *ngIf="!fgNew.get('descripcion').valid && fgNew.get('descripcion').touched">
+                    <span *ngIf="fgNew.get('descripcion').errors['minimoLength']"> you have a issue,min length = 3</span>
+                <!-- descripcion invalid -->
+            </span>
 
             <div class="form-group">
                 <label for="imagePath">Image URL</label>
                 <input class="form-control"
                     formControlName= "imagePath"
                     name="imagePath"                    
-                    type="text" id="imagePath"
+                    type="text" 
+                    id="imagePath"
                     placeholder="Image URL" title="Image URL">
             </div>
-            <!-- para ver la image despues de pegar URL -->
-            <span class="help-block" style="color: hotpink;"
-                  *ngIf="fgNew.get('imagePath').valid && fgNew.get('imagePath').touched">                  
-                  imagePath
-            </span>
+           
+            <span class="help-block" style="color: red;"
+                  *ngIf="!fgNew.get('imagePath').valid && fgNew.get('imagePath').touched">                  
+                  Required URL
+            </span> 
 
+            <!-- para ver la image despues de pegar URL -->
+            
             <div class="col-xs-12">
-               <img src='{{imgDefault}}' alt="" class="img-responsive">
+               <img src= "recipeImagenPath"
+                    alt="recipeNameBuscado"
+                    class="img-responsive"
+                    tyle="max-height: 150px;">
             </div>
 
-            <div class="form-group">
+           <!--  <div >
                 <label for="image">Imagen</label>
                 <input class="form-control"
                     formControlName="image"
@@ -236,63 +236,96 @@
                     type="image"
                     id="image" 
                     >
-            </div>
-            <span *ngIf="!fgNew.get(image).valid && fgNew.get(image).touched"
-                style="color: blue;">Imagen invalida
-            </span>
+            </div>  -->
 
-            <div class="form-group">
-                <label for="">Ingredientes</label>
-                <input type="text"
-                    class="form-control"
-                    formControlName="ingres"
-                    name="ingres" id="ingres"
-                    >
-            </div>
-            <span *ngIf="!fgNew.get(ingres).valid && fgNew.get(ingres).touched"
-                 style="color: blue;">Imagen invalida
-            </span>
-
-            <!-- ingredientes -->
+            <br><br>
             <div class="row">
-                <label for="Ingredientes">Ingredientes</label>
-                <div class="col-xs-12">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <input type="text"
-                                class="form-control"
-                                placeholder="Ingtredient"
-                                id="ingredienteNew">
-                        </div>
-                        <div class="col-xs-2">
-                            <input type="number"
-                                    class="form-control"
-                                    placeholder="Quantity"
-                                    id="quantyti">                                    
-                            </div>
-                        <div class="col-xs-2">
-                               <div class="button btn btn-default">
-                                   +
-                               </div>
-                        </div>
+                <div class="form-group">
+                    <div class="col-xs-6 col-xs-offset-1">
+                        <label for="rating">Rating</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input class="form-control" formControlName="rating" name="rating" type="number" id="rating"
+                            >
                     </div>
                 </div>
             </div>
-            
-            <div class="rew">
-                <div class="col-xs-12">
-                    <button type="submit" [disabled]="!fgNew.valid" class="btn btn-success" style="width: 50%;">
-                        SAVE
-                    </button>
-                    <button type="button" [disabled]="!fgNew.valid" class="btn btn-danger" style="width: 50%;">
-                        CANCEL
-                    </button>
+            <span class="help-block" style="color: red;"
+                  *ngIf="!fgNew.get('rating').valid && fgNew.get('rating').touched">                  
+                  Required rating
+            </span> 
+
+           <!--  <div class="form-group">
+                <select 
+                        class="form-control"
+                        formControlName="rating"
+                        name="rating" id="rating">
+                    <optgroup value="rating">
+                        {{rating}}                        
+                    </optgroup>
+                </select>
+            </div> -->
+
+
+            <!-- ingredientes -->
+            <div class="row">                               
+                <div class="col-xs-12" 
+                    formArrayName="ingres">  <!-- este es del control ts y le asigno esos nobres a c/control --> 
+                    <label for="">Ingredientes</label> 
+                    <div class="row" *ngFor="let ingCtrl of fgNew.get('ingres').controls; let i = index" [formGroupName]="i"
+                        style="margin-top: 10px;">
+                        <!-- recorro del control ts el de ingredientes y obtengo controlName, lo que se asigna que en esta área, vamos a manejar esta variedad de controles. -->
+                        <div class="col-xs-7">
+                            <input type="text" class="form-control" formControlName="name" placeholder="Ingtredient" id="name">
+                        </div>
+                        <!-- <span class="help-block" style="color: red;"
+                             *ngIf="!fgNew.get('ingres.name').valid">
+                            name invalid
+                        </span> -->
+                        <div class="col-xs-3">
+                            <input type="number" class="form-control" formControlName="amount" placeholder="Quantity" id="amount">
+                        </div>
+                       <!--  <span class="help-block" style="color: red;" *ngIf="!fgNew.get('amount').valid && fgNew.get('amount').touched">
+                            amount invalid
+                        </span> -->
+                        <div class="col-xs-2">
+                            <button class="button btn btn-default">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                    <span class="help-block" style="color: red;"
+                             *ngIf="!fgNew.get('ingres').valid">
+                           Data of ingredient invalid
+                        </span>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button 
+                                class="btn btn-default" style="background-color: aquamarine; width: 100%;"
+                                type="button"   
+                                (click)="onAddIngredient()">
+                                Add ingredient
+                            </button>
+                        </div>                        
+                    </div>                    
                 </div>
             </div>
+            <br>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="submit" [disabled]="!fgNew.valid" class="btn btn-success" style="width: 50%;">
+                            SAVE
+                        </button>
+                        <button type="button"  class="btn btn-danger" style="width: 50%;">
+                            CANCEL
+                        </button>
+                    </div>
+                </div>
             
-            </form>
+        </form>
     </div>
-    <div class="col-xs-12"><!--  --></div>
+   
 </div>
 
 <!-- [ngClass]="{myOdd: ev % 2 !== 0}"

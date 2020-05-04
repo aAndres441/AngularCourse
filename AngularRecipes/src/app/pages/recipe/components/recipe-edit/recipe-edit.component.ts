@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
-import { FormGroup, FormControl, Validators, NgForm, FormControlName } from '@angular/forms';
+import { FormGroup, FormControl, Validators, NgForm, FormControlName, FormArray } from '@angular/forms';
 import { Recipe } from '../../recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 import { ValidatorsRecipes } from '../../validators';
@@ -13,14 +13,19 @@ import { ValidatorsRecipes } from '../../validators';
 })
 export class RecipeEditComponent implements OnInit { // , OnDestroy
 
+  title = 'New recipe';
+
   id: number;
   editMode = false;
-  /* myObsInterval: Subscription;*/
+
   recipeName: string;
+
+  /* myObsInterval: Subscription;*/
+  
   recipe1: Recipe;
   formNewRecipe: FormGroup;
 
-  /* new recipe form reactive */
+  /* new recipe form reactive, confirmado */
   fgNew: FormGroup;
   forbbidenUsernames = ['Guiso', 'Asado'];
   imgDefault = 'src\assets\Imagenes\flor Pajarito.jpg';
@@ -68,6 +73,8 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
 
         this.editMode = param.id != null;
         
+        this.initForm();  // estoy usando esto
+        
         /* this.router.navigate(['recipes', this.id , 'edit'], {
           queryParams: { ID: this.id },
           fragment: 'editing'
@@ -95,6 +102,8 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
         this.idEditDefault = this.recipe1.id;
         this.descriptionEditDefault = this.recipe1.description;
 
+        this.recipeName = this.recipe1.name;
+
        /*  this.f.form.patchValue({
           nameEdit: this.recipe1.name,
           idEdit: this.id,
@@ -103,7 +112,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
       }
     );
 
-      /* New recipe, reactive */
+      /* New recipe, reactive, no lo estoy usando */
     this.formNewRecipe = new FormGroup({
         name: new FormControl('Rabos', Validators.required),
         description: new FormControl(null, [Validators.required, 
@@ -119,30 +128,57 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
       ); */
 
       /********************New recipe form reactive********************** */
-      /* username: new FormControl('Andres', [Validators.required , 
-                                              Validators.minLength(10), 
-                                              this.forbbidenNames.bind(this)]), */
-    this.fgNew = new FormGroup({
-      nombre: new FormControl('ale', [Validators.required, 
-                                Validators.maxLength(14),
-                              this.forbbidenNames.bind(this),
-                            ValidatorsRecipes.nameForbidden]),
-      descripcion: new FormControl(null, [Validators.required]),
-      imagePath: new FormControl('src\assets\Imagenes\flor Pajarito.jpg', Validators.required),
-      image: new FormControl(null),
-      ingres: new FormControl(null)
-      });
-      /* nombre: new FormControl('ale',[Validators.required,
-                            Validators.minLength(4),
-                          this.forbbidenNames.bind(this),
-                          ValidatorsRecipes.nameForbidden]), */
    
+      /* CREO un metodo initForm() que lo inicia si es editMode o no */
+      
      /* solo para mostrar */
     /* this.fgNew.statusChanges.subscribe(
       (value) => alert(value)
     ); */
 
    /* ***************  termina OnInit() ****************/
+  }
+
+  private initForm() {
+    
+    let recipeNameBuscado = '';
+    let recipeImagenPath = '';
+    let recipeDecripBuscada = '';
+    let recipeBuscadaRating = null;
+    const recipeIngredientsBuscado = new FormArray([]);
+
+    if (this.editMode) {
+      this.title = 'My Recipe';
+      const recipeBuscada = this.servicio.getOneRecipe(this.id);
+      recipeNameBuscado = recipeBuscada.name;
+      recipeImagenPath = recipeBuscada.imageUrl;
+      recipeDecripBuscada = recipeBuscada.description;
+      recipeBuscadaRating =  recipeBuscada.rating;
+      if (recipeBuscada.ingredients) {
+        for (const ing of recipeBuscada.ingredients) {
+          recipeIngredientsBuscado.push(
+            new FormGroup({
+              name: new FormControl(ing.name, Validators.required),
+              amount: new FormControl(ing.amount, [ Validators.required,
+                                     Validators.pattern(/^[1-9]+[0-9]*$/)])
+            })
+          );
+        }
+      }
+    }
+
+    this.fgNew = new FormGroup({
+      nombre: new FormControl(recipeNameBuscado, [Validators.required,
+                            Validators.minLength(4),
+                            ValidatorsRecipes.nameLength,
+                            this.forbbidenNames.bind(this),
+                            ValidatorsRecipes.nameForbidden]),
+      descripcion: new FormControl(recipeDecripBuscada, [Validators.required,
+                                                        ValidatorsRecipes.descMaxLength]), // , Validators.minLength(4)
+      imagePath: new FormControl(recipeImagenPath, Validators.required),
+      rating: new FormControl(recipeBuscadaRating, Validators.required),
+      ingres: recipeIngredientsBuscado
+    });
   }
 
   /* ngOnDestroy(): void {
@@ -208,5 +244,47 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
     }
     return null;
   }
+
+  onSubmitThisRecipe() {
+    console.log(this.fgNew);
+  }
+  
+  get controls() { // a getter!
+    return (this.fgNew.get('ingredients') as FormArray).controls;
+  }
+  getControls() {
+    return (this.fgNew.get('ingredients') as FormArray).controls;
+  }
+
+  onAddIngredient() {
+   /*   const control = new FormControl(null, Validators.required);
+     this.getControls().push(control);
+ */
+   //  (this.fgNew.get('ingres') as FormArray).controls.push(
+     (this.fgNew.get('ingres') as FormArray).controls.push(
+      new FormGroup({
+        name: new FormControl(null, Validators.required),
+        amount: new FormControl(null, [Validators.required,
+                              Validators.pattern(/^[1-9]+[0-9]*$/)])
+      })
+    ); 
+    /* alert ('SON ' + control.value ); */
+    
+
+     alert('esto' + this.fgNew.get('nombre').value);
+     alert('tambien ' +  this.fgNew.value.nombre);
+     alert('Ahora ' +  this.fgNew.controls.name.value);
+
+    // seteo inputs
+    /*  this.fgNew.patchValue({
+      descripcion: 'Feni feni',
+      nombre: 'Alberto'
+    }); */
+  }
+
+  getColor() {
+    return this.editMode  ? 'yellow' : 'black';
+  }
+
 
 }

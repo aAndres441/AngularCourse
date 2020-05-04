@@ -1,10 +1,9 @@
 <!-- <p style="background-color: rgb(222, 236, 20)">recipe-details works!</p>
  -->
  <div>
-     <h2 style="color: cadetblue;">
+     <h2 style="color: cadetblue;" style="text-align: center;">
         {{recipeDet.name|uppercase}} <br>
-        DATOS <br>
-        {{recipeDet.toString()}}
+       <!--  {{recipeDet.toString()}} -->
      </h2>
  </div>
 
@@ -32,10 +31,10 @@
 </div>
 <hr style="color: violet;">
  
-<h2 style="text-align: left; color: darkmagenta;">Detail</h2>
-<p>Title 1: {{dato|uppercase}}</p>
+<h2 style="text-align: left; color: darkmagenta;">Details</h2>
+<!-- <p>Title 1: {{dato|uppercase}}</p>
 <p>Title 2:  {{recName|uppercase}}</p>
-<p>Title 2:  {{recipeDet.name|uppercase}}</p>
+<p>Title 2:  {{recipeDet.name|uppercase}}</p> -->
 <!-- Esto de abajo seria para cuando paso los datos por emmiter -->
 <div class="row">
     <div class="col-xs-4">Rating:</div>
@@ -49,7 +48,6 @@
     </div>
 </div>
 
-<h2> {{recName}} - </h2>
 <!-- {{recipeDet.rating}} -->
 <div class="row">
     <div class="col-xs-4">
@@ -59,21 +57,19 @@
         <h4>Rating: {{recipeDet.rating | currency:'Rating ': true: '1.2-2'}}</h4>
     </div>
     <div class="col-xs-4">
-        <h4> Name: {{recName}}</h4>
+        <h4> ID = {{recipeDet.id}}</h4>
     </div>    
 </div>
 
 <div class="row">
-    Imagen
     <div class="col-xs-12">
         <img [src]="recipeDet.imageUrl" alt="{{recipeDet.name}}" class="img-responsive" style="max-height: 150px;">
     </div>
     <hr>
 </div>
 <div class="row">
-    <div class="col-xs-12">
-        <h4>Description:</h4>
-        ID = {{recipeDet.id}}
+    <div class="col-xs-12" style="color: rgb(164, 56, 173);">
+        <h4 >Description:</h4>        
         {{recipeDet.description}}
 </div>
 <div class="row">

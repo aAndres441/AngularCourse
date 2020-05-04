@@ -5,7 +5,6 @@
         </button>
     </div>
     <div class="col-xs-12">
-        <h4>Form</h4>
         <form class="navbar-form navbar-right" action="/" styles=" ">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search" style="color: blueviolet; width: 40%;"
@@ -45,17 +44,12 @@
             -->
         </button>
 
-        <h3><em>List of rec issue</em></h3>
-        <div class="list-group">
-            <!-- servidor con id 5,y luego la ruta creada para esto en routers -->
-            <!-- [routerLink]="['/recipes', rec.id]"
-                [queryParams]="{feniEdit:'1'}"
-                fragment='loading' -->
-
+        <h4><em>List of rec issue con PIPES</em></h4>
+        <!-- <div class="list-group">           
             <a class="list-group-item" *ngFor="let rec of recipes; let i = index">
                 <h3>{{ rec.name | convertToK: 'S'}} - {{rec.id}} - rating: {{rec.rating}} </h3>
-                <!-- <h3>{{ rec.name | convertToK: '-'}} - {{rec.id}}</h3> -->
+                
             </a>
-        </div>
+        </div> --><!-- <h3>{{ rec.name | convertToK: '-'}} - {{rec.id}}</h3> -->
     </div>
 </div>
