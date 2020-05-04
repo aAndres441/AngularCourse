@@ -45,7 +45,6 @@ title = '';
     this.recipes = this.servicioRecipe.getRecipe(); */
 
     // y aca veo los cambios en la copia y los guardo, no seria necesario si trabajo sin slice()
-   // this.servicioRecipe.recipesChanged
     this.ingresdUnsuscribe = this.servicioRecipe.recipesChanged2
     .subscribe(
       (recips: Recipe []) => {

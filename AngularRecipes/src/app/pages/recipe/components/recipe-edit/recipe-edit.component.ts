@@ -56,7 +56,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
               private servicio: RecipeService) { }
 
   ngOnInit() {
-    /* invento interval
+    /* invento interval y luego lo destruyo en OnDestroy()
     this.myObsInterval = interval(1000).subscribe(count => {
       alert(count + ' yes');
    } ); */
@@ -96,15 +96,13 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
           });
         } */
 
-        this.recipe1 = this.servicio.getOneRecipe(this.id);
+      /*   this.recipe1 = this.servicio.getOneRecipe(this.id);
 
         this.nameEditDEfault = this.recipe1.name;
         this.idEditDefault = this.recipe1.id;
         this.descriptionEditDefault = this.recipe1.description;
-
         this.recipeName = this.recipe1.name;
-
-       /*  this.f.form.patchValue({
+          this.f.form.patchValue({
           nameEdit: this.recipe1.name,
           idEdit: this.id,
           descripEdit: this.recipe1.description
@@ -123,7 +121,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
         imagen: new FormControl(null)
       });
 
-   /*  this.formNewRecipe.statusChanges.subscribe(
+   /*  this.formNewRecipe.statusChanges.subscribe
         (valor) => alert (valor)
       ); */
 
@@ -246,7 +244,17 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   }
 
   onSubmitThisRecipe() {
-    console.log(this.fgNew);
+    const newReci = new Recipe(this.id,
+                  this.fgNew.value.nombre,
+                  this.fgNew.value.descripcion,
+                  this.fgNew.value.imagePath,
+                  this.fgNew.value.rating,
+                  this.fgNew.value.ingres);
+    if (this.editMode) {
+      this.servicio.updateRecipe(this.id, this.fgNew.value); // this.fgNew.value  newReci
+    } else {
+      this.servicio.addRecipe(newReci); // this.fgNew.value()
+    }
   }
   
   get controls() { // a getter!
@@ -270,10 +278,10 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
     ); 
     /* alert ('SON ' + control.value ); */
     
-
+/* 
      alert('esto' + this.fgNew.get('nombre').value);
      alert('tambien ' +  this.fgNew.value.nombre);
-     alert('Ahora ' +  this.fgNew.controls.name.value);
+     alert('Ahora ' +  this.fgNew.controls.name.value); */
 
     // seteo inputs
     /*  this.fgNew.patchValue({

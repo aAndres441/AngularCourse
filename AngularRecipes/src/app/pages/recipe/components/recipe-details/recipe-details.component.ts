@@ -83,14 +83,10 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
 
     // pruebo Subject, me parece que no deberia pasar a la misma vez la receta por url, por eso que no anda is lo hago.
        // Para Subject: acordarse de ondestroy y de asignar variable para desuscript
-    this.deactivatedSuscription = this.recipeService.recipeSelectSub.subscribe(dato => {
+   /*  this.deactivatedSuscription = this.recipeService.recipeSelectSub.subscribe(dato => {
       this.recipeSubj = dato;
       alert ( ' ToString ' + this.recipeSubj.toString());
-    });
-    this.feni = this.recipeService.recipeSelectSub.subscribe(dar => {
-      this.unName = dar.name;
-      alert ( ' NAME ' + this.unName);
-    });
+    }); */
 
   }
 
@@ -99,8 +95,7 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.deactivatedSuscription.unsubscribe();
-    this.feni.unsubscribe();
+    /* this.deactivatedSuscription.unsubscribe();*/
   }
 
   onAddToShoppingList() {

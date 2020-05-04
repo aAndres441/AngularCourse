@@ -10,12 +10,10 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 
-export class RecipeService {
+export class RecipeService {  
 
-  recipeSelected = new EventEmitter<Recipe>(); // ya no va, sera subject
-  recipesChanged = new EventEmitter<Recipe[]>(); // ya no va, sera subject
+  // recipeSelected = new EventEmitter<Recipe>(); // ya no va, sera subject, es usado en datail
  
-  recipeSelected2 = new Subject<Recipe[]>();
   recipesChanged2 = new Subject<Recipe[]>();
 
   recipeSelectSub = new Subject<Recipe>();
@@ -124,4 +122,15 @@ export class RecipeService {
      luego se retorna todo receta cuyo nombre pasado a min contenga lo escrito en el filtro. */
   }
 
+  updateRecipe(index: number, newRecipe: Recipe) {
+    alert('UPDATE ' + newRecipe.name);
+    this.recipes[index] = newRecipe;
+    this.recipesChanged2.next(this.recipes.slice());
+  }
+
+  addRecipe(newRecipe: Recipe) {
+    alert('ADD ' + newRecipe.name);
+    this.recipes.push (newRecipe);
+    this.recipesChanged2.next(this.recipes.slice());
+  }
 }
