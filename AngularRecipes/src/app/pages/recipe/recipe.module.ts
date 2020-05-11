@@ -18,6 +18,8 @@ import {
   RecipeComponent
 } from './container/index';
 
+import { RecipeService } from './services/recipe.service';
+
 const COMPONENTS =
   [
     RecipeDetailsComponent,
@@ -47,6 +49,8 @@ const MODULES = [
     ...MODULES,
     SharedModule
   ],
+
+  // providers: [RecipeService], // aca agrego pues la uso en otros componentes de receta
 
    exports: [
      ...COMPONENTS,

@@ -43,7 +43,7 @@ export class ListServerComponent implements OnInit {
     );     */
 
 
-    confirm('this.server.name');
+    confirm('this.server.name of on init ListServerComponent');
   }
 
   onEdit() {

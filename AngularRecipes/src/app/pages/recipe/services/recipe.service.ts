@@ -14,16 +14,17 @@ export class RecipeService {
 
   // recipeSelected = new EventEmitter<Recipe>(); // ya no va, sera subject, es usado en datail
  
-  recipesChanged2 = new Subject<Recipe[]>();
+  recipesChanged = new Subject<Recipe[]>();
 
   recipeSelectSub = new Subject<Recipe>();
+  recipeSelectSub2 = new Subject<Recipe>();
 
   recipesListFilter: Recipe[];
   valueToFilter: string;
 
   private recipes: Recipe[] = [
     new Recipe(
-      1,
+      /* 1, */
       'Hamburger',
        ' Your favorite ',
         'https://tse3.mm.bing.net/th?id=OIP.EGdTtAxNa5-tdD2sRmwXSAHaE5&pid=Api&P=0&w=253&h=168',
@@ -37,7 +38,7 @@ export class RecipeService {
          5,
         ),
     new Recipe (
-      2,
+     /*  2, */
       'Salad',
        'Very fresh',
        // tslint:disable-next-line: max-line-length
@@ -50,7 +51,7 @@ export class RecipeService {
       3
       ),
     new Recipe(
-      3,
+      /* 3, */
       'Stew',
        ' Not only winter ',
         'https://i.ytimg.com/vi/qZoG3St1HAc/maxresdefault.jpg',
@@ -62,7 +63,7 @@ export class RecipeService {
         2
         ),
     new Recipe (
-      4,
+      /* 4, */
       'Sauce',
        'Only organic food',
        // tslint:disable-next-line: max-line-length
@@ -83,7 +84,7 @@ export class RecipeService {
     // alert('constructor' + this.recipesListFilter.length)
    }
 
-  getRecipe(): Recipe[] {
+  getRecipes(): Recipe[] {
     return this.recipes.slice();  // devuelve una copia de la matriz
   }
 
@@ -102,10 +103,10 @@ export class RecipeService {
   }
 
   getRecipesListFilter(): Recipe[] {
-    this.recipesListFilter = this.recipes.slice();
+  return  this.recipesListFilter = this.recipes.slice();
    // alert(this.recipesListFilter.length+'-'+this.recipes.slice().length)
-    return this.recipesListFilter;
   }
+
   setRecipesListFilter(data: string): void {
     this.valueToFilter = data;
     this.recipesListFilter = this.recipes ? this.myFilterRecip(this.valueToFilter) : this.recipes;
@@ -123,14 +124,25 @@ export class RecipeService {
   }
 
   updateRecipe(index: number, newRecipe: Recipe) {
-    alert('UPDATE ' + newRecipe.name);
+    // alert('UPDATE ' + newRecipe.rating);
     this.recipes[index] = newRecipe;
-    this.recipesChanged2.next(this.recipes.slice());
+    this.recipesChanged.next(this.recipes.slice()); // this.recipes.slice() || this.getRecipes()
   }
 
   addRecipe(newRecipe: Recipe) {
-    alert('ADD ' + newRecipe.name);
     this.recipes.push (newRecipe);
-    this.recipesChanged2.next(this.recipes.slice());
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1); // elimino y abajo llamo a las actulizadas
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteAllRecipes(){
+    while (this.recipes.length) {
+      this.recipes.splice(0,1);
+    }    
+    this.recipesChanged.next(this.recipes.slice());
   }
 }

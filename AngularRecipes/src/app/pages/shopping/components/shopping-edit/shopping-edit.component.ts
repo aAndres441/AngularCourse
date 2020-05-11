@@ -72,20 +72,20 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       this.service.updateIngredient(this.editIndexItem, newIngr);
       this.textError = 'you update exelent';
       
-      this.router.navigate(['/shopping', this.editIndexItem, 'edit'],
+    /*  this.router.navigate(['/shopping', this.editIndexItem, 'edit'],
         /* {queryParams: { loEdito: 'si' },
           fragment: 'loading'
-        } */
-      );
+        } 
+      );*/
     } else {
       this.service.addIngredient(newIngr);
       this.textError = 'well add ' + this.f.value.name;
 
-      this.router.navigate(['/shopping', 'id', 'edit'],
+     /*  this.router.navigate(['/shopping', 'id', 'edit'],
         {
           queryParams: { new: 'ingredient' }
         }
-      );
+      ); */
     }
     this.editMode = false;
     this.f.reset();

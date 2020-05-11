@@ -6,7 +6,8 @@ import { ServerComponent } from './container/server.component';
 
 import {
     ListServerComponent,
-    EditServerComponent
+    EditServerComponent,
+    NewServerComponentComponent
   } from './components/index';
 
   
@@ -14,10 +15,14 @@ import { ErrorModule } from '../shared/error/error.module';
 import { SharedModule } from '../shared/shared.module';
 import { BorrarComponent } from '../borrar/borrar.component';
 
+import { ShortNamePipe } from './pipes/short-name.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
+
 const COMPONENTS =
 [
   ListServerComponent,
-   EditServerComponent
+   EditServerComponent,
+   NewServerComponentComponent
 ];
 
 const CONTAINER = [
@@ -34,7 +39,9 @@ const MODULES = [
 
   declarations: [
     ...COMPONENTS,
-    ...CONTAINER
+    ...CONTAINER,
+    ShortNamePipe,
+    FilterPipe
   ],
 
   imports: [

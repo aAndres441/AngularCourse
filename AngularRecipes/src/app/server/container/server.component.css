@@ -3,3 +3,10 @@ hr{
     border-color:rgb(187, 219, 6);
     margin-top: 1px;  
 } 
+.body2{
+    background-color:darkgrey;
+}
+a :hover{
+    color: rgb(151, 190, 88);
+    background-color: gainsboro;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ServersService } from '../servers.service';
 import { Router, ActivatedRoute, Data } from '@angular/router';
 import { Server } from '../server-model';
@@ -17,17 +17,23 @@ export class ServerComponent implements OnInit {
     allowNewServer = false;
     textButton = 'Boton Desactivado';
     name: string = '';
-    price: number;
+    price = 0;
     asistencia = true;
     borrar = 'Fenis';
     loggeadIn = false;
     showTextbutton = false;
 
+    filterStatus = '';
+    editMode = false;
+
+    /* referencia local que podria ser el mismo compnente */ 
+    @ViewChild('slider', { static: true }) unValor: ElementRef;
+
     numbers: number[] = [];
     cosas = [{ type: '', name: '', description: '' }];
 
     servers: { id: number, name: string, status: string }[] = [];
-    private servers2: any[] = [];
+    servers2: any[] = [];
     servers3: Server[] = [];
 
     private customers: any[] = [
@@ -48,7 +54,9 @@ export class ServerComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.servers = this.serversService.getServers();       
+        this.servers = this.serversService.getServers();
+
+        this.editMode = this.servers != null;
       }
 
     getServerStatus() {
@@ -92,8 +100,30 @@ export class ServerComponent implements OnInit {
     } */
 
     toAdd() {
-        alert('toAdd');
-        this.router.navigate(['list'], {relativeTo: this.route});
+        if (!this.editMode) {
+            this.router.navigate(['error'],
+                { relativeTo: this.route });
+        } else {
+            this.router.navigate(['new'],
+                {
+                    relativeTo: this.route,
+                    queryParamsHandling: 'preserve'
+                });
+        }
+        this.serversService.addServer( new Server(22, 'Olo', 'online', new Date(Date.now()), 'medium'));
     }
+        
 
+    getStatusClass(serv: Server) {
+        return{
+            'list-group-item-success': serv.status === 'online',
+            'list-group-item-warning': serv.status === 'offline',
+            'list-group-item-default': serv.status === 'stable',
+            'list-group-item-danger': serv.status === 'critical',
+        };
+    }
+    changePrice(event: Event) {
+        this.price = Number((event.target as HTMLInputElement).value); // (<HTMLInputElement>event.target).value   
+        // this.price2 = this.unValor.nativeElement.value; 
+      }
 }

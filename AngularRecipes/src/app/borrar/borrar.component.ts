@@ -10,7 +10,6 @@ export class BorrarComponent implements OnInit {
 
   name = 'Inicia';
   price = 0;
-  lastName = 'Manini noma';
 
   errorMessage: string;
 
@@ -22,12 +21,15 @@ export class BorrarComponent implements OnInit {
   changeName(event: Event) {
     this.name = (event.target as HTMLInputElement).value;
   }
+  
+  updateLastName(event): any {
+    this.name = event.target.value;
+  }
+
   changePrice(event: Event) {
     this.price = Number((event.target as HTMLInputElement).value); // (<HTMLInputElement>event.target).value    
   }
-  updateLastName(event): any {
-    this.lastName = event.target.value;
-  }
+  
   updatePrice(e): any {
     this.price = e.target.value;
   }

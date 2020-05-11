@@ -14,7 +14,10 @@
     <div class="row">
        
         <div class="col-xs-12 col-sm-6" >
-            <app-shopping-list *ngIf="ingredients; else infoText" (delete)="onDelete($event)" [txtError]="textoError">
+            <app-shopping-list 
+                *ngIf="ingredients; else infoText" 
+                (delete)="onDelete($event)" 
+                [txtError]="textoError">
             </app-shopping-list>
             <br>
             <ng-template #infoText>

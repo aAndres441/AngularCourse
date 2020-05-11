@@ -19,10 +19,10 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   editMode = false;
 
   recipeName: string;
-
+  numbers = [1, 2, 3];
   /* myObsInterval: Subscription;*/
   
-  recipe1: Recipe;
+  // recipe1: Recipe;
   formNewRecipe: FormGroup;
 
   /* new recipe form reactive, confirmado */
@@ -111,7 +111,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
     );
 
       /* New recipe, reactive, no lo estoy usando */
-    this.formNewRecipe = new FormGroup({
+    /* this.formNewRecipe = new FormGroup({
         name: new FormControl('Rabos', Validators.required),
         description: new FormControl(null, [Validators.required, 
                           this.notValidtDescrip.bind(this),
@@ -119,7 +119,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
         ingredients: new FormControl(null, Validators.required),
         rating: new FormControl(4, Validators.required),
         imagen: new FormControl(null)
-      });
+      }); */
 
    /*  this.formNewRecipe.statusChanges.subscribe
         (valor) => alert (valor)
@@ -138,12 +138,12 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   }
 
   private initForm() {
-    
+    /* let idBuscada = this.id; */
     let recipeNameBuscado = '';
     let recipeImagenPath = '';
     let recipeDecripBuscada = '';
     let recipeBuscadaRating = null;
-    const recipeIngredientsBuscado = new FormArray([]);
+    let recipeIngredientsBuscado = new FormArray([]);
 
     if (this.editMode) {
       this.title = 'My Recipe';
@@ -174,22 +174,74 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
       descripcion: new FormControl(recipeDecripBuscada, [Validators.required,
                                                         ValidatorsRecipes.descMaxLength]), // , Validators.minLength(4)
       imagePath: new FormControl(recipeImagenPath, Validators.required),
-      rating: new FormControl(recipeBuscadaRating, Validators.required),
+      rating: new FormControl(recipeBuscadaRating, [Validators.required,
+                                                  Validators.pattern(/^[1-9]+[0-9]*$/)]),
       ingres: recipeIngredientsBuscado
     });
+    /* ---termina initForm --------------- */
   }
 
   /* ngOnDestroy(): void {
     this.myObsInterval.unsubscribe();
   } */
-
-  notValidtDescrip(contyrol: FormControl): {[s: string]: boolean} {
-    if(contyrol.value === 'Test') {
-      return {noPermite : true};
+  
+  /* --------------- para form reactive  ((ACTUAL))  ---------------- */
+  onSubmitThisRecipe() {
+    /*puedo sustituir esta newRecipe por los valores del formulario,
+      ademas utilizo bien lo reactivo y no preciso importar Recipe.*/
+    const newReci = new Recipe(
+                  this.fgNew.value.nombre,
+                  this.fgNew.value.descripcion,
+                  this.fgNew.value.imagePath,
+                  this.fgNew.value.rating,
+                  this.fgNew.value.ingres);
+    if (this.editMode) {
+      this.servicio.updateRecipe(this.id, newReci); // this.fgNew.value || newReci
+    } else {
+      this.servicio.addRecipe(newReci); // this.fgNew.value() || newReci
     }
-    return null;
+     // llamo al cancel() al terminar el submit y asi vuelve a tras
+    this.onCancel();
+  }  
+
+  onCancel() {
+    // this.fgNew.reset();
+    this.router.navigate(['../'], {relativeTo: this.route});
+  }
+  
+  onAddIngredient() {
+   /*   const control = new FormControl(null, Validators.required);
+     this.getControls().push(control);
+ */
+   //  (this.fgNew.get('ingres') as FormArray).controls.push(
+     (this.fgNew.get('ingres') as FormArray).controls.push(
+      new FormGroup({
+        name: new FormControl(null, Validators.required),
+        amount: new FormControl(null, [Validators.required,
+                              Validators.pattern(/^[1-9]+[0-9]*$/)])
+      })
+    );      
+    /* alert ('SON ' + control.value ); */
+/* 
+     alert('esto' + this.fgNew.get('nombre').value);
+     alert('tambien ' +  this.fgNew.value.nombre);
+     alert('Ahora ' +  this.fgNew.controls.name.value); */
+
+    // seteo inputs
+    /*  this.fgNew.patchValue({
+      descripcion: 'Feni feni',
+      nombre: 'Alberto'
+    }); */
   }
 
+  onDeleteIngred(index: number) {
+    (this.fgNew.get('ingres') as FormArray).removeAt(index);
+  }
+  onDeleteAllIngredient(){
+    (this.fgNew.get('ingres') as FormArray).clear();
+  }
+
+  /* ---------------------para form template------------------------------*/
   onEditForm() {
     console.log(this.f);
     alert('Formulario es: ' + this.f.valid);
@@ -198,11 +250,9 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
                 // cargo los nombres (valor name del control) de los controles para guardar.
 
    /*  this.nameEditDEfault = this.f.value.nameEdit;
-    this.recipe2.name = this.f.value.nameEdit;
- */
-    alert('First name initial ' + this.recipe2.name.charAt(0) + '---');
-
-   
+    this.recipe2.name = this.f.value.nameEdit;*/
+ 
+    alert('First name initial ' + this.recipe2.name.charAt(0) + '---');   
     ///this.f.reset();
   }
   
@@ -225,6 +275,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
     }); */
   }
 
+   /* ---------------------termina form template------------------------------*/
   /* ERRORES */
   checkValidity(fieldName: string): boolean {
     return this.getErrorCodes(fieldName) !== null && this.fgNew.get(fieldName).touched;
@@ -242,52 +293,20 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
     }
     return null;
   }
-
-  onSubmitThisRecipe() {
-    const newReci = new Recipe(this.id,
-                  this.fgNew.value.nombre,
-                  this.fgNew.value.descripcion,
-                  this.fgNew.value.imagePath,
-                  this.fgNew.value.rating,
-                  this.fgNew.value.ingres);
-    if (this.editMode) {
-      this.servicio.updateRecipe(this.id, this.fgNew.value); // this.fgNew.value  newReci
-    } else {
-      this.servicio.addRecipe(newReci); // this.fgNew.value()
+  // validacion para formNewRecipe
+  notValidtDescrip(contyrol: FormControl): {[s: string]: boolean} {
+    if (contyrol.value === 'Test') {
+      return {noPermite : true};
     }
+    return null;
   }
-  
+
+  /*   ----------------  no lo estoy usando, solo prueba ------------------*/
   get controls() { // a getter!
     return (this.fgNew.get('ingredients') as FormArray).controls;
   }
   getControls() {
     return (this.fgNew.get('ingredients') as FormArray).controls;
-  }
-
-  onAddIngredient() {
-   /*   const control = new FormControl(null, Validators.required);
-     this.getControls().push(control);
- */
-   //  (this.fgNew.get('ingres') as FormArray).controls.push(
-     (this.fgNew.get('ingres') as FormArray).controls.push(
-      new FormGroup({
-        name: new FormControl(null, Validators.required),
-        amount: new FormControl(null, [Validators.required,
-                              Validators.pattern(/^[1-9]+[0-9]*$/)])
-      })
-    ); 
-    /* alert ('SON ' + control.value ); */
-    
-/* 
-     alert('esto' + this.fgNew.get('nombre').value);
-     alert('tambien ' +  this.fgNew.value.nombre);
-     alert('Ahora ' +  this.fgNew.controls.name.value); */
-
-    // seteo inputs
-    /*  this.fgNew.patchValue({
-      descripcion: 'Feni feni',
-      nombre: 'Alberto'
-    }); */
   }
 
   getColor() {

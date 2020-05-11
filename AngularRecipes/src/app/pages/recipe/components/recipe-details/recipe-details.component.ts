@@ -23,7 +23,7 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
  private feni: Subscription;
  /////////////////////////////
   id: number;
-  recName: string;
+  // recName: string;
   reverse = true;
   propertyName = 'Andres';
   collapsed = true;
@@ -72,18 +72,20 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
         this.recipeDet = this.recipeService.getOneRecipe(this.id);
         
         // mi invento abajo
-        this.dato = this.id === 1 || this.id === 0 ? 'si' : 'no';
+        this.dato = this.id <= 1 || this.id > 3 ? 'si' : 'no';
        // alert('this.dato = this.id === 1 || this.id === 0 ? si : no; ' +  this.dato);
         }
     );
    // this.route.fragment.subscribe();
 
-    this.recName = this.recipeDet.name;
+    // this.recName = this.recipeDet.name;
    // this.title = this.recipeDet.rating.toString();
 
     // pruebo Subject, me parece que no deberia pasar a la misma vez la receta por url, por eso que no anda is lo hago.
        // Para Subject: acordarse de ondestroy y de asignar variable para desuscript
-   /*  this.deactivatedSuscription = this.recipeService.recipeSelectSub.subscribe(dato => {
+       // el item avisa al servicio del cambio con recipeSelectSub.next() y este es llamado dede aca abajo y lo guardo, desuscribir luego.
+   /*  this.deactivatedSuscription = this.recipeService.recipeSelectSub
+    .subscribe(dato => {
       this.recipeSubj = dato;
       alert ( ' ToString ' + this.recipeSubj.toString());
     }); */
@@ -149,15 +151,20 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
     // las dos rutas de abajo son iguales
     this.router.navigate(['edit'], {relativeTo: this.route,
     queryParams: {ID: this.id},
-    fragment: this.recName}
-  );
-  
-     
+    fragment: this.recipeDet.name}
+  );       
      /* this.router.navigate(['../', this.id. 'edit'], {      
       queryParams: { ID: this.id },
       fragment: 'editing'
     }); */
    
+  }
+
+  onDeleteRecipe() {
+    /* if (this.id) { */
+      this.recipeService.deleteRecipe(this.id);
+      this.router.navigate(['recipes']);
+   /*  } */
   }
 
 }

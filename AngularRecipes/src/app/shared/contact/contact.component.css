@@ -133,3 +133,7 @@ calc(100vh - 140px) es aoo view eight que s lo que veo menos la suma de px*/
     background-color: rgb(245, 166, 170);
     grid-area: myFooter;
 }
+
+a:hover {
+  opacity: 0.8;
+}

@@ -131,6 +131,9 @@ calc(100vh - 140px) es aoo view eight que s lo que veo menos la suma de px*/
 .main{
   background-color: rgb(235, 225, 197);
 }
+.footer{
+  background-color: rgb(179, 204, 185);
+}
 
 /* AREA */
 /* fr=Fraccion, divide el entero en 4 fracciones */

@@ -57,14 +57,14 @@ private myInterval: Subscription;
     y tambien pasamos otro argumento ademas del la funcion data para suscribirse en el error*/
   
     /* OPERADORES usado en cualquiuer observable en este ej se hace en myCustomObs llamando a metodo pipe
-      importado de rxjs/operators, que puede tomar muchos argumentos juntos os o sea muchos operadores
+      importado de rxjs/operators, que puede tomar muchos argumentos juntos o sea muchos operadores
        como map, filter ... , ver en https://academind.com/  learnrxjs; separados por coma */
 
     this.myFirstObs = myCustomObs.pipe(  // filter(dato=>{}), map(dato=>{})
       filter(dato => {
       return dato > 1;  // retorna verdadero si ese dato de count es > 1,asi mostrara valores siguientes a 1    
     }), map(unDato => {
-      return 'Los datos desde pipe son: ' + unDato;
+      return 'Los datos desde pipe en home son: ' + unDato;
 
     })).subscribe(  
       /* aca suscribo el observable myCustomObs para usar esos datos, como primer argumento esta el dato,
@@ -74,6 +74,8 @@ private myInterval: Subscription;
      },
       () => { console.log('COMPLETED !'); alert('COMPLETED !'); }
     );
+
+    /*-------------  ACA TERMINA OnInit() ---------------------------*/
   }
 
   /* Seria asi sin pipe, ni map:

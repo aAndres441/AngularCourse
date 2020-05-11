@@ -1,9 +1,10 @@
 import { Timestamp } from 'rxjs';
 import { Ingredient } from 'src/app/shared/ingredient/ingredient.model';
 import { StarComponent } from 'src/app/shared/star/star.component';
+import { last } from 'rxjs/operators';
 
 export class Recipe {
-    id = 0;
+    
     name: string;
     description: string;
     imageUrl: string;
@@ -11,9 +12,9 @@ export class Recipe {
     ingredients: Ingredient[];
     rating: number;
 
-    constructor(id: number, name: string, description: string, image: string, ingreds: Ingredient[], rating: number) {
+    constructor( name: string, description: string, image: string, ingreds: Ingredient[], rating: number) {
         
-        this.id = id++,
+        /* this.id = last (this.id, 1), */
         this.name = name;
         this.description = description; // proceso
         this.imageUrl = image;
@@ -24,6 +25,6 @@ export class Recipe {
 
     toString() {
         return 'Name:' +  this.name + ', Description: ' +
-            this.description + ', ID ' + this.id;
+            this.description ;
     }
 }

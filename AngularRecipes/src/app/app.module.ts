@@ -10,7 +10,6 @@ import { SharedModule } from './shared/shared.module';
 import { PagesModule } from './pages/pages.module';
 import { BorrarComponent } from './borrar/borrar.component';
 import { HoobbiesModule } from './shared/hobby/hoobbies.module';
-
 import { ServerModule } from './server/server.module';
 
 import { AccountService } from './shared/services/account.service';
@@ -36,7 +35,6 @@ const MODULES = [
   ],
   imports: [
     BrowserModule,
-    
     ...MODULES,
     AppRoutingModule
   ],
@@ -47,7 +45,6 @@ const MODULES = [
   providers: [
     AccountService,
     ShoppingService,
-    
     AuthServerGuard,
     CanDeactivateGuard // para dejar la ruta
   ],

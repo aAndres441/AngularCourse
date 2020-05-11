@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../../recipe.model';
-import { RecipeService } from '../../services/recipe.service';
+// import { RecipeService } from '../../services/recipe.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,8 +8,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.css'],
 
-  // aca el servicio de recetas
-  providers: [RecipeService]
+  // aca el servicio de recetas, que lo debemos de poner en modulo mas general
+  // providers: [RecipeService]
 })
 export class RecipeComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class RecipeComponent implements OnInit {
   valueRandom: boolean;
   mumberRandom: number;
 
-  constructor(private servicioRecipe: RecipeService,
+  constructor(
               private router: Router,
               private route: ActivatedRoute) {
   }

@@ -9,7 +9,7 @@ import {RecipeStartComponent,
       RecipeEditComponent } from './pages/recipe/components/index';
 
 import { ServerComponent } from './server/container/server.component';
-import { EditServerComponent, ListServerComponent } from './server/components/index';
+import { EditServerComponent, ListServerComponent, NewServerComponentComponent } from './server/components/index';
 import { ServerResolverService } from './server/server-resolver.service';
 
 import { ShoppingComponent } from './pages/shopping/container/shopping/shopping.component';
@@ -82,6 +82,7 @@ const myRoutes: Routes = [
     canActivateChild: [AuthServerGuard],
     component: ServerComponent,
     children: [
+      { path: 'new', component: NewServerComponentComponent},
       { path: ':id', component: ListServerComponent, resolve: {servResolve: ServerResolverService} },
       { path: ':id/edit', component: EditServerComponent, canDeactivate: [CanDeactivateGuard] }
       // le egregamos prop canDeactivate para ejecutar metodo, cada vez que queremos dejar esta RUTA

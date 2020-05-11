@@ -172,7 +172,8 @@
 
             <div class="form-group">
                 <label for="">Name</label>
-                <input class="form-control"
+                <input 
+                    class="form-control"
                     formControlName= "nombre"
                     name="nombre"                    
                     type="text" id="nombre"
@@ -206,11 +207,13 @@
 
             <div class="form-group">
                 <label for="imagePath">Image URL</label>
-                <input class="form-control"
+                <input 
+                    class="form-control"
                     formControlName= "imagePath"
                     name="imagePath"                    
                     type="text" 
                     id="imagePath"
+                    #imagePath
                     placeholder="Image URL" title="Image URL">
             </div>
            
@@ -219,13 +222,14 @@
                   Required URL
             </span> 
 
-            <!-- para ver la image despues de pegar URL -->
-            
-            <div class="col-xs-12">
-               <img src= "recipeImagenPath"
-                    alt="recipeNameBuscado"
-                    class="img-responsive"
-                    tyle="max-height: 150px;">
+            <!-- para ver la image despues de pegar URL -->  
+            <div class="row">
+                <div class="col-xs-12" >
+                    <img [src]="imagePath.value" 
+                        alt="recipeNameBuscado" 
+                        class="img-responsive" 
+                        style="max-height: 150px;">
+                </div>
             </div>
 
            <!--  <div >
@@ -245,8 +249,16 @@
                         <label for="rating">Rating</label>
                     </div>
                     <div class="col-xs-4">
-                        <input class="form-control" formControlName="rating" name="rating" type="number" id="rating"
+                        <input
+                            class="form-control" 
+                            formControlName="rating" 
+                            name="rating" 
+                            type="number" id="rating"
                             >
+                            <!-- <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option> -->
+                        
                     </div>
                 </div>
             </div>
@@ -255,42 +267,53 @@
                   Required rating
             </span> 
 
-           <!--  <div class="form-group">
-                <select 
-                        class="form-control"
-                        formControlName="rating"
-                        name="rating" id="rating">
-                    <optgroup value="rating">
-                        {{rating}}                        
-                    </optgroup>
+            <!-- 
+            <div class="form-group">
+                <label for="secret">secret</label>
+                <select id="secret" 
+                    class="form-control" 
+                    formControlName="secret">
+                    <option *ngFor = "let num of numbers" value="num"
+                        >
+                        {{num}}                        
+                    </option>
                 </select>
-            </div> -->
-
+            </div> -->            
 
             <!-- ingredientes -->
             <div class="row">                               
                 <div class="col-xs-12" 
-                    formArrayName="ingres">  <!-- este es del control ts y le asigno esos nobres a c/control --> 
+                    formArrayName="ingres">  <!-- este es del control ts y le asigno esos nombres a c/control --> 
                     <label for="">Ingredientes</label> 
-                    <div class="row" *ngFor="let ingCtrl of fgNew.get('ingres').controls; let i = index" [formGroupName]="i"
+                    <div class="row" 
+                        *ngFor="let ingCtrl of fgNew.get('ingres').controls; let i = index" 
+                        [formGroupName]="i"
                         style="margin-top: 10px;">
                         <!-- recorro del control ts el de ingredientes y obtengo controlName, lo que se asigna que en esta área, vamos a manejar esta variedad de controles. -->
                         <div class="col-xs-7">
-                            <input type="text" class="form-control" formControlName="name" placeholder="Ingtredient" id="name">
+                            <input type="text" 
+                                class="form-control" 
+                                formControlName="name" 
+                                placeholder="Ingtredient" id="name">
                         </div>
                         <!-- <span class="help-block" style="color: red;"
                              *ngIf="!fgNew.get('ingres.name').valid">
                             name invalid
                         </span> -->
                         <div class="col-xs-3">
-                            <input type="number" class="form-control" formControlName="amount" placeholder="Quantity" id="amount">
+                            <input type="number" 
+                                class="form-control" 
+                                formControlName="amount" 
+                                placeholder="Quantity" id="amount">
                         </div>
                        <!--  <span class="help-block" style="color: red;" *ngIf="!fgNew.get('amount').valid && fgNew.get('amount').touched">
                             amount invalid
                         </span> -->
                         <div class="col-xs-2">
-                            <button class="button btn btn-default">
-                                +
+                            <button type="button"
+                                class="button btn btn-default"
+                                (click)="onDeleteIngred(i)">
+                                X
                             </button>
                         </div>
                     </div>
@@ -300,12 +323,20 @@
                            Data of ingredient invalid
                         </span>
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-xs-6">
                             <button 
                                 class="btn btn-default" style="background-color: aquamarine; width: 100%;"
                                 type="button"   
                                 (click)="onAddIngredient()">
                                 Add ingredient
+                            </button>
+                        </div>                        
+                        <div class="col-xs-6">
+                            <button 
+                                class="btn btn-default" style="background-color: aquamarine; width: 100%;"
+                                type="button"   
+                                (click)="onDeleteAllIngredient()">
+                                Delete all ingredient
                             </button>
                         </div>                        
                     </div>                    
@@ -314,11 +345,14 @@
             <br>
                 <div class="row">
                     <div class="col-xs-12">
-                        <button type="submit" [disabled]="!fgNew.valid" class="btn btn-success" style="width: 50%;">
+                        <button type="submit" 
+                            [disabled]="!fgNew.valid" class="btn btn-success" style="width: 50%;" 
+                            >
                             SAVE
                         </button>
-                        <button type="button"  class="btn btn-danger" style="width: 50%;">
-                            CANCEL
+                        <button type="button" class="btn btn-danger" style="width: 50%;"                             
+                            (click)="onCancel()">
+                            CANCEL <!-- routerLink="/recipes/start" -->
                         </button>
                     </div>
                 </div>
@@ -331,3 +365,5 @@
 <!-- [ngClass]="{myOdd: ev % 2 !== 0}"
      [ngStyle]="{backgroundColor: ev % 2 !== 0 ? 'orange' : 'pink'}"> 
  -->
+<!-- (.row>col-xs-12)  -->
+

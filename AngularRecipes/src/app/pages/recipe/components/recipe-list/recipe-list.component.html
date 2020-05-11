@@ -1,55 +1,90 @@
 <div class="row">
     <div class="col-xs-12">
-        <button class="btn btn-warning" style="display: block;" (click)="onNewRecipe()">
+        <button class="btn btn-warning" style="display: block; width: 90%; background-color:rgb(163, 163, 194)"
+             (click)="onNewRecipe()">
             New recipe
         </button>
     </div>
+    <br>
     <div class="col-xs-12">
-        <form class="navbar-form navbar-right" action="/" styles=" ">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" style="color: blueviolet; width: 40%;"
-                    #search (input)="changeName($event)">
-                <input type="text" [value]=search.value style=" width: 40%; zoom: 150%;">
-            </div>
-
-            <!-- <div class="col-sm-4">
-                <input type="text" [value]=search.value >
-            </div>  -->
-        </form>
+        <!-- <form class="navbar-form navbar-right" action="/" styles=" "> -->
+            <!-- <div class="form-group"> -->
+            <div class="row">
+                <div class="col-xs-8">
+                    <input type="text" 
+                        class="form-control" 
+                        name="search" 
+                        #search
+                        (input)="changeName($event)"
+                        placeholder="Search" 
+                        style="color: blueviolet; width: 90%; zoom: 110%;"  
+                     >
+                </div>
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-success" style=" inset-block: inherit; color: blueviolet; width: 100%; background-color:rgb(255, 230, 230);"
+                        (click)="changeName(search.value)">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <input type="text" [value]=search.value >
+                    </div>
+                    <div class="col-xs-6">     
+                        <input type="text" [value]="title">               
+                    </div>
+                </div>
+                
+                
+            <!-- </div> -->
+        <!-- </form> -->
     </div>
 </div>
-<br>
-<button type="submit" class="btn btn-success" style=" inset-block: inherit; color: blueviolet; width: 100%;"
-    (click)="cambio(search.value)">
-    <span class="glyphicon glyphicon-search"></span>
-</button>
-
-
-<hr style="border:solid 2px cornflowerblue ;">
+<hr style="border:solid 1px cornflowerblue ;">
 
 <!-- ********************************************************** -->
-<h2 style="color: darksalmon;"><i>Recipes list</i></h2> 
+<h2  *ngIf="recipes.length>0; else infoText" style="color:rgb(148, 77, 255); text-align:center">
+    <i>{{title | uppercase  }}</i>
+</h2>  
 <div class="row">
-    <div class="col-xs-12">
+   
+    <div class="col-xs-12">  <!-- *ngIf="recipes.length>0; else infoText"> -->
 
         <app-recipe-item *ngFor="let rec of recipes; let i = index" [recipe]="rec" [index]="i">
             <!-- (detail)="otroEventoParaElDetalle(rec)" este metodo
                         usado en item ,lo saco porque uso servicio -->
         </app-recipe-item>
         <br>
-        <button class="btn" style="width: 90%; background-color: yellow; border: 2px solid red; border-radius: 20%;"
-            (click)="Toshoppingnow()">To shopping now
-            <!-- (click)="Toshoppingnow()"
-                routerLink="/shopping/list"
-            -->
-        </button>
+        <div class="col-xs-6">
+            <button class="btn" style="width: 90%; background-color: yellow; border: 2px solid red; border-radius: 20%;"
+                    (click)="Toshoppingnow()">To shopping now
+                    <!-- (click)="Toshoppingnow()"
+                        routerLink="/shopping/list"
+                    -->
+            </button>
+        </div>      
 
-        <h4><em>List of rec issue con PIPES</em></h4>
-        <!-- <div class="list-group">           
+        <div class="col-xs-6">
+            <button 
+                 class="btn btn-default" style="background-color: aquamarine; width: 100%;"
+                 type="button"   
+                 (click)="onDeleteAllRecipes()">
+                 Delete recipes
+            </button>
+        </div>                
+    </div>
+
+        <!-- <h4><em>List of rec issue con PIPES</em></h4>
+         <div class="list-group">           
             <a class="list-group-item" *ngFor="let rec of recipes; let i = index">
                 <h3>{{ rec.name | convertToK: 'S'}} - {{rec.id}} - rating: {{rec.rating}} </h3>
                 
             </a>
-        </div> --><!-- <h3>{{ rec.name | convertToK: '-'}} - {{rec.id}}</h3> -->
-    </div>
+        </div> -->
+        <!-- <h3>{{ rec.name | convertToK: '-'}} - {{rec.id}}</h3> -->
 </div>
+<ng-template #infoText>
+    <h4 style="background-color: rgb(255, 0, 0); color:rgb(255, 255, 255); text-align: center">Careful: No recipes yet</h4>
+  </ng-template>

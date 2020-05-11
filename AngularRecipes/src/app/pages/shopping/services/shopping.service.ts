@@ -27,9 +27,8 @@ export class ShoppingService {
     }
     return null;
   }
-
   getIngredient(index: number): Ingredient {
-    return this.ingredients[index];
+    return this.ingredients.slice()[index];
     /* let res: Ingredient =  null;
     this.ingredients.forEach(element => {
       if (element.id === index) {

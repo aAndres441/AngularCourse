@@ -11,23 +11,11 @@ import { Subscription } from 'rxjs';
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
 
-  
-/* recipes: Recipe[] = [
-  new Recipe('Primera', ' Una primera receta ', 'https://t1.kn3.net/taringa/2/4/0/1/B/6/_SoyDelRojo_/176x132_F29.jpg'),
-  new Recipe ('Segunda', 'La segunda receta','https://3.bp.blogspot.com/-VpJYuF9BAWc/VzUCMtHgU-I/AAAAAAAALlc/l0G979ipexcs_GaWHzfr4p-2HpJFJtnoQCLcB/s1600/Salchicha%2Bde%2Bcerdo%2B-%2BDerivado%2Bdel%2Bcerdo.jpg'),
-  new Recipe('Primera', ' Una primera receta ', 'https://t1.kn3.net/taringa/2/4/0/1/B/6/_SoyDelRojo_/176x132_F29.jpg'),
-  new Recipe ('Segunda', 'La segunda receta','https://3.bp.blogspot.com/-VpJYuF9BAWc/VzUCMtHgU-I/AAAAAAAALlc/l0G979ipexcs_GaWHzfr4p-2HpJFJtnoQCLcB/s1600/Salchicha%2Bde%2Bcerdo%2B-%2BDerivado%2Bdel%2Bcerdo.jpg')
-]; */
-
 recipes: Recipe[];  // subject
 private ingresdUnsuscribe: Subscription;
 
 prueboName1 = '';
-title = '';
-
-
-
-
+title = 'List Recipes';
 // @Output() otroDetalle = new EventEmitter<Recipe>();
 
   constructor(private servicioRecipe: RecipeService,
@@ -35,21 +23,19 @@ title = '';
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-    /* alert(this.recipes.length+  'tt'); */
-    //alert(  'HELLO');
-    // aca llamo a la copia porque en el servicio tiene slice()
+    // aca llamo a la copia porque en el servicio tiene slice(),no seria necesario si trabajo sin slice()
     /* this.recipes = this.servicioRecipe.getRecipesListFilter(); */
-    this.recipes = this.servicioRecipe.getRecipesListFilter();
-   // alert(this.recipes.length+  'tt');
+    // this.recipes = this.servicioRecipe.getRecipes();
       /* arriba devuelve lista filtrada desde el sevicio
-    this.recipes = this.servicioRecipe.getRecipe(); */
+    this.recipes = this.servicioRecipe.getRecipes(); */
 
-    // y aca veo los cambios en la copia y los guardo, no seria necesario si trabajo sin slice()
-    this.ingresdUnsuscribe = this.servicioRecipe.recipesChanged2
+    this.ingresdUnsuscribe = this.servicioRecipe.recipesChanged
     .subscribe(
       (recips: Recipe []) => {
-      this.recipes = recips; }
+      this.recipes = recips; 
+      }
     );
+    this.recipes = this.servicioRecipe.getRecipes();
   }
 
   ngOnDestroy() {
@@ -66,14 +52,13 @@ title = '';
     this.otroDetalle.emit(rec);     
   }*/
 
- 
-
-  cambio(value: string){
-    confirm(value + ' cambio');
+  changeName(value: string){
+    this.title = value;
   }
 
-  changeName(value: string){
-    confirm(value + ' changeName');
+  onDeleteAllRecipes(){
+    this.servicioRecipe.deleteAllRecipes();
+    this.onCancel();
   }
 
   Toshoppingnow() {
@@ -83,6 +68,11 @@ title = '';
         fragment: 'loading' + 'Hello'
       } */
     );
+  }
+
+  onCancel() {
+    // this.fgNew.reset();
+    this.router.navigate(['/recipes']);
   }
   
 }

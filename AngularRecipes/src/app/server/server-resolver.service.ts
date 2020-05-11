@@ -21,6 +21,11 @@ export class ServerResolverService implements Resolve<{ id: number, name: string
     return this.service.getServer(+route.params.id);
   }
 
+  resolveMyNew(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Server> | Promise<Server> | Server {
+    
+    return this.service.getServer(+route.params.id);
+  }
+
 
   
 }

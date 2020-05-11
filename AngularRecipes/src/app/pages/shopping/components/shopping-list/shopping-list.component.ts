@@ -25,7 +25,7 @@ constructor(private servicio: ShoppingService) { }
 
   ngOnInit() {
     // aca llamo a la copia porque en el servicio tiene slice()
-    this.misIngredientes = this.servicio.getIngredients();
+   /*  this.misIngredientes = this.servicio.getIngredients(); */
     // y aca veo los cambios en la copia y los guardo, no seria necesario si trabajo sin slice()
     
     // this.servicio.ingredientsChange   // lo cambio por subject y lo guaro para desuscribir
@@ -33,10 +33,9 @@ constructor(private servicio: ShoppingService) { }
     .subscribe(
       (ings: Ingredient[]) => {
         this.misIngredientes = ings;
-        alert('largo' + this. misIngredientes.length);
       }
     );
-    
+    this.misIngredientes = this.servicio.getIngredients();
   }
 
  /* no los uso por ahora*/

@@ -3,5 +3,11 @@
     cursor: pointer;
     background-color: rgb(120, 153, 0);
     color:#636363;
+    
 }
 
+
+a:hover {
+    background-color:rgb(198, 236, 198);
+  opacity: 0.8;
+}
