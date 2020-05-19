@@ -1,7 +1,7 @@
 <p style="text-align: center;">edit-server works!</p>
 
 <h4 *ngIf="!allowEdit" style="color: crimson;">You're not allowed to edit</h4>
-
+<!-- [ngClass]="{myColorNew: editMode, myColorEdit:!editMode}"> -->
 <div *ngIf="allowEdit">
   <div class="form-group">
     <label for="name">Server Name</label>

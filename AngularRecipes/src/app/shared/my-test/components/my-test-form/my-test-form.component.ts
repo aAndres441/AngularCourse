@@ -27,7 +27,7 @@ prueboName2 = '';
   @Output() eventoCity = new EventEmitter<{city: string, alim: string}>();
  
   /* referencia local que podria ser el mismo compnente */ 
-  @ViewChild('alimento', { static: true }) alimento: ElementRef;
+  @ViewChild('alimento', { static: false }) alimento: ElementRef;
   
   mascotas = [
     {

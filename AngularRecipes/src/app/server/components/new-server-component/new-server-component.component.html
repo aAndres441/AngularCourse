@@ -1,1 +1,151 @@
 <p>new-server-component works!</p>
+
+
+<!-- NO VA [(ngModel)]= POR SER REACTIVO, ej: [(ngModel)]="instanceType" -->
+<div class="row">
+  <!-- col-sm-offset-1 col-md-offset-2 -->
+  <div class="col-xs-12 col-sm-10 col-md-8 " id="forms" [ngClass]="{myColorNew: editMode, myColorEdit:!editMode}">
+    <h3><i>{{title}}</i></h3>
+    <br>
+    <div *ngIf="!formNew.valid && formNew.touched">
+      <p style="color: rgb(4, 7, 189); text-align: center;">PLEASE ENTER VALID DATA </p>
+    </div>
+    <br>
+
+    <form [formGroup]='formNew' (ngSubmit)='onSubmit()'>
+      <div class="form-group">
+        <label for="id">Id</label>
+        <div class="row">
+          <div class="col-xs-18">
+            <!-- (input)="changeId($event)"  #id  id="id" -->
+            <input type="range" [(ngModel)]="id" class="form-control" formControlName="id" name="id" data-mini="true"
+              min="0" max="100" value="50" style="cursor: pointer">
+          </div>
+          <div class="col-xs-4">
+            <input type="number" [value]="id" class="form-control" style="color: rgb(46, 238, 94);">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Name</label>
+        <div class="row">
+          <div class="col-sm-6">
+            <input class="form-control" formControlName="nombre" name="nombre" type="text" id="nombre"
+              placeholder="Nombre" title="Nombre" style="cursor: pointer">
+          </div>
+          <div class="col-sm-6 ">
+            <input type="text" class="form-control" [value]="nombre" style="color: rgb(46, 238, 94);">
+          </div>
+        </div>
+      </div>
+      <span class="help-block" style="color: red;"
+        *ngIf="!formNew.get('nombre').valid && formNew.get('nombre').touched">
+        <span *ngIf="formNew.get('nombre').errors['required']">Nombre requerido si o si</span>
+        <span *ngIf="formNew.get('nombre').errors['maxiLength']">Largo max 20</span>
+        <span *ngIf="formNew.get('nombre').errors['minimoLength']">Largo min 4</span>
+        <!--  <span *ngIf="formNew.get('nombre').errors[pattern]">pattern</span> -->
+      </span>
+
+      <div class="form-group">
+        <label for="">Status</label>
+        <div class="row">
+          <div class="col-xs-6">
+            <input class="form-control" formControlName="status" type="text" name="status" id="status"
+              placeholder="Status" title="Status" style="cursor: pointer">
+          </div>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" [value]="status" style="color: rgb(46, 238, 94);">
+          </div>
+        </div>
+      </div>
+      <span class="help-block" style="color: red;"
+        *ngIf="!formNew.get('status').valid && formNew.get('status').touched">
+        <span *ngIf="formNew.get('status').errors['required']">Status requerido si o si</span>
+        <span *ngIf="formNew.get('status').required">Required</span>
+        <!--  <span *ngIf="formNew.get('status').errors['statusObject']">No no</span> -->
+      </span>
+
+      <div class="form-group">
+        <label for="">Instance Type</label>
+        <div class="row">
+          <div class="col-xs-6">
+            <!-- <select class="form-control" 
+                              formControlName= "instanceType"
+                              name="instanceType"
+                              title="InstanceType" 
+                              style="cursor: pointer">
+                              <option value="" disabled selected>Select instanceType...</option>
+                              <option *ngFor="let ins of instanceTypes"
+                                  [value]="ins">{{ins | uppercase}} 
+                              </option>
+                          </select> -->
+            <input type="text" class="form-control" formControlName="instanceType" name="instanceType">
+          </div>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" [value]="instanceType" style="color: rgb(46, 238, 94);">
+          </div>
+        </div>
+      </div>
+      <span class="help-block" style="color: red;"
+        *ngIf="!formNew.get('instanceType').valid && formNew.get('instanceType').touched">
+        <span *ngIf="formNew.get('instanceType').errors['required']">InstanceType requerido si o si</span>
+        <!-- <span *ngIf="formNew.get('instanceType').required">Required</span>
+                             <span *ngIf="formNew.get('status').minLength">Min 4</span>
+                            <span *ngIf="formNew.get('status').errors['nombreProhibido']">No puede ingresar ese nombre</span>
+                            <span *ngIf="formNew.get('status').errors['nameIsForbiddenObject']">Imposible nombre</span> -->
+      </span>
+
+      <button class="btn btn-primary" type="submit" [disabled]="!formNew.valid"
+        style="width: 50%; border-color: rgb(205, 195, 50)">
+        Submit
+      </button>
+
+    </form>
+  </div>
+  <hr>
+  <div class="row" style="border: 1px solid chartreuse;">
+    <div class="col-xs-12" *ngIf="submitted">
+      <h3 style="color: chartreuse;">Your Data, after submit:</h3>
+      <p>ID : {{ id }}</p>
+      <p> Nombre: {{ nombre }}</p>
+      <!-- <p>Secret Quedtion: {{ user.mySecretQuestion }}</p>
+        <p>Answer: {{ user.myAnswer }}</p>
+        <p>Gender: {{ user.myGender }}</p> -->
+    </div>
+  </div>
+</div>
+
+<!-- <div style="border: 1px solid yellow;">
+                    <label for="">Select gender</label>
+                    <div class="radio" 
+                        *ngFor="let gender of genders" 
+                        style="border: 1px solid rgb(234, 252, 71);">
+                      <label>
+                        <input 
+                            class="form-control"
+                            formControlName='gender' 
+                            type="radio" 
+                            [value]="gender" 
+                            name="gender" id="gender">
+                        {{gender}}
+                      </label>
+                    </div>
+                  </div> -->
+
+<!--   <hr>
+                <div class="form-group"
+                  style="border: 1px solid yellow;">
+                  <label for="">Select gender</label>
+                  <div class="radio" 
+                  *ngFor="let gender2 of genders" >
+                    <label>
+                      <input formControlName='gender2' 
+                      type="radio" 
+                      [value]="gender2" 
+                      name="gender2">                     
+                      {{ gender2 }}
+                    </label>
+                  </div>
+                </div>
+                <hr> -->

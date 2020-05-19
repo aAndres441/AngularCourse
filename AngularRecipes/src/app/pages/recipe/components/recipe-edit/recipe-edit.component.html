@@ -159,7 +159,8 @@
 
 <!--  **************   NEW RECIPE  Form  reactive , confirmado*********************** -->
 <div class="flex-container"  >
-    <div class="col-xs-12" id="forms" [ngClass]="{myColorNew: editMode, myColorEdit:!editMode}"
+    <div class="col-xs-12" id="forms" 
+        [ngClass]="{myColorNew: editMode, myColorEdit:!editMode}"
             >
         <h3>{{title}}<i> (form reactive)</i></h3>
 
@@ -356,8 +357,16 @@
                         </button>
                     </div>
                 </div>
-            
         </form>
+
+        <div class="row" style="border: 1px solid chartreuse;">
+            <div class="col-xs-12" *ngIf="submitted">
+                <h3 style="color: rgb(133, 196, 69);">Your Data, after submit:</h3>
+                <p>Name : {{ fgNew.value.nombre }}</p>
+                <p>Desc: {{ fgNew.value.descripcion }}</p>
+                <p>Rating: {{ fgNew.value.rating }}</p>
+            </div>
+        </div>
     </div>
    
 </div>

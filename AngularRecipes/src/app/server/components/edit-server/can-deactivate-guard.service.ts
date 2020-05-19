@@ -15,10 +15,11 @@ cuando quieramos dejar la ruta, asi que tendra al componente que esta ahora,
 del tipo CanComponentDeactivate a usar. */
 
 export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
+
     canDeactivate(componente: CanComponentDeactivate,
-        currentRoute: ActivatedRouteSnapshot,
-        currentState: RouterStateSnapshot,
-        nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+                  currentRoute: ActivatedRouteSnapshot,
+                  currentState: RouterStateSnapshot,
+                  nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         /* nextState?: es un argumento opcional*/
 
         /* aca llama al metodo del componente que estamos actualmente, y que a su vez implementa la interface */

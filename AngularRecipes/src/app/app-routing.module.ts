@@ -78,12 +78,15 @@ const myRoutes: Routes = [
   // {path: 'shopping/:edit', component: ShoppingEditComponent},
     
   { path: 'server',
-    // canActivate: [AuthServerGuard],
-    canActivateChild: [AuthServerGuard],
-    component: ServerComponent,
+    // canActivate: [AuthServerGuard], // esto es para usuario registrado sino login
+    // component: ServerComponent, canActivate: [AuthServerGuard], // esto es para usuario registrado sino login
+    component: ServerComponent, // esto es para usuario registrado sino login
+
     children: [
       { path: 'new', component: NewServerComponentComponent},
-      { path: ':id', component: ListServerComponent, resolve: {servResolve: ServerResolverService} },
+      { path: ':id', component: ListServerComponent },
+      /* Le saco esto para que no me llame a servResolve y no entrar a login en Oninit de listServerCompo*/
+      /* { path: ':id', component: ListServerComponent, resolve: {servResolve: ServerResolverService} }, */
       { path: ':id/edit', component: EditServerComponent, canDeactivate: [CanDeactivateGuard] }
       // le egregamos prop canDeactivate para ejecutar metodo, cada vez que queremos dejar esta RUTA
     ]},

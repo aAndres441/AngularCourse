@@ -16,4 +16,10 @@ export class Server {
         this.instanceType = instanceType;
     }
 
+    toString(){
+        return 'Nombre: ' + this.name + ', ID: ' + this.id +
+        'Status: ' + this.status + ', Date: ' + this.date +
+        'Instance: ' + this.instanceType;
+    }
+
 }

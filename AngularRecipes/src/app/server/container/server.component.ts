@@ -86,7 +86,7 @@ export class ServerComponent implements OnInit {
    
     onLoadServer(date: number){
         this.router.navigate(['/server', date, 'edit'], /* , 'edit' */
-        {queryParams: {algo: '77'}, //allowEditee: 'si'
+        {queryParams: {allow: 'si'}, //allow: 'si'
         fragment: 'loading'}
         );
         this.serverId = date;
@@ -112,7 +112,6 @@ export class ServerComponent implements OnInit {
         }
         this.serversService.addServer( new Server(22, 'Olo', 'online', new Date(Date.now()), 'medium'));
     }
-        
 
     getStatusClass(serv: Server) {
         return{

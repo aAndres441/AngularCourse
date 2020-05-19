@@ -87,29 +87,22 @@
             *ngIf="!signupForm.get('address').valid && signupForm.get('address').touched">Please enter a valid address
           </span>
 
-          <div>
+          <div style="border: 1px solid yellow;">
             <label for="">Select gender</label>
-            <div class="radio" *ngFor="let gender2 of genders" style="border: 1px solid rgb(234, 252, 71);">
+            <div class="radio" 
+              *ngFor="let gender2 of genders" 
+              style="border: 1px solid rgb(234, 252, 71);">
               <label>
-                <input formControlName='gender2' type="radio" [value]="gender2" name="gender2">
+                <input formControlName='gender2' 
+                  type="radio" 
+                  [value]="gender2" 
+                  name="gender2"
+                  >
                 {{ gender2 }}
               </label>
             </div>
           </div>
-        <!-- <div style="border: 1px solid green;">
-          <label for="">Select gender</label>
-          <div class="radio" *ngFor="let gender of genders">
-            <label for="">
-              <input type="radio"
-                     name="gender" 
-                     ngModel 
-                     [ngModel] = "defaultRadio"
-                     [value]="gender">
-              {{gender}}
-            </label>
-          </div>
-        </div>
-       -->
+        <!-- < [ngModel] = "defaultRadio" -->
       
         <!-- Para FORM ARRAY -->
         
@@ -405,7 +398,7 @@
                 <label for="">Name</label>
                 <input formControlName='exName'
                        class="form-control"
-                       type="text" id="exName" name="exName" title="name">
+                       type="text" id="exName" name="exName" title="Name">
               </div>
               <span class="help-block" style="color: hotpink;"
                   *ngIf="!formExampleReactivo.get('exName').valid && formExampleReactivo.get('exName').touched">

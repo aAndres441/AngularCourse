@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Server } from './server-model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ServersService {
+
   
 
   private servers: Server[] = [
@@ -29,27 +31,10 @@ export class ServersService {
       status: 'online',
       date: '12,12,2010'
     },
-    {
-      id: 2,
-      name: 'Testserver',
-      status: 'offline',
-      date: '12,12,2010'
-    },
-    {
-      id: 3,
-      name: 'Devserver',
-      status: 'offline',
-      date: '12,12,2010'
-    },
-    {
-      id: 4,
-      name: 'Runserver',
-      status: 'online',
-      date: '12,12,2010'
-    }
   ];
 
   onChanged = new EventEmitter<Server[]>();
+  onChanged2 = new Subject<Server[]>();
 
   constructor() { }
   
@@ -66,6 +51,18 @@ export class ServersService {
     return server;
   }
 
+  /* getServer(id: number) {
+    const server = this.servers.find(
+      (s) => {
+        return s.id === id;
+      }
+    );
+    if ( server) {
+      return server;
+    }
+    return null;
+  } */
+
   updateServer(id: number, serverInfo: {name: string, status: string}) {
     const server = this.servers.find(
       (s) => {
@@ -79,8 +76,15 @@ export class ServersService {
     alert('nombre servicio que actualizo ' +  this.getServer(server.id).name);
   }
 
+  updateServer2(id: number, serv: Server) {
+    this.servers[id] = serv;
+    this.onChanged.emit(this.servers.slice());
+    // this.onChanged2.next(this.servers.slice());
+  }
+
   addServer(newServ: Server) {
     this.servers.push(newServ);
-    this.onChanged.emit(this.servers.slice());
+    // this.onChanged.emit(this.servers.slice());
+    this.onChanged2.next(this.servers.slice());
   }
 }

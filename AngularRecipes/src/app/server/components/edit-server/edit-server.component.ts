@@ -13,7 +13,7 @@ export class EditServerComponent implements OnInit, CanComponentDeactivate{
 
   // implementa esta interface CanComponentDeactivate, con metodo canDeactivate(), para avisar si queremos dejar ruta.
 
-  server: {id: number, name: string, status: string};
+  server: {id: number, name: string, status: string; date: Date; instanceType: string};
   serverName: string = '';
   serverStatus = '';
   servId: number;
@@ -40,10 +40,10 @@ export class EditServerComponent implements OnInit, CanComponentDeactivate{
       (queryPa: Params) => {
 
         // invento esto, que no va  ////////////////////
-        if(queryPa.algo=== '77') {confirm('oooo'); }
+        if (queryPa.algo === '77') {confirm('oooo'); }
 // //////////////////////////////////////////////////////
 
-        this.allowEdit = queryPa.allowEditee === 'si' ? true : false ;
+        this.allowEdit = queryPa.allow === 'si' ? true : false ;
         /* es del comp server: [queryParams]="{forEdit: serv.id === 2 ? 'si' : 'no'}" 
         si es SI entonces allowE cambia a true */
       }
@@ -157,6 +157,6 @@ export class EditServerComponent implements OnInit, CanComponentDeactivate{
    /*  this.route.queryParams
     .subscribe(
       (queryPa: Params) => {
-        this.allowEdit = queryPa.allowEditee === 'si' ? true : false ;
+        this.allowEdit = queryPa.allow === 'si' ? true : false ;
       }
     ); */

@@ -12,9 +12,7 @@ export class AuthServerGuard implements CanActivate, CanActivateChild {
   constructor(private authenticGuard: AuthGuard,
               private router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot,
-              state: RouterStateSnapshot)
-              : Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
     // me comunico con el servicio
     const authenticated = this.authenticGuard.isAuthenicated();

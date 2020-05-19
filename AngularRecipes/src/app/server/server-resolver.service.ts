@@ -4,7 +4,12 @@ import { Observable } from 'rxjs';
 import { ServersService } from './servers.service';
 
 // esto popdria ser otra clase o interface a parte para no usarlo asi cada vez.
-interface Server { id: number; name: string; status: string; }
+interface Server { id: number; name: string; status: string; date: Date; instanceType: string; }
+/*  id = 0;
+    name: string;
+    status: string;
+    date: Date;
+    instanceType: string; */
 
 @Injectable({
   providedIn: 'root'

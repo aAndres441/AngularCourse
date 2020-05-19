@@ -11,7 +11,7 @@ import { Server } from '../../server-model';
 export class ListServerComponent implements OnInit {
 
   server: Server;
-  // datoID: number;
+  datoID: number;
   
   constructor(private serversService: ServersService,
               private route: ActivatedRoute,
@@ -27,8 +27,12 @@ export class ListServerComponent implements OnInit {
     this.route.data.subscribe(
       (dato: Data) => {
         this.server = dato.servResolve;
-      }
+        this.datoID = +this.route.snapshot.params.id;
+      },
+      this.server = null
     );
+    alert ('SERVER' + this.server.toString);
+    alert ('PERMISO' + this.datoID);
 
     /* const unaid = +this.route.snapshot.params.id;
     console.log(this.route.snapshot.queryParams + ' LISTA');
@@ -44,6 +48,9 @@ export class ListServerComponent implements OnInit {
 
 
     confirm('this.server.name of on init ListServerComponent');
+  }
+
+  ngOnChange() {
   }
 
   onEdit() {

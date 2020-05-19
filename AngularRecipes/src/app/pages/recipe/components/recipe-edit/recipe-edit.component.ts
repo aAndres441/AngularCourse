@@ -36,6 +36,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   @ViewChild('descripEdit', { static: false }) descripEdit: ElementRef;
   @ViewChild('idEdit2', { static: false }) idEdit: ElementRef; */
   submitEditOk = false;
+  submitted = false;
   nameEditDEfault: string;
    @ViewChild('nameEdit2', { static: false }) nameValorIngresado: ElementRef;
   // tslint:disable-next-line: max-line-length
@@ -71,7 +72,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
         this.recipeName =  param.fragment; */
         // this.idEditDefault = +param.id;
 
-        this.editMode = param.id != null;
+        this.editMode = param.id != null;  // editMode sera true si hay id
         
         this.initForm();  // estoy usando esto
         
@@ -138,6 +139,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   }
 
   private initForm() {
+    this.submitted = false;
     /* let idBuscada = this.id; */
     let recipeNameBuscado = '';
     let recipeImagenPath = '';
@@ -173,9 +175,8 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
                             ValidatorsRecipes.nameForbidden]),
       descripcion: new FormControl(recipeDecripBuscada, [Validators.required,
                                                         ValidatorsRecipes.descMaxLength]), // , Validators.minLength(4)
-      imagePath: new FormControl(recipeImagenPath, Validators.required),
-      rating: new FormControl(recipeBuscadaRating, [Validators.required,
-                                                  Validators.pattern(/^[1-9]+[0-9]*$/)]),
+      imagePath: new FormControl(recipeImagenPath, [Validators.required]), // , Validators.pattern(/^[1-9]+[0-9]*$/)
+      rating: new FormControl(recipeBuscadaRating, Validators.required),
       ingres: recipeIngredientsBuscado
     });
     /* ---termina initForm --------------- */
@@ -187,6 +188,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   
   /* --------------- para form reactive  ((ACTUAL))  ---------------- */
   onSubmitThisRecipe() {
+    this.submitted = true;
     /*puedo sustituir esta newRecipe por los valores del formulario,
       ademas utilizo bien lo reactivo y no preciso importar Recipe.*/
     const newReci = new Recipe(

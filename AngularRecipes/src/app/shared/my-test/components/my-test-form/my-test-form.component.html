@@ -26,7 +26,7 @@
             </div>
             <div class="col-sm-4">
                 <input type="text" class="form-control" [(ngModel)]="userName" style="color: rgb(189, 0, 164);"
-                    id="usuario" required placeholder="CON form-control">
+                     required placeholder="CON form-control">
             </div>
             <div class="col-sm-4">
                 <input type="text" [value]="userName">
@@ -60,6 +60,7 @@
             </div>
 
                 <div class="panel-body">
+                    <label for="">EAT</label>
                     <select ng-model="selectedName" name="selectedName" #selectedName>
                         <option value="" disabled selected>Seleccione una comida...</option>
                         <option value="x"  *ngFor="let x of alimentos; let i = index ">{{x}}</option>

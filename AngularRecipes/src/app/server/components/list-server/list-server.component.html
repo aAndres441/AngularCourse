@@ -1,8 +1,29 @@
-<p>list-server works OK!</p>
-<h4><em>{{server.name}} with ID: {{server.id}}</em></h4>
-<p>Server status is {{ server.status }}</p>
+<p>list-server works OK, with servResolve!</p>
+
+<!-- <h4><em>{{server.name}} with ID: {{server.id}}</em></h4> -->
+
+<div *ngIf="server">
+    <p #uno>Algo</p>
+    <p #dos>NADA</p>
+
+</div>
+<p *ngIf="!server" style="color: crimson;">OLA</p>
+<p *ngIf="server" style="color: rgb(20, 190, 220);">OLA</p>
 
 
+<div *ngIf="server; else infoText">
+    <p style="color: rgb(20, 190, 220);">
+        Server status is {{ server.status }}
+    </p>
+</div>
+<ng-template #infoText>
+    <p style="color: rgb(220, 100, 20);">
+        Data wrong
+    </p>
+</ng-template>
+
+<!-- <p>Server status is {{ server.status }}</p>
+ --><!-- <h4><em>{{server.name}} with ID: {{server.id}}</em></h4> -->
 <button class="btn btn-se" style="width: 50%;"
     (click)="onEdit()">Edit  now
 </button>
