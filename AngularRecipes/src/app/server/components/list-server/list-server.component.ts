@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ServersService } from '../../servers.service';
 import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 import { Server } from '../../server-model';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list-server',
@@ -12,6 +14,7 @@ export class ListServerComponent implements OnInit {
 
   server: Server;
   datoID: number;
+  
   
   constructor(private serversService: ServersService,
               private route: ActivatedRoute,
@@ -31,9 +34,10 @@ export class ListServerComponent implements OnInit {
       },
       this.server = null
     );
-    alert ('SERVER' + this.server.toString);
-    alert ('PERMISO' + this.datoID);
 
+   
+    alert ('SERVER' + this.server.toString);
+    
     /* const unaid = +this.route.snapshot.params.id;
     console.log(this.route.snapshot.queryParams + ' LISTA');
     console.log(this.route.snapshot.fragment);

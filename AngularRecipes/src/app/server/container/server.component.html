@@ -40,27 +40,33 @@
     <div class="row" style="background-color: slategrey;">
         <div class="col-xs-12 col-sm-6" style="border: 2px dotted orange; background-color: rgb(240, 247, 235);">
             <h3><em>List of servers</em></h3>
-            <button class="btn btn-warning" (click)="onLoadServer(14)">Load server
+
+            <!-- Buttons -->
+            <button class="btn btn-warning" (click)="onLoadServer()">Load server
             </button>
             <button class="btn btn-primary" (click)="toAdd()">Add server
             </button>
             <hr>
+            <!-- search servers -->
             <input type="text" 
                 [(ngModel)]="filterStatus" 
                 placeholder="Filter for status"
                 >
+                <i class="fa fa-search"></i>
             <br>
+            <!-- list servers -->
             <div class="list-group">
                 <!-- servidor con id 5,y luego la ruta creada para esto en routers -->
-                <a *ngFor="let serv of servers | filter:filterStatus:'status'" 
+                <a *ngFor="let serv of servers | filterPipe:filterStatus:'status'" 
                     [routerLink]="['/server',serv.id]"
-                    [queryParams]="{allow: serv.status === 'online' || serv.status === 'offline' ? 'si' : 'no'}" 
+                    [queryParams]="{allow: serv.status === 'online' 
+                        || serv.status === 'offline' ? 'SI' : 'NO'}" 
                     fragment='loading'
-                    class="list-group-item">
+                    class="list-group-item"
+                    >
                     <!-- [ngClass]="getStatusClasses(serv)" -->
                     <h4><strong>{{ serv.name| acorte:3 | uppercase}}</strong></h4>
-                    <h5>{{ serv.status |  uppercase}}, {{ serv.date |  date:'shortDate'}}</h5>
-    
+                    <h5>{{ serv.status |  uppercase}}, {{ serv.date |  date:'shortDate'}}</h5>    
                 </a>
             </div>
             <hr>
@@ -69,8 +75,9 @@
     
         <div class="col-xs-12 col-sm-6">
             <div class="row">
+                <!-- pipe slice: -->
                 <div class="col-xs-12 col-sm-12">
-                    <h4><i>Pipe slice :1:5</i></h4>
+                    <h4><i style="color: yellow;">Pipe slice :1:5</i></h4>
                     <ul class="list-group">
                         <li class="list-group-item" style="background-color: papayawhip;"
                             *ngFor="let serv of servers | slice:1:5">

@@ -9,12 +9,13 @@ import { Observable } from 'rxjs/internal/Observable';
   templateUrl: './edit-server.component.html',
   styleUrls: ['./edit-server.component.css']
 })
-export class EditServerComponent implements OnInit, CanComponentDeactivate{  
+export class EditServerComponent implements OnInit, CanComponentDeactivate {  
 
-  // implementa esta interface CanComponentDeactivate, con metodo canDeactivate(), para avisar si queremos dejar ruta.
+  /*VER:  implementa esta interface CanComponentDeactivate, con metodo canDeactivate(),
+   para avisar si queremos dejar ruta. ver este metodo mas abajo */
 
   server: {id: number, name: string, status: string; date: Date; instanceType: string};
-  serverName: string = '';
+  serverName = '';
   serverStatus = '';
   servId: number;
   fenix: any;
@@ -28,22 +29,25 @@ export class EditServerComponent implements OnInit, CanComponentDeactivate{
 
   ngOnInit() {
 
-    // 1-accedo a parametros con snapshot, pero estos se actualizan en el momento que se crea este componente
-    // por lo tanto si trabajamos sin cambiar de pag, no se  actualizaran datos.
+    /* 1-accedo a parametros con snapshot, pero estos se actualizan en el momento que se crea este componente
+     por lo tanto si trabajamos sin cambiar de pag, no se  actualizaran datos. */
     
     console.log(this.route.snapshot.queryParams + ' y');
     console.log(this.route.snapshot.fragment);
     
-    // 2- accedo a parametros y los suscribo como observables     
+    // 2- accedo a parametros y los suscribo como observables
+
     this.route.queryParams
     .subscribe(
       (queryPa: Params) => {
 
         // invento esto, que no va  ////////////////////
-        if (queryPa.algo === '77') {confirm('oooo'); }
+        if (queryPa.algo === '77') {
+          confirm('oooo');
+        }
 // //////////////////////////////////////////////////////
 
-        this.allowEdit = queryPa.allow === 'si' ? true : false ;
+        this.allowEdit = queryPa.allow === 'SI' ? true : false ;
         /* es del comp server: [queryParams]="{forEdit: serv.id === 2 ? 'si' : 'no'}" 
         si es SI entonces allowE cambia a true */
       }
@@ -71,7 +75,7 @@ export class EditServerComponent implements OnInit, CanComponentDeactivate{
         status: this.serverStatus
       });
       
-    this.changesSaved = true;
+   // this.changesSaved = true;
     
     this.server = this.serversService.getServer(this.server.id);
     alert('nombre edit ' +  this.server.name);
@@ -89,15 +93,22 @@ export class EditServerComponent implements OnInit, CanComponentDeactivate{
   }
 
   alListado() {
+   /*  this.router.navigate(['/server'],
+      { */
+        /* queryParams: { algo: 'listados' },
+        fragment: 'loading' */
+     /*  }
+    );     */
+    confirm('Save');
     this.router.navigate(['/server'],
       {
         queryParams: { algo: 'listados' },
-        fragment: 'loading'
-      }
-    );
+        fragment: 'loading'}
+      );
+
   }
 
-  confirm(){
+  confirm() {
     confirm('Save changes OK');
     alert('confirm()');
   }

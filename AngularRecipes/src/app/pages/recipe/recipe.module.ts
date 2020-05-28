@@ -19,6 +19,7 @@ import {
 } from './container/index';
 
 import { RecipeService } from './services/recipe.service';
+import { FilterRecipesPipe } from './pipes/filter-recipes.pipe';
 
 const COMPONENTS =
   [
@@ -34,6 +35,11 @@ const CONTAINER = [
   RecipeComponent
 
 ];
+
+const PIPES = [
+  FilterRecipesPipe
+];
+
 const MODULES = [
   CommonModule,
   FormsModule
@@ -42,7 +48,8 @@ const MODULES = [
 @NgModule({
   declarations: [
     ...COMPONENTS,
-    ...CONTAINER
+    ...CONTAINER,
+    ...PIPES
   ],
 
   imports: [

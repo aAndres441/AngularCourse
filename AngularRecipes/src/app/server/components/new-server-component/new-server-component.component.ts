@@ -16,7 +16,7 @@ export class NewServerComponentComponent implements OnInit {
   formNew: FormGroup;
   title = 'New server';
   editMode = false;
-  id: number;
+  id = -1;
   nombre: string;
   onlyStatus = ['offline', 'online', 'critical', 'stable', 'finished'];
   instanceTypes = ['medium', 'large', 'small'];
@@ -27,22 +27,19 @@ export class NewServerComponentComponent implements OnInit {
   submitted = false; // solo para cambiar valor de envio 
   forDefault = '';
   dato2: number;
-  dato1='';
-  dato3='';
+  dato1 = '';
+  dato3 = '';
 
-  constructor(private servicio: ServersService, private router: Router, private route: ActivatedRoute,) { }
+  constructor(private servicio: ServersService, private router: Router, private route: ActivatedRoute, ) { }
 
   ngOnInit() {
-    //alert(this.editMode);
-    this.submitted = false; // solo para cambiar valor de envio
-    this.id = 14;
-    this.editMode =  this.id !== -1; // param.id != null;
-    //alert(this.editMode);
+    this.id = 4; // esto es solo para probar peromuso en el form
+    this.editMode =  this.id !== -1; // param.id != null; || !== -1
     this.initForm();
   }
 
   private initForm() {
-    
+    this.submitted = false;
     let serverIdBuscada = this.id;
     let serverNameBuscado = '';
     let serverStatusBuscado = '';
@@ -52,7 +49,7 @@ export class NewServerComponentComponent implements OnInit {
     if (this.editMode) {
       this.title = 'My server';
       const serverBuscada = this.servicio.getServer(this.id);
-      // alert(serverBuscada.toString());
+       // alert(serverBuscada.toString());
      // alert('¡SerVER + ' + serverBuscada.name)
       serverIdBuscada = serverBuscada.id;
       serverNameBuscado = serverBuscada.name;
@@ -60,59 +57,63 @@ export class NewServerComponentComponent implements OnInit {
       serverInstanceBuscada = serverBuscada.instanceType;
       serversDateBuscada = serverBuscada.date;
       
+      /*  lo de abajo solo para mostrar */
       this.nombre = serverNameBuscado;
       this.status = serverStatusBuscado;
       this.instanceType = serverInstanceBuscada;
+      /* ************************* */
 
       this.formNew = new FormGroup({
-        id: new FormControl(serverIdBuscada, [Validators.required]),
+        id2: new FormControl(serverIdBuscada, [Validators.required]),
         nombre: new FormControl(serverNameBuscado, [Validators.required,
           ValidatorsServer.myMaxLength,
-          ValidatorsServer.minLength]),/* ,
+          ValidatorsServer.minLength]), /* ,
           Validators.pattern(/^[1-9]+[0-9]*$/) */
         status: new FormControl(serverStatusBuscado, Validators.required), // , [Validators.required, ValidatorsServer.statusPermited]
         instanceType: new FormControl(serverInstanceBuscada, [Validators.required]),
     });
       /* ---termina initForm --------------- */
-       /* solo para mostrar */
+
+       /* aca solo para mostrar */
       this.formNew.valueChanges.subscribe(
       (valor) => console.log (valor)
     );
+
     }
   }
 
   onSubmit() {
+    
     this.submitted = true;
+
     /*puedo sustituir esta newServ por los valores del formulario,
       ademas utilizo bien lo reactivo y no preciso importar Recipe.*/
     const newServ = new Server(
-                  this.formNew.value.id,
+                  this.formNew.value.id2,
                   this.formNew.value.nombre,
                   this.formNew.value.status,
                   new Date(),
                   this.formNew.value.instanceType);
                   
-                  //this.formNew.value.gender
+                  // this.formNew.value.gender
 
-                  alert ('HOLAAAA' + newServ.name + '--' +
-                   newServ.id + newServ.status + '--' +
-                   newServ.instanceType+ '--' +
-                   newServ.date);
-   /*  if (this.editMode) {
+    if (this.editMode) {
       this.servicio.updateServer2(this.id, newServ); // this.formNew.value || newReci
     } else {
       this.servicio.addServer(newServ); // this.formNew.value() || newReci
-    } */
+    } 
      // llamo al cancel() al terminar el submit y asi vuelve a tras
-    /* this.onCancel(); */
-  }  
+    this.onCancel();
+  }
 
-  onCancel() {
-    // this.formNew.reset();
-    this.router.navigate(['home'], {relativeTo: this.route});
+  onCancel() {   
+   // this.router.navigate(['home'], {relativeTo: this.route});
+   alert ('SALE Y VALE CANCEL()');
+   //this.formNew.reset();
+   this.router.navigate(['/home'], {relativeTo: this.route});
   }
   changeId(event: Event) {
-    this.id = Number((<HTMLInputElement>event.target).value); 
+    this.id = Number((event.target as HTMLInputElement).value); 
     // (<HTMLInputElement>event.target).value   
     // (event.target as HTMLInputElement)
     // this.price2 = this.unValor.nativeElement.value; 

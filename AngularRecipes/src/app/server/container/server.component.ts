@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ServersService } from '../servers.service';
 import { Router, ActivatedRoute, Data } from '@angular/router';
 import { Server } from '../server-model';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-server',
@@ -13,6 +14,7 @@ export class ServerComponent implements OnInit {
 
     title = 'Componentes para back-end';
     serverId: number = -1;
+    idServer: number;
     serverStatus = 'off line';
     allowNewServer = false;
     textButton = 'Boton Desactivado';
@@ -23,6 +25,8 @@ export class ServerComponent implements OnInit {
     loggeadIn = false;
     showTextbutton = false;
 
+   private serversSuscrib: Subscription;
+
     filterStatus = '';
     editMode = false;
 
@@ -32,7 +36,8 @@ export class ServerComponent implements OnInit {
     numbers: number[] = [];
     cosas = [{ type: '', name: '', description: '' }];
 
-    servers: { id: number, name: string, status: string }[] = [];
+    servers: Server[] = [];
+    servers1: { id: number, name: string, status: string }[] = [];
     servers2: any[] = [];
     servers3: Server[] = [];
 
@@ -54,7 +59,13 @@ export class ServerComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.servers = this.serversService.getServers();
+        this.serversSuscrib = this.serversService.onChanged2
+        .subscribe(
+            (serv: Server[]) => {
+                this.servers = serv;
+            }
+        );
+        this.servers = this.serversService.getServers(); // llamar de nuevo
 
         this.editMode = this.servers != null;
       }
@@ -65,6 +76,7 @@ export class ServerComponent implements OnInit {
     getallowNewServer() {
         return this.allowNewServer;
     }
+    
     allow(): void {
         this.allowNewServer = !this.allowNewServer;
         this.serverId = 5;
@@ -84,12 +96,13 @@ export class ServerComponent implements OnInit {
         this.showTextbutton = !this.showTextbutton;
     }
    
-    onLoadServer(date: number){
-        this.router.navigate(['/server', date, 'edit'], /* , 'edit' */
+    onLoadServer() {
+        const data = 11;
+        this.router.navigate(['/server', data, 'edit'], /* , 'edit' */
         {queryParams: {allow: 'si'}, //allow: 'si'
         fragment: 'loading'}
         );
-        this.serverId = date;
+        this.serverId = data;
     }
 
    /*  alEdit() {
@@ -101,19 +114,28 @@ export class ServerComponent implements OnInit {
 
     toAdd() {
         if (!this.editMode) {
-            this.router.navigate(['error'],
+            this.router.navigate(['../'],
                 { relativeTo: this.route });
         } else {
-            this.router.navigate(['new'],
+            const newLocal = 5;
+            /* this.router.navigate(['new'],
                 {
                     relativeTo: this.route,
                     queryParamsHandling: 'preserve'
-                });
+                }); */
+                /* const serverNew = new Server(21, 'Mantra', 'offline', new Date(1973, 6, 14 ), 'large');
+                this.servers.push(serverNew); */
+                
+            this.serversService.addServer(
+                 new Server(22, 'Fenix', 'offline', new Date(1973, newLocal, 14 ), 'medium')
+                 );
+                 
         }
-        this.serversService.addServer( new Server(22, 'Olo', 'online', new Date(Date.now()), 'medium'));
+       // this.serversService.addServer( new Server(22, 'Olo', 'online', new Date(Date.now()), 'medium'));
+       
     }
 
-    getStatusClass(serv: Server) {
+    getStatusClasses(serv: Server) {
         return{
             'list-group-item-success': serv.status === 'online',
             'list-group-item-warning': serv.status === 'offline',

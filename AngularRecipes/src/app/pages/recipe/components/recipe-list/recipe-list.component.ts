@@ -16,6 +16,8 @@ private ingresdUnsuscribe: Subscription;
 
 prueboName1 = '';
 title = 'List Recipes';
+filterName = '';
+
 // @Output() otroDetalle = new EventEmitter<Recipe>();
 
   constructor(private servicioRecipe: RecipeService,

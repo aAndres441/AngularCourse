@@ -141,7 +141,7 @@ export class RecipeService {
 
   deleteAllRecipes(){
     while (this.recipes.length) {
-      this.recipes.splice(0,1);
+      this.recipes.splice(0, 1);
     }    
     this.recipesChanged.next(this.recipes.slice());
   }

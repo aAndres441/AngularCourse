@@ -12,16 +12,16 @@ export class ServersService {
   
 
   private servers: Server[] = [
-    new Server(11, 'Productionserver', 'online', new Date(Date.now()), 'medium'),
-    new Server(12, 'Testserver', 'critical', new Date(Date.now()), 'large'),
-    new Server(13, 'Devserver', 'stable', new Date(Date.now()), 'small'),
-    new Server(14, 'Runserver', 'offline', new Date(Date.now()), 'medium'),
-    new Server(1, 'Max', 'online', new Date(Date.now()), 'medium'),
-    new Server(2, 'Anna', 'critical', new Date(Date.now()), 'medium'),
-    new Server(3, 'Julio', 'offline', new Date(Date.now()), 'large'),
-    new Server(4, 'Carlitos', 'online', new Date(Date.now()), 'large'),
-    new Server(5, 'Mariana', 'stable', new Date(Date.now()), 'small'),
-    new Server(6, 'Pepe', 'critical', new Date(Date.now()), 'small'),
+    new Server(0, 'Productionserver', 'online', new Date(Date.now()), 'medium'),
+    new Server(1, 'Testserver', 'critical', new Date(Date.now()), 'large'),
+    new Server(2, 'Devserver', 'stable', new Date(Date.now()), 'small'),
+    new Server(3, 'Runserver', 'offline', new Date(Date.now()), 'medium'),
+    new Server(4, 'Max', 'online', new Date(Date.now()), 'medium'),
+    new Server(5, 'Anna', 'critical', new Date(Date.now()), 'medium'),
+    new Server(6, 'Julio', 'offline', new Date(Date.now()), 'large'),
+    new Server(7, 'Carlitos', 'online', new Date(Date.now()), 'large'),
+    new Server(8, 'Mariana', 'stable', new Date(Date.now()), 'small'),
+    new Server(9, 'Pepe', 'critical', new Date(Date.now()), 'small'),
   ];
 
   private servers2 = [
@@ -38,17 +38,19 @@ export class ServersService {
 
   constructor() { }
   
-  getServers() {
-    return this.servers;
+  getServers(): Server[] {
+    /* return this.servers; */
+    return this.servers.slice();
   }
 
-  getServer(id: number) {
-    const server = this.servers.find(
+  getServer (id: number): Server {
+    return this.servers.slice()[id];
+    /* const server = this.servers.find(
       (s) => {
         return s.id === id;
       }
     );
-    return server;
+    return server; */
   }
 
   /* getServer(id: number) {
@@ -78,8 +80,8 @@ export class ServersService {
 
   updateServer2(id: number, serv: Server) {
     this.servers[id] = serv;
-    this.onChanged.emit(this.servers.slice());
-    // this.onChanged2.next(this.servers.slice());
+   // this.onChanged.emit(this.servers.slice());
+    this.onChanged2.next(this.servers.slice());
   }
 
   addServer(newServ: Server) {
@@ -87,4 +89,17 @@ export class ServersService {
     // this.onChanged.emit(this.servers.slice());
     this.onChanged2.next(this.servers.slice());
   }
+
+  deleteServer(index: number) {
+    this.servers.splice(index, 1); // elimino y abajo llamo a las actulizadas
+    this.onChanged2.next(this.servers.slice());
+  }
+
+  deleteAllRecipes(){
+    while (this.servers.length) {
+      this.servers.splice(0, 1);
+    }    
+    this.onChanged2.next(this.servers.slice());
+  }
+
 }

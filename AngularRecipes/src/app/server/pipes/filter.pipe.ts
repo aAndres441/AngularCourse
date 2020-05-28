@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Server } from 'http';
 
 @Pipe({
-  name: 'filter'
+  name: 'filterPipe',
+  pure: false  // es prop de la pipe para acr¡tualizar al filtrar, come recurso, la pongo solo si quiero
 })
 export class FilterPipe implements PipeTransform {
 

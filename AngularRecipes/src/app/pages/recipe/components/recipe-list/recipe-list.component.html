@@ -1,8 +1,9 @@
 <div class="row">
     <div class="col-xs-12">
-        <button class="btn btn-warning" style="display: block; width: 90%; background-color:rgb(163, 163, 194)"
+        <button class="btn btn-warning"
+             style="display: block; width: 90%; background-color:rgb(163, 163, 194)"
              (click)="onNewRecipe()">
-            New recipe
+                New recipe
         </button>
     </div>
     <br>
@@ -12,30 +13,45 @@
             <div class="row">
                 <div class="col-xs-8">
                     <input type="text" 
-                        class="form-control" 
                         name="search" 
-                        #search
-                        (input)="changeName($event)"
+                        #search                        
                         placeholder="Search" 
                         style="color: blueviolet; width: 90%; zoom: 110%;"  
-                     >
+                     >                     
+                     <!-- (input)="changeName($event)" -->
                 </div>
                 <div class="col-xs-4">
                     <button type="submit" class="btn btn-success" style=" inset-block: inherit; color: blueviolet; width: 100%; background-color:rgb(255, 230, 230);"
                         (click)="changeName(search.value)">
                         <span class="glyphicon glyphicon-search"></span>
+                        <!-- <i class="fa fa-search"></i> -->
                     </button>
                 </div>
-                </div>
-                <br>
                 <div class="row">
+                    <div class="col-xs-4">                    
+                        <input type="text" style="color: palevioletred;"
+                        [(ngModel)]="filterName" palevioletred
+                        placeholder="Filter for name"
+                        >
+                        
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" 
+                            [value]="filterName"
+                            style="color: palevioletred;"
+                            >
+                    </div>
+                </div>
+            </div>
+                <br>
+            <div class="row">
                     <div class="col-xs-6">
                         <input type="text" [value]=search.value >
                     </div>
                     <div class="col-xs-6">     
                         <input type="text" [value]="title">               
                     </div>
-                </div>
+            </div>
                 
                 
             <!-- </div> -->
@@ -51,8 +67,11 @@
 <div class="row">
    
     <div class="col-xs-12">  <!-- *ngIf="recipes.length>0; else infoText"> -->
-
-        <app-recipe-item *ngFor="let rec of recipes; let i = index" [recipe]="rec" [index]="i">
+<!-- | filterRecipesPipe:filterName:'name' donde na,e esprpèrty-->
+        <app-recipe-item 
+            *ngFor="let rec of recipes | filterRecipesPipe:filterName:'name'; let i = index " 
+            [recipe]="rec" 
+            [index]="i">
             <!-- (detail)="otroEventoParaElDetalle(rec)" este metodo
                         usado en item ,lo saco porque uso servicio -->
         </app-recipe-item>
