@@ -15,7 +15,7 @@ export class ServerComponent implements OnInit {
     title = 'Componentes para back-end';
     serverId: number = -1;
     idServer: number;
-    serverStatus = 'off line';
+    serverStatus = 'offline';
     allowNewServer = false;
     textButton = 'Boton Desactivado';
     name: string = '';
@@ -28,6 +28,7 @@ export class ServerComponent implements OnInit {
    private serversSuscrib: Subscription;
 
     filterStatus = '';
+    filterInstance = '';
     editMode = false;
 
     /* referencia local que podria ser el mismo compnente */ 

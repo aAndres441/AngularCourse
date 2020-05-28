@@ -15,8 +15,8 @@ import { ErrorModule } from '../shared/error/error.module';
 import { SharedModule } from '../shared/shared.module';
 import { BorrarComponent } from '../borrar/borrar.component';
 
-import { ShortNamePipe } from './pipes/short-name.pipe';
-import { FilterPipe } from './pipes/filter.pipe';
+import { ShortNamePipe, FilterPipe, InstanceFilterPipe } from './pipes/index';
+
 
 const COMPONENTS =
 [
@@ -36,13 +36,18 @@ const MODULES = [
   ReactiveFormsModule
 ];
 
+const PIPES = [
+  ShortNamePipe,
+    FilterPipe,
+    InstanceFilterPipe
+];
+
 @NgModule({
 
   declarations: [
     ...COMPONENTS,
     ...CONTAINER,
-    ShortNamePipe,
-    FilterPipe
+    ...PIPES
   ],
 
   imports: [

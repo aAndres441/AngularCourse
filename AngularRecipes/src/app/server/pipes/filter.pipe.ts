@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Server } from 'http';
+
 
 @Pipe({
   name: 'filterPipe',
@@ -7,21 +7,21 @@ import { Server } from 'http';
 })
 export class FilterPipe implements PipeTransform {
 
-  transform(value: any, filterInput: string, statusServ: string): any {
+  transform(value: any, filterInput: string, stat: string): any {
     const resultAray = [];
     if (value.lenght === 0 || filterInput === '') {
       return value;
     }
     filterInput = filterInput.toLocaleLowerCase();
-    statusServ = statusServ.toLocaleLowerCase();
-    for (const item of value) {      
-      if (item[statusServ] === filterInput) {
+    stat = stat.toLocaleLowerCase();
+    for (const item of value) {
+      if (item[stat] === filterInput) {
         resultAray.push(item);
       }
     }
     return resultAray;
    /*  value.filter((ser) => {
-      if (ser.statusServ.include(filterInput)){
+      if (ser.stat.include(filterInput)){
         resultAray.push(ser);
         return resultAray;
       }
