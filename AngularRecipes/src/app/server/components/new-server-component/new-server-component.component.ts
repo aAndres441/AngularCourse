@@ -33,7 +33,7 @@ export class NewServerComponentComponent implements OnInit {
   constructor(private servicio: ServersService, private router: Router, private route: ActivatedRoute, ) { }
 
   ngOnInit() {
-    this.id = 4; // esto es solo para probar peromuso en el form
+    //this.id = 4; // esto es solo para probar peromuso en el form
     this.editMode =  this.id !== -1; // param.id != null; || !== -1
     this.initForm();
   }

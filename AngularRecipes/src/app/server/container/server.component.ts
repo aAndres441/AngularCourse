@@ -27,6 +27,13 @@ export class ServerComponent implements OnInit {
 
    private serversSuscrib: Subscription;
 
+    promiseStatus = new Promise((resolve, reject) => {
+            setTimeout( () => {
+                resolve('PAULI');
+            }, 2000);
+        }
+    ); // una promesa y puedes imaginar que estos datos se devuelven desde una llamada HTTP, desde un servidor
+    inputLetter = '';
     filterStatus = '';
     filterInstance = '';
     editMode = false;
@@ -119,7 +126,7 @@ export class ServerComponent implements OnInit {
                 { relativeTo: this.route });
         } else {
             const newLocal = 5;
-            /* this.router.navigate(['new'],
+           /*  this.router.navigate(['new'],
                 {
                     relativeTo: this.route,
                     queryParamsHandling: 'preserve'
@@ -128,7 +135,7 @@ export class ServerComponent implements OnInit {
                 this.servers.push(serverNew); */
                 
             this.serversService.addServer(
-                 new Server(22, 'Fenix', 'offline', new Date(1973, newLocal, 14 ), 'medium')
+                  new Server(22, 'Fenix', 'offline', new Date(1973, newLocal, 14 ), 'medium')
                  );
                  
         }

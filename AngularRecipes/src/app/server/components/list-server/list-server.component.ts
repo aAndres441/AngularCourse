@@ -35,8 +35,9 @@ export class ListServerComponent implements OnInit {
       this.server = null
     );
 
-   
-    alert ('SERVER' + this.server.toString);
+    if(this.server) {
+    alert ('SERVER' + this.server.toString());
+  }
     
     /* const unaid = +this.route.snapshot.params.id;
     console.log(this.route.snapshot.queryParams + ' LISTA');
@@ -48,10 +49,7 @@ export class ListServerComponent implements OnInit {
       (param: Params) => {
         this.server = this.serversService.getServer(+param.id);
       }
-    );     */
-
-
-    confirm('this.server.name of on init ListServerComponent');
+    );     */    
   }
 
   ngOnChange() {

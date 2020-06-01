@@ -47,19 +47,28 @@
             <button class="btn btn-primary" (click)="toAdd()">Add server
             </button>
             <hr>
+            <h3>App status = {{promiseStatus | async}}</h3>
+            <hr>
             <!-- search servers -->
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <input type="text" 
                         [(ngModel)]="filterStatus" 
                         placeholder="Filter for status"
                     >
                         <i class="fa fa-search"></i>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <input type="text" 
                         [(ngModel)]="filterInstance" 
                         placeholder="Filter for Instance"
+                    >
+                        <i class="fa fa-search"></i>
+                </div>
+                <div class="col-xs-4">
+                    <input type="text" 
+                        [(ngModel)]="inputLetter" 
+                        placeholder="Sort"
                     >
                         <i class="fa fa-search"></i>
                 </div>
@@ -71,7 +80,11 @@
             <div class="list-group">
                 <!-- servidor con id 5,y luego la ruta creada para esto en routers -->
                 <!-- en pipe | name de pipe:properti en ts: prop de model -->
-                <a *ngFor="let serv of servers | filterPipe:filterStatus:'status'" 
+                <!-- la siguientye es lista, nombre de pipenombre  y nombre prop: 'propModelo' -->
+
+                <!--  | sort:'name' -->
+                <!-- *ngFor="let serv of servers | filterPipe:filterStatus:'status'"  -->
+                <a *ngFor="let serv of servers | sort:inputLetter:'name' | filterPipe:filterStatus:'status'" 
                     [routerLink]="['/server',serv.id]"
                     [queryParams]="{allow: serv.status === 'online' 
                         || serv.status === 'offline' ? 'SI' : 'NO'}" 
@@ -90,7 +103,7 @@
         <div class="col-xs-12 col-sm-6">
             <br>
             <div class="col-xs-12 col-sm-12" style="background-color: hsl(289, 10%, 78%);">
-    
+    <label for="">Here router-outlet</label>
                 <router-outlet></router-outlet>
     
                 <!--  *ngIf="serverId===-1; else infoText" -->
@@ -110,17 +123,19 @@
                         <thead style="border: 1px solid rgb(110, 223, 176); color: darkorange;">
                             <tr>
                                 <th >Nombre</th>
-                                <th style="border: 1px solid rgb(110, 223, 176)">Status</th>
+                                <th >Status</th>
                                 <th>Instance</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody style="text-align-last: center; color: white; ">
                             <!-- pipe es asi: nombre pipe:nombre prop: 'propModelo' -->
                             <tr *ngFor="let s of servers | instanceFilter:filterInstance:'instanceType'" 
-                                style="border: 1px solid rgb(110, 223, 176)" >
+                               >
                                 <td >{{s.name}}</td>
-                                <td style="border: 1px solid rgb(110, 223, 176)">{{s.status}}</td>
+                                <td >{{s.status}}</td>
                                 <td>{{s.instanceType}}</td>
+                                <td>{{s.date | date:'shortDate'}}</td>
                             </tr>
                         </tbody>
                     </table>

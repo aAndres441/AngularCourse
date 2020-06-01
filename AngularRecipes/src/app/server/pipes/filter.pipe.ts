@@ -3,7 +3,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'filterPipe',
-  pure: false  // es prop de la pipe para acr¡tualizar al filtrar, come recurso, la pongo solo si quiero
+  pure: false
+ /* es prop de la pipe para actualizar al filtrar, come recurso,    
+  la pongo solo si quiero. tenga en cuenta que el siguiente cambio se asegurará de 
+  que cada vez que cambiemos los datos en la página, nuestra tubería se vuelva a calcular, 
+  provocando problemas de rendmiento, la tubería ahora se recalcula cada vez que los datos cambian
+  */
 })
 export class FilterPipe implements PipeTransform {
 
