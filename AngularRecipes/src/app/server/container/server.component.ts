@@ -29,10 +29,17 @@ export class ServerComponent implements OnInit {
 
     promiseStatus = new Promise((resolve, reject) => {
             setTimeout( () => {
-                resolve('PAULI');
+                resolve('Filter');
             }, 2000);
         }
     ); // una promesa y puedes imaginar que estos datos se devuelven desde una llamada HTTP, desde un servidor
+   
+    promisePrueba = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve ('Asynchronous');
+        }, 3500);
+    });
+    
     inputLetter = '';
     filterStatus = '';
     filterInstance = '';
@@ -143,8 +150,8 @@ export class ServerComponent implements OnInit {
        
     }
 
-    getStatusClasses(serv: Server) {
-        return{
+    getStatusClasses(serv: {instanceType: string, name: string, status: string, started: Date}) {
+        return {
             'list-group-item-success': serv.status === 'online',
             'list-group-item-warning': serv.status === 'offline',
             'list-group-item-default': serv.status === 'stable',

@@ -46,11 +46,14 @@
             </button>
             <button class="btn btn-primary" (click)="toAdd()">Add server
             </button>
+            <br>
             <hr>
-            <h3>App status = {{promiseStatus | async}}</h3>
-            <hr>
+            <h4 style="color: rgb(142, 165, 9);">
+                Promise resolve  {{promiseStatus | async}} * {{promisePrueba | async}}
+            </h4>
+            <br>
             <!-- search servers -->
-            <div class="row">
+            <div class="row" style="max-width: 80%; flex-wrap: wrap;">
                 <div class="col-xs-4">
                     <input type="text" 
                         [(ngModel)]="filterStatus" 
@@ -69,13 +72,14 @@
                     <input type="text" 
                         [(ngModel)]="inputLetter" 
                         placeholder="Sort"
+                        style="color: blue; text-transform:uppercase;"
                     >
                         <i class="fa fa-search"></i>
                 </div>
             </div>
-            
-            
             <br>
+            <hr>
+            s
             <!-- list servers -->
             <div class="list-group">
                 <!-- servidor con id 5,y luego la ruta creada para esto en routers -->
@@ -94,6 +98,7 @@
                     <!-- [ngClass]="getStatusClasses(serv)" -->
                     <h4><strong>{{ serv.name| acorte:3 | uppercase}}</strong></h4>
                     <h5>{{ serv.status |  uppercase}}, {{ serv.date |  date:'shortDate'}}</h5>    
+                    <h5>{{ serv.instanceType | uppercase  }} </h5>    
                 </a>
             </div>
             <hr>            
@@ -130,10 +135,10 @@
                         </thead>
                         <tbody style="text-align-last: center; color: white; ">
                             <!-- pipe es asi: nombre pipe:nombre prop: 'propModelo' -->
-                            <tr *ngFor="let s of servers | instanceFilter:filterInstance:'instanceType'" 
-                               >
+                            <tr *ngFor="let s of servers | instanceFilter:filterInstance:'instanceType' | order:'name'" 
+                            >
                                 <td >{{s.name}}</td>
-                                <td >{{s.status}}</td>
+                                <td >{{s.status | reverse}}</td>
                                 <td>{{s.instanceType}}</td>
                                 <td>{{s.date | date:'shortDate'}}</td>
                             </tr>

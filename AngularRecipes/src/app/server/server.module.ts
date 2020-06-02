@@ -15,7 +15,7 @@ import { ErrorModule } from '../shared/error/error.module';
 import { SharedModule } from '../shared/shared.module';
 import { BorrarComponent } from '../borrar/borrar.component';
 
-import { ShortNamePipe, FilterPipe, InstanceFilterPipe, SortPipe } from './pipes/index';
+import { ShortNamePipe, FilterPipe, InstanceFilterPipe, SortPipe, ReversePipe, OrderPipe } from './pipes/index';
 
 
 const COMPONENTS =
@@ -40,7 +40,9 @@ const PIPES = [
   ShortNamePipe,
     FilterPipe,
     InstanceFilterPipe,
-    SortPipe
+    SortPipe,
+    ReversePipe,
+    OrderPipe
 ];
 
 @NgModule({
