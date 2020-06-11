@@ -139,7 +139,7 @@
                             >
                                 <td >{{s.name}}</td>
                                 <td >{{s.status | reverse}}</td>
-                                <td>{{s.instanceType}}</td>
+                                <td>{{s.instanceType | uppercase}}</td>
                                 <td>{{s.date | date:'shortDate'}}</td>
                             </tr>
                         </tbody>
@@ -154,7 +154,7 @@
                     <h4><i style="color: yellow;">Pipe slice :1:5</i></h4>
                     <ul class="list-group">
                         <li class="list-group-item" style="background-color: papayawhip;"
-                            *ngFor="let serv of servers | slice:1:5">
+                            *ngFor="let serv of servers | slice:1:5 | order:'name'">
                             <!-- [ngClass]="getStatusClasses(serv)" -->
                             {{serv.name | acorte:4 | uppercase}}
                             {{serv.status}}
