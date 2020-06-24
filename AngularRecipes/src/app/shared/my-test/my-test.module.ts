@@ -4,9 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { MyTestComponent } from './container/my-test/my-test.component';
 
-import { MyTestListComponent, MyTestFormComponent, MyTestBindingComponent } from './components/index';
-import { MyDirectivasComponent } from './components/my-directivas/my-directivas.component';
-
+import {
+   MyTestListComponent, 
+   MyTestFormComponent,
+   MyTestBindingComponent,
+   MyDirectivasComponent 
+  } from './components/index';
+/* import { 
+  MyDirectivasComponent 
+} from './components/my-directivas/my-directivas.component';
+ */
 
 const MODULES = [
   CommonModule,

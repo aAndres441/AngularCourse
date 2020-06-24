@@ -17,14 +17,17 @@ export class AccountService {
 
   private accounts: Account[] =  [
     {
+      id: 10,
       name: 'Julito',
       status: 'active'
     },
     {
+      id: 1,
       name: 'Mariana',
       status: 'inactive'
     },
     {
+      id: 2,
       name: 'Feliciano',
       status: 'unknown'
     },
@@ -36,8 +39,8 @@ export class AccountService {
 
   /* onAccountAdded(newAccount: { name: string, status: string }) {
     this.accounts.push(newAccount); */
-  addAccount(name: string, status: string ) {
-    this.accounts.push({name, status});
+  addAccount( id: number, name: string, status: string ) {
+    this.accounts.push({id, name, status});
     this.avisar(name, status);
     /* this.oldServicio.mostrateDato(status); */
     /* this.notifyStatusUpdate.emit(this.accounts.slice()); */
@@ -56,7 +59,7 @@ export class AccountService {
     alert('correct transaction!  Data: ' + dato1 + '-' + dato2);
   }
 
-  getAccounts(){
+  getAccounts() {
     return this.accounts;
   }
 }

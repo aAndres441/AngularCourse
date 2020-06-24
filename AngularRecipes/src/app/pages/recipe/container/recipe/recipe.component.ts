@@ -70,4 +70,9 @@ export class RecipeComponent implements OnInit {
     
   }
 
+  onNewRecipe() {
+    this.router.navigate(['new'], {relativeTo: this.route});
+    // navega a new relativo a que ya estoy parado en recipe
+  }
+
 }

@@ -1,0 +1,15 @@
+.container {
+    margin-top: 30px;
+    color: rgb(128, 128, 128);
+    background-color: #e2e4db;
+  }
+  
+  .row {
+    margin: 20px 0;
+  }
+
+  h1{
+    text-align: center; 
+    color: rgb(76, 161, 81);
+}
+  

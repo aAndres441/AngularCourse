@@ -1,11 +1,13 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';/* 
+import { HttpClientModule } from '@angular/common/http'; */
 
 import { MyTestModule } from './my-test/my-test.module';
 import { GameModule } from './game/game.module';
 import { ErrorModule } from './error/error.module';
+import { PostModule } from './post/post.module';
 
 import { FooterComponent } from './footer/footer.component';
 import { WarningAlertComponent } from './warning-alert/warning-alert.component';
@@ -48,11 +50,13 @@ const COMPONENTS = [
 const MODULES = [
   CommonModule,
   FormsModule,
+  ReactiveFormsModule,
+  // HttpClientModule,
   RouterModule,
   ErrorModule,
   MyTestModule,
   GameModule,
-  ReactiveFormsModule
+  PostModule
 ];
 
 @NgModule({

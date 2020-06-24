@@ -31,11 +31,9 @@ export class NewAccountComponent implements OnInit {
   ngOnInit() {
   }
 
-  
+onCreateAccount( id: number, accoutName: string, accountStatus: string) {
 
-onCreateAccount(accoutName: string, accountStatus: string) {
-
-  this.servicio.addAccount(accoutName, accountStatus );
+  this.servicio.addAccount(id, accoutName, accountStatus );
 
   /*Despues de tener el servicio injectado, con su provider
   sacamos este evento y su output:

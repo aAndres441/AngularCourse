@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RecipeComponent } from './pages/recipe/container';
+import { RecipeComponent } from './pages/recipe/container/index';
 import {RecipeStartComponent,
       RecipeDetailsComponent,
       RecipeItemComponent,
       RecipeListComponent,
       RecipeEditComponent } from './pages/recipe/components/index';
+
+import { PostComponent } from './shared/post/container/index';
+import { ActivePostComponent } from './shared/post/component/index';
 
 import { ServerComponent } from './server/container/server.component';
 import { EditServerComponent, ListServerComponent, NewServerComponentComponent } from './server/components/index';
@@ -29,6 +32,7 @@ import { ContactComponent } from './shared/contact/contact.component';
 import { HobbieComponent } from './shared/hobby/container/hobbie/hobbie.component';
 import { NewAccountComponent } from './pages/account/components/new-account/new-account.component';
 
+
 import { UserComponent } from './pages/user/container/user/user.component';
 import { OneUserComponent,
         ActiveUsersComponent,
@@ -39,9 +43,6 @@ import { OneUserComponent,
 
 import { AuthServerGuard } from './shared/guards/auth-server.guard';
 import { CanDeactivateGuard } from './server/components/edit-server/can-deactivate-guard.service';
-
-
-
 
 const myRoutes: Routes = [
   
@@ -67,7 +68,6 @@ const myRoutes: Routes = [
     {path: 'new', component: RecipeEditComponent},
     {path: ':id', component: RecipeDetailsComponent},
     {path: ':id/edit', component: RecipeEditComponent},
-    
   ]},
  // {path: 'item', component: RecipeItemComponent},
   
@@ -100,6 +100,12 @@ const myRoutes: Routes = [
   {path: 'account', component: AccountComponent, children: [
     {path: ':id', component: NewAccountComponent}
   ]},
+
+  {path: 'post', component: PostComponent, children:  [
+    {path: 'new', component: ActivePostComponent}
+  ] },
+
+ {path: 'newpp', component: ActivePostComponent},
 
   {path: 'payment', component: PaymentComponent},
   {path: 'error', component: ErrorComponent, data: {mensajito: 'Page not found guy!'}},

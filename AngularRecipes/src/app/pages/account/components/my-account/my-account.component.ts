@@ -16,7 +16,7 @@ import { NewAccountComponent } from '../new-account/new-account.component';
 })
 export class MyAccountComponent implements OnInit {
 
-  @Input() account: { name: string, status: string };
+  @Input() account: {id: number,  name: string, status: string };
   @Input() id: number;
 
 /*   @Output() statusChanged = new EventEmitter<{ id: number, newStatus: string }>();

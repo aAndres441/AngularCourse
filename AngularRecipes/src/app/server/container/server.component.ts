@@ -149,6 +149,16 @@ export class ServerComponent implements OnInit {
        // this.serversService.addServer( new Server(22, 'Olo', 'online', new Date(Date.now()), 'medium'));
        
     }
+    toAdd2() {
+        alert('MOD= ' + this.editMode);
+        if(this.editMode){
+            //this.router.navigate(['../post/newPost'], { relativeTo: this.route });
+            this.router.navigate(['/newPost']);
+        }else{
+            alert('TTAAA');
+        }
+
+    }
 
     getStatusClasses(serv: {instanceType: string, name: string, status: string, started: Date}) {
         return {

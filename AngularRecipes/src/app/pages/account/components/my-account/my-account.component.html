@@ -5,7 +5,7 @@
             <p> <b> NAME {{account.name}}</b></p>
         </div>
         <div class="col-xs-12 col-md-10 ">            
-            <p>This acount(Nº {{id}}) {{account.name}} is {{account.status}}</p>
+            <p>This acount(Nº {{id}}) + '--' + {{account.id}} +--+{{account.name}} is {{account.status}}</p>
             <button class="btn btn-success" (click)="onSetStatus('active')">Set to active</button>
             <button class="btn btn-success" (click)="onSetStatus('inactive')">Set to inactive</button>
             <button class="btn btn-success" (click)="onSetStatus('unknown')">Set to unknown</button>

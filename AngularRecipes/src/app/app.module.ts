@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 /* import { HttpModule } from '@angular/http'; */
+/* import { HttpClient } from '@angular/common/http'; */
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { ShoppingService } from './pages/shopping/services/shopping.service';
 
 import { AuthServerGuard } from './shared/guards/auth-server.guard';
 import { CanDeactivateGuard } from './server/components/edit-server/can-deactivate-guard.service';
+
 
 
 const MODULES = [
@@ -36,7 +38,9 @@ const MODULES = [
   imports: [
     BrowserModule,
     ...MODULES,
-    AppRoutingModule
+    AppRoutingModule/* ,
+    HttpClient */
+
   ],
 
   /* no quiero importar FormsModule aca en import, lo estoy haciendo en shared*/
