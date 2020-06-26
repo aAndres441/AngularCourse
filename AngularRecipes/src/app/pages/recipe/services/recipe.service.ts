@@ -146,3 +146,13 @@ export class RecipeService {
     this.recipesChanged.next(this.recipes.slice());
   }
 }
+
+/* 
+EJ 
+ constructor(private httpClient: HttpClient) { }
+
+  getRestaurants(state: string, city: string): Observable<ResponseData<Restaurant>> {
+    const params = new HttpParams().set('filter[address.state]', state).set('filter[address.city]', city);
+    return this.httpClient.get<ResponseData<Restaurant>>(environment.apiUrl + '/restaurants', {params});
+  }
+   */

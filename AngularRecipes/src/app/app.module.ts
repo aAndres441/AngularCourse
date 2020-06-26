@@ -19,7 +19,10 @@ import { ShoppingService } from './pages/shopping/services/shopping.service';
 import { AuthServerGuard } from './shared/guards/auth-server.guard';
 import { CanDeactivateGuard } from './server/components/edit-server/can-deactivate-guard.service';
 
-
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {environment} from '../environments/environment';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 const MODULES = [
   SharedModule,
@@ -28,7 +31,11 @@ const MODULES = [
   ServerModule
 ];
 
-
+const FIREBASE = [
+  AngularFireModule.initializeApp (environment.firebase),
+  AngularFirestoreModule,
+  AngularFireDatabaseModule
+];
 
 @NgModule({
   declarations: [
@@ -38,9 +45,9 @@ const MODULES = [
   imports: [
     BrowserModule,
     ...MODULES,
-    AppRoutingModule/* ,
-    HttpClient */
-
+    AppRoutingModule,
+   /* HttpClient */
+    ...FIREBASE
   ],
 
   /* no quiero importar FormsModule aca en import, lo estoy haciendo en shared*/
