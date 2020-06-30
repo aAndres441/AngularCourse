@@ -32,7 +32,7 @@ const MODULES = [
 ];
 
 const FIREBASE = [
-  AngularFireModule.initializeApp (environment.firebase),
+  // AngularFireModule.initializeApp (environment.firebase),
   AngularFirestoreModule,
   AngularFireDatabaseModule
 ];

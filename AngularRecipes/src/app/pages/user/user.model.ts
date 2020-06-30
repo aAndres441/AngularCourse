@@ -1,3 +1,5 @@
+import { Directive } from "@angular/core";
+@Directive()
 export class User {
 
     id = 0;

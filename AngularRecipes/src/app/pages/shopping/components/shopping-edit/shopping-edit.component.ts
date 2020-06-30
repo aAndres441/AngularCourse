@@ -22,7 +22,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   other: boolean;
 
   /* aca para template */
-  @ViewChild('formEdit', { static: false }) f: NgForm;
+  @ViewChild('formEdit') f: NgForm;
   private subscripIngred: Subscription;
   editMode = false;
   editIndexItem: number;

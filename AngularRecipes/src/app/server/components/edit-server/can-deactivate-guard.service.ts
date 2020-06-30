@@ -1,6 +1,7 @@
 
 import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
+import { Injectable } from "@angular/core";
 
 
 // este sera el metodo de esta interface
@@ -14,6 +15,7 @@ export interface CanComponentDeactivate {
 cuando quieramos dejar la ruta, asi que tendra al componente que esta ahora,
 del tipo CanComponentDeactivate a usar. */
 
+@Injectable()
 export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
 
     canDeactivate(componente: CanComponentDeactivate,

@@ -29,7 +29,7 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
   collapsed = true;
   seleccion = 'Sin seleccion';
   /* valorParaSwitch: string; */
-  @ViewChild('valorParaSwitch', { static: false }) valorParaSwitch: ElementRef;
+  @ViewChild('valorParaSwitch') valorParaSwitch: ElementRef;
   msj: string;
   dato: string;
 

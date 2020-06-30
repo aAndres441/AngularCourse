@@ -15,8 +15,8 @@ export class ContactComponent implements OnInit {
 
 /*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
 /* lo de abajo es usado para form de plantilla */
-   @ViewChild('myForm', { static: false }) formReferido: NgForm;
-   @ViewChild('username', { static: false }) refieroName: ElementRef;
+   @ViewChild('myForm') formReferido: NgForm;
+   @ViewChild('username') refieroName: ElementRef;
    forDefaultQuestions = ' pet'; /* para enlace unidereccional, y carga select por defecto */
    defaultRadio = 'male';
    answer = '';
@@ -34,7 +34,7 @@ export class ContactComponent implements OnInit {
 
 /*  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *  */
    /* lo de abajo es solo para ejetrcicio template*/
-   @ViewChild('formEx', { static: false }) myFormExample: NgForm;
+   @ViewChild('formEx') myFormExample: NgForm;
    isOkform = false;
    theMail = '';
    thePass = '';

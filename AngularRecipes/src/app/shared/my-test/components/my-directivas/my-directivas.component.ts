@@ -13,7 +13,7 @@ export class MyDirectivasComponent implements OnInit {
   onlyOdd: boolean;
 
   /* valorParaSwitch: string; */
-  @ViewChild('valorParaSwitch', { static: false }) valorParaSwitch: ElementRef;
+  @ViewChild('valorParaSwitch') valorParaSwitch: ElementRef;
 
   valor = 0;
 

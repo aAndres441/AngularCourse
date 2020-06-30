@@ -1,9 +1,11 @@
+import { Injectable } from "@angular/core";
 
 /*
 Se lo saco pues no se le va a injectar nada, aunque si sera injectado en el servicio user
 @Injectable({
   providedIn: 'root'
 }) */
+@Injectable()
 export class UsersCounterService {
 
   activeToInactivCount = 0;

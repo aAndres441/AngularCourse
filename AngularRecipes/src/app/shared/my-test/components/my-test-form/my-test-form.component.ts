@@ -22,12 +22,12 @@ export class MyTestFormComponent implements OnInit {
 
   
 prueboName2 = '';
-@ViewChild('unValor', { static: false }) unValor: ElementRef;
+@ViewChild('unValor') unValor: ElementRef;
 
   @Output() eventoCity = new EventEmitter<{city: string, alim: string}>();
  
   /* referencia local que podria ser el mismo compnente */ 
-  @ViewChild('alimento', { static: false }) alimento: ElementRef;
+  @ViewChild('alimento') alimento: ElementRef;
   
   mascotas = [
     {

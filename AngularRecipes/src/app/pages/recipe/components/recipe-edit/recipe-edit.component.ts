@@ -30,7 +30,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   forbbidenUsernames = ['Guiso', 'Asado'];
   imgDefault = 'src\assets\Imagenes\flor Pajarito.jpg';
 
-  @ViewChild('formEdit', { static: false }) f: NgForm;
+  @ViewChild('formEdit') f: NgForm;
  /* esto puedo borrrars solo entrevera  
   @ViewChild('descriptionEdit', { static: false }) descriptionEdit: ElementRef;
   @ViewChild('descripEdit', { static: false }) descripEdit: ElementRef;
@@ -38,7 +38,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   submitEditOk = false;
   submitted = false;
   nameEditDEfault: string;
-   @ViewChild('nameEdit2', { static: false }) nameValorIngresado: ElementRef;
+   @ViewChild('nameEdit2') nameValorIngresado: ElementRef;
   // tslint:disable-next-line: max-line-length
   descriptionEditDefault: string; // = 'Juan , <span class=class=help class=help-blo cngIf !nameEdi t.valid && nameEdit.touched- blocngIf !nameEdit.valid && nameEdit.touchedhel p-blocngIf !nameEdit.valid && nameEdit.touched ';
   idEditDefault: number; /*2500 +this.id */
