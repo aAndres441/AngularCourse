@@ -67,7 +67,7 @@
             <span *ngIf="!signupForm.get('formAnidado.email').errors['emailIsForbidden']">
               Please enter a  valid mail, thanks!!
             </span>
-            <span *ngIf="!signupForm.get('formAnidado.email').required">
+            <span *ngIf="!signupForm.get('formAnidado.email').errors['required']">
               The mail is required!!
             </span>
           </span>
@@ -396,38 +396,31 @@
             <form [formGroup]='formExampleReactivo' (ngSubmit)="onFormExapleReactivo()">
               <div class="form-group">
                 <label for="">Name</label>
-                <input formControlName='exName'
-                       class="form-control"
-                       type="text" id="exName" name="exName" title="Name">
+                <input 
+                  formControlName='exName' 
+                  class="form-control" 
+                  type="text" id="exName"
+                  name="exName" title="Name">
               </div>
               <span class="help-block" style="color: hotpink;"
-                  *ngIf="!formExampleReactivo.get('exName').valid && formExampleReactivo.get('exName').touched">
-                  <span 
-                    *ngIf="formExampleReactivo.get('exName').errors['required']">
-                    is required
-                  </span>
-                  <span 
-                    *ngIf="formExampleReactivo.get('exName').errors['noPermite']">
-                    not permit Test
-                  </span>
+                *ngIf="!formExampleReactivo.get('exName').valid && formExampleReactivo.get('exName').touched">
+                <span *ngIf="formExampleReactivo.get('exName').errors['required']">
+                  is required
                 </span>
-                <!-- 
-                  <span *ngIf="formExampleReactivo.get('exName').errors['noPermite']">
-                not permit Test
+                <span *ngIf="formExampleReactivo.get('exName').errors['noPermite']">
+                  not permit Test
+                </span>
               </span>
-                 -->
-  
+            
               <div class="form-group">
                 <label for="">email</label>
-                <input formControlName= 'exMail'
-                      class="form-control"                    
-                      type="email" id="exMail" name="exMail" title="email">
+                <input formControlName='exMail' class="form-control" type="email" id="exMail" name="exMail" title="email">
               </div>
-
+            
               <span class="help-block" style="color: hotpink;"
-              *ngIf="!formExampleReactivo.get('exMail').valid && formExampleReactivo.get('exMail').touched">
-              
-                <span  *ngIf="formExampleReactivo.get('exName').errors['required']">
+                *ngIf="!formExampleReactivo.get('exMail').valid && formExampleReactivo.get('exMail').touched">
+            
+                <span *ngIf="formExampleReactivo.get('exName').errors['required']">
                   mail required
                 </span>
                 <span *ngIf="formExampleReactivo.get('exName').errors['noVaEmail']">
@@ -435,41 +428,33 @@
                 </span>
               </span>
               <!-- 
-                 <div *ngIf="checkValidity('exMail')">
-              <span class="help-block" *ngFor="let errCode of getErrorCodes(exMail.id)">{‌{ errors[errCode + ' - ' +
-                exMail.id] }}</span>
-            </div>
-               -->
-  
+                             <div *ngIf="checkValidity('exMail')">
+                          <span class="help-block" *ngFor="let errCode of getErrorCodes(exMail.id)">{‌{ errors[errCode + ' - ' +
+                            exMail.id] }}</span>
+                        </div>
+                           -->
+            
               <div class="form-group">
                 <label for="">select status</label>
-                <select class="form-control"
-                        formControlName= 'status'
-                        name="status" id="status">
-                    <option *ngFor="let status of listExampleStatus"
-                            [value]="status">{{status}}
-                    </option>
+                <select class="form-control" formControlName='status' name="status" id="status">
+                  <option *ngFor="let status of listExampleStatus" [value]="status">{{status}}
+                  </option>
                 </select>
               </div>
-
+            
               <div class="form-group">
                 <label for="">Select one</label>
-                <select name="sts" id="sts"
-                      formControlName= 'sts'
-                        class="form-control">
+                <select name="sts" id="sts" formControlName='sts' class="form-control">
                   <option value="" disabled>select one</option>
                   <option value="stable">Stable</option>
                   <option value="critical">Critical</option>
                   <option value="finished">Finished</option>
                 </select>
               </div>
-              
-              <button class="btn btn-primary" 
-                      type="submit" style="width: 50%;" 
-                      [disabled]="!formExampleReactivo.valid"
-              >Submit
-          </button> 
-
+            
+              <button class="btn btn-primary" type="submit" style="width: 50%;" [disabled]="!formExampleReactivo.valid">Submit
+              </button>
+            
             </form>
           </div>       
         </div> 

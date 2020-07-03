@@ -56,7 +56,7 @@ constructor(private servicio: ShoppingService) { }
   onEditItem(index: number) { // (index: number) o (ingred: Ingredient)
 // alert('NAME ' + ingred.name + 'id: ' + ingred.id);
 
-/* agrego este subject en el servicio para escucharlo donde quiuera,
+/* agrego este subject en el servicio para escucharlo donde quiera,
  sera en shoppingComponent, en su onInit() ver*/
 this.servicio.startIngredEdit.next(index); // .next(index); o (ingred.id)
 // alert(' shopping-list id= ' + index + ' ok');

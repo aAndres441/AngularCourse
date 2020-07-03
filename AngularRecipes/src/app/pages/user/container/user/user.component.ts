@@ -44,9 +44,11 @@ private deactivatedSuscription: Subscription;
     });
 
     // Para Subject: acordarse de ondestroy y de asignar variable para desuscript
-         this.deactivatedSuscription = this.userServiceSubject.subjActivatedSubject.subscribe(dato => {
-      this.subject = dato;
-    });
+         this.deactivatedSuscription = this.userServiceSubject.subjActivatedSubject
+          .subscribe(dato => {
+            this.subject = dato;
+            }
+          );
 
       /* if (this.subject) {
         this.subject = false;

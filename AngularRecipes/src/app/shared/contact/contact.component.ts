@@ -23,6 +23,10 @@ export class ContactComponent implements OnInit {
    mail = '';
    genders = ['male', 'famale'];
    submitted = false; // solo para cambiar valor de envio   
+   suggestedName = '' ;
+   emmmail = '' ;
+   myPass = '' ;
+   theCitys: [''] ;
 
    user = {
      myUsernombre: '',

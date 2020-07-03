@@ -1,7 +1,6 @@
-import { Directive } from "@angular/core";
+import { Directive } from '@angular/core';
 @Directive()
 export class User {
-
     id = 0;
     public name: string;
     lastname: string;

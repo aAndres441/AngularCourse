@@ -48,11 +48,12 @@ export class AccountComponent implements OnInit {
     
     console.log('[' + this.pos + ']' + this.accounts[this.pos].status + '---' + this.accounts[this.pos].name);
   } */
-  loEdito(){
-    this.router.navigate(['/account', 1],
+  loEdito() {
+    /* this.router.navigate(['/account', 1],
     {queryParams: {loEdito: 'si'},
     fragment: 'loading'}
-    );
+    ); */
+    this.router.navigate(['/newId']);
   }
   
 

@@ -6,14 +6,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ActivePostComponent } from './component/index';
 import { PostComponent } from './container/post/post.component';
+import { PostService } from './post.service';
 
 
 const MODULES = [
   CommonModule,
   HttpClientModule,
-  FormsModule
-  /* ,
-  ReactiveFormsModule */
+  FormsModule,
+  ReactiveFormsModule
 ];
 const CONTAINER = [
   PostComponent
@@ -26,8 +26,7 @@ const COMPONENTS = [
 @NgModule({
   declarations: [
     ...COMPONENTS,
-    ...CONTAINER,
-    PostComponent
+    ...CONTAINER
   ],
 
   imports: [
@@ -37,6 +36,10 @@ const COMPONENTS = [
   exports: [
     ...COMPONENTS,
     ...CONTAINER
+  ],
+
+  providers: [
+    PostService
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

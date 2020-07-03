@@ -22,7 +22,6 @@ import { MyTestComponent } from './shared/my-test/container/my-test/my-test.comp
 import { MyTestBindingComponent } from './shared/my-test/components/index';
 
 import { BorrarComponent } from './borrar/borrar.component';
-import { AccountComponent } from './pages/account/container/account/account.component';
 import { PaymentComponent } from './pages/payment/container/payment/payment.component';
 import { HomeComponent } from './shared/home/home.component';
 import { ErrorComponent } from './shared/error/error.component';
@@ -30,8 +29,9 @@ import { GameComponent } from './shared/game/container/game/game.component';
 import { LoginComponent } from './shared/login/login.component';
 import { ContactComponent } from './shared/contact/contact.component';
 import { HobbieComponent } from './shared/hobby/container/hobbie/hobbie.component';
-import { NewAccountComponent } from './pages/account/components/new-account/new-account.component';
 
+import { AccountComponent } from './pages/account/container/index';
+import { MyAccountComponent, NewAccountComponent } from './pages/account/components/index';
 
 import { UserComponent } from './pages/user/container/user/user.component';
 import { OneUserComponent,
@@ -43,6 +43,7 @@ import { OneUserComponent,
 
 import { AuthServerGuard } from './shared/guards/auth-server.guard';
 import { CanDeactivateGuard } from './server/components/edit-server/can-deactivate-guard.service';
+
 
 const myRoutes: Routes = [
   
@@ -97,9 +98,13 @@ const myRoutes: Routes = [
 
   {path: 'borrar', component: BorrarComponent},
   
-  {path: 'account', component: AccountComponent, children: [
-    {path: ':id', component: NewAccountComponent}
-  ]},
+  {path: 'account', component: AccountComponent/*, children: [
+     {path: ':id', component: NewAccountComponent }
+  ]*/},
+
+  {path: 'newId', component: NewAccountComponent},
+  
+  {path: 'newAcc', component: MyAccountComponent},
 
   {path: 'post', component: PostComponent, children:  [
     {path: 'new', component: ActivePostComponent}

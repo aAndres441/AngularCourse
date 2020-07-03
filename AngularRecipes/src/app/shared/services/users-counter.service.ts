@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 /*
 Se lo saco pues no se le va a injectar nada, aunque si sera injectado en el servicio user

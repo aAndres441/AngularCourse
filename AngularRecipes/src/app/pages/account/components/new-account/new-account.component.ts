@@ -18,6 +18,7 @@ export class NewAccountComponent implements OnInit {
   /* @Output() accountAdded = new EventEmitter<{name: string, status: string}>(); */
  
  /*  @Input() id: number; */
+ 
   isBackground = false;
   
   constructor( private servicio: AccountService) {
