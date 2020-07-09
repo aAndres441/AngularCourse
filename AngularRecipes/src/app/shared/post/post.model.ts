@@ -10,6 +10,6 @@ export class Post {
     }
 
     toString() {
-        return `Title: ${this.title}- Fecha: ${this.data}`;
+        return `Title: ${this.title} ` +  this.content + '-';
     }
 }

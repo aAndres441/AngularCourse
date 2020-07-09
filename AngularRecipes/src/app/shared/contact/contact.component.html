@@ -173,7 +173,8 @@
             <div class="form-group">
               <label for="username">Username</label>
               <input  class="form-control" 
-                      ngModel [(ngModel)]="suggestedName" 
+                      ngModel 
+                      [(ngModel)]="suggestedName" 
                       #username="ngModel"
                       name="username" type="text" id="username" required placeholder="*" title="username" minlength="2">
             </div>
@@ -199,7 +200,8 @@
               <label for="email">Mail</label>
               <input type="email" id="email" 
                     class="form-control" #elemail="ngModel" 
-                    ngModel [(ngModel)]="mail" name="email"
+                    ngModel 
+                    [(ngModel)]="mail" name="email"
                 placeholder="E-mail" title="e-mail" required email>
               <!-- #elemail="ngModel", obtengo referencia a este control -->
             </div>

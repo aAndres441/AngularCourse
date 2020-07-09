@@ -15,14 +15,17 @@ import { ServerModule } from './server/server.module';
 
 import { AccountService } from './shared/services/account.service';
 import { ShoppingService } from './pages/shopping/services/shopping.service';
+import { PostService } from './shared/services/post.service';
 
 import { AuthServerGuard } from './shared/guards/auth-server.guard';
 import { CanDeactivateGuard } from './server/components/edit-server/can-deactivate-guard.service';
 
-import {AngularFireModule} from '@angular/fire';
-import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {environment} from '../environments/environment';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
+
+import {AngularFireModule} from '@angular/fire';
+// import {AngularFireDatabaseModule} from '@angular/fire/database';
+// import {AngularFirestoreModule} from '@angular/fire/firestore';
+
 
 const MODULES = [
   SharedModule,
@@ -32,9 +35,10 @@ const MODULES = [
 ];
 
 const FIREBASE = [
-  AngularFireModule.initializeApp (environment.firebaseConfig),
-  AngularFirestoreModule,
-  AngularFireDatabaseModule
+ /*  AngularFirestoreModule, */
+  /* AngularFireDatabaseModule, */
+  /* AngularFireModule.initializeApp (environment.firebaseConfig, 'posts') */
+  AngularFireModule.initializeApp (environment.firebaseConfig)
 ];
 
 @NgModule({
@@ -57,7 +61,8 @@ const FIREBASE = [
     AccountService,
     ShoppingService,
     AuthServerGuard,
-    CanDeactivateGuard // para dejar la ruta
+    CanDeactivateGuard, // para dejar la ruta
+    PostService
   ],
     
   bootstrap: [AppComponent],

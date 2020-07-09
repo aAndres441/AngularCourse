@@ -2,16 +2,71 @@
 
 <div class="row" style="border: solid 2px rgb(191, 255, 161);">
     <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #9ac48a;">
-        <h4>here must stay router-outlet</h4>
+        <h4 style="text-align: center;">
+             <q><u><i><small>
+                ( here must stay router-outlet)
+            </small></i></u></q>
+        </h4>
         <router-outlet> </router-outlet>
-        <button class="btn btn-warning" style=" width: 70%; background-color:rgb(163, 163, 194)"
+        <button class="btn btn-warning" style=" width: 60%; background-color:rgb(130, 130, 204)"
                 (click)="onNewPost()">
                 New Post
         </button>
-        <button class="btn btn-warning" style=" width: 20%;" 
-        (click)="activarSubject()">
-        Change (submitted)
+        <button class="btn btn-warning" style=" width: 40%;" 
+                (click)="activarSubject()">
+                Change (submitted)
         </button>
+        <hr>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-10">
+          <h1><b>POSTS </b></h1>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2">
+          <button class="btn" id="wahtsapp">
+            <a href="https://api.whatsapp.com/send?phone=59895563103">
+              <i class="fab fa-whatsapp" aria-hidden="true"> </i>
+            </a>
+          </button>
+        </div>
+    </div>
+    <div class="row">    
+        <div *ngIf="posts.length>0; else noTask" class="col-xs-12">
+            <table class="table-responsive" style="width:100%; padding:22px">
+               <!--  <thead style="text-align: center;">Tabla </thead> -->
+                <tbody style="align-self: center;">
+                <tr>
+                    <th colspan="3">Post</th>
+                    <th>Delete</th>
+                    <th>Add</th>
+                </tr>
+                <tr *ngFor="let ps of posts">
+
+                    <td colspan="3">
+                        {{ps.toString()}} - Fecha: {{ps.data|date}}
+                    </td>
+                   
+                    <td>
+                       
+                        <button (click)="onDelete()" class="w3-btn w3-white w3-border w3-border-red w3-text-red w3-round-large"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                            <i class="far fa-trash-alt"></i> </font></font>
+                        </button>
+                    </td>
+
+                    <td> 
+                        <button (click)="onAdd()" class="w3-btn w3-white w3-border w3-border-red w3-text-red w3-round-large"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                            <i class="fas fa-plus"></i></font></font>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <ng-template #noTask>
+            <h4>THERE IS  NOT POSTS YET</h4>
+        </ng-template>
     </div>
       
     <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #c1cf8f;">

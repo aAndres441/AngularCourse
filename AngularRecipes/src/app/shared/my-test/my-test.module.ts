@@ -2,7 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { MyTestComponent } from './container/my-test/my-test.component';
+import { MyTestComponent } from './container/index';
 
 import {
    MyTestListComponent, 

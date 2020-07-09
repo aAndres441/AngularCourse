@@ -110,7 +110,7 @@ const myRoutes: Routes = [
     {path: 'new', component: ActivePostComponent}
   ] },
 
- {path: 'newpp', component: ActivePostComponent},
+ // {path: 'newpp', component: ActivePostComponent},
 
   {path: 'payment', component: PaymentComponent},
   {path: 'error', component: ErrorComponent, data: {mensajito: 'Page not found guy!'}},

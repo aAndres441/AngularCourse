@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { NgForm, NgModel, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+import { environment } from '../../../../../environments/environment';
+
 import { Subscription, Observable } from 'rxjs';
 import { Post } from '../../post.model';
 import { error } from 'console';
-import { PostService } from '../../post.service';
+import { PostService } from '../../../services/post.service';
 
 @Component({
   selector: 'app-active-post',
@@ -26,7 +28,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   private suscripcion: Subscription; // se suscribe para mostrarlo y desuscribir
   
   postNew: Post = {
-    title : '',
+    title: '',
     content: '',
     data: new Date(),
   };
@@ -40,11 +42,10 @@ export class ActivePostComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.fetchPosts();
-this.service.getPosts().su
+// this.service.getPosts()
 
-
-    console.log('Fier ' + this.firestore.doc.name);
-    console.log('ee ' + this.loadedPosts.length);
+    console.log('ActivePostComponent1 ' + this.firestore.doc);
+    console.log('ActivePostComponent2, length=  ' + this.service.getDatabaseDatas());
      
 
     // this.submitted = false; // solo para cambiar valor de envio  
@@ -53,9 +54,11 @@ this.service.getPosts().su
             title: new FormControl (null, [Validators.required,
                                    /*  this.notTitle.bind(this),*/
                                     this.notAllowName.bind(this) ]),
-            content: new FormControl (null, [Validators.required])
+            content: new FormControl (null, [Validators.required,
+                                      Validators.minLength(8)])
     });
 
+    /* setea valores de prueba en el form al inicio */
     this.postForm.patchValue({
       title: this.suggestedName,
       content: 'feni@gMa.com'
@@ -64,37 +67,49 @@ this.service.getPosts().su
 
     /* solo para mostrar */
     this.postForm.valueChanges.subscribe(
-      (valor) => console.log ('El valor del form ' + valor)
+      (valor) => console.log ('El valor del form ' + valor.value)
     );
     
-    /* Solo para inventar Subject */
+     /* statusChanges */
+    this.postForm.statusChanges. subscribe(
+      (status) => console.log ('El status del form ' + status)
+    );
+
+    /* Solo para inventar Subject random*/
     this.suscripcion = this.service.randomSub
       .subscribe(
         (s) => {
           this.submitted = s;
         }
       );
+
+      /* Aca termina On init */
   }
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
   }
 
-  onReactivo() {
-    alert (this.postForm.controls.title.value);
-    alert (this.postForm.controls.content.value);
+  onSubmit() {
+    
+    console.log(this.postForm.value + 'Enviando1 onSubmit');
+
+    this.postNew = new Post(this.postForm.controls.title.value, this.postForm.controls.content.value);
+    // this.onCreatePost(this.postNew );
+    this.onCreatePost(new Post(this.postForm.controls.title.value, this.postForm.controls.content.value));
+    
     this.postForm.reset();
-    alert('FENIX');
+    
  }
   
   onCreatePost(postData: { title: string; content: string }) {
-    console.log(postData + 'onCreatePost');
     // Send Http request
-    this.http.post('https://angularcourse-bc12b.firebaseio.com/.Posts.json', postData)
-    .subscribe(responde => {
-      console.log(responde);
-    }, () => {alert('ERROR'); }
-    );
+    // abajo esta el json desde importado desde environment
+    this.http.post(environment.firebaseConfig.databaseURL, postData)
+      .subscribe(resp => {
+        console.log(resp + 'RESPUESTA');
+      }, () => {alert ('NO');
+    } );
   }
 
    // nueva solicitud obtener envios
@@ -136,6 +151,9 @@ this.service.getPosts().su
       return {noName : true};
     }
     return null;
+  }
+  agregar(){
+    
   }
 
 }

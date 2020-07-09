@@ -11,5 +11,102 @@
   h1{
     text-align: center; 
     color: rgb(76, 161, 81);
+  }
+
+  /* --------------todo para btnSubmit ----------------------*/
+  #btnSubmit{
+    transition-duration: 0.4s;
+    background-color: rgb(172, 169, 169);
+    color: rgb(228, 231, 17);
+  }
+  #btnSubmit:disabled{
+    transition-duration: 0.4s;
+    background-color: #f1f7f1;
+    color: rgb(228, 231, 17);
+  }
+  #btnSubmit:hover{
+    background-color: rgb(243, 193, 66);
+    transform: translateY(2px);
+    box-shadow: 0 5px rgb(127, 94, 165);
+    text-transform: uppercase;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  }
+  
+  #btnSubmit:active{
+    background-color:  rgb(228, 61, 220);
+    color: whitesmoke;
+    margin: 0;
+    opacity: 1;
+    transition: 0s;
 }
+  
+/* -----------todo para btnFetch------------------*/
+#btnFetch{
+  transition-duration: 0.4s;  
+  color: aliceblue;
+  background-color: rgb(172, 169, 169);
+}
+#btnFetch:hover{
+  background-color: rgb(160, 92, 238);
+  /* color: rgb(54, 17, 3); */
+  transform: translateY(2px);
+  text-transform: uppercase;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  
+}
+#btnFetch:active{
+  background-color: rgb(228, 61, 220);
+  color: white;
+}
+#btnFetch:visited{
+  background-color: rgb(56, 2, 53);
+  color: white;
+}
+
+/* --------------todo para btnDelete ----------------------*/
+#btnDelete{
+  transition-duration: 0.4s;  
+  color: aliceblue;
+  background-color: rgb(172, 169, 169);
+}
+#btnDelete:hover{
+  background-color: rgb(160, 92, 238);
+  transform: translateY(2px);
+  text-transform: uppercase;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  
+}
+#btnDelete:active{
+  background-color: rgb(228, 61, 220);
+  color: white;
+}
+#btnDelete:visited{
+  background-color: rgb(56, 2, 53);
+  color: white;
+}
+
+/* --------------todo para btnWhatsapp ----------------------*/
+#btnWhatsapp{
+  transition-duration: 0.4s;  
+  color: aliceblue;
+  background-color: rgb(231, 222, 222);
+}
+#btnWhatsapp:hover{
+  /* background-color: rgb(27, 5, 53); */
+  transform: translateY(2px);
+  text-transform: uppercase;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  
+}
+#btnWhatsapp:active{
+  background-color: rgb(228, 61, 220);
+  color: white;
+}
+#btnWhatsapp:visited{
+  background-color: rgb(56, 2, 53);
+  color: white;
+}
+
+
+
   

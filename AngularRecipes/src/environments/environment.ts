@@ -5,18 +5,19 @@
 export const environment = {
   production: false,
 
-    // Your web app's Firebase configuration
-     firebaseConfig : {
-      apiKey: 'AIzaSyDXvj2Nwdq-UStlqkfUm02SyVZ_5R5P3gU',
-      authDomain: 'angularcourse-bc12b.firebaseapp.com',
-      databaseURL: 'https://angularcourse-bc12b.firebaseio.com/',
-      projectId: 'angularcourse-bc12b',
-      storageBucket: 'angularcourse-bc12b.appspot.com',
-      messagingSenderId: '79975734273',
-      appId: '1:79975734273:web:f5c336e04797f2d8ff3400',
-      measurementId: 'G-QYPHRZ3MH1'
-    },
+  // Your web app's Firebase configuration
+  firebaseConfig: {
+    apiKey: 'AIzaSyDXvj2Nwdq-UStlqkfUm02SyVZ_5R5P3gU',
+    authDomain: 'angularcourse-bc12b.firebaseapp.com',
+    databaseURL: 'https://angularcourse-bc12b.firebaseio.com/posts.json',
+    projectId: 'angularcourse-bc12b',
+    storageBucket: 'angularcourse-bc12b.appspot.com',
+    messagingSenderId: '79975734273',
+    appId: '1:79975734273:web:f5c336e04797f2d8ff3400',
+    measurementId: 'G-QYPHRZ3MH1'
+  },
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

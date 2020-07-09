@@ -1,0 +1,81 @@
+.container {
+    margin-top: 30px;
+    color: rgb(128, 128, 128);
+    background-color: #e2e4db;
+  }
+  
+  .row {
+    margin: 20px 0;
+  }
+
+  h1{
+    text-align: center; 
+    color: rgb(76, 161, 81);
+  }
+
+  .table-responsive {
+    display: block;
+    overflow-x: auto;
+    background-color: rgb(211, 228, 228);
+    align-content: center;    
+    margin: auto;
+    
+  }
+
+  table, th, td {
+    border:1px solid green;
+  }
+
+  th, td {
+    padding: 15px;
+  }
+  
+  th{
+    text-align: center;
+  }
+
+.w3-btn, .w3-btn:link, .w3-btn:visited {
+    color: #FFFFFF;
+    background-color: #4CAF50;
+}
+
+.w3-border-red, .w3-hover-border-red:hover {
+    border-color: #f44336!important;
+}
+.w3-text-red, .w3-hover-text-red:hover {
+    color: #f44336!important;
+}
+.w3-white, .w3-hover-white:hover {
+    color: #000!important;
+    background-color: #fff!important;
+}
+.w3-border {
+    border: 1px solid rgb(235, 102, 102)!important;
+}
+.w3-round-large {
+    border-radius: 18px;
+}
+.w3-btn, .w3-button {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.w3-btn, .w3-button {
+    border: none;
+    display: inline-block;
+    padding: 8px 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+}
+button, [type=button], [type=reset], [type=submit] {
+    -webkit-appearance: button;
+}

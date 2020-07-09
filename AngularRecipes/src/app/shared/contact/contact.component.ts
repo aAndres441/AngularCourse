@@ -138,7 +138,8 @@ errors: {[s: string]: string} = {
       (valor) => console.log (valor)
     );
     
-  } 
+    /* ACA TERMINA   ngOnInit() { */
+  }
 
   suggestUserName() {
     const suggestedName = 'Superuser';
@@ -200,10 +201,10 @@ errors: {[s: string]: string} = {
   }
 
   onSubmitReactiv() {
-     alert (this.signupForm.controls.address.value);
-     alert (this.signupForm.controls.gender2.value);
+     alert ("address "  + this.signupForm.controls.address.value);
+     alert ("gender2 "  +this.signupForm.controls.gender2.value);
     
-     alert (this.signupForm.value.formAnidado.email);
+     alert ("email "  +this.signupForm.value.formAnidado.email);
 /* formAnidado */
      this.signupForm.reset();
   }

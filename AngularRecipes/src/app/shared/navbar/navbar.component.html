@@ -18,24 +18,23 @@
         <button type="button" class="navbar-toggle" (click)="collapsed = !collapsed">
           <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
         </button>
-        <a routerLink="/home" class="navbar-brand">Inicio</a>
+        <a routerLink="/" class="navbar-brand">Inicio</a>
       </div>
       <div class="navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
         <div class="default navbar-default">
           <ul class="nav navbar-nav ml-auto " role="tablist">
-            <li role="presentation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/home"><i class="fa fa-home"></i>Inicio</a> </li>
-            <li role="presentation" routerLinkActive="active"><a [routerLink]="['/recipes']"><i class="fas fa-pepper-hot"></i>Recipes</a> </li>
-            <li role="presentation" routerLinkActive="active"><a routerLink="/shopping"><i class="fas fa-shopping-cart"></i>Shopping</a> </li>
-            <li role="presentation" routerLinkActive="active"><a routerLink="/payment"><i class="far fa-credit-card"></i>Payment</a> </li>            
-            <li role="presentation" routerLinkActive="active"><a routerLink="/users"><i class="	fas fa-user"></i>User</a> </li>
-            <li role="presentation" routerLinkActive="active"><a [routerLink]="['/login']"><i class="	fas fa-user-friends"></i>Login</a> </li>
-            <li role="presentation" routerLinkActive="active"><a [routerLink]="['/contact']"><i class="far fa-envelope"></i>Contact</a> </li>
+            <li role="presentation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/home"><i class="fa fa-home" style="color:rgb(117, 243, 67); font-size: 20px"></i>Inicio</a> </li>
+            <li role="presentation" routerLinkActive="active"><a [routerLink]="['/recipes']"><i class="fas fa-pepper-hot" style="color:hotpink; font-size: 20px"></i>Recipes</a> </li>
+            <li role="presentation" routerLinkActive="active"><a [routerLink]="['/shopping']"><i class="fas fa-shopping-cart" style="color:rgb(98, 196, 235); font-size: 20px"></i>Shopping</a> </li>
+            <li role="presentation" routerLinkActive="active"><a routerLink="/payment"><i class="far fa-credit-card" style="color:rgb(166, 241, 178); font-size: 20px"></i>Payment</a> </li>            
+            <li role="presentation" routerLinkActive="active"><a routerLink="/users"><i class="	fas fa-user" style="color:rgb(98, 196, 235); font-size: 20px"></i>User</a> </li>
+            <li role="presentation" routerLinkActive="active"><a [routerLink]="['/login']"><i class="	fas fa-user-friends" style="color:rgb(5, 59, 141); font-size: 20px"></i>Login</a> </li>
+            <li role="presentation" routerLinkActive="active"><a [routerLink]="['/contact']"><i class="far fa-envelope" style="color:rgb(212, 236, 125); font-size: 20px"></i>Contact</a> </li>
             <li role="presentation" routerLinkActive="active"><a routerLink="/test"><i class="fab fa-angular" style="color:red; font-size: 20px"></i>Test</a> </li>
-            <li role="presentation" routerLinkActive="active"><a routerLink="/account"><i class="fas fa-file-invoice-dollar"></i>Account</a> </li>
-            <li role="presentation" routerLinkActive="active"><a routerLink="/server"><i class="fas fa-database"></i>Server</a> </li>
-            <li role="presentation" routerLinkActive="active"><a routerLink="/post"><i class="glyphicon glyphicon-thumbs-up" style="color:rgb(209, 159, 250); font-size: 25px"></i>Post</a> </li>
-            <li role="presentation" routerLinkActive="active"><a routerLink="/newpp"><i class="fas fa-democrat" style="color:rgb(255, 251, 15); font-size: 25px"></i>Post</a> </li>
-            <li role="presentation" routerLinkActive="active"><a routerLink="/game"><i class="fas fa-cannabis"></i>Game</a> </li>
+            <li role="presentation" routerLinkActive="active"><a routerLink="/account"><i class="fas fa-file-invoice-dollar" style="color:rgb(154, 26, 204); font-size: 20px"></i>Account</a> </li>
+            <li role="presentation" routerLinkActive="active"><a routerLink="/server"><i class="fas fa-database" style="color:rgb(49, 241, 32); font-size: 20px"></i>Server</a> </li>
+            <li role="presentation" routerLinkActive="active"><a routerLink="/post"><i class="fas fa-democrat" style="color:rgb(255, 251, 15); font-size: 25px"></i>Post</a> </li>
+            <li role="presentation" routerLinkActive="active"><a routerLink="/game"><i class="fas fa-cannabis" style="color:rgb(53, 117, 16); font-size: 20px"></i>Game</a> </li>
             <li role="presentation" routerLinkActive="active"><a routerLink="/error"><i class="far fa-dizzy" style="color:greenyellow; font-size: 20px"></i></a> </li>
             <li role="presentation" routerLinkActive="active"><a routerLink="/borrar"><i class="fas fa-wind" style="color:lightskyblue; font-size: 20px"></i></a> </li>
             

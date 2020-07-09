@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ActivePostComponent } from './component/index';
 import { PostComponent } from './container/post/post.component';
-import { PostService } from './post.service';
+
 
 
 const MODULES = [
@@ -39,7 +39,6 @@ const COMPONENTS = [
   ],
 
   providers: [
-    PostService
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

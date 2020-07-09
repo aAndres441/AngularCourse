@@ -2,6 +2,9 @@
     display: block;
     overflow-x: auto;
     background-color: rgb(211, 228, 228);
+    align-content: center; 
+    border:1px solid; 
+    margin: auto;
   }
   .flex-container {
     display: flex;

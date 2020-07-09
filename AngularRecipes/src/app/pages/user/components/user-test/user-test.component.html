@@ -58,8 +58,9 @@
         <div class="col-md-4">
             <p style="border: lime solid 1px;">..{{userName}}</p>
 
-            <p *ngIf="isActualizado; else parrafoOculto" [ngClass]="{onLine:!isActualizado}">Visble, #parrafoOculto -
-                {{lastName}}</p>
+            <p *ngIf="isActualizado; else parrafoOculto" [ngClass]="{onLine:!isActualizado}">
+                Visble, #parrafoOculto -  {{lastName}}
+            </p>
 
             <ng-template #parrafoOculto>
                 <p>muestra parrafo oculto: #parrafoOculto</p>
