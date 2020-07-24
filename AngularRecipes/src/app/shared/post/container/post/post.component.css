@@ -79,3 +79,32 @@
 button, [type=button], [type=reset], [type=submit] {
     -webkit-appearance: button;
 }
+
+/* Abajo para navBar */
+.icon-bar-2 {
+width: 100%; /* Full-width */
+background-color: #555; /* Dark-grey background */
+overflow: auto; /* Overflow due to float */
+}
+
+.icon-bar-2 a {
+float: left; /* Float links side by side */
+text-align: center; /* Center-align text */
+width: 100%; /* Equal width (5 icons with 20% width each = 100%) */
+padding: 12px 0; /* Some top and bottom padding */
+transition: all 0.3s ease; /* Add transition for hover effects */
+color: greenyellow; /* White text color */
+font-size: 22px; /* Increased font size */
+}
+
+.icon-bar-2 a:hover {
+background-color: #000; /* Add a hover color */
+color: rgb(255, 217, 47); /* White text color */
+}
+
+.icon-bar-2 a:active {
+background-color: #9ac48a; /* Add an active/current color */
+color: #9ac48a; /* White text color */
+}
+
+/* termina navbar */

@@ -4,7 +4,7 @@
 
     <div class="row">
       <div class="col-xs-10 col-sm-10 col-md-10">
-        <h1><b>POSTS </b></h1>
+        <h1><b>Formulario</b></h1>
         <h4 style="text-align: center;"> <q><u><i><small>( form template)</small></i></u></q></h4>
       </div>
       <div class="col-xs-2 col-sm-2 col-md-2">
@@ -83,6 +83,7 @@
         </div>
       </div>
       
+      <!-------------Buttons for delete and fetch-------- -->
     <div class="row">
       <div class="col-xs-12 col-md-10">
         <button class="btn btn-primary" (click)="onFetchPosts()" style="width: 50%;"id="btnFetch">
@@ -97,7 +98,7 @@
     </div>
     
     <hr>
-                <!-- ********************** -->
+                <!-- ******* Solo pruebo botton con SUBJECT *************** -->
     <div class="row">
       <div class="col-xs-12" *ngIf="submitted; then logout else enter"></div>
         <ng-template #enter>
@@ -111,35 +112,30 @@
           </p>
         </ng-template>      
     </div>
-            <!-- ******************* -->
       <hr>
-      <!-- TABLE -->
+      <!-------- TABLE if loadedPosts > 0-------------->
     <div class="row">
         <div class="col-xs-12">
-          <!-- TABLE -->
-          <div class="row">
-            <div class="col-xs-12" *ngIf="loadedPosts.length===0; else feni " >
-              <p style="text-align: center; color: rgb(110, 223, 176);">My table whith pipe example</p>
-              <table class="table-responsive" style="align-content: center; margin: auto; ">
-                <thead style="border: 1px solid rgb(110, 223, 176); color: darkorange;">
+            <div class="col-xs-12" *ngIf="loadedPosts.length>0; else feni " >
+              <h3 style="text-align: center; color: rgb(8, 150, 91);">Table whith list posts</h3>
+              <table class="table table-responsive">
+                <!-- <thead><h4 >My table</h4></thead> -->
+                <tbody>
                   <tr>
                     <th>Title</th>
                     <th>Content</th>
                   </tr>
-                </thead>
-
-                <tbody style="text-align-last: center; color: white; ">
                   <tr *ngFor="let pos of loadedPosts">
                     <td>{{pos.title | uppercase}}</td>
                     <td>{{pos.content}}</td>
+                    <td>{{pos.data | date}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </div>
         </div>
         <div class="col-xs-12 col-md-6 col-md-offset-3" #feni>
-          <p>No posts available from array loaded Posts!</p>
+          <p style="color: red;">No posts available loaded from array !</p>
         </div>
     </div>
   </div>

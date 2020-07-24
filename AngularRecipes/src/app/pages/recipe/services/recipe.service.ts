@@ -15,7 +15,6 @@ export class RecipeService {
   // recipeSelected = new EventEmitter<Recipe>(); // ya no va, sera subject, es usado en datail
  
   recipesChanged = new Subject<Recipe[]>();
-
   recipeSelectSub = new Subject<Recipe>();
   recipeSelectSub2 = new Subject<Recipe>();
 

@@ -1,3 +1,26 @@
 hr{
     border: solid 2px brown;
 }
+
+.button-list{
+    display: flex;
+    flex-direction: row;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn{
+    padding: 1rem;
+    margin: 1rem;
+    width: 30%;
+    background-color: rgb(133, 131, 132);
+}
+
+.btn:hover{
+    transform: translateY(2px);
+    text-transform: uppercase;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    color: white;
+    
+}

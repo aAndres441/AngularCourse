@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { StarComponent } from './star/star.component';
+import { OrderComponent } from './order/component/order.component';
 
 import { DirectiveBasicHighLight } from './directives/directives-basic-highlight/directiv-basic.directive';
 import { DirectivBetterDirective } from './directives/directiveBetter/directiv-better.directive';
@@ -44,7 +45,8 @@ const COMPONENTS = [
   HomeComponent,
   StarComponent,
   ConvertToKPipe,
-  ContactComponent
+  ContactComponent,
+  OrderComponent
 ];
 
 const MODULES = [

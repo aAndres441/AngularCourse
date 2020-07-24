@@ -15,11 +15,8 @@ export class OneUserComponent implements OnInit, OnDestroy {
   user: User;
   usu: { id: number, name: string };
   paramsSubscriptionForDestroy: Subscription;
-  numero: number;
   name: string;
   id: number;
-  name2: string;
-  id2: number;
   pruebaNumeroId: number;
   listaStatus: User[] = [];
 
@@ -48,9 +45,6 @@ export class OneUserComponent implements OnInit, OnDestroy {
       (parm: Params) => {
         this.id = +parm.id;
         this.name = this.route.snapshot.fragment;
-
-        this.id2 = this.route.snapshot.params.id;
-        this.name2 = this.route.snapshot.fragment;
       }
     );
 
@@ -69,7 +63,6 @@ export class OneUserComponent implements OnInit, OnDestroy {
       .subscribe(
         (params: Params) => {
           this.usu.id = +params.id;
-          this.numero = params.id;
         }
       );
   }

@@ -1,0 +1,19 @@
+.button-list{
+    display: flex;
+    flex-direction: row;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.myButton{
+    padding: 1rem;
+    margin: 1rem;
+    width: 25%;
+    background-color: pink;
+}
+li{
+    text-decoration: underline;
+    padding: 0.3rem 0;
+    list-style: none;
+}
+

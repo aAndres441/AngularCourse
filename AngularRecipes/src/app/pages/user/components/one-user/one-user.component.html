@@ -1,50 +1,40 @@
 
-<div style="align-content: center; background-color:rgb(255, 212, 94);color:sienna">
-    <h3>DATA OF USER</h3>
-
-    <p>ID: <!-- {{usu.id}} --></p>
-    <p>NAME: <!-- {{usu.name}} --></p>
-    <hr>
-    <p>ID: {{id}}</p>
-    <p>NAME: {{name}}</p>
-    <hr>
-    <p>ID: {{id2}}</p>
-    <p>NAME: {{name2}}</p>
-    <hr>
-    <p>ID: {{user.id}}</p>
-    <p>NAME: {{user.name}}</p>
+<div style="align-content: center; background-color:rgb(255, 237, 189);color:sienna">
+    <h3 style="text-align: center;"><i>DATA OF USER</i></h3>
+    <table class="table-responsive" style="width:100%; padding:22px" >
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+        </tr>
+        <tbody >
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.name}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <hr>
-<!-- esto es para parámetros de consulta, es directiva de routerLink definiendo pares 
+<!--  -->
+<p>esto es para parámetros de consulta, es directiva de routerLink definiendo pares 
 de clave –valor para la consulta.
-fragment: “loading” ,cargar un fragmento es otra prop de router -->
+fragment: “loading” ,cargar un fragmento es otra prop de router</p>
 <div class="row">
-    <div class="col-xs-2">
-        <button class="btn btn-success">
-            <a [routerLink]="['/users',1]"
-                [queryParams]="{allowEdit:'1'}"
-                fragment="aLaCarga">
-                Anna-queryParams
-            </a>
-        </button>
+    <div class="button-list">
+        <div class="col-xs-12">
+            <button class="btn btn-success">
+                <a [routerLink]="['/users',1]" [queryParams]="{valorParaEdit:'108'}" fragment="aLaCarga">
+                    Anna-queryParams
+                </a>
+            </button>
+            <button class="btn btn-danger" (click)="cargaUserConParams(22222)">cargaUsuConParams</button>
+            <button class="btn btn-success" (click)="cargaUserSinParams()">cargaUsuarios</button>
+            <button class="btn btn-warning" (click)="getUsersStatus('active')">getActive</button>
+            <button class="btn btn-warning" (click)="getUsersStatus('inactive')">getInactives</button>
+    
+        </div>
     </div>
-    <div class="col-xs-2">
-        <a [routerLink]="['/users',55]"
-            [queryParams]="{valorParaEdit:'108'}"
-            fragment="loading">
-            Hugo-fragment
-        </a>
-    </div>
-    <div class="col-xs-2">
-        <button class="btn btn-danger" (click)="cargaUserConParams(22222)">cargaUsuConParams</button>
-    </div>
-    <div class="col-xs-2">
-        <button class="btn btn-success" (click)="cargaUserSinParams()">cargaUsuarios</button>
-    </div>
-    <button class="btn btn-warning" (click)="getUsersStatus('active')">getActive</button>
-    <button class="btn btn-warning" (click)="getUsersStatus('inactive')">getInactives</button>
-</div>
-
+    
 
 <div class="row" style="background-color: rgb(241, 90, 216);">
     <div class="col-xs-4">

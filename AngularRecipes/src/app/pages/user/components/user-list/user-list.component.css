@@ -1,0 +1,52 @@
+/* Probar listas de botones */
+.button-list .btnSub{
+    display: flex;
+    flex-direction: row;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.myButton{
+    padding: 1rem;
+    margin: 1rem;
+    width: 30%;
+    background-color: pink;
+}
+.myButton:hover {
+    background-color: wheat;
+    /* transform: translateY(2px); 
+    text-transform: uppercase;*/
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    color: blue;
+}
+
+li{
+    text-decoration: underline;
+    padding: 0.3rem 0;
+    list-style: none;
+}
+.myButton2{
+    background-color: rgb(191, 238, 96);
+    color: blue;
+    width: 80%;
+    margin: 2rem;
+    cursor: pointer;
+}
+
+.myButton2:hover {
+    background-color: rgb(106, 145, 16);
+    transform: translateY(2px);
+    text-transform: uppercase;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    color: white;
+}
+#btnAddOrder:hover {
+    background-color: white;
+    /* transform: translateY(2px); 
+    text-transform: uppercase;*/
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    color: rgb(30, 226, 118);
+  border: 2px solid #4CAF50; /* Green */
+  border-radius: 50%;
+  transition-duration: 0.4s;
+}

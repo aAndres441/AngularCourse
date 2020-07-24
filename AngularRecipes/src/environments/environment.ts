@@ -9,7 +9,7 @@ export const environment = {
   firebaseConfig: {
     apiKey: 'AIzaSyDXvj2Nwdq-UStlqkfUm02SyVZ_5R5P3gU',
     authDomain: 'angularcourse-bc12b.firebaseapp.com',
-    databaseURL: 'https://angularcourse-bc12b.firebaseio.com/posts.json',
+    databaseURL: 'https://angularcourse-bc12b.firebaseio.com/',
     projectId: 'angularcourse-bc12b',
     storageBucket: 'angularcourse-bc12b.appspot.com',
     messagingSenderId: '79975734273',

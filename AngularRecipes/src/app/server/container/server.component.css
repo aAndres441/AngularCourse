@@ -13,3 +13,22 @@ a :hover{
 .table-responsive tr td,th{
     border:1px solid rgb(110, 223, 176);
 }
+
+/* Probar listas de botones */
+.button-list{
+    display: flex;
+    flex-direction: row;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.myButton{
+    padding: 1rem;
+    margin: 1rem;
+    width: 40%;
+}
+li{
+    text-decoration: underline;
+    padding: 0.3rem 0;
+    list-style: none;
+}

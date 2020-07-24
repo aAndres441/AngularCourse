@@ -1,4 +1,3 @@
-
 <div class="flex-container" style="border: rgb(97, 241, 68) 3px solid;">
   <!-- <div class="container" style="border: rgb(97, 241, 68) 3px solid;">-->
   <div class="row">
@@ -10,21 +9,23 @@
     <!-- <div class="col-md-6 col-sm-6 col-xs-12">
     </div>  -->
     <div class="col-md-12 col-sm-12 col-xs-12">
-    <p style="text-align: center; color: rgb(197, 211, 9)">
-      By clicking below, the information generated can be seen at the top of the page.
-    </p>
-  </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-      <p>The information passes with event emmiter</p>
-      <button class="btn btn-default"  style="color:rgb(197, 211, 9)" (click)="activateEmitter()" >  activate  EMITTER</button>
+      <p style="text-align: center; color: rgb(197, 211, 9)">
+        By clicking below, the information generated can be seen at the top of the page.
+      </p>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
-      <p>The information passes with new  Subject from 'rxjs'</p>
-      <button class="btn btn-default" style="color:rgb(197, 211, 9)" (click)="activateSubject()" >  activate  SUBJECT</button>
+      <p>The information passes with event emmiter</p>
+      <button class="btn btn-default" style="color:rgb(197, 211, 9)" (click)="activateEmitter()"> activate
+        EMITTER</button>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <p>The information passes with new Subject from 'rxjs'</p>
+      <button class="btn btn-default" style="color:rgb(197, 211, 9)" (click)="activateSubject()"> activate
+        SUBJECT</button>
     </div>
   </div>
 
-  
+
   <div class="panel-body" style="background-color: rgb(202, 209, 218);">
     <ng-content></ng-content>
   </div>
@@ -48,24 +49,161 @@
   <div class="row" style="border: rgb(88, 139, 127) 2px solid;">
 
     <div class="col-xs-12">
-      <p style="color:blueviolet"> Aca abajo agrego parametros, ademas si delete cambia otros params,
-        y recupero info del ususario
+      <p style="color:blueviolet">
+        Below can see how add parameters, plus if you delete it,
+        it change others parameters too
+        and retrieved user info !
       </p>
+      <!-- #region -->
+      <div class="row" style="border: 1px solid pink;">
+        <p>Add Orders <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+          <i>(Fenix)</i></p>
+        <div class="col-xs-2">
+          <p>Total Price $: {{totalFenixPrice}}</p>
+          <p>Temporal Users {{temporalAllUsers}}</p>
+          <ul class="list">
+            <li *ngFor="let u of temporalAllUsers" style="text-decoration: none;">
+              <span>{{u.name}} {{u.lastname}}</span>
+              <!-- <a routerLink="/login"  -->
+              <a (click)="removeeTemp(u)">
+                <i class="fas fa-trash"></i>
+              </a>
+            </li>
+          </ul>
+          <label for="idOrder">ID Order</label>
+          <input type="number" placeholder="Nº"
+             id="idOrder" style="width: 70%; color: indigo;"
+             [(ngModel)]='idOrder'
+            [disabled]= "!temporalAllUsers.length">
 
+          <!--  <input type="number" placeholder=" Quantity" 
+                      formControlName='quantity' 
+                      class="form-control"> -->
+          <button class="btn btn-secondary"  id="btnAddOrder"
+                (click)="onAddOrder()"
+                [disabled]= "!temporalAllUsers.length">Add order
+          </button>
+          <button (click)="save()">save</button>
+          &nbsp;
+          <button (click)="getUsers2()">get</button>
+          &nbsp;
+          <!-- <button (click)="changeStatus()">change Status</button> -->
+        </div>         
+         <hr>
+        <div class=" button-list col-xs-10">
+          <button class="myButton" (click)="onAddFenix(p)" 
+              *ngFor="let p of allUsers">
+            {{ p.name }} {{ p.lastname }} - $ {{p.price}}
+          </button>
+        </div>
 
-      <div class="list-group"
-          *ngIf="allUsers.length>3; else infoTextUsusu">
+        <br>
+
+        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2" 
+            style="border: dotted 1px red; width: auto;">
+          <h3>Complete the form to sign up for the course.</h3>
+          
+          <form class="form" [formGroup]='myForm' (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+              <label for="customerName">Customer Name</label>
+              <select name="customerName" id="customerName"
+                       class="form-control" 
+                       formControlName="customerName">
+                <option value="" disabled>Select one</option>
+                <option *ngFor="let usu of allUsers" value={{usu.name}}>
+                  {{usu.name}}
+                </option>
+              </select>
+              <span class="help-block" style="color: hotpink;"
+                *ngIf="!myForm.get('customerName').valid && myForm.get('customerName').touched">
+                <span *ngIf="myForm.get('customerName').errors['required']">
+                  Name is required
+                </span>
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label for="">Last Name</label>
+              <input type="text" placeholder=" Last Name" 
+                      formControlName='customerLastName' 
+                      class="form-control"
+                      maxlength="5">
+              <span class="help-block" style="color: hotpink;"
+                *ngIf="!myForm.get('customerLastName').valid && myForm.get('customerLastName').touched">
+                <span *ngIf="myForm.get('customerLastName').errors['required']">
+                  Lastname is required
+                </span>
+                <span *ngIf="myForm.get('customerLastName').errors['maxlength']">
+                  Maxlength = 4 
+                </span>
+              </span>
+            </div>
+            
+            <div class="form-group">
+              <label for="">Status</label>
+              <select name="status" id="status"
+                       class="form-control" 
+                       formControlName="status">
+                <option value="" disabled>Select one</option>
+                <option value='inactive'> Inactive </option>
+                <option value='active'> Active </option>
+              </select>              
+              <span class="help-block" style="color: hotpink;"
+                *ngIf="!myForm.get('status').valid && myForm.get('status').touched">
+                <span *ngIf="myForm.get('status').errors['required']">
+                  Status is required
+                </span>
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label for="">Quantity</label>
+              <input type="number" placeholder=" Quantity" 
+                      formControlName='quantity' 
+                      class="form-control">
+              <span class="help-block" style="color: hotpink;"
+                *ngIf="!myForm.get('quantity').valid && myForm.get('quantity').touched">
+                <span *ngIf="myForm.get('quantity').errors['required']">
+                  Quantity is required
+                </span>
+              </span>
+            </div>
+
+            <div class="btnSub">
+              <button class="myButton2" id="myButton2" type="submit" [disabled]="!myForm.valid">
+                Submit
+                <i class="fas fa-cat"> </i>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <a [routerLink]="['/users',user.id]" 
-        [queryParams]="{ID: user.id}" 
-        fragment={{user.name}} 
-        class="list-group-item"
+      <!-- #endregion -->
+
+      <div 
+        class="list-group" 
+        *ngIf="allUsers.length>3; else infoTextUsusu">
+      </div>
+
+      <a 
         *ngFor="let user of allUsers; let i = index">
         (ID: {{ user.id }}) -{{ user.name }} {{ user.lastname }}- (Fecha {{user.timeStamp|date}} ) |
-        <button class="btn btn-primary" style="width: 30%;">
+        <button class="btn btn-primary" style="width: 30%;"
+          (click)="delete(i)">
           DELETE
-        </button> <!--  (click)="delete(i)" -->
+        </button> <!--   -->
+        &nbsp;
+        <button (click)="changeStatus(user)">change Status</button>
       </a>
+      <!-- <a [routerLink]="['/users',user.id]" [queryParams]="{ID: user.id}" fragment={{user.name}} class="list-group-item"
+        *ngFor="let user of allUsers; let i = index">
+        (ID: {{ user.id }}) -{{ user.name }} {{ user.lastname }}- (Fecha {{user.timeStamp|date}} ) |
+        <button class="btn btn-primary" style="width: 30%;"
+          (click)="delete(i)">
+          DELETE
+        </button>    -
+      </a> -->
 
     </div>
     <ng-template #infoTextUsusu>
