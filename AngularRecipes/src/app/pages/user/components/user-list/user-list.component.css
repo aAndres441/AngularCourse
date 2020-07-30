@@ -27,7 +27,7 @@ li{
 }
 .myButton2{
     background-color: rgb(191, 238, 96);
-    color: blue;
+    color: rgb(191, 238, 96);
     width: 80%;
     margin: 2rem;
     cursor: pointer;
@@ -46,7 +46,7 @@ li{
     text-transform: uppercase;*/
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     color: rgb(30, 226, 118);
-  border: 2px solid #4CAF50; /* Green */
-  border-radius: 50%;
-  transition-duration: 0.4s;
+    border: 2px solid #4CAF50; /* Green */
+    border-radius: 50%;
+    transition-duration: 0.6s;
 }

@@ -1,4 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { MatDialogModule } from '@angular/material/dialog';
+
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 /* import { HttpModule } from '@angular/http'; */
@@ -23,6 +25,7 @@ import { CanDeactivateGuard } from './server/components/edit-server/can-deactiva
 import {environment} from '../environments/environment';
 
 import {AngularFireModule} from '@angular/fire';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import {AngularFireDatabaseModule} from '@angular/fire/database';
 // import {AngularFirestoreModule} from '@angular/fire/firestore';
 
@@ -48,10 +51,13 @@ const FIREBASE = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+   MatDialogModule,
     ...MODULES,
     AppRoutingModule,
    /* HttpClient */
     ...FIREBASE
+   
   ],
 
   /* no quiero importar FormsModule aca en import, lo estoy haciendo en shared*/

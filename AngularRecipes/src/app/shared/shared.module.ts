@@ -29,6 +29,7 @@ import { DropdownDirective } from './directives/dropdown.directive';
 import { AuthGuard } from './guards/auth.guard';
 
 import { ConvertToKPipe } from './pipes/convert-to-k.pipe';
+import { ModalComponentComponent } from './modal/modal-component/modal-component.component';
 
 const COMPONENTS = [
   FooterComponent,
@@ -68,7 +69,8 @@ const MODULES = [
   ],
   
   declarations: [
-    ...COMPONENTS
+    ...COMPONENTS,
+    ModalComponentComponent
   ],
 
   imports: [

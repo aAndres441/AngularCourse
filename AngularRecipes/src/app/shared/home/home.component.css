@@ -8,3 +8,13 @@
     flex-wrap: wrap;
     justify-content: center;   
   }
+
+  p{
+    background-color: grey; 
+    color: honeydew; 
+    text-align: center;
+  }
+
+  i{
+    color: gray;
+  }

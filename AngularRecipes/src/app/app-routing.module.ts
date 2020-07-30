@@ -9,7 +9,7 @@ import {RecipeStartComponent,
       RecipeEditComponent } from './pages/recipe/components/index';
 
 import { PostComponent } from './shared/post/container/index';
-import { ActivePostComponent } from './shared/post/component/index';
+import { ActivePostComponent, NewComponent } from './shared/post/component/index';
 
 import { ServerComponent } from './server/container/server.component';
 import { EditServerComponent, ListServerComponent, NewServerComponentComponent } from './server/components/index';
@@ -107,10 +107,11 @@ const myRoutes: Routes = [
   {path: 'newAcc', component: MyAccountComponent},
 
   {path: 'post', component: PostComponent, children:  [
-    {path: 'new', component: ActivePostComponent}
+    {path: 'new', component: ActivePostComponent}/* ,
+    {path: 'new2', component: NewComponent} */
   ] },
 
-  //{path: 'newpp', component: ActivePostComponent},
+  {path: 'newpp', component: NewComponent},
 
   {path: 'payment', component: PaymentComponent},
   {path: 'error', component: ErrorComponent, data: {mensajito: 'Page not found guy!'}},

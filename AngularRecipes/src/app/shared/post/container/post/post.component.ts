@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PostService } from '../../../services/post.service';
@@ -10,28 +10,41 @@ import { map } from 'rxjs/operators';
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
-export class PostComponent implements OnInit, OnDestroy {
+export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private postSubscription: Subscription;
    // Para Subject: acordarse de ondestroy y de asignar variable para desuscript
    title = 'POST';
    posts: Post[] = [];
+   posts2: Post[] = [];
    editMode = false;
    randomSubject = false;
+   image: ImageData;
+   post: Post;
+   viewOnePost: Subscription;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private service: PostService) { }
-  
+    
   ngOnInit() {
-    /* para ej tutorial */
-    this.service.getPosts3().subscribe(
+
+    /* para mostrar si selecciono un post */
+    this.viewOnePost = this.service.viewPost
+    .subscribe(
+      (pp: Post) => {
+        this.post = pp;
+      }
+    );
+
+    this.posts = this. getPosts();
+
+    this.postSubscription = this.service.onChange
+    .subscribe(
       (ps: Post[]) => {
         this.posts = ps;
       }
     );
-    console.log(`${this.posts.length}LLLL`);
-    
 
     /* termina ej tutorial */
 
@@ -46,10 +59,10 @@ export class PostComponent implements OnInit, OnDestroy {
     // PRUEBA PARA BORRAR FIRE
    // this.service.pruebaGuardar();
 
-/* this.service.fetchPosts().pipe(map(
-  (data: Post[]) => { this.posts.push( ...data);
-     console.log(this.posts.length);})
-); */
+    this.service.fetchPosts().pipe(map(
+  (data: Post[]) => { this.posts2.push( ...data);
+                      console.log(this.posts.length + 'post22'); })
+);
 
       
    /*  this.posts = this.service.getPosts();
@@ -61,11 +74,12 @@ export class PostComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
    this.postSubscription.unsubscribe();
+   this.viewOnePost.unsubscribe();
   }
  
   onNewPost() {
    // this.router.navigate(['newPost']);
-     this.router.navigate(['post/new']);
+   this.router.navigate(['nnewpp']);
     // navega a new relativo a que ya estoy parado en recipe
   }
 
@@ -85,13 +99,40 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   getPosts(): Post[] {
-    return this.service.getPosts();
+   // return this.service.getPosts();
+     return this.service.getosts2();
     
   }
 
-  onDelete(){}
+  onDelete(ps: Post): boolean {
+    /* let res : boolean; */
+    confirm(`Delete ${ps.title}?`);
+    this.post = null;  // para no ver imagen si esta seleccionada
+    return this.service.deletePost4(ps);
+  }
 
-  onAdd(){}
+  deletePost5(pos: Post) {
+    this.posts = this.posts.filter(h => h !== pos);
+    this.service.deletePost5(pos).subscribe();
+  }
+
+  onAdd(ps: Post) {
+    alert('onAdd component' + ps.title);
+    this.service.onCreatePost(ps);
+     //arega a los de arriba tambien
+  }
+
+  onEdit(epost?: Post) {
+    // this.service.edit(epost);
+    this.service.updatePost2(epost);
+   /*  this.viewOnePost = this.service.viewPost
+    .subscribe(
+      (pp: Post) => {
+        this.post = pp;
+      }
+    ); */
+    alert(this.post.title); // va al service subject
+  }
 
   pruebaGuardarajugador() {
    /* jugador: {
@@ -116,6 +157,13 @@ export class PostComponent implements OnInit, OnDestroy {
       .catch(error => {
         console.log('Error adding ' + error);
       }); */
+  }
+ /*  appliFilter(value: string){
+    this.posts.filter = value.trim().toLocaleLowerCase();
+  }*/
+
+  ngAfterViewInit(): void {
+    // this.posts.sort = this.sort;
   }
 
 }

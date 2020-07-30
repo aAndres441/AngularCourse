@@ -58,7 +58,7 @@
       <div class="row" style="border: 1px solid pink;">
         <p>Add Orders <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
           <i>(Fenix)</i></p>
-        <div class="col-xs-2">
+        <div class=" col-xs-2">
           <p>Total Price $: {{totalFenixPrice}}</p>
           <p>Temporal Users {{temporalAllUsers}}</p>
           <ul class="list">
@@ -79,9 +79,11 @@
           <!--  <input type="number" placeholder=" Quantity" 
                       formControlName='quantity' 
                       class="form-control"> -->
-          <button class="btn btn-secondary"  id="btnAddOrder"
+          <button class="btn btn-success" 
+                id="btnAddOrder"
                 (click)="onAddOrder()"
-                [disabled]= "!temporalAllUsers.length">Add order
+                [disabled]= "!temporalAllUsers.length">
+                Add order
           </button>
           <button (click)="save()">save</button>
           &nbsp;
@@ -89,7 +91,9 @@
           &nbsp;
           <!-- <button (click)="changeStatus()">change Status</button> -->
         </div>         
+        
          <hr>
+<!-- BOTTONS PINK -->
         <div class=" button-list col-xs-10">
           <button class="myButton" (click)="onAddFenix(p)" 
               *ngFor="let p of allUsers">
@@ -171,7 +175,9 @@
             </div>
 
             <div class="btnSub">
-              <button class="myButton2" id="myButton2" type="submit" [disabled]="!myForm.valid">
+              <button class="myButton2" 
+                id="myButton2" type="submit"
+                 [disabled]="!myForm.valid">
                 Submit
                 <i class="fas fa-cat"> </i>
               </button>

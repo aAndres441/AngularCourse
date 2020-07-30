@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit, OnDestroy {
  
 private myFirstObs: Subscription;
 private myInterval: Subscription;
+title = ' Welcome to Kikiriya\'s Management  4.0 (by LIPATIA)';
 
   constructor() { }
 

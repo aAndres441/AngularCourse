@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Post } from '../../shared/post/post.model';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
 import * as firebase from 'firebase';
 
 
@@ -19,40 +19,47 @@ export class PostService {
   posts: Observable<Post[]>;
   
   private posts2: Post[] = [
-    new Post ( 'JOrge', 'Caminante' ),
-    new Post ( 'clock', 'In two binding'),
-    new Post ( 'Lemur', 'In my mind')
+    new Post ( 'JOrge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
+    new Post ( 'clock', 'In two binding','https://tse3.mm.bing.net/th?id=OIP.WwiZsucIqy6R4taHgUJ2CQHaHa&pid=Api&P=0&w=300&h=300'),
+    new Post ( 'Lemur', 'In my mind','https://tse1.mm.bing.net/th?id=OIP.hNOV7KRYdK93MsE6SXHMVQHaLH&pid=Api&P=0&w=300&h=300')
   ];
 
   onChange = new Subject<Post[]>();
   randomSub = new Subject<boolean>();
+  viewPost = new Subject<Post>();
 
-  private cadena = environment.firebaseConfig.databaseURL + 'posts.json';
-  private cadena2 = environment.firebaseConfig.databaseURL + 'jugadores.json';
+  private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
+  private cadena2 = environment.firebaseConfig.databaseURL + 'Jugadores.json';
   public db = firebase.firestore();
   // Get a reference to the storage service, which is used to create references in your storage bucket
   storage = firebase.storage();
   // Create a storage reference from our storage service
   storageRef = this.storage.ref();
   
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'User/json' })
+  };
 
   constructor(private http: HttpClient,
               private firestore: AngularFirestore,
               private readonly afs: AngularFirestore) {
-    /*  this.postCollection = this.firestore.collection('posts');
-     this.posts = this.postCollection.snapshotChanges()
-       .pipe(changes => {
-         return changes.pipe( ps => {
-           const data = ps.toPromise;
-           data.title = ps.payload.doc.title; 
-           return data;
-         })
-       }); */
+
+      /*  this.postCollection = this.firestore.collection('posts');
+      this.posts = this.postCollection.snapshotChanges()
+        .pipe(changes => {
+          return changes.pipe( ps => {
+            const data = ps.toPromise;
+            data.title = ps.payload.doc.title; 
+            return data;
+          })
+        }); */
+        // this.http.put(this.cadena2, body);
+
       const miCadena = environment.firebaseConfig.databaseURL;
       const blob = new Blob([JSON.stringify(miCadena, null, 2)], {type : 'application/json'});
 
       /* ejemplo tutorial */
-      this.postCollection = afs.collection<Post>('posts');
+      this.postCollection = afs.collection<Post>('Posts');
       this.posts = this.postCollection.snapshotChanges()
        .pipe(map(
          actions => actions.map( a => {
@@ -63,16 +70,286 @@ export class PostService {
        ))
        /* termina ej tutorial */;
   }
+
 /*const inicio = AngularFireModule.initializeApp(environment.firebaseConfig);*/
 
-  pruebaGuardarajugador(datJugador) { // : Observable<any>
 
+   /* ADD or CREATE */
+ onCreatePost(postData ?: Post) {  
+  // Send Http request POST 
+  this.createPost(postData);
+  this.add(postData);
+}
+
+createPost(postData: Post) {  
+  // Send Http request POST 
+  const body = {
+    title: postData.title,
+    content: postData.content,
+    imageUrl: postData.imageUrl,
+    data: postData.data};
+
+  this.http.post(this.cadena, body)
+  .subscribe(resp => { console.log(resp + 'RESPUESTA');
+     }, () => {
+      alert('NO');
+    });
+}
+
+  createPost3(post: Post) {
+    return this.postCollection.add(post);
+  }
+   
+  add(post: Post) {
+    this.posts2.push(post);
+    this.onChange.next(this.posts2.slice());
+  }
+
+
+  add2(post: Post): Observable<any> {
+    const httpOptins = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    const body = {
+      title: post.title,
+      content: post.content,
+      imageUrl: post.imageUrl
+    };
+    if (post.title) {
+      return this.http.put(this.cadena + post.title, body, httpOptins)
+        .pipe(
+              map((data: any) => /* alert(`${data}SII`)) */ alert('Si'))
+            );
+      } else {
+        return this.http.post<Post>(this.cadena + post.title, body, httpOptins)
+          .pipe(
+                map(
+                  (data: any) =>/*  alert(`${data}NO`)) */  alert('noo'))
+              );
+      }
+  }
+
+/* ******************************************** */
+/* GET */
+
+getDatabaseDatas() {
+  return this.firestore.collection.length;
+}
+
+getPosts(): Post[] {
+  /* getPosts(): Observable<Post[]> { */
+
+  // this.fetchPosts();
+   return this.loadedPosts.slice();
+
+  /* this.http.get(environment.firebaseConfig.databaseURL + 'Posts') */
+  /*  this.http.get(environment.firebaseConfig.databaseURL)
+   .pipe(map(
+     (data: Post[]) => { this.posts.push( ...data); })
+   );
+   return this.posts.slice(); */
+}
+
+fetchPosts() {
+  /* this.http.get('https://angularcourse-bc12b.firebaseio.com.Posts.json') */
+  // this.http.get(environment.firebaseConfig.databaseURL)
+  return this.http.get(this.cadena);
+   /*  .subscribe(posts => {
+      this.loadedPosts.push(...posts[0]);
+      alert ('SII lLArgo ' + this.loadedPosts[0].content);
+      this.onChange.next(this.loadedPosts.slice());
+      // return this.getPosts();
+  }, () => {
+      alert ('NADA');
+    }); */
+  /* this.onChange.next(this.loadedPosts.slice()); */
+  // return this.loadedPosts;
+  // return this.getPosts();
+}
+  getPosts3() {
+    return this.posts;
+  }
+  
+  getosts2(): Post[] {
+    return this.posts2.slice();
+  }
+
+  getPost(id: number): Post {
+    return this.posts2.slice()[id];
+  }
+
+  getPost4(id: number): Observable<Post> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    return this.http.get<Post>(environment.firebaseConfig + 'Post/' + id , httpOptions).pipe(
+      map((data: Post) => data)
+    );
+  }
+  
+
+  getPostTitle(title: string): Post {
+    const post = this.posts2.find(
+      (p) => {
+        return p.title === title;
+      }
+    );
+    if (post) {
+      return post;
+    }
+    return null;
+  }
+
+  /* DELETE */
+
+  delete(id: number): boolean { 
+    if (this.posts2.splice(id, 1)) {
+      this.onChange.next(this.posts2.slice());
+      return true;
+    }
+    return false;
+  }
+
+  deletePost3(pos: Post) {
+    // return this.postCollection.doc(post.title).delete();
+    this.postCollection.doc(pos.title).delete();
+    // this.onChange.next(this.postCollection);   
+    /* const index = this.posts2.indexOf(pos);
+    if (index > -1 ) {
+      this.posts2.splice(index, 1);
+    } */ 
+  }
+  deletePost4(pos: Post): boolean {
+    const index = this.posts2.indexOf(pos);
+    if (index > -1 ) {
+      this.posts2.splice(index, 1);
+      
+      this.onChange.next(this.posts2.slice());
+      return true;
+    } 
+    return false;
+  }
+
+/** DELETE: delete from the server */
+  deletePost5(pos?: Post): Observable<Post> {
+    const id = typeof pos === 'number' ? pos : pos.title;
+    const url = `${environment.firebaseConfig.databaseURL + 'Post.json'}/${id}`;
+
+    return this.http.delete<Post>(url, this.httpOptions)
+      .pipe(
+      tap(_ => console.log(`deleted post id=${id}`)),
+      catchError(this.handleError<Post>('deletepost'))
+    );
+    this.onChange.next(this.posts2.slice());
+  }
+
+  deletePost(post: Post) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.delete(this.cadena + post.title, httpOptions)
+      .pipe(
+            map(
+              (data: any) => data)
+          );
+  }
+
+  deleteAll() {
+    while (this.posts2.length) {
+      this.posts2.splice(0, 1);
+    }
+    this.onChange.next(this.posts2.slice());
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+  
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+  
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+  
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+
+  /* UPDATE */
+  updatePost3(post: Post) {
+    return this.postCollection.doc(post.title).update(post);
+  }
+
+  // updatePost(id: number, postInfo: { title: string, contenido: string }): void {
+  updatePost(id: number, post: Post): void {
+    const res = this.posts2.find(
+      (p) => {
+        alert('es' + p.title +'==='+ post.title)
+        return p.title === post.title;
+      }
+    );
+    if (res) {
+      alert(res.title + 'lll' + post.content)
+      res.content = post.content;
+      alert(res.title + 'lll' + post.content)
+      /* informamos a otros componentes del cambio en la copia de la matriz, que dessuscribo en el comp a usar*/
+      this.onChange.next(this.posts2.slice());
+      this.viewPost.next(res);
+
+      this.http.post(this.cadena, res)
+      .subscribe(resp => { console.log(resp + 'RESPUESTA');
+         }, () => {
+          alert('NO');
+        });
+
+    } else {
+      alert('no actialixo ');
+    }
+  }
+ 
+  updatePost2(newPost: Post) {
+    alert('updatePost2');
+    const index = this.posts2.indexOf(newPost);
+    alert(index)
+    const name = newPost.title;
+    if (index > -1 ) {
+      this.posts2[index] = newPost;
+      this.onChange.next(this.posts2.slice());
+      this.viewPost.next(newPost);
+
+      this.http.post(this.cadena, newPost)
+  .subscribe(resp => { console.log(resp + 'RESPUESTA');
+     }, () => {
+      alert('NO');
+    });
+    }
+    
+  }
+/*   updatePost2(id: number, newPost: Post) {
+    this.posts2[id] = newPost;
+    this.onChange.next(this.posts2.slice());
+    this.viewPost.next(newPost);
+  } */
+
+  edit(epost: Post) {
+    alert('ACA SERVICE');
+    this.viewPost.next(epost);
+  }
+
+  
+  
+  /* JUGADORES */
+  pruebaGuardarajugador(datJugador) { // : Observable<any>
     /* VALE*/
      this.http.post(this.cadena2, datJugador).subscribe(resp => {
        }, () => {
         alert('NO');
-      }); 
-      
+      });
     /* NO ANDA
     const httpOptins = {
       headers: new HttpHeaders({ 'Content-Type': 'fenix/json' })
@@ -98,8 +375,6 @@ export class PostService {
 
     // return this.http.post(this.cadena2, datJugador).subscribe(resp => {
 
-
-
     /* .add({
       jugador: {datJugador}
     })
@@ -111,193 +386,6 @@ export class PostService {
     }); */
   }
 
-  getNameDatabase() {
-    console.log();
-  }
-
-  getDatabaseDatas() {
-    return this.firestore.collection.length;
-  }
-  getLosPosts() {
-    return this.posts2[0].content;
-  }
-
-  /* ************************************** */
-onCreatePost(postData: { title: string; content: string }) {
-  // Send Http request POST 
-  this.createPost(postData);
-}
-private createPost(postData: { title: string; content: string; }) {
- // console.log('RESPUESTA 1----- ' + firebase.storage().ref.name);
-  this.http.post(this.cadena, postData).subscribe(resp => {
-     }, () => {
-      alert('NO');
-    });
-  this.onChange.next(this.loadedPosts.slice());
-  /* this.http.post(environment.firebaseConfig.databaseURL, postData)
-    .subscribe(resp => {
-      console.log(resp + 'RESPUESTA');
-    }, () => {
-        alert('NO');
-      }); */
-}
-
-fetchPosts() {
-  /* this.http.get('https://angularcourse-bc12b.firebaseio.com.Posts.json') */
-  // this.http.get(environment.firebaseConfig.databaseURL)
-  return this.http.get(this.cadena);
-   /*  .subscribe(posts => {
-      this.loadedPosts.push(...posts[0]);
-      alert ('SII lLArgo ' + this.loadedPosts[0].content);
-      this.onChange.next(this.loadedPosts.slice());
-      // return this.getPosts();
-  }, () => {
-      alert ('NADA');
-    }); */
-  /* this.onChange.next(this.loadedPosts.slice()); */
-  // return this.loadedPosts;
-  // return this.getPosts();
-}
-
-
-/* ******************************************** */
-
-  getPosts(): Post[] {
-    /* getPosts(): Observable<Post[]> { */
-     this.fetchPosts();
-    // console.log();
-
-
-    // alert('LArgo2 ' + this.loadedPosts.length);
-     return this.loadedPosts.slice();
-
-    /* this.http.get(environment.firebaseConfig.databaseURL + 'posts') */
-    /*  this.http.get(environment.firebaseConfig.databaseURL)
-     
-     .pipe(map(
-       (data: Post[]) => { this.posts.push( ...data); })
-     );
-     return this.posts.slice(); */
-  }
-
-  /* para ej tutorial */
-  getPosts3() {
-    return this.posts;
-  }
-  updatePost3(post: Post) {
-    return this.postCollection.doc(post.title).update(post);
-  }
-  deletePost3(post: Post) {
-    return this.postCollection.doc(post.title).delete();
-  }
-  createPost3(post: Post) {
-    return this.postCollection.add(post);
-  }
-  /* termina ej tutorial */
-
-  getPost(id: number): Post {
-    return this.posts2.slice()[id];
-  }
-
-  /* getProduct(id : number): Observable<Product> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-      })
-    };
-    return this.http.get<Product>(environment.API_BASE + 'products/'+id , httpOptions).pipe(
-      map(
-          (data:Product) => data
-      )
-    )
-  }  */
-  getPostTitle(title: string): Post {
-    const post = this.posts2.find(
-      (p) => {
-        return p.title === title;
-      }
-    );
-    if (post) {
-      return post;
-    }
-    return null;
-  }
-
-  updatePost(id: number, postInfo: { title: string, contenido: string }): void {
-    const res = this.posts2.find(
-      (p) => {
-        return p.title === postInfo.title;
-      }
-    );
-    if (res) {
-      res.content = postInfo.contenido;
-      /* informamos a otros componentes del cambio en la copia de la matriz, que dessuscribo en el comp a usar*/
-      this.onChange.next(this.posts2.slice());
-    } else {
-      alert('no actialixo ');
-    }
-  }
-
-  updatePost2(id: number, newPost: Post) {
-    this.posts2[id] = newPost;
-    this.onChange.next(this.posts2.slice());
-  }
-
-  delete(id: number): boolean {
-    
-    if (this.posts2.splice(id, 1)) {
-      this.onChange.next(this.posts2.slice());
-      return true;
-    }
-    return false;
-  }
-  deleteAll() {
-    while(this.posts2.length) {
-      this.posts2.splice(0, 1);
-    }
-    this.onChange.next(this.posts2.slice());
-  }
-
-  add(post: Post) {
-    this.posts2.push(post);
-    this.onChange.next(this.posts2.slice());
-  }
-
-  add2(post: Post): Observable<any> {
-    const httpOptins = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
-    const body = {
-      title: post.title,
-      content: post.content
-    };
-    if (post.title) {
-      return this.http.put(this.cadena + post.title, body, httpOptins)
-        .pipe(
-              map((data: any) => data)
-            );
-      } else {
-        return this.http.post<Post>(this.cadena + post.title, body, httpOptins)
-          .pipe(
-                map(
-                  (data: any) => data)
-              );
-      }
-  }
-
-  deletePost(post: Post) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.delete(this.cadena + post.title, httpOptions)
-      .pipe(
-            map(
-              (data: any) => data)
-          );
-  }
   
-
 
 }

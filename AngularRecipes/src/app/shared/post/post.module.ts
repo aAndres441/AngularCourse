@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ActivePostComponent } from './component/index';
+import { ActivePostComponent, NewComponent } from './component/index';
 import { PostComponent } from './container/post/post.component';
 
 
@@ -20,7 +20,8 @@ const CONTAINER = [
 ];
 
 const COMPONENTS = [
-  ActivePostComponent
+  ActivePostComponent,
+  NewComponent
 ];
 
 @NgModule({

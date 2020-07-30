@@ -227,6 +227,13 @@ delete(dato: number): boolean {/*
   );
 }
 
+deleteAll() {
+  while (this.users.length) {
+    this.users.splice(0, 1);
+  }
+  this.onChange.next(this.users.slice());
+}
+
 
   addOrder(tempOrderList: Order[]) {
     this.http.post(environment.firebaseConfig.databaseURL + 'Orders/order.json', tempOrderList)

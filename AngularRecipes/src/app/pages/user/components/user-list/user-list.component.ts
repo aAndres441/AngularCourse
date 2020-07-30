@@ -7,7 +7,7 @@ import { UserServiceSubject } from '../../userServiceSubject';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription, from } from 'rxjs';
 import { Order } from 'src/app/shared/order/order.model';
-import { getLocaleDayPeriods } from '@angular/common';
+import { getLocaleDayPeriods, JsonPipe } from '@angular/common';
 import { element } from 'protractor';
 
 @Component({
@@ -154,11 +154,16 @@ orderList: Order[] = [];
       }
     return res;
   }
+  
   delete2(hero: User): void {
     this.allUsers = this.allUsers.filter(h => h !== hero);
     this.service.delete2(hero).subscribe();
-    
   }
+  
+  deleteAll(){
+   this.service.deleteAll();
+  }
+  
 
   activateEmitter() {
     this.datoRandom1 = (Math.floor(Math.random() * 256) % 2 === 0 ? true : false);  //  Math.random();
@@ -173,21 +178,28 @@ orderList: Order[] = [];
   }
 
   /* para Form fenix */
-  onSubmit() {
-    console.log(this.myForm.status + ' STATUS');
-    this.lastId++;
-    this.temporalUser = new User(this.lastId,
-                                this.myForm.controls.customerName.value,
-                                this.myForm.controls.customerLastName.value,
-                                this.myForm.controls.status.value,
-                                this.myForm.controls.quantity.value);
+  onSubmit(): boolean {
+    if (this.myForm.valid) {
+      console.log(this.myForm.status + ' STATUS');
+      this.lastId++;
+      this.temporalUser = new User(this.lastId,
+                                  this.myForm.controls.customerName.value,
+                                  this.myForm.controls.customerLastName.value,
+                                  this.myForm.controls.status.value,
+                                  this.myForm.controls.quantity.value);
 
-    const data = this.myForm.value;
-    // data.totalDelPreio = this.totalFenixPrice;
-    console.log(data);
-
-    this.onCreateUsu(this.temporalUser);
-    this.myForm.reset();
+      const data = this.myForm.value;
+      // data.totalDelPreio = this.totalFenixPrice;
+      console.log(data);
+      
+      this.onCreateUsu(this.temporalUser);
+      this.myForm.reset();
+      alert('TRUE')
+      return true;
+      
+    }
+    alert('FALSE')
+    return false;
   }
 
   onCreateUsu(data: User) {
