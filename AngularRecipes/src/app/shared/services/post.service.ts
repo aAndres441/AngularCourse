@@ -84,13 +84,14 @@ export class PostService {
 createPost(postData: Post) {  
   // Send Http request POST 
   const body = {
+    id: postData.id,
     title: postData.title,
     content: postData.content,
     imageUrl: postData.imageUrl,
     data: postData.data};
 
   this.http.post(this.cadena, body)
-  .subscribe(resp => { console.log(resp + 'RESPUESTA');
+  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
      }, () => {
       alert('NO');
     });
@@ -280,10 +281,7 @@ fetchPosts() {
   }
 
 
-  /* UPDATE */
-  updatePost3(post: Post) {
-    return this.postCollection.doc(post.title).update(post);
-  }
+  /* UPDATE */ 
 
   // updatePost(id: number, postInfo: { title: string, contenido: string }): void {
   updatePost(id: number, post: Post): void {
@@ -294,7 +292,6 @@ fetchPosts() {
       }
     );
     if (res) {
-      alert(res.title + 'lll' + post.content)
       res.content = post.content;
       alert(res.title + 'lll' + post.content)
       /* informamos a otros componentes del cambio en la copia de la matriz, que dessuscribo en el comp a usar*/
@@ -302,7 +299,7 @@ fetchPosts() {
       this.viewPost.next(res);
 
       this.http.post(this.cadena, res)
-      .subscribe(resp => { console.log(resp + 'RESPUESTA');
+      .subscribe(resp => { console.log(resp + 'RESPUESTA updatePost');
          }, () => {
           alert('NO');
         });
@@ -323,13 +320,18 @@ fetchPosts() {
       this.viewPost.next(newPost);
 
       this.http.post(this.cadena, newPost)
-  .subscribe(resp => { console.log(resp + 'RESPUESTA');
+  .subscribe(resp => { console.log(resp + 'RESPUESTA updatePost2');
      }, () => {
       alert('NO');
     });
     }
     
   }
+  
+  updatePost3(post: Post) {
+    return this.postCollection.doc(post.title).update(post);
+  }
+
 /*   updatePost2(id: number, newPost: Post) {
     this.posts2[id] = newPost;
     this.onChange.next(this.posts2.slice());

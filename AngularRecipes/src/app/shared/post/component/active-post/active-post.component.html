@@ -16,11 +16,41 @@
       </div>
     </div>
   </div>
+<button class="btn btn-success" style="display: block; width: 100%;" 
+  (click)="cambiaEdit()">
+  cambiaEdit
+</button>
+<button class="btn btn-warning" style="display: block; width: 100%;" 
+  (click)="editMode = !editMode">
+  cambiaEdit
+</button>
+<hr>
+<div style="border: solid 2px green;">
+  <p>imprime post2 si hay {{post2 | json}}</p>
+</div>
 
+<hr>
   <div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-2">    
       <div class="col-xs-12 col-md-10 ">
         <form [formGroup]='postForm' (ngSubmit)="onSubmit()">
           <!-- <form #postForm="ngForm" (ngSubmit)="onCreatePost(postForm.value)"> -->
+          <div class="form-group">
+            <label for="id">ID <i class="fa fa-location-arrow"></i></label>
+            <input type="number" class="form-control" 
+            formControlName='id' id="id" 
+            required
+            placeholder="ID entre 1-20"
+            name="id"
+            min="1" max="20" />
+      
+            <span class="help-block" style="color: hotpink;"
+              *ngIf="!postForm.get('id').valid && postForm.get('id').touched">
+              <span *ngIf="postForm.get('id').errors['required']">
+                ID is required
+              </span>             
+            </span>
+          </div>
+
           <div class="form-group">
             <label for="title">Title <i class="fa fa-tasks"></i></label>
             <input type="text" class="form-control" formControlName='title' id="title" required name="title"
@@ -56,7 +86,7 @@
               </span>
             </span>
           </div>
-          <div class="form-group">
+       <!--    <div class="form-group">
             <label for="imagePath">Image URL</label>
             <input 
                 class="form-control"
@@ -64,12 +94,38 @@
                 name="imagePath"                    
                 type="text" 
                 id="imagePath"
-                placeholder="Image URL" title="Image URL">
-        </div>       
-        <span class="help-block" style="color: red;"
-              *ngIf="!postForm.get('imagePath').valid && postForm.get('imagePath').touched">                  
-              Required URL
-        </span> 
+                placeholder="Image URL" title="Image URL"
+              >          
+              <span class="help-block" style="color: red;"
+                *ngIf="!postForm.get('imagePath').valid && postForm.get('imagePath').touched">                  
+                Required URL
+              </span>          
+          </div>  -->      
+          <div class="form-group">
+            <label for="imagePost">Image</label>
+            <input 
+                class="form-control"
+                formControlName= 'imagePost' 
+                name="imagePost"                    
+                type="file" 
+                id="imagePost"
+                placeholder="Image URL" title="Image URL"
+                (change)="handleImage($event)"
+              >          
+              <span class="help-block" style="color: red;"
+                *ngIf="!postForm.get('imagePost').valid && postForm.get('imagePost').touched">                  
+                Required URL
+              </span>          
+          </div>       
+          
+        <hr>
+    <!--     <span class="pull-right">
+          <img [src]="image"
+              alt="{{image.title}}" 
+              class="img-responsive"
+              style="max-height: 50px;"
+          >
+      </span> -->
         
           <button class="btn btn-success" id="btnSubmit" 
               type="submit" style="width: 100%;" 
@@ -125,7 +181,7 @@
             <strong> >>>Once in a life time i change this "submited" random to {{submitted}}</strong>
           </p>
         </ng-template>      
-    </div>
+    </div>    
       <hr>
       <!-------- TABLE if loadedPosts > 0-------------->
     <div class="row">

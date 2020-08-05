@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgForm, NgModel, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -21,14 +21,16 @@ import { ModalComponentComponent } from 'src/app/shared/modal/modal-component/mo
 export class ActivePostComponent implements OnInit, OnDestroy {
 
   postForm: FormGroup;
-  private image: any;
+  imageNew: any;
+  imageOriginal: any;
+  @Input() post2: Post;  // recibira desde Modal dialogo
   loadedPosts: Post[] = [];
   loadedPosts2: Observable<Post[]>;
-  posts: Post[] = [];
-  post: Post;
+  // posts: Post[] = [];
+  // post: Post;
   submitted = false; // solo para cambiar valor de envio 
   editMode = false;
-  title = '';
+  title = ' New Post';
   suggestedName = 'Albodiga';
   private postSuscripcion: Subscription;
   private suscripcion: Subscription; // se suscribe para mostrarlo y desuscribir
@@ -48,9 +50,15 @@ export class ActivePostComponent implements OnInit, OnDestroy {
               private matDialog: MatDialog
               ) { }
 
-  ngOnInit() {
+  ngOnInit() { 
 
-    this.initForm(); 
+   /*  alert(this.editMode);
+    alert(this.post2); */
+
+    this.editMode = this.post2 != null; // editMode sera true si hay post2
+    // this.editMode = this.loadedPosts.length != null;
+    
+    this.initForm();
 
     // this.fetchPosts();
     // this.service.getPosts()
@@ -63,8 +71,6 @@ export class ActivePostComponent implements OnInit, OnDestroy {
         }
       );
     
-    // this.editMode = this.loadedPosts.length != null;
-
     // console.log('ActivePostComponent1 ' + this.firestore.doc);
     // console.log('ActivePostComponent2, length=  ' + this.service.getDatabaseDatas());
 
@@ -77,13 +83,15 @@ export class ActivePostComponent implements OnInit, OnDestroy {
           this.submitted = s;
         }
       );
+     
 
       /* Aca termina On init */
   }
 
   private initForm() {
+
     // para cargar el form si es edit
-    let title2  = '';
+    let title2 = '';
     let content2 = '';
     let imagePath2 = '';
 
@@ -93,52 +101,54 @@ export class ActivePostComponent implements OnInit, OnDestroy {
       title2 = post2.title;
       content2 = post2.content;
       imagePath2 = post2.imageUrl;
-    }
 
-    this.title = ' New Post';
+      this.imageOriginal = post2.imageUrl;
+    } /* else { */
+   // this.title = ' New Post';
     this.postForm = new FormGroup({
+      id: new FormControl('', [Validators.required]),
       title: new FormControl(title2, [Validators.required,
-      this.notAllowName.bind(this),
-      Validators.maxLength(10)]), /*  this.notTitle.bind(this),*/
+                this.notAllowName.bind(this),
+                Validators.maxLength(10)]), /*  this.notTitle.bind(this),*/
 
       content: new FormControl(content2, [Validators.required,
-      Validators.minLength(8)]),
+               Validators.minLength(8)]),
 
-      imagePath: new FormControl(imagePath2, [Validators.required])
+      /* imagePath: new FormControl(imagePath2, [Validators.required]), */
+
+      imagePost: new FormControl(imagePath2, [Validators.required])
     });
-
 
     //#region
     /* setea valores de prueba en el form al inicio */
-    this.postForm.patchValue({
+   /*  this.postForm.patchValue({
       title: this.suggestedName,
       content: 'feni@gMa.com'
     }
-    );    
+    ); */
+    
     /* solo para mostrar valor del form*/
     this.postForm.valueChanges.subscribe(
-      (valor) => console.log('El valor del form ' + valor.value)
+      (valor) => console.log('El valor del del form  active component ' + valor.value)
     );
     /* solo para mostrar status del form */
     this.postForm.statusChanges.subscribe(
-      (status) => console.log('El status del form ' + status)
+      (status) => console.log(`El status del form  active component ${status}`)
     );
     //#endregion
+    /* } */
   }
-
-  ngOnDestroy(): void {
-    this.suscripcion.unsubscribe();
-    this.postSuscripcion.unsubscribe();
-    this.viewPostSus.unsubscribe();
-  }
-
+  
   onSubmit() {
-    // this.editMode = false;
+    
     console.log(this.postForm.value + 'Enviando1 onSubmit');
     const newPost = new Post (
       this.postForm.value.title,
       this.postForm.controls.content.value,
-      this.postForm.value.imagePath);
+      this.postForm.value.imagePost);
+
+    this.imageOriginal = newPost.imageUrl;
+    alert('IMg ' + this.imageOriginal + 'MODE ' + this.editMode)
       
     if (!this.editMode) {
       this.onCreatePost(newPost);    
@@ -149,9 +159,14 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     // this.onCancel();
  }
 
+  ngOnDestroy(): void {
+    this.suscripcion.unsubscribe();
+    this.postSuscripcion.unsubscribe();
+    this.viewPostSus.unsubscribe();
+  }
+
   onEditPost(newPost: Post) {
-    console.log('edit ', newPost);
-    
+    console.log('edit ', newPost);    
     const newPost2 = new Post( 'Lemur', 'Violeta', 'amdr@.com');
    /*  const body = {
       first: datJugador.first,
@@ -159,6 +174,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
       born: datJugador.born
     }; */
     // this.service.edit(newPost2);
+    this.openDialog(newPost);
     this.service.updatePost(44, newPost);
   }
 
@@ -177,15 +193,30 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     }); */
   }
 
-  openDialog() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = 'some data';
-    const dialogRef = this.matDialog.open(ModalComponentComponent, dialogConfig);
+  openDialog(post?: Post): void {
+    const config = new MatDialogConfig();
+    config.data = {  // veremos que el if en dialog depende de data, inyectado en const dialogo
+      ID: 22,
+      title: 'Vamos Fenix',
+      message: post ? 'Editar post' : 'New post', // si hay post le mando este msg
+      content: post  // si hay post le mando este content
+    };
+    config.autoFocus = true;
+    config.disableClose = true;
+    config.hasBackdrop = true;
+    /* dialogConfig.minWidth = '120';
+    dialogConfig.position = {
+      bottom: '1',
+      right: '1'} */
+
+    const dialogRef = this.matDialog
+      .open(ModalComponentComponent, config);  // siempre pasamos config (si edita o no)
 
     /* const dialogRef = this.dialog.open(ModalComponent);}); */
     dialogRef.afterClosed()
       .subscribe(res => {
         console.log(`result ${res}`);
+        alert(' result ' + res);
 
       });
 
@@ -248,6 +279,15 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     this.loadedPosts = this.loadedPosts.filter(h => h !== hero);
     this.service.deletePost(hero).subscribe();
     
+  }
+
+  cambiaEdit() {
+    this.editMode = ! this.editMode;
+    alert(this.editMode + 'EDIT ');
+  }
+
+  handleImage() {
+
   }
 
 }

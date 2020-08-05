@@ -58,7 +58,8 @@
             <p style="border: lime solid 1px;">..{{userName}}..{{lastName}}</p>
 
             <p *ngIf="isActualizado; else parrafoOculto" [ngClass]="{onLine:!isActualizado}">Visble, #parrafoOculto -
-                {{lastName}}</p>
+                {{lastName}}
+            </p>
 
             <!-- <ng-template> -->
                 
@@ -152,7 +153,7 @@
             "LasComidas": <br>
         </p>
         <p>
-            <em>Bebida1-</em> {{myBebida | uppercase}} <em> Bebida2-</em> {{bebida2}}
+            <em>Bebida1-</em> {{myBebida | uppercase}} <em> Bebida2-</em> {{myBebida}}
         </p>
     </div>
     <div class="col-xs-12">

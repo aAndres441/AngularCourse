@@ -63,9 +63,6 @@ color: chocolate;
 /* ACA EMPIEZA CSS-GRID */
 
 /* si es invalido o si no toco */
-input.ng-invalid.ng-touched{
-  border: 1px solid red;
-}
 
 #user-data.ng-invalid.ng-touched{
   background-color: rgb(237, 248, 227) ;

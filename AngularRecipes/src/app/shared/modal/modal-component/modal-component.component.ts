@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import {MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-modal-component',
   templateUrl: './modal-component.component.html',
@@ -7,13 +8,37 @@ import {MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialo
 })
 export class ModalComponentComponent implements OnInit {
 
-  title = 'Example Angular 8 Material Dialog';
+  titleModal = ' Angular 8 Material Dialog';
+  form: FormGroup;
 
   constructor(private matDialog: MatDialog,
-              public dialogRef: MatDialogRef<ModalComponentComponent> ) { }
+              public dialogRef: MatDialogRef<ModalComponentComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
+
+    this.initForm();
   }
+  initForm() {
+    this.form = new FormGroup({
+      id: new FormControl(''),
+      title: new FormControl(null, Validators.required),
+      content: new FormControl(null, [Validators.required, Validators.minLength(8)]),
+      image: new FormControl(null)
+    });
+
+    /*  this.title = title;
+        this.content = content;
+        this.image = null;
+        this.imageUrl = imagePath;
+        this.data = new Date(Date.now());*/
+ 
+    this.form.statusChanges
+    .subscribe((res) => console.log(`Estatus de form dialogo ${res}`)
+    );
+ 
+ 
+      }
 
  /*  openDialog() {
     const dialogConfig = new MatDialogConfig();
@@ -21,7 +46,21 @@ export class ModalComponentComponent implements OnInit {
   } */
 
   close() {
-    this.dialogRef.close('Thanks for using me!');
+    this.dialogRef.close('Thanks for close me!');
+  }
+
+  save() {
+    console.log('El FORM Modal ES: ' + this.form.valid);
+    alert('El FORM Modal ES: ' + this.form.valid);
+
+    if (this.form.valid) {
+      /* this.dialogRef.close('Thanks for save me!' +
+        this.form.get('title').value +
+        this.form.get('content').value); */
+        this.dialogRef.close('Thanks for save me!');
+    } else {
+      this.dialogRef.close('It is bad! ');
+    }
   }
 
   
@@ -31,5 +70,9 @@ export class ModalComponentComponent implements OnInit {
     .subscribe(value => {
       console.log(`Dialog sent: ${vaue}`); 
     ); */
+
+    changeName(event: Event) {   // solo para mostrar el input del htmml
+      this.titleModal = (event.target as HTMLInputElement).value;
+    }
 
 }

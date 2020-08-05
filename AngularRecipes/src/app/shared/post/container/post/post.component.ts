@@ -17,11 +17,12 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
    title = 'POST';
    posts: Post[] = [];
    posts2: Post[] = [];
-   editMode = false;
-   randomSubject = false;
+   // private randomSubject = false;
+    randomSubject = false;
    image: ImageData;
    post: Post;
    viewOnePost: Subscription;
+  editMode = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -37,6 +38,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
 
+    
     this.posts = this. getPosts();
 
     this.postSubscription = this.service.onChange
@@ -132,6 +134,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     ); */
     alert(this.post.title); // va al service subject
+    alert(this.post.imageUrl + ' la imagen');
   }
 
   pruebaGuardarajugador() {

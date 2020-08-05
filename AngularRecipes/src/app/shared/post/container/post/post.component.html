@@ -41,7 +41,8 @@
           </button>
         </div>
     </div>
-    <!-- View posts -->
+
+    <!-- View posts -->       
     <div class="row" style="background-color: #9ac48a;">   
        <!--  <button class="btn btn-warning"
             style="background-color: green;"
@@ -59,6 +60,7 @@
                     style="max-height: 150px;">
             </span>
         </div>
+      
 
         <div *ngIf="posts.length>1; else dato">
         </div>
@@ -114,14 +116,14 @@
                 </tbody>
             </table>
         </div>
-<!-- para ver la image despues de pegar URL --> 
-  
-<!-- <span class="pull-right">
-    <img [src]="post.imageUrl"
-        alt="{{post.title}}" 
-        class="img-responsive"
-        style="max-height: 50px;" >
-  </span> -->
+            <!-- para ver la image despues de pegar URL --> 
+            
+            <!-- <span class="pull-right">
+                <img [src]="post.imageUrl"
+                    alt="{{post.title}}" 
+                    class="img-responsive"
+                    style="max-height: 50px;" >
+            </span> -->
         <ng-template #noTask>
             <h4>THERE IS  NOT POSTS YET</h4>
         </ng-template>
@@ -131,7 +133,7 @@
              (click)="pruebaGuardarajugador()">Add Player
         </button>
     </div>
-</div>     
+</div> 
 
  <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #c1cf8f;">
     <app-active-post></app-active-post>

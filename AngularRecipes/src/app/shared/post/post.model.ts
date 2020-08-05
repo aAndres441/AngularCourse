@@ -1,14 +1,14 @@
 export class Post {
+    id: number;
     title: string;
     content: string;
     image: ImageData;
-    imageUrl: string;
+    imageUrl: any;
     data: Date;
 
     constructor(title: string, content: string, imagePath: string) {
         this.title = title;
         this.content = content;
-        this.image = null;
         this.imageUrl = imagePath;
         this.data = new Date(Date.now());
     }
