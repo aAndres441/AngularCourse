@@ -98,20 +98,21 @@ const myRoutes: Routes = [
 
   {path: 'borrar', component: BorrarComponent},
   
-  {path: 'account', component: AccountComponent/*, children: [
+  {path: 'account', component: AccountComponent, children: [
      {path: ':id', component: NewAccountComponent }
-  ]*/},
+  ]},
 
   {path: 'newId', component: NewAccountComponent},
   
   {path: 'newAcc', component: MyAccountComponent},
 
-  {path: 'post', component: PostComponent, children:  [
-    {path: 'new', component: ActivePostComponent}/* ,
-    {path: 'new2', component: NewComponent} */
-  ] },
-
-  {path: 'newpp', component: NewComponent},
+  {path: 'post', component: PostComponent/*, children:  [
+     {path: 'postEdit', component: ActivePostComponent}, 
+    {path: 'postNew', component: NewComponent} 
+  ] */
+},
+  {path: 'postEdit', component: ActivePostComponent},
+  {path: 'postNew', component: NewComponent},
 
   {path: 'payment', component: PaymentComponent},
   {path: 'error', component: ErrorComponent, data: {mensajito: 'Page not found guy!'}},

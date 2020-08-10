@@ -1,116 +1,100 @@
-<h2 mat-dialog-title>
-    {{titleModal}}
-    {{data.title}} <!-- viene de openDialog de active post ts -->
+<h2 mat-dialog-title style="text-align: center;">   
+    {{titleModal}} -  {{data.title}} <!-- viene de openDialog de active post ts -->
 </h2>
-
-<p> {{data.message}} </p>  <!-- viene de openDialog de active post ts -->
+<!-- <div class="pull-right">
+  <input type="text" 
+  [value]="titleModal" id="tt" 
+  style="text-align:center;" >
+</div> -->
+<h3 mat-dialog-title style="text-align: center;">   
+  {{data.message}} <!-- viene de openDialog de active post ts -->
+</h3>
+  
+<hr><hr>
 
 <mat-dialog-content class="dialog-content col-xs-12 col-md-12"> 
   
-  <div *ngIf="data.content; else showNewform"> <!-- viene de openDialog de data.content active post ts , si existe Posts-->
+  <div *ngIf="data.content; else showNewform"> <!--Si existe post => viene de openDialog de data.content active post ts-->
      
-    <mat-form-field [formGroup]='form' style="width: auto;">  
-
-       <div>
-          <input type="number" 
-          formControlName='id'
-          placeholder="ID entre 1-20"
-          name="id"
-          min="1" max="20"
-          >
-       </div>
-
-       <div>
-          <input type="text" 
-          formControlName='title'
-          name="title"
-          placeholder="Title"
-          required
-          (input)="changeName($event)">        
-          <span class="help-block" 
-          *ngIf="!form.get('title').valid && form.get('title').touched">
-          Title is required
-          </span>
-        </div>
-
-        <div>
-          <input type="text" 
-          formControlName='content'
-          name="content"
-          placeholder="Content"
-          required
-          >
-          <span class="help-block" 
-            *ngIf="!form.get('content').valid && form.get('content').touched">
-            <span *ngIf="form.get('content').errors['required']">
-              Must have a content
-            </span>
-            <span *ngIf="form.get('content').errors['minLength']">
-              Please content minlength of 8
-            </span>
-          </span>
-        </div>
-
-        <div >
-          <input type="file" 
-          formControlName='image'
-          placeholder="Image"
-          name="image"
-          >   
-          <span class="help-block" 
-            *ngIf="!form.get('image').valid && form.get('image').touched">
-            <span *ngIf="form.get('image').errors['required']">
-              Must have a Image
-            </span>
-          </span>
-      </div>
-
-      <br>
-
-    </mat-form-field>
-
-      <span class="help-block"  
-          *ngIf="!form.valid && form.touched">
-          You not have complete this form
-      </span>
+    <app-active-post [postInput]="data.content"></app-active-post>  <!-- pasamos al active ts el post -->
+         
   </div>
-
-   <!--  id: new FormControl('', Validators.required),
-      title: new FormControl(null, Validators.required),
-      content: new FormControl(null, Validators.required),
-      imageUrl: new FormControl(null, Validators.required),
-      amount: -->
-
-    <!--  <span class="help-block" style="color: hotpink;"
-              *ngIf="!postForm.get('title').valid && postForm.get('title').touched">
-              <span *ngIf="postForm.get('title').errors['required']">
-                Title is required
-              </span>
-              <span *ngIf="postForm.get('title').errors['noName']">
-                Not allow this title
-              </span>
-              <span *ngIf="postForm.get('title').errors['maxLength']">
-                Please enter content whith maxLength of 10
-              </span>
-            </span> 
-     -->
    
-   <ng-template #showNewform style="background-color: rgb(230, 245, 175);">
+  <ng-template #showNewform style="background-color: rgb(230, 245, 175);">
    
-    <app-active-post [post2]="data.content"></app-active-post>  <!-- pasamos al active ts el post -->
-  
+    <app-new></app-new> 
+
   </ng-template>
        
 </mat-dialog-content>
 
-<input type="text" [value]="titleModal" id="solomuestraTituloPrueba">
-
-<mat-dialog-actions col-xs-12 col-md-12>
-    <button class="mat-raised-button mat-success" (click)="close()">
+<mat-dialog-actions  >
+    <button class="mat-raised-button mat-success" (click)="close()" style="width: 30%;">
         <i class="far fa-window-close" style="color:rgb(191, 255, 15); font-size: 25px"></i>
-        </button>
-    <button class="mat-raised-button mat-primary" (click)="save()">
+    </button>
+    <button class="mat-raised-button mat-primary" (click)="save()"style="width: 30%;">
         <i class="far fa-handshake" style="color:rgb(255, 251, 15); font-size: 25px"></i>
-        </button>
+    </button>
 </mat-dialog-actions>
 
+ 
+
+<mat-form-field >  
+  <!-- [formGroup]='form' style="width: auto;"
+     <div>
+        <input type="number" 
+        formControlName='id'
+        placeholder="ID entre 1-200"
+        name="id"
+        min="1" max="200"
+        >
+     </div>
+
+     <div>
+        <input type="text" 
+        formControlName='title'
+        name="title"
+        placeholder="Title"
+        required
+        (input)="changeName($event)">        
+        <span class="help-block" 
+        *ngIf="!form.get('title').valid && form.get('title').touched">
+        Title is required
+        </span>
+      </div>
+
+      <div>
+        <input type="text" 
+        formControlName='content'
+        name="content"
+        placeholder="Content"
+        required
+        >
+        <span class="help-block" 
+          *ngIf="!form.get('content').valid && form.get('content').touched">
+          <span *ngIf="form.get('content').errors['required']">
+            Must have a content
+          </span>
+          <span *ngIf="form.get('content').errors['minLength']">
+            Please content minlength of 8
+          </span>
+        </span>
+      </div>
+
+      <div >
+        <input type="file" 
+        formControlName='image'
+        placeholder="Image"
+        name="image"
+        >   
+        <span class="help-block" 
+          *ngIf="!form.get('image').valid && form.get('image').touched">
+          <span *ngIf="form.get('image').errors['required']">
+            Must have a Image
+          </span>
+        </span>
+    </div>
+
+    <br> -->
+
+  </mat-form-field> 

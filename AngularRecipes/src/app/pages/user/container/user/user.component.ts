@@ -39,7 +39,8 @@ private deactivatedSuscription: Subscription;
      alert(this.id); */
 
      // Para Emitter:  configuramos el oyente del evento emitido por subject desde el componente lista
-         this.userServiceSubject.eveActivatedEmitter.subscribe(dato => {
+         this.userServiceSubject.eveActivatedEmitter
+         .subscribe(dato => {
       this.emi = dato;
     });
 

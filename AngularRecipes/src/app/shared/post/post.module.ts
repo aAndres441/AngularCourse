@@ -8,6 +8,7 @@ import { ActivePostComponent, NewComponent } from './component/index';
 import { PostComponent } from './container/post/post.component';
 
 
+const firebase = require('firebase/app');
 
 const MODULES = [
   CommonModule,

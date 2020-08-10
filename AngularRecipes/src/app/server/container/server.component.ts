@@ -172,4 +172,8 @@ export class ServerComponent implements OnInit {
         this.price = Number((event.target as HTMLInputElement).value); // (<HTMLInputElement>event.target).value   
         // this.price2 = this.unValor.nativeElement.value; 
       }
+
+      alListado(){
+        this.router.navigate(['server/', 'new']);
+      }
 }

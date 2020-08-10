@@ -15,13 +15,17 @@
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
       <p>The information passes with event emmiter</p>
-      <button class="btn btn-default" style="color:rgb(197, 211, 9)" (click)="activateEmitter()"> activate
-        EMITTER</button>
+      <button class="btn btn-default" style="color:rgb(197, 211, 9)" 
+        (click)="activateEmitter()"> activate
+        EMITTER
+      </button>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
       <p>The information passes with new Subject from 'rxjs'</p>
-      <button class="btn btn-default" style="color:rgb(197, 211, 9)" (click)="activateSubject()"> activate
-        SUBJECT</button>
+      <button class="btn btn-default" style="color:rgb(197, 211, 9)" 
+        (click)="activateSubject()"> activate
+        SUBJECT
+      </button>
     </div>
   </div>
 
@@ -48,7 +52,6 @@
 
   <div class="row" style="border: rgb(88, 139, 127) 2px solid;">
 
-    <div class="col-xs-12">
       <p style="color:blueviolet">
         Below can see how add parameters, plus if you delete it,
         it change others parameters too
@@ -57,7 +60,8 @@
       <!-- #region -->
       <div class="row" style="border: 1px solid pink;">
         <p>Add Orders <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-          <i>(Fenix)</i></p>
+          <i>(Fenix)</i>
+        </p>
         <div class=" col-xs-2">
           <p>Total Price $: {{totalFenixPrice}}</p>
           <p>Temporal Users {{temporalAllUsers}}</p>
@@ -93,7 +97,7 @@
         </div>         
         
          <hr>
-<!-- BOTTONS PINK -->
+        <!-- BOTTONS PINK -->
         <div class=" button-list col-xs-10">
           <button class="myButton" (click)="onAddFenix(p)" 
               *ngFor="let p of allUsers">
@@ -102,7 +106,7 @@
         </div>
 
         <br>
-
+          <!-- FORM -->
         <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2" 
             style="border: dotted 1px red; width: auto;">
           <h3>Complete the form to sign up for the course.</h3>
@@ -192,16 +196,20 @@
         *ngIf="allUsers.length>3; else infoTextUsusu">
       </div>
 
-      <a 
-        *ngFor="let user of allUsers; let i = index">
-        (ID: {{ user.id }}) -{{ user.name }} {{ user.lastname }}- (Fecha {{user.timeStamp|date}} ) |
-        <button class="btn btn-primary" style="width: 30%;"
-          (click)="delete(i)">
-          DELETE
-        </button> <!--   -->
-        &nbsp;
-        <button (click)="changeStatus(user)">change Status</button>
-      </a>
+      <div  *ngFor="let user of allUsers; let i = index" class="row" style="padding-left: 10%;">
+        <a>
+          (ID: {{ user.id }}) -{{ user.name }} {{ user.lastname }}- (Fecha {{user.timeStamp|date}} ) |
+        </a>        
+            <button class="btn btn-success"  id="btnAddOrder"
+                      (click)="delete(i)">
+                      DELETE
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-success"  id="btnAddOrder"
+                      (click)="changeStatus(user)">change Status
+                    </button>
+      
+      </div>
       <!-- <a [routerLink]="['/users',user.id]" [queryParams]="{ID: user.id}" fragment={{user.name}} class="list-group-item"
         *ngFor="let user of allUsers; let i = index">
         (ID: {{ user.id }}) -{{ user.name }} {{ user.lastname }}- (Fecha {{user.timeStamp|date}} ) |
@@ -211,7 +219,6 @@
         </button>    -
       </a> -->
 
-    </div>
     <ng-template #infoTextUsusu>
       <p style="background-color: greenyellow; text-align: center">Careful: there's few users</p>
     </ng-template>

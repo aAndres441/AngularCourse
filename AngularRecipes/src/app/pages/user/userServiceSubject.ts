@@ -11,6 +11,7 @@ export class UserServiceSubject {
 eveActivatedEmitter = new EventEmitter<boolean>();
 
 subjActivatedSubject = new  Subject<boolean>();
+
 subjecFenix = new Subject<User>();
 
 }

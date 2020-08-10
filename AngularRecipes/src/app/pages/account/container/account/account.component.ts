@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Account } from '../../account.Model';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   /* providers: [AccountService]  la sacamos da eca y la ponemos en app*/
 })
 
-export class AccountComponent implements OnInit {
+export class AccountComponent implements OnInit, OnDestroy {
 
   prueba = false;
 
@@ -27,15 +28,21 @@ export class AccountComponent implements OnInit {
 
   /* accounts: (name: string, status: string) => Account[]; */
   accounts: Account[];
-
+  private suscription: Subscription;
   /* pos: number; */
 
   constructor(private servicio: AccountService,
               private router: Router) { }
-
+  
   ngOnInit() {
     /* cargo las cuentas desde el servodor, acordarse del provider */
-    this.accounts = this.servicio.getAccounts();    
+   // asi
+     this.accounts = this.servicio.getAccounts();
+    // o asi
+    this.suscription = this.servicio.onChangeAcounts
+    .subscribe((ac) => {
+      this.accounts = ac;
+    });
   }
 
  /*  onAccountAdded(newAccount: { name: string, status: string }) {
@@ -49,12 +56,15 @@ export class AccountComponent implements OnInit {
     console.log('[' + this.pos + ']' + this.accounts[this.pos].status + '---' + this.accounts[this.pos].name);
   } */
   loEdito() {
-    /* this.router.navigate(['/account', 1],
+    this.router.navigate(['/account', 1],
     {queryParams: {loEdito: 'si'},
     fragment: 'loading'}
-    ); */
-    this.router.navigate(['/newId']);
+    );
+
+    /* this.router.navigate(['/newId']); */
   }
-  
+  ngOnDestroy(): void {
+    this.suscription.unsubscribe();
+   }
 
 }

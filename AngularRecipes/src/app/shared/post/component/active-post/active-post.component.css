@@ -1,18 +1,21 @@
-.container {
+/* .container {
     margin-top: 30px;
     color: rgb(128, 128, 128);
     background-color: #e2e4db;
-  }
+  } */
   
-  .row {
+  /* .row {
     margin: 10px 0;
-  }
+  } */
 
   h1{
     text-align: center; 
     color: rgb(76, 161, 81);
   }
-
+.help-block{
+  border: 1px solid hotpink;
+  color: hotpink;
+}
   /* --------------todo para btnSubmit ----------------------*/
   #btnSubmit{
     transition-duration: 0.4s;
@@ -87,9 +90,12 @@
 
 /* --------------todo para btnWhatsapp ----------------------*/
 #btnWhatsapp{
+  margin: 15px;
   transition-duration: 0.4s;  
   color: aliceblue;
   background-color: rgb(231, 222, 222);
+  
+  float: right
 }
 #btnWhatsapp:hover{
   /* background-color: rgb(27, 5, 53); */

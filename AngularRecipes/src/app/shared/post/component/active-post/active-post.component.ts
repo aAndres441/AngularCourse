@@ -10,7 +10,7 @@ import { Post } from '../../post.model';
 import { error } from 'console';
 import { PostService } from '../../../services/post.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialogModule, MatDialogConfig, MatDialog  } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { ModalComponentComponent } from 'src/app/shared/modal/modal-component/modal-component.component';
 
 @Component({
@@ -23,7 +23,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   postForm: FormGroup;
   imageNew: any;
   imageOriginal: any;
-  @Input() post2: Post;  // recibira desde Modal dialogo
+  @Input() postInput: Post;  // recibira desde Modal dialogo
   loadedPosts: Post[] = [];
   loadedPosts2: Observable<Post[]>;
   // posts: Post[] = [];
@@ -34,8 +34,8 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   suggestedName = 'Albodiga';
   private postSuscripcion: Subscription;
   private suscripcion: Subscription; // se suscribe para mostrarlo y desuscribir
-  private viewPostSus: Subscription;
   
+
   /* postNew: Post = {
     title: '',
     content: '',
@@ -48,21 +48,20 @@ export class ActivePostComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private matDialog: MatDialog
-              ) { }
+  ) { }
 
-  ngOnInit() { 
+  ngOnInit() {
 
-   /*  alert(this.editMode);
-    alert(this.post2); */
-
-    this.editMode = this.post2 != null; // editMode sera true si hay post2
+    this.editMode = this.postInput != null; // editMode sera true si hay postInput
     // this.editMode = this.loadedPosts.length != null;
-    
+    // alert(this.editMode + ' : after changed edit Mode');
+
     this.initForm();
+    this.initValuesForm();    
 
     // this.fetchPosts();
     // this.service.getPosts()
-    this.loadedPosts = this.service. getPosts();
+    this.loadedPosts = this.service.getPosts();
 
     this.postSuscripcion = this.service.onChange
       .subscribe(
@@ -70,12 +69,12 @@ export class ActivePostComponent implements OnInit, OnDestroy {
           this.loadedPosts = ps;
         }
       );
-    
+
     // console.log('ActivePostComponent1 ' + this.firestore.doc);
     // console.log('ActivePostComponent2, length=  ' + this.service.getDatabaseDatas());
 
     // this.submitted = false; // solo para cambiar valor de envio  
- 
+
     /* Solo para inventar Subject random*/
     this.suscripcion = this.service.randomSub
       .subscribe(
@@ -83,50 +82,50 @@ export class ActivePostComponent implements OnInit, OnDestroy {
           this.submitted = s;
         }
       );
-     
 
-      /* Aca termina On init */
+
+    /* Aca termina On init */
+  }
+
+  private initValuesForm(): void {
+    this.postForm.patchValue({
+      id: this.postInput.id,
+      title: this.postInput.title,
+      content: this.postInput.content
+      //  no va la imagePath: pues depende si trae o no y yo se la cargo con handle
+    });
   }
 
   private initForm() {
+    this.title = `Edit  ${this.postInput.title}`;
 
-    // para cargar el form si es edit
-    let title2 = '';
-    let content2 = '';
-    let imagePath2 = '';
+    const postt: Post = this.service.getPostTitle(this.postInput.title);
 
-    if (this.editMode) {
-      this.title = 'Edit Post';
-      const post2 = this.service.getPostTitle('Lemur');
-      title2 = post2.title;
-      content2 = post2.content;
-      imagePath2 = post2.imageUrl;
+    this.imageOriginal = this.postInput.imageUrl;
 
-      this.imageOriginal = post2.imageUrl;
-    } /* else { */
-   // this.title = ' New Post';
     this.postForm = new FormGroup({
       id: new FormControl('', [Validators.required]),
-      title: new FormControl(title2, [Validators.required,
-                this.notAllowName.bind(this),
-                Validators.maxLength(10)]), /*  this.notTitle.bind(this),*/
+      title: new FormControl('', [Validators.required,
+      this.notAllowName.bind(this),  // no usara Test
+      Validators.maxLength(14)]), /*  this.notTitle.bind(this),*/
 
-      content: new FormControl(content2, [Validators.required,
-               Validators.minLength(8)]),
+      content: new FormControl('', [Validators.required,
+      Validators.minLength(8)]),
+
+      imagePost: new FormControl('')
 
       /* imagePath: new FormControl(imagePath2, [Validators.required]), */
-
-      imagePost: new FormControl(imagePath2, [Validators.required])
+      /* imagePost: new FormControl('', [Validators.required]), */
     });
 
     //#region
     /* setea valores de prueba en el form al inicio */
-   /*  this.postForm.patchValue({
-      title: this.suggestedName,
-      content: 'feni@gMa.com'
-    }
-    ); */
-    
+    /*  this.postForm.patchValue({
+       title: this.suggestedName,
+       content: 'feni@gMa.com'
+     }
+     ); */
+
     /* solo para mostrar valor del form*/
     this.postForm.valueChanges.subscribe(
       (valor) => console.log('El valor del del form  active component ' + valor.value)
@@ -138,59 +137,75 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     //#endregion
     /* } */
   }
-  
+
   onSubmit() {
-    
+
     console.log(this.postForm.value + 'Enviando1 onSubmit');
-    const newPost = new Post (
+    const newPost = new Post(
+      this.postForm.value.id,
       this.postForm.value.title,
       this.postForm.controls.content.value,
       this.postForm.value.imagePost);
 
     this.imageOriginal = newPost.imageUrl;
     alert('IMg ' + this.imageOriginal + 'MODE ' + this.editMode)
-      
+
     if (!this.editMode) {
-      this.onCreatePost(newPost);    
+      this.onCreatePost(newPost);
       this.postForm.reset();
     } else {
       this.onEditPost(newPost);
     }
     // this.onCancel();
- }
+  }
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
     this.postSuscripcion.unsubscribe();
-    this.viewPostSus.unsubscribe();
   }
 
-  onEditPost(newPost: Post) {
-    console.log('edit ', newPost);    
-    const newPost2 = new Post( 'Lemur', 'Violeta', 'amdr@.com');
-   /*  const body = {
-      first: datJugador.first,
-      last: datJugador.last,
-      born: datJugador.born
-    }; */
+  private onEditPost(newPost: Post) {
+    alert('EDIT');
+    console.log('IMG new ' + this.imageNew);
+    console.log('IMG Original' + this.handleImage);
+
+ /* es por si no tiene imagen
+ Si imagen que agrego con handle es igual, le asigna original. */
+
+    if(this.imageNew === this.imageOriginal){
+      newPost.image = this.imageOriginal;
+      // call method
+    } else {
+      // call method(newPost, this.imageNew);
+    }
+    
+    /* console.log('edit ', newPost); */
+    /*  const newPost2 = new Post( 400, 'Lemur', 'Violeta', 'amdr@.com'); */
+    /*  const body = {
+       first: datJugador.first,
+       last: datJugador.last,
+       born: datJugador.born
+     }; */
     // this.service.edit(newPost2);
-    this.openDialog(newPost);
-    this.service.updatePost(44, newPost);
+
+    // this.service.updatePost(44, newPost);
+    this.service.updatePost2(newPost);
   }
 
- onCancel() {
-  alert('// this.fgNew.reset();');
-  this.router.navigate(['../login'], {relativeTo: this.route});
-}
+  onCancel() {
+    alert('// this.fgNew.reset();');
+    this.router.navigate(['../login'], { relativeTo: this.route });
+  }
   onCreatePost(postData: Post) {
+    alert('CREATE')
     // Send Http request POST // , this.image  
-      this.openDialog();
-      this.service.onCreatePost(postData);
-     /* .subscribe(resp => {
-      console.log(resp + 'RESPUESTA');
-     }, () => {
-      alert('NO');
-    }); */
+    // this.openDialog();
+    this.service.onCreatePost(postData);
+    /* .subscribe(resp => {
+     console.log(resp + 'RESPUESTA');
+    }, () => {
+     alert('NO');
+   }); */
   }
 
   openDialog(post?: Post): void {
@@ -219,7 +234,6 @@ export class ActivePostComponent implements OnInit, OnDestroy {
         alert(' result ' + res);
 
       });
-
   }
 
   /* promisePrueba = new Promise((resolve, reject) => {
@@ -227,18 +241,18 @@ export class ActivePostComponent implements OnInit, OnDestroy {
             resolve ('Asynchronous');
         }, 3500);
     }); */
-  
+
   public onFetchPosts() {
     // Send Http request GET
-     this.fetchPosts();
+    this.fetchPosts();
   }
 
   private fetchPosts() {
     this.service.fetchPosts()
-    .subscribe(pss => {      
-      alert ('SII' + pss.toString());
-    }, () => {
-        alert ('NADA');
+      .subscribe(pss => {
+        alert('SII' + pss.toString());
+      }, () => {
+        alert('NADA');
       });
   }
   /*  this.postSuscripcion = this.service.onChange
@@ -253,41 +267,42 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     const result = new Promise<any>((resolve, reject) => {
       setTimeout(() => {
         if (controler.value === 'New') {
-          resolve({tituloInvalido: true});
+          resolve({ tituloInvalido: true });
         } else {
-          resolve (null);
+          resolve(null);
         }
-      }, 1500 );
+      }, 1500);
     });
     return result;
   }
 
-  notAllowName(control: FormControl ): {[s: string]: boolean} {
+  notAllowName(control: FormControl): { [s: string]: boolean } {
     if (control.value === 'Test') {
-      return {noName : true};
+      return { noName: true };
     }
     return null;
   }
-  
+
   onClearPosts() {
     alert(this.loadedPosts.length + 'DATOOS');
     // Send Http request
     this.service.deleteAll();
   }
-  
+
   delete2(hero: Post): void {
     this.loadedPosts = this.loadedPosts.filter(h => h !== hero);
     this.service.deletePost(hero).subscribe();
-    
+
   }
 
   cambiaEdit() {
-    this.editMode = ! this.editMode;
+    this.editMode = !this.editMode;
     alert(this.editMode + 'EDIT ');
   }
 
-  handleImage() {
-
+  handleImage(event: any): void {
+    alert('Hello!!');
+    this.imageNew = event.value;
   }
 
 }

@@ -32,7 +32,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.textError = '';
-    this.subscripIngred = this.service.startIngredEdit.subscribe(
+    this.subscripIngred = this.service.startIngredEdit
+    .subscribe(
       (indice: number) => {
         this.editIndexItem = indice;
         this.editMode = true;

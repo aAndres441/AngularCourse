@@ -5,8 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { map, tap, catchError } from 'rxjs/operators';
-import * as firebase from 'firebase';
-
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +18,11 @@ export class PostService {
   private postCollection: AngularFirestoreCollection<Post>;
   posts: Observable<Post[]>;
   
+  
   private posts2: Post[] = [
-    new Post ( 'JOrge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
-    new Post ( 'clock', 'In two binding','https://tse3.mm.bing.net/th?id=OIP.WwiZsucIqy6R4taHgUJ2CQHaHa&pid=Api&P=0&w=300&h=300'),
-    new Post ( 'Lemur', 'In my mind','https://tse1.mm.bing.net/th?id=OIP.hNOV7KRYdK93MsE6SXHMVQHaLH&pid=Api&P=0&w=300&h=300')
+    new Post ( 100, 'JOrge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
+    new Post ( 101, 'clock', 'In two binding', 'https://tse3.mm.bing.net/th?id=OIP.WwiZsucIqy6R4taHgUJ2CQHaHa&pid=Api&P=0&w=300&h=300'),
+    new Post ( 102, 'Lemur', 'In my mind', 'https://tse1.mm.bing.net/th?id=OIP.hNOV7KRYdK93MsE6SXHMVQHaLH&pid=Api&P=0&w=300&h=300')
   ];
 
   onChange = new Subject<Post[]>();
@@ -30,11 +31,11 @@ export class PostService {
 
   private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
   private cadena2 = environment.firebaseConfig.databaseURL + 'Jugadores.json';
-  public db = firebase.firestore();
+  //public db = firebase.firestore();
   // Get a reference to the storage service, which is used to create references in your storage bucket
-  storage = firebase.storage();
+  //storage = firebase.storage();
   // Create a storage reference from our storage service
-  storageRef = this.storage.ref();
+  //storageRef = this.storage.ref();
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'User/json' })
@@ -83,6 +84,8 @@ export class PostService {
 
 createPost(postData: Post) {  
   // Send Http request POST 
+  alert('desde service' + postData.toString());
+
   const body = {
     id: postData.id,
     title: postData.title,
@@ -310,23 +313,42 @@ fetchPosts() {
   }
  
   updatePost2(newPost: Post) {
-    alert('updatePost2');
     const index = this.posts2.indexOf(newPost);
-    alert(index)
+    alert(index + ' updatePost2 Nº position');
     const name = newPost.title;
     if (index > -1 ) {
       this.posts2[index] = newPost;
       this.onChange.next(this.posts2.slice());
-      this.viewPost.next(newPost);
+      this.viewPost.next(newPost);  // para mostrar magen
 
       this.http.post(this.cadena, newPost)
-  .subscribe(resp => { console.log(resp + 'RESPUESTA updatePost2');
+      .subscribe(resp => { console.log(resp + 'RESPUESTA updatePost2');
+            alert('SIIII');
      }, () => {
       alert('NO');
     });
     }
-    
-  }
+
+    this.add(newPost);
+  }/* 
+
+createPost(postData: Post) {  
+  // Send Http request POST 
+  alert('desde service' + postData.toString());
+
+  const body = {
+    id: postData.id,
+    title: postData.title,
+    content: postData.content,
+    imageUrl: postData.imageUrl,
+    data: postData.data};
+
+  this.http.post(this.cadena, body)
+  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+     }, () => {
+      alert('NO');
+    });
+} */
   
   updatePost3(post: Post) {
     return this.postCollection.doc(post.title).update(post);

@@ -1,59 +1,48 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PostService } from '../../services/post.service';
+import { Post } from '../../post/post.model';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-modal-component',
   templateUrl: './modal-component.component.html',
   styleUrls: ['./modal-component.component.css']
 })
-export class ModalComponentComponent implements OnInit {
+export class ModalComponentComponent implements OnInit, OnDestroy {
 
   titleModal = ' Angular 8 Material Dialog';
   form: FormGroup;
+  post: Post;
+  private editOrNo: boolean;
+  /* private postSubscription: Subscription; */
 
   constructor(private matDialog: MatDialog,
               public dialogRef: MatDialogRef<ModalComponentComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private servicio: PostService) { }
+  
 
   ngOnInit(): void {
+    this.editOrNo = this.data.content;
+    if (this.editOrNo) {
+      alert(`Dialog: ${this.data.content.title} iD ${this.data.content.id}`);
+      this.post = this.data.content;
+      this.titleModal = this.data.content.title;
+    }else{ alert('no have content');}
 
-    this.initForm();
+    /* this.initForm(); */
   }
-  initForm() {
-    this.form = new FormGroup({
-      id: new FormControl(''),
-      title: new FormControl(null, Validators.required),
-      content: new FormControl(null, [Validators.required, Validators.minLength(8)]),
-      image: new FormControl(null)
-    });
-
-    /*  this.title = title;
-        this.content = content;
-        this.image = null;
-        this.imageUrl = imagePath;
-        this.data = new Date(Date.now());*/
- 
-    this.form.statusChanges
-    .subscribe((res) => console.log(`Estatus de form dialogo ${res}`)
-    );
- 
- 
-      }
-
- /*  openDialog() {
-    const dialogConfig = new MatDialogConfig();
-    this.matDialog.open(DialogBodyComponent, dialogConfig);
-  } */
 
   close() {
     this.dialogRef.close('Thanks for close me!');
   }
 
   save() {
-    console.log('El FORM Modal ES: ' + this.form.valid);
-    alert('El FORM Modal ES: ' + this.form.valid);
+    /* console.log('El FORM Modal ES: ' + this.form.valid);
+    alert('El FORM Modal ES: ' + this.form.valid); */
 
-    if (this.form.valid) {
+    if (/* this.form.valid */ this.editOrNo) {
       /* this.dialogRef.close('Thanks for save me!' +
         this.form.get('title').value +
         this.form.get('content').value); */
@@ -63,16 +52,46 @@ export class ModalComponentComponent implements OnInit {
     }
   }
 
-  
-
- /*  close() {
-    this.matDialog.afterAllClosed()
-    .subscribe(value => {
-      console.log(`Dialog sent: ${vaue}`); 
-    ); */
-
-    changeName(event: Event) {   // solo para mostrar el input del htmml
+  changeName(event: Event) {   // solo para mostrar el input del htmml
       this.titleModal = (event.target as HTMLInputElement).value;
     }
 
+    ngOnDestroy(): void {
+      /* this.postSubscription.unsubscribe(); */
+    }
+
+/*   initForm() {
+    let id: number;
+    let titl = '';
+    let conten = '';
+    let imag: any;
+    if (this.post) {
+      id = this.post.id;
+      titl = this.post.title;
+      conten = this.post.content;
+      imag = this.post.image;
+    }
+    this.form = new FormGroup({
+      id: new FormControl(id, Validators.required),
+      title: new FormControl(titl, Validators.required),
+      content: new FormControl(conten, [Validators.required, Validators.minLength(8)]),
+      image: new FormControl(imag)
+    });
+ */
+    /* this.form.patchValue({
+      title: this.titleModal,
+      content: 'feni@gMa.com'
+    }
+    ); */
+
+    /* solo para mostrar valor del form*/
+    
+   /*  this.form.valueChanges.subscribe(
+      (valor) => alert('El valor del del form  active component ' + valor.value)
+    ); */
+
+  /*   this.form.statusChanges
+      .subscribe((res: Post) => console.log(`Estatus de form dialogo ${res}`)
+      );
+  } */
 }

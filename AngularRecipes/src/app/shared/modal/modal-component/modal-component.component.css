@@ -1,11 +1,12 @@
 input{
     color:purple;
-    background-color: palegreen;
-    min-width: 200px;
+    background-color: rgb(213, 248, 213);
+    max-width: 100px;
+    font-family: cursive;
 }
 
   .help-block {
-    border: 1px solid rgb(241, 166, 166);
+    border: 1px solid hotpink;
     color: hotpink;
   }
 
@@ -16,3 +17,9 @@ input{
     display: flex;
     
   }
+
+  .mat-dialog-container {
+    box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+    background: #1a7b80;
+    color: #fff;
+}

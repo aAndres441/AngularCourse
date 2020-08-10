@@ -31,8 +31,6 @@ export class NewComponent implements OnInit, OnDestroy {
   title = ' New Post';
  /*  suggestedName = 'Albodiga'; */
   private postSuscripcion: Subscription;
-  private suscripcion: Subscription; // se suscribe para mostrarlo y desuscribir
-  private viewPostSus: Subscription;
   
   /* postNew: Post = {
     title: '',
@@ -81,10 +79,17 @@ export class NewComponent implements OnInit, OnDestroy {
   }
   
   onSubmit() {
+    console.log
+    (this.newPost.value.id +'..'+
+      this.newPost.value.title+'..'+
+      this.newPost.controls.content.value+'..'+
+      this.newPost.value.imagePost)
     const newPost = new Post (
+      this.newPost.value.id,
       this.newPost.value.title,
       this.newPost.controls.content.value,
       this.newPost.value.imagePost);
+    alert('desde newTs' + newPost.toString());
 
     this.imageOriginal = newPost.imageUrl;
       
@@ -107,9 +112,7 @@ export class NewComponent implements OnInit, OnDestroy {
     this.router.navigate(['../login'], {relativeTo: this.route});
   }
   ngOnDestroy(): void {
-    this.suscripcion.unsubscribe();
     this.postSuscripcion.unsubscribe();
-    this.viewPostSus.unsubscribe();
   }
 
  
@@ -134,7 +137,7 @@ export class NewComponent implements OnInit, OnDestroy {
   }
   
   onClearPosts() {
-    alert(this.loadedPosts.length + 'DATOOS');
+    alert(this.loadedPosts.length + 'DATOOS desde new');
     // Send Http request
     this.service.deleteAll();
   }
@@ -153,5 +156,10 @@ export class NewComponent implements OnInit, OnDestroy {
   handleImage() {
 
   }
+
+  changeName(event: Event) {   // solo para mostrar el input del htmml
+    this.title = (event.target as HTMLInputElement).value;
+  }
+
 
 }
