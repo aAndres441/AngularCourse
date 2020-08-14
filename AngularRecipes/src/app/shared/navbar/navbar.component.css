@@ -1,5 +1,5 @@
 .navbar{
-    background-color: #4CAF50;
+    background-color: #f5f2f7; /* #4CAF50 , #44065c;*/
     color: #1404ec;
 }
 a{
@@ -36,7 +36,7 @@ a{
     color: #a1bcec;
 } */
 .navbar-nav li a, .navbar-brand{
-    color: #f8b697;
+    color: purple;
 }
 
 .default a:hover{

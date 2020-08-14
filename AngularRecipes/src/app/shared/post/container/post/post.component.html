@@ -66,6 +66,26 @@
                     </font>
                 </button>
             </div>
+            <div>
+                <!-- <button (click)="loggeado = !loggeado" class="btnLoggin"> -->
+                <button (click)="toLogin()" class="btnLoggin">
+                    <font style="vertical-align: inherit;">
+                        <i class="glyphicon glyphicon-thumbs-up"></i>
+                    </font>
+                </button>
+                <div class="col-md-2 col-xs-2">
+                    <input type="text" [(ngModel)]="loggeado" style="color: rgb(189, 0, 164);">
+                </div>
+                <div class="col-md-2 col-xs-2">
+                    <input type="text" [value]="loggeado">
+                </div>
+            </div>
+
+            <div *ngIf="loggeado; else noFenix"> FENIX Login</div>
+            
+            <ng-template *ngIf="loggeado" #noFenix>logout</ng-template>
+            
+            <app-logged *ngIf="loggeado"></app-logged>
 
             <div *ngIf="posts.length" >
                 

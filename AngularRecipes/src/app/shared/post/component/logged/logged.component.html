@@ -1,0 +1,63 @@
+<p>logged works!</p>
+
+<div id="panelLog">
+	
+	<div id="root"></div>
+
+	<div id="root2" style="max-width: 110px">
+		<h1 id="email"> </h1>
+	</div>
+  
+	<p id="pMostrarLogueado"></p>
+
+<hr><hr>
+
+<form action="action_page.php" method="post">
+
+  <div class="container">
+    <app-star></app-star>
+  </div>
+
+  <div class="imgcontainer">
+    <!-- <img src="img_avatar2.png" alt="Avatar" class="avatar"> -->
+    <img src='assets\Imagenes\centro-atletico-fenix.jpg' alt="Fenix" class="fenix">
+  </div>
+
+  <div class="container">
+    <!-- // la clase container deja mas chico el div -->
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label for="txtEmail"><b>E-mail</b></label>
+    <input type="text" id="txtEmail" name="txtEmail" placeholder="Email">
+
+    <label for="slcSexo"><b>Sexo</b></label>
+    <select id="slcSexo" name="slcSexo" data-role="slider">
+      <option value="H">Hombre</option>
+      <option value="M">Mujer</option>
+    </select>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit">Login</button>
+    <div class="row">
+      <div class="col-xs-6">
+        <button class="btn btn-warning" (click)="onLogin()">Login</button>
+      </div>
+      <div class="col-xs-6">
+        <button class="btn btn-info" (click)="onLogout()">Logout</button>
+      </div>
+    </div>
+
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="psw">Forgot <a routerLink='/'>password?</a></span>
+  </div>
+</form>
+   

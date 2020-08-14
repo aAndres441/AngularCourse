@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ActivePostComponent, NewComponent } from './component/index';
 import { PostComponent } from './container/post/post.component';
+import { LoggedComponent } from './component/logged/logged.component';
 
 
 const firebase = require('firebase/app');
@@ -22,7 +23,8 @@ const CONTAINER = [
 
 const COMPONENTS = [
   ActivePostComponent,
-  NewComponent
+  NewComponent,
+  LoggedComponent
 ];
 
 @NgModule({

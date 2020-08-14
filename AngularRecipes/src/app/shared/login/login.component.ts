@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
               public afAuth: AngularFireAuth) { } */
 
   constructor(private router: Router,
-              private authServ: AuthGuard
+              private authServ: AuthGuard,
+              public afAuth: AngularFireAuth
              ) { }
 
   ngOnInit() {
@@ -26,8 +27,8 @@ export class LoginComponent implements OnInit {
 
   onLogingGoogle() {
    
-    /* this.afAuth.signInWithPopup(new auth.GoogleAuthProvider ());
-    this.router.navigate(['/test']); */
+    this.afAuth.signInWithPopup(new auth.GoogleAuthProvider ());
+    this.router.navigate(['/test']);
   }
 
   onLogin() {

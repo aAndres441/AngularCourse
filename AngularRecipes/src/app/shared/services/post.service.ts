@@ -4,20 +4,21 @@ import { Subject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, tap, catchError, finalize } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import 'firebase/database';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
+export class PostService {  
 
   /* para ej tutorial */
   private loadedPosts: Post[] = [];
   private postCollection: AngularFirestoreCollection<Post>;
   posts: Observable<Post[]>;
-  
+
+  filePath: string;  
   
   private posts2: Post[] = [
     new Post ( 100, 'JOrge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
@@ -28,18 +29,22 @@ export class PostService {
   onChange = new Subject<Post[]>();
   randomSub = new Subject<boolean>();
   viewPost = new Subject<Post>();
+  logeado = new Subject<boolean>();
 
   private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
   private cadena2 = environment.firebaseConfig.databaseURL + 'Jugadores.json';
-  //public db = firebase.firestore();
+  public db = firebase.firestore();
   // Get a reference to the storage service, which is used to create references in your storage bucket
   //storage = firebase.storage();
   // Create a storage reference from our storage service
   //storageRef = this.storage.ref();
+  storage: any;
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'User/json' })
   };
+  
+  
 
   constructor(private http: HttpClient,
               private firestore: AngularFirestore,
@@ -107,8 +112,8 @@ createPost(postData: Post) {
   add(post: Post) {
     this.posts2.push(post);
     this.onChange.next(this.posts2.slice());
+    /* this.viewPost.next(post); */
   }
-
 
   add2(post: Post): Observable<any> {
     const httpOptins = {
@@ -169,10 +174,7 @@ fetchPosts() {
   /* this.onChange.next(this.loadedPosts.slice()); */
   // return this.loadedPosts;
   // return this.getPosts();
-}
-  getPosts3() {
-    return this.posts;
-  }
+} 
   
   getosts2(): Post[] {
     return this.posts2.slice();
@@ -191,8 +193,7 @@ fetchPosts() {
     return this.http.get<Post>(environment.firebaseConfig + 'Post/' + id , httpOptions).pipe(
       map((data: Post) => data)
     );
-  }
-  
+  }  
 
   getPostTitle(title: string): Post {
     const post = this.posts2.find(
@@ -283,34 +284,57 @@ fetchPosts() {
     };
   }
 
-
-  /* UPDATE */ 
+  /* UPDATE or EDIT*/ 
 
   // updatePost(id: number, postInfo: { title: string, contenido: string }): void {
-  updatePost(id: number, post: Post): void {
-    const res = this.posts2.find(
+  updatePost(id: number, post: Post, image?: any): void {
+    let res = this.posts2.find(
       (p) => {
-        alert('es' + p.title +'==='+ post.title)
-        return p.title === post.title;
+        alert(p.id + 'lll' + id);
+        return p.id === id;
       }
     );
+
     if (res) {
-      res.content = post.content;
-      alert(res.title + 'lll' + post.content)
-      /* informamos a otros componentes del cambio en la copia de la matriz, que dessuscribo en el comp a usar*/
-      this.onChange.next(this.posts2.slice());
-      this.viewPost.next(res);
 
-      this.http.post(this.cadena, res)
-      .subscribe(resp => { console.log(resp + 'RESPUESTA updatePost');
-         }, () => {
-          alert('NO');
-        });
+      if (image) {
+        alert(' add whith image');
+        const body = new Post(
+          post.id,
+          post.title,
+          post.content,
+          image);
+        // this.uploadImag(post, image);
+        // this.add(post);
+        this.onCreatePost(body);
+      } else {
+        alert(res.toString() + ' pppp ' + post.toString());
+        res = post;
+        /* informamos a otros componentes del cambio en la copia de la matriz, que dessuscribo en el comp a usar*/
+        this.onChange.next(this.posts2.slice());
+        this.viewPost.next(res);
 
+        this.http.post(this.cadena, res)
+          .subscribe(resp => {
+            console.log(resp + 'RESPUESTA updatePost');
+          }, () => {
+            alert('NO');
+          }); }
+      } else {
+        alert('no actialixo ');
+      }}
+  /*  updatePost4(post: Post, image?: any) {
+    if (image) {
+      alert('updatePost4 RRR');
+      // this.uploadImag(post, image);
+      this.add(post);
     } else {
-      alert('no actialixo ');
+      alert('updatePost4 OOOO');
+      // return this.postCollection.doc(post.title).update(post);
+      return this.add(post);
+
     }
-  }
+  } */
  
   updatePost2(newPost: Post) {
     const index = this.posts2.indexOf(newPost);
@@ -330,25 +354,7 @@ fetchPosts() {
     }
 
     this.add(newPost);
-  }/* 
-
-createPost(postData: Post) {  
-  // Send Http request POST 
-  alert('desde service' + postData.toString());
-
-  const body = {
-    id: postData.id,
-    title: postData.title,
-    content: postData.content,
-    imageUrl: postData.imageUrl,
-    data: postData.data};
-
-  this.http.post(this.cadena, body)
-  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
-     }, () => {
-      alert('NO');
-    });
-} */
+  }
   
   updatePost3(post: Post) {
     return this.postCollection.doc(post.title).update(post);
@@ -360,11 +366,21 @@ createPost(postData: Post) {
     this.viewPost.next(newPost);
   } */
 
-  edit(epost: Post) {
-    alert('ACA SERVICE');
-    this.viewPost.next(epost);
-  }
-
+ 
+ /*  uploadImag(post: Post, image: any): void {
+    this.filePath = `image${image.name}`;
+    alert('Ala imagen + ' +   this.filePath);
+    const fileRef = this.storage.ref(this.filePath);
+    const task = this.storage.upload(this.filePath, image);
+    task.snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownload().subscribe(url => {
+            this.downloadUrl = url;
+            this.savePost(post);
+          });
+        }) ).subscribe();
+  } */
   
   
   /* JUGADORES */
@@ -410,6 +426,24 @@ createPost(postData: Post) {
     }); */
   }
 
-  
+  /* 
+
+createPost(postData: Post) {  
+  // Send Http request POST 
+  alert('desde service' + postData.toString());
+
+  const body = {
+    id: postData.id,
+    title: postData.title,
+    content: postData.content,
+    imageUrl: postData.imageUrl,
+    data: postData.data};
+
+  this.http.post(this.cadena, body)
+  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+     }, () => {
+      alert('NO');
+    });
+} */
 
 }

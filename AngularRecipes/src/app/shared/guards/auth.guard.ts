@@ -33,12 +33,21 @@ export class AuthGuard   {
     return this.loggeadIn;
 
   }
-  
 
   logIn() {
     this.loggeadIn = true;
   }
 
+  logInEmail() {
+    this.loggeadIn = false;
+  }
+  logInGoogle() {
+    this.loggeadIn = false;
+  }
+  logInFacebook() {
+    this.loggeadIn = false;
+  }
+  
   logOut() {
     this.loggeadIn = false;
   }

@@ -9,7 +9,7 @@ import {RecipeStartComponent,
       RecipeEditComponent } from './pages/recipe/components/index';
 
 import { PostComponent } from './shared/post/container/index';
-import { ActivePostComponent, NewComponent } from './shared/post/component/index';
+import { ActivePostComponent, NewComponent, LoggedComponent } from './shared/post/component/index';
 
 import { ServerComponent } from './server/container/server.component';
 import { EditServerComponent, ListServerComponent, NewServerComponentComponent } from './server/components/index';
@@ -79,7 +79,7 @@ const myRoutes: Routes = [
   // {path: 'shopping/:edit', component: ShoppingEditComponent},
     
   { path: 'server',
-    // canActivate: [AuthServerGuard], // esto es para usuario registrado sino login
+     canActivate: [AuthServerGuard], // esto es para usuario registrado sino login
     // component: ServerComponent, canActivate: [AuthServerGuard], // esto es para usuario registrado sino login
     component: ServerComponent, // esto es para usuario registrado sino login
 
@@ -110,9 +110,10 @@ const myRoutes: Routes = [
      {path: 'postEdit', component: ActivePostComponent}, 
     {path: 'postNew', component: NewComponent} 
   ] */
-},
+  },
   {path: 'postEdit', component: ActivePostComponent},
   {path: 'postNew', component: NewComponent},
+  {path: 'postLogged', component: LoggedComponent},
 
   {path: 'payment', component: PaymentComponent},
   {path: 'error', component: ErrorComponent, data: {mensajito: 'Page not found guy!'}},

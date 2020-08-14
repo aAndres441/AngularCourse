@@ -54,11 +54,10 @@ const FIREBASE = [
     BrowserAnimationsModule,
    MatDialogModule,
     ...MODULES,
+    ...FIREBASE,
     AppRoutingModule,
    /* HttpClient */
-    ...FIREBASE
-   
-  ],
+    ],
 
   /* no quiero importar FormsModule aca en import, lo estoy haciendo en shared*/
   // Tenga en cuenta que el AppRoutingModule es el último .

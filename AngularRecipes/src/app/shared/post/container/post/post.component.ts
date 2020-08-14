@@ -25,6 +25,8 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
    post: Post;
    viewOnePost: Subscription;
    editMode = false;
+   loggeado = false;
+   private logSubscription: Subscription;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -74,12 +76,18 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
+    this.logSubscription = this.service.logeado
+      .subscribe((res) => {
+        this.loggeado = res;
+      });
+
       /* termina OnInit() */
   }
 
   ngOnDestroy(): void {
    this.postSubscription.unsubscribe();
    this.viewOnePost.unsubscribe();
+   this.logSubscription.unsubscribe();
   }
 
   onNewPost() {
@@ -218,6 +226,17 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
   viewDetail() {
     alert('viewDetail');
     this.router.navigate(['/post', 'postEdit']);
+  }
+
+  onLogin() {
+    this.loggeado = true;
+  }
+  outLogin() {
+    this.loggeado = false;
+  }
+  toLogin() {
+    this.loggeado = !this.loggeado;
+    this.service.logeado.next(this.loggeado);
   }
 
 }

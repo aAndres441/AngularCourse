@@ -56,9 +56,11 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     // this.editMode = this.loadedPosts.length != null;
     // alert(this.editMode + ' : after changed edit Mode');
 
-    this.initForm();
-    this.initValuesForm();    
+    this.imageNew = this.postInput.imageUrl;
+    this.imageOriginal = this.postInput.imageUrl;
 
+    this.initForm();
+    this.initValuesForm();
     // this.fetchPosts();
     // this.service.getPosts()
     this.loadedPosts = this.service.getPosts();
@@ -83,7 +85,6 @@ export class ActivePostComponent implements OnInit, OnDestroy {
         }
       );
 
-
     /* Aca termina On init */
   }
 
@@ -91,7 +92,8 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     this.postForm.patchValue({
       id: this.postInput.id,
       title: this.postInput.title,
-      content: this.postInput.content
+      content: this.postInput.content,
+      imagePost: this.postInput.imageUrl
       //  no va la imagePath: pues depende si trae o no y yo se la cargo con handle
     });
   }
@@ -101,18 +103,14 @@ export class ActivePostComponent implements OnInit, OnDestroy {
 
     const postt: Post = this.service.getPostTitle(this.postInput.title);
 
-    this.imageOriginal = this.postInput.imageUrl;
-
     this.postForm = new FormGroup({
       id: new FormControl('', [Validators.required]),
       title: new FormControl('', [Validators.required,
-      this.notAllowName.bind(this),  // no usara Test
-      Validators.maxLength(14)]), /*  this.notTitle.bind(this),*/
-
+          this.notAllowName.bind(this),  // no usara Test
+          Validators.maxLength(14)]), /*  this.notTitle.bind(this),*/
       content: new FormControl('', [Validators.required,
-      Validators.minLength(8)]),
-
-      imagePost: new FormControl('')
+          Validators.minLength(8)]),
+      imagePost: new FormControl('', Validators.required)
 
       /* imagePath: new FormControl(imagePath2, [Validators.required]), */
       /* imagePost: new FormControl('', [Validators.required]), */
@@ -127,9 +125,9 @@ export class ActivePostComponent implements OnInit, OnDestroy {
      ); */
 
     /* solo para mostrar valor del form*/
-    this.postForm.valueChanges.subscribe(
+   /*  this.postForm.valueChanges.subscribe(
       (valor) => console.log('El valor del del form  active component ' + valor.value)
-    );
+    ); */
     /* solo para mostrar status del form */
     this.postForm.statusChanges.subscribe(
       (status) => console.log(`El status del form  active component ${status}`)
@@ -141,14 +139,15 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   onSubmit() {
 
     console.log(this.postForm.value + 'Enviando1 onSubmit');
+    alert(this.postForm.statusChanges + '.statusChanges onSubmit');
     const newPost = new Post(
       this.postForm.value.id,
       this.postForm.value.title,
       this.postForm.controls.content.value,
       this.postForm.value.imagePost);
+      // this.imageOriginal) ;
 
-    this.imageOriginal = newPost.imageUrl;
-    alert('IMg ' + this.imageOriginal + 'MODE ' + this.editMode)
+   // this.imageOriginal = newPost.imageUrl;
 
     if (!this.editMode) {
       this.onCreatePost(newPost);
@@ -157,39 +156,34 @@ export class ActivePostComponent implements OnInit, OnDestroy {
       this.onEditPost(newPost);
     }
     // this.onCancel();
+  } 
+
+  /* ---- EDIT  ---- */
+  private onEditPost(newPost: Post) {
+    alert('EDIT');
+    console.log('IMG new ' + this.imageNew);
+    console.log('IMG Original' + this.imageOriginal);
+    console.log('Itityle' + this.title);
+
+ /* es por si no tiene imagen
+ Si imagen que agrego con handle es igual a original del init, le asigna original. 
+ pero si no pasa al else para el nuevo post*/
+
+    if(this.imageNew === this.imageOriginal){
+      newPost.image = this.imageOriginal;
+      alert('misma img');
+      this.service.updatePost(newPost.id , newPost);
+    } else {
+      alert('otra img ');
+      this.service.updatePost(newPost.id, newPost, this.imageNew);
+    }
+    
+    // this.service.updatePost2(newPost);
   }
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
     this.postSuscripcion.unsubscribe();
-  }
-
-  private onEditPost(newPost: Post) {
-    alert('EDIT');
-    console.log('IMG new ' + this.imageNew);
-    console.log('IMG Original' + this.handleImage);
-
- /* es por si no tiene imagen
- Si imagen que agrego con handle es igual, le asigna original. */
-
-    if(this.imageNew === this.imageOriginal){
-      newPost.image = this.imageOriginal;
-      // call method
-    } else {
-      // call method(newPost, this.imageNew);
-    }
-    
-    /* console.log('edit ', newPost); */
-    /*  const newPost2 = new Post( 400, 'Lemur', 'Violeta', 'amdr@.com'); */
-    /*  const body = {
-       first: datJugador.first,
-       last: datJugador.last,
-       born: datJugador.born
-     }; */
-    // this.service.edit(newPost2);
-
-    // this.service.updatePost(44, newPost);
-    this.service.updatePost2(newPost);
   }
 
   onCancel() {
@@ -301,8 +295,8 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   }
 
   handleImage(event: any): void {
-    alert('Hello!!');
-    this.imageNew = event.value;
+    this.imageOriginal = event.value;
+    alert(`2 Hello!!${this.imageNew}`);
   }
 
 }
