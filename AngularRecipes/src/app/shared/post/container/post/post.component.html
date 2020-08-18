@@ -27,6 +27,9 @@
         <button class="btn btn-warning" style=" width: 40%;" (click)="activarSubject()">
             Change (submitted)
         </button>
+        <button class="btn btn-warning" style=" width: 20%;" (click)="getTodosPost ()">
+            get All Post            
+        </button>
         <hr>
     </div>
 
@@ -71,10 +74,11 @@
                 <button (click)="toLogin()" class="btnLoggin">
                     <font style="vertical-align: inherit;">
                         <i class="glyphicon glyphicon-thumbs-up"></i>
+                        Loggin
                     </font>
                 </button>
                 <div class="col-md-2 col-xs-2">
-                    <input type="text" [(ngModel)]="loggeado" style="color: rgb(189, 0, 164);">
+                    <input type="text" [(ngModel)]="loggeado" style="color: rgb(236, 12, 206);">
                 </div>
                 <div class="col-md-2 col-xs-2">
                     <input type="text" [value]="loggeado">
@@ -85,7 +89,8 @@
             
             <ng-template *ngIf="loggeado" #noFenix>logout</ng-template>
             
-            <app-logged *ngIf="loggeado"></app-logged>
+             <app-logged *ngIf="loggeado"></app-logged> 
+           <!-- <app-logged></app-logged>-->
 
             <div *ngIf="posts.length" >
                 

@@ -1,63 +1,96 @@
 <p>logged works!</p>
 
 <div id="panelLog">
-	
-	<div id="root"></div>
 
-	<div id="root2" style="max-width: 110px">
-		<h1 id="email"> </h1>
-	</div>
-  
-	<p id="pMostrarLogueado"></p>
+  <div id="root"></div>
 
-<hr><hr>
-
-<form action="action_page.php" method="post">
-
-  <div class="container">
-    <app-star></app-star>
+  <div id="root2" style="max-width: 110px">
+    <h1 id="email"> </h1>
   </div>
 
-  <div class="imgcontainer">
-    <!-- <img src="img_avatar2.png" alt="Avatar" class="avatar"> -->
-    <img src='assets\Imagenes\centro-atletico-fenix.jpg' alt="Fenix" class="fenix">
-  </div>
+  <p id="pMostrarLogueado"></p>
 
-  <div class="container">
-    <!-- // la clase container deja mas chico el div -->
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+  <hr>
 
-    <label for="txtEmail"><b>E-mail</b></label>
-    <input type="text" id="txtEmail" name="txtEmail" placeholder="Email">
+  <form action="action" method="post">
 
-    <label for="slcSexo"><b>Sexo</b></label>
-    <select id="slcSexo" name="slcSexo" data-role="slider">
-      <option value="H">Hombre</option>
-      <option value="M">Mujer</option>
-    </select>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-
-    <button type="submit">Login</button>
-    <div class="row">
-      <div class="col-xs-6">
-        <button class="btn btn-warning" (click)="onLogin()">Login</button>
-      </div>
-      <div class="col-xs-6">
-        <button class="btn btn-info" (click)="onLogout()">Logout</button>
-      </div>
+    <div class="imgcontainer">
+      <!-- <img src="img_avatar2.png" alt="Avatar" class="avatar"> -->
+      <img src='assets\Imagenes\centro-atletico-fenix.jpg' alt="Fenix" class="fenix">
     </div>
 
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
-  </div>
+    <div class="container">
+      <!-- // la clase container deja mas chico el div -->
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
 
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a routerLink='/'>password?</a></span>
+      <label for="txtEmail"><b>E-mail</b></label>
+      <input type="text" id="txtEmail" name="txtEmail" placeholder="Email">
+
+      <label for="slcSexo"><b>Gender</b></label>
+      <select id="slcSexo" name="slcSexo" data-role="slider" style=" width: 100% ; display: block;">
+        <option value="" [disabled]>Select one</option>
+        <option value="H">Hombre</option>
+        <option value="M">Mujer</option>
+        <option value="O">Other</option>
+      </select>
+
+      <br>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+
+      <label for="imagen"><b>Seleccione imagen</b></label>
+      <input type="file" name="imagen" id="imagen" accept=".jpg, .png" 
+        (change)="onLoadImg($event)">
+
+        <span class="pull-right">  
+          <img [src]= imgen alt="Fenix" class="fenix">
+       <!-- <img [src]= imgen alt="Fenix" class="img-responsive" style="max-height: 150px;">-->
+        </span> 
+
+      <button type="submit">Login</button>
+
+      <div class="row">
+        <div class="col-xs-6 col-md-6">
+          <button class="btn btn-facebook" style="background-color: rgb(98, 98, 202);" (click)="onLoginFace()">
+            <a style="color: white">
+              <i class="fa fa-child" style="font-size: 24px;"></i>Facebook</a>
+          </button>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <button class="btn btn-google" style="background-color: rgb(202, 98, 162);" (click)="onLoginGoogle()">
+            <a style="color: white">
+              <i class="material-icons" style="font-size: 24px;"> transfer_within_a_station</i>>Google</a>
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <button class="btn btn-warning" (click)="onLogin()">Login</button>
+        </div>
+        <div class="col-xs-6">
+          <button class="btn btn-info" (click)="onLogout()">Logout</button>
+        </div>
+      </div>
+
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container">
+      <button type="button" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a routerLink='/'>password?</a></span>
+    </div>
+  </form>
+
+  <div class="ancla" style="text-align: center; align-content: center;">
+    <a href="" (click)="onLogoutGoogle()">OUT Google</a>
   </div>
-</form>
-   
+ 
+  <span class="pull-right">  
+    <img [src]= imgen alt="Fenix" class="fenix">
+ <!-- <img [src]= imgen alt="Fenix" class="img-responsive" style="max-height: 150px;">-->
+  </span> 
+</div>

@@ -239,4 +239,8 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.logeado.next(this.loggeado);
   }
 
+  getTodosPost (){
+    this.service.getTodosPost();
+  }
+
 }

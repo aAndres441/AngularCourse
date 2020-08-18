@@ -21,7 +21,7 @@ export class Ingredient {
         return 'Check your data';
     }
 
-    private toString(): string{
+    public toString(): string {
         return this.name + ' Quantity ' + this.amount;
     }
 

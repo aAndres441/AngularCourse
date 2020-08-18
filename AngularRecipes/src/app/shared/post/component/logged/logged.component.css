@@ -29,6 +29,14 @@ button:hover {
   opacity: 0.8;
 }
 
+/* a{
+  float: right ;
+  transition-duration: 0.4s;  
+  color: aliceblue;
+  background-color: #0d2ff0;
+  width: 20%;
+} */
+
 /* Extra style for the cancel button (red) */
 .cancelbtn {
   width: auto;
@@ -43,8 +51,8 @@ button:hover {
 }
 
 /* Avatar image */
-img.avatar {
-  width: 40%;
+img.avatar, .fenix {
+  width: 20%;
   border-radius: 50%;
 }
 
@@ -68,4 +76,22 @@ span.psw {
   .cancelbtn {
     width: 100%;
   }
+
+  .btn-social { background-color: red;
+    position: relative;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-color: rgba(0, 6, 0, 2)
+  }
+  .btn-facebook {
+    color: white;
+    background: blue;
+  }
+  .btn-google  {
+    background-color: tomato;
+    color: red;
+  }
+  
 }

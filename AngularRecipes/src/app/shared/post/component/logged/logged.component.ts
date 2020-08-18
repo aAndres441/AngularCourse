@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 /* Para autenticar */
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
+import * as firebase from 'firebase';
+
 import { AuthGuard } from 'src/app/shared/guards/auth.guard';
 import { Router } from '@angular/router';
-import * as firebase from 'firebase';
+import { PostService } from 'src/app/shared/services/post.service';
 
 @Component({
   selector: 'app-logged',
@@ -13,9 +15,17 @@ import * as firebase from 'firebase';
 })
 export class LoggedComponent implements OnInit {
 
-  
-/* const provider = new firebase.auth.GoogleAuthProvider();
-const base = "";
+  imgen = '';  // para ver el usuario logueado
+  imgParaLoad = '';
+  // o lo mismo pues imporatamos * y auth
+/* google */
+ providerGoogle = new firebase.auth.GoogleAuthProvider(); 
+// providerGoogle2= new auth.GoogleAuthProvider();
+/* Facebook */
+// providerFace = new firebase.auth.FacebookAuthProvider();
+// providerFace2 = new auth.FacebookAuthProvider();
+
+/*const base = "";
 const name = "";
 const age = 0;
 const gender = "";
@@ -25,28 +35,56 @@ const email = ""; */
 // const databaseTutorial = firebase.database();
 
   constructor(private router: Router,
+              private service: PostService,
               private authServ: AuthGuard,
               public afAuth: AngularFireAuth) { }
 
   ngOnInit(): void {
   }
 
-  onLogingGoogle() {
-   
-    this.afAuth.signInWithPopup(new auth.GoogleAuthProvider ());
-    this.router.navigate(['/test']);
+  onLoginGoogle() {
+   // con la variable provider de google en el popup
+  /*   this.afAuth.signInWithPopup(this.providerGoogle)   
+      .then ((res) => {
+        console.log('promesa se ejecuta cuando se resuelve lo anterior ' + res.user.email);
+        this.router.navigate(['/payment']);
+      }); */
+     this.afAuth.signInWithPopup(new auth.GoogleAuthProvider ())
+      .then((res) => {
+        console.log('Promesa desde Google ' + res.user.displayName + 'Img ' + res.user.photoURL);
+        this.imgen = res.user.photoURL;
+        // this.router.navigate(['users/list']);
+      });
   }
 
   onLogin() {
     this.authServ.logIn();
   }
 
+  onLoginFace() {
+    this.afAuth.signInWithPopup(new auth.FacebookAuthProvider())
+    .then ( (res) => {
+      console.log('Promesa desde face ' + res.user.displayName);
+      alert('Promesa desde face ' + res.user.displayName);
+    });
+  }
+
   onLogoutGoogle() {
-    // this.afAuth;
+    this.afAuth.signOut();
   }
   
   onLogout() {
-    this.authServ.logOut();
+    /* this.authServ.logOut(); */
+  }
+  onLogoutFace() {   
+    this.afAuth.signOut();
+  }
+
+  onLoadImg(event: any) { // solo usare del parametro event el target, de aca el files y el que esta en primer lugar que es su nombre
+    // console.log('sube ' , event.target.files[0], 'Todo ' , event); 
+    this.imgParaLoad = event.target.files[0].name;
+    alert('Subiendo ' + this.imgParaLoad);  
+    
   }
 
 

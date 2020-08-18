@@ -99,7 +99,15 @@ export class NewComponent implements OnInit, OnDestroy {
   
   onCreatePost(postData: Post) {
    
-      this.service.onCreatePost(postData);
+      this.service.onCreatePost(postData);  
+      
+      /* .then(() => {
+        console.log('Documento creado exitósamente!');
+       
+      }, (error) => {
+        console.error(error);
+      }); */
+      
      /* .subscribe(resp => {
       console.log(resp + 'RESPUESTA');
      }, () => {

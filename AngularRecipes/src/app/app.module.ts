@@ -24,10 +24,11 @@ import { CanDeactivateGuard } from './server/components/edit-server/can-deactiva
 
 import {environment} from '../environments/environment';
 
-import {AngularFireModule} from '@angular/fire';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import {AngularFireDatabaseModule} from '@angular/fire/database';
-// import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 const MODULES = [
@@ -38,10 +39,9 @@ const MODULES = [
 ];
 
 const FIREBASE = [
- /*  AngularFirestoreModule, */
-  /* AngularFireDatabaseModule, */
-  /* AngularFireModule.initializeApp (environment.firebaseConfig, 'posts') */
+  AngularFireDatabaseModule,
   AngularFireModule.initializeApp (environment.firebaseConfig)
+  /* AngularFireModule.initializeApp (environment.firebaseConfig, 'posts') */  
 ];
 
 @NgModule({
@@ -67,7 +67,8 @@ const FIREBASE = [
     ShoppingService,
     AuthServerGuard,
     CanDeactivateGuard, // para dejar la ruta
-    PostService
+    PostService,
+    AngularFireAuth
   ],
     
   bootstrap: [AppComponent],

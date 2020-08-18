@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { map, tap, catchError, finalize } from 'rxjs/operators';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 import 'firebase/database';
 
 @Injectable({
@@ -33,19 +33,19 @@ export class PostService {
 
   private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
   private cadena2 = environment.firebaseConfig.databaseURL + 'Jugadores.json';
-  public db = firebase.firestore();
+
+  // public db = firebase.firestore();
   // Get a reference to the storage service, which is used to create references in your storage bucket
-  //storage = firebase.storage();
+  // storage = firebase.storage();
   // Create a storage reference from our storage service
-  //storageRef = this.storage.ref();
+  // storageRef = this.storage.ref();
+  
   storage: any;
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'User/json' })
   };
   
-  
-
   constructor(private http: HttpClient,
               private firestore: AngularFirestore,
               private readonly afs: AngularFirestore) {
@@ -61,11 +61,11 @@ export class PostService {
         }); */
         // this.http.put(this.cadena2, body);
 
-      const miCadena = environment.firebaseConfig.databaseURL;
+    /*   const miCadena = environment.firebaseConfig.databaseURL;
       const blob = new Blob([JSON.stringify(miCadena, null, 2)], {type : 'application/json'});
-
+ */
       /* ejemplo tutorial */
-      this.postCollection = afs.collection<Post>('Posts');
+     /*  this.postCollection = afs.collection<Post>('Posts');
       this.posts = this.postCollection.snapshotChanges()
        .pipe(map(
          actions => actions.map( a => {
@@ -73,8 +73,8 @@ export class PostService {
            const id = a.payload.doc.id;
            return{id, ...data};
          })
-       ))
-       /* termina ej tutorial */;
+       )) */
+       /* termina ej tutorial */
   }
 
 /*const inicio = AngularFireModule.initializeApp(environment.firebaseConfig);*/
@@ -89,7 +89,7 @@ export class PostService {
 
 createPost(postData: Post) {  
   // Send Http request POST 
-  alert('desde service' + postData.toString());
+  alert('desde service');
 
   const body = {
     id: postData.id,
@@ -103,7 +103,24 @@ createPost(postData: Post) {
      }, () => {
       alert('NO');
     });
+ /*  this.http.post(this.cadena, body)
+  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+     }, () => {
+      alert('NO');
+    }); */
+  /* this.http.post(this.cadena, body)
+  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+     }, () => {
+      alert('NO');
+    }); */
 }
+
+/* 
+//Crea un nuevo gato
+  public createCat(data: {nombre: string, url: string}) {
+    return this.firestore.collection('cats').add(data);
+  }
+   */
 
   createPost3(post: Post) {
     return this.postCollection.add(post);
@@ -175,6 +192,26 @@ fetchPosts() {
   // return this.loadedPosts;
   // return this.getPosts();
 } 
+
+getTodosPost () {
+  console.log('HELLOo');
+  
+  const res = this.firestore.collection('Post').snapshotChanges();
+  console.log(res);
+  
+  return ;
+}
+
+/* 
+ //Obtiene todos los gatos
+  public getCats() {
+    return this.firestore.collection('cats').snapshotChanges();
+  } 
+  //Obtiene un gato
+  public getCat(documentId: string) {
+    return this.firestore.collection('cats').doc(documentId).snapshotChanges();
+  }
+  */
   
   getosts2(): Post[] {
     return this.posts2.slice();
@@ -263,6 +300,16 @@ fetchPosts() {
           );
   }
 
+  /* 
+  public deleteCat(documentId) {
+  this.firestoreService.deleteCat(documentId).then(() => {
+    console.log('Documento eliminado!');
+  }, (error) => {
+    console.error(error);
+  });
+}
+ */
+
   deleteAll() {
     while (this.posts2.length) {
       this.posts2.splice(0, 1);
@@ -336,6 +383,14 @@ fetchPosts() {
     }
   } */
  
+
+  /* 
+  //Actualiza un gato
+  public updateCat(documentId: string, data: any) {
+    return this.firestore.collection('cats').doc(documentId).set(data);
+  }
+   */
+
   updatePost2(newPost: Post) {
     const index = this.posts2.indexOf(newPost);
     alert(index + ' updatePost2 Nº position');
