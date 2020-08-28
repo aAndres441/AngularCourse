@@ -400,7 +400,6 @@ getTodosPost() {
     return this.postCollection.doc(post.title).update(post);
   }
 
-  
 /* createPost(postData: Post) {
   // Send Http request POST
   alert('desde service' + postData.toString());
@@ -538,6 +537,6 @@ isAuth() {
   public updateCat(documentId: string, data: any) {
     return this.firestore.collection('cats').doc(documentId).set(data);
   }
-   
+
 
 }
