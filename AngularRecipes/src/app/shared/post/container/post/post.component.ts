@@ -65,7 +65,6 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log('PostComponent2, length=  ' + this.service.getDatabaseDatas());
       // console.log('PostComponent3 ' + this.service.getLosPosts());
 
-
       // PRUEBA PARA BORRAR FIRE
     // this.service.pruebaGuardar();
 
@@ -242,5 +241,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
   getTodosPost (){
     this.service.getTodosPost();
   }
+
+ 
 
 }

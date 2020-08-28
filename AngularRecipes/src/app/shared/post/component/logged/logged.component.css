@@ -1,16 +1,20 @@
-* Bordered form */
+/* Bordered form */
 form {
   border: 3px solid #d30707;
 }
 
 /* Full-width inputs */
-input[type=text], input[type=password] {
+input[type=text], input[type=password],select, input[type=file] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 1px solid rgb(67, 161, 5);
   box-sizing: border-box;
+}
+
+#btnAncor {
+  background-color: darkgoldenrod;
 }
 
 /* Set a style for all buttons */
@@ -26,9 +30,21 @@ button {
 
 /* Add a hover effect for buttons */
 button:hover {
-  opacity: 0.8;
+  opacity: 0.2;
+  transition-duration: 0.6s;  
 }
 
+.ancla {
+  text-align: center; 
+  /* align-content: center; */
+  /* float: right ; */
+   transition-duration: 0.4s;  
+  color: rgb(228, 13, 228);  
+}
+
+.ancla span{
+  color: darkgoldenrod;
+}
 /* a{
   float: right ;
   transition-duration: 0.4s;  
@@ -47,7 +63,7 @@ button:hover {
 /* Center the avatar image inside this container */
 .imgcontainer {
   text-align: center;
-  margin: 24px 0 12px 0;
+  margin: 24px 0 ;
 }
 
 /* Avatar image */
@@ -91,7 +107,7 @@ span.psw {
   }
   .btn-google  {
     background-color: tomato;
-    color: red;
+    color: rgb(11, 221, 158);
   }
   
 }

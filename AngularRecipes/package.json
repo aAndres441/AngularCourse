@@ -24,6 +24,7 @@
     "@angular/router": "^10.0.1",
     "bootstrap": "^3.4.1",
     "cors": "^2.8.5",
+    "document-register-element": "^1.7.2",
     "firebase": "^7.15.5",
     "font-awesome": "^4.7.0",
     "rxjs": "~6.5.5",

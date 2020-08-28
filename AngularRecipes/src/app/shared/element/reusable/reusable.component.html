@@ -1,0 +1,16 @@
+<p>reusable works!</p>
+
+<div class="container">
+    <div class="talk">
+        <h2>{{title}}</h2>
+        <p>{{description}}</p>
+    </div>
+
+    <div class="foot">
+        <div class="tags">
+            <span *ngFor=" let tag of tags" (click)="onTagClick(tag)"></span>
+            <h2>{{speaker}}</h2>
+        </div>
+    </div>
+
+</div>

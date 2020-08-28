@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-
 import { Subscription, Observable, from } from 'rxjs';
 import { Post } from '../../post.model';
 import { PostService } from '../../../services/post.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialogModule, MatDialogConfig, MatDialog  } from '@angular/material/dialog';
 import { ModalComponentComponent } from 'src/app/shared/modal/modal-component/modal-component.component';
+import { link } from 'fs';
 
 @Component({
   selector: 'app-new',
@@ -161,13 +161,14 @@ export class NewComponent implements OnInit, OnDestroy {
     alert(this.editMode + 'EDIT ');
   }
 
-  handleImage() {
-
+  handleImage(evento: any) {
+    const nn =  evento.target.files[0].name;
+    alert ('LI ' + nn);
+    
   }
 
   changeName(event: Event) {   // solo para mostrar el input del htmml
     this.title = (event.target as HTMLInputElement).value;
   }
-
 
 }

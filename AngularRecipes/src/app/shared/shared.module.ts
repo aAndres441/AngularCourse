@@ -1,8 +1,8 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';/* 
-import { HttpClientModule } from '@angular/common/http'; */
+import { RouterModule } from '@angular/router';
+/* import { HttpClientModule } from '@angular/common/http'; */
 
 import { MyTestModule } from './my-test/my-test.module';
 import { GameModule } from './game/game.module';
@@ -31,6 +31,10 @@ import { AuthGuard } from './guards/auth.guard';
 import { ConvertToKPipe } from './pipes/convert-to-k.pipe';
 import { ModalComponentComponent } from './modal/modal-component/modal-component.component';
 
+import { ReusableComponent } from './element/reusable/reusable.component';
+
+// import { createCustomElement } from '@angular/elements';
+
 const COMPONENTS = [
   FooterComponent,
   WarningAlertComponent,
@@ -47,7 +51,9 @@ const COMPONENTS = [
   StarComponent,
   ConvertToKPipe,
   ContactComponent,
-  OrderComponent
+  OrderComponent,
+  ModalComponentComponent,
+  ReusableComponent
 ];
 
 const MODULES = [
@@ -69,8 +75,7 @@ const MODULES = [
   ],
   
   declarations: [
-    ...COMPONENTS,
-    ModalComponentComponent
+    ...COMPONENTS
   ],
 
   imports: [
@@ -85,4 +90,12 @@ const MODULES = [
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
   
 })
-export class SharedModule { }
+export class SharedModule { 
+
+  constructor(private injector: Injector) { }
+
+  ngDoBoostrap() {
+    /* const elementoReusable = createCustomElement(ReusableComponent, {injector: this.injector});
+    customElements.define('elemReusable' , elementoReusable); */
+  }
+}

@@ -29,9 +29,14 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 
 const MODULES = [
+  AppRoutingModule,
+  BrowserModule,
+  BrowserAnimationsModule,
+  MatDialogModule,
   SharedModule,
   PagesModule,
   HoobbiesModule,
@@ -39,8 +44,12 @@ const MODULES = [
 ];
 
 const FIREBASE = [
+  AngularFireModule.initializeApp (environment.firebaseConfig),
   AngularFireDatabaseModule,
-  AngularFireModule.initializeApp (environment.firebaseConfig)
+  AngularFirestoreModule,
+  AngularFireAuth,
+  AngularFireStorageModule
+  
   /* AngularFireModule.initializeApp (environment.firebaseConfig, 'posts') */  
 ];
 
@@ -50,12 +59,8 @@ const FIREBASE = [
     BorrarComponent
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-   MatDialogModule,
     ...MODULES,
-    ...FIREBASE,
-    AppRoutingModule,
+    ...FIREBASE
    /* HttpClient */
     ],
 

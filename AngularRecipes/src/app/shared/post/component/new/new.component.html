@@ -75,7 +75,8 @@
       <input class="form-control" formControlName='imagePost' name="imagePost" type="file" 
         id="imagePost" accept=".jpg, .png"
         placeholder="Image URL" title="Image URL" 
-        (change)="handleImage($event)">
+        (change)="handleImage($event)"> <!-- cargo a BD la imagen -->
+
       <span class="help-block" style="color: red;"
         *ngIf="!newPost.get('imagePost').valid && newPost.get('imagePost').touched">
         Required URL

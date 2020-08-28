@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Post } from '../../shared/post/post.model';
 import { Subject, Observable, of } from 'rxjs';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 import { environment } from 'src/environments/environment';
 import { map, tap, catchError, finalize } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import 'firebase/database';
+import { promise } from 'protractor';
+import { resolve } from 'path';
+import { rejects } from 'assert';
+import { runInThisContext } from 'vm';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {  
-
+export class PostService {
+  
+  
   /* para ej tutorial */
   private loadedPosts: Post[] = [];
   private postCollection: AngularFirestoreCollection<Post>;
@@ -48,7 +56,8 @@ export class PostService {
   
   constructor(private http: HttpClient,
               private firestore: AngularFirestore,
-              private readonly afs: AngularFirestore) {
+              private readonly afs: AngularFirestore,
+              private afsAuth: AngularFireAuth) {
 
       /*  this.postCollection = this.firestore.collection('posts');
       this.posts = this.postCollection.snapshotChanges()
@@ -212,6 +221,9 @@ getTodosPost () {
     return this.firestore.collection('cats').doc(documentId).snapshotChanges();
   }
   */
+ getCat(query: string) {
+  throw new Error("Method not implemented.");
+} 
   
   getosts2(): Post[] {
     return this.posts2.slice();
@@ -500,5 +512,35 @@ createPost(postData: Post) {
       alert('NO');
     });
 } */
+
+/* carga imagen */
+uploadImg(event: any) {
+  throw new Error("Method not implemented.");
+}
+
+registerUser(email: string, password: string) {
+  // tslint:disable-next-line: no-shadowed-variable
+  return new Promise(( resolve, reject) => {
+    this.afsAuth.createUserWithEmailAndPassword(email, password)
+    .then(userData => resolve(userData),
+    err => reject(err));
+  });
+}
+onLogingoogle() {
+  return this.afsAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider ());
+}
+
+onLoginFace() {
+  return this.afsAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+}
+
+onLogoutUser() {
+  return this.afsAuth.signOut();
+}
+
+isAuth() {
+  return this.afsAuth.authState.pipe(map(auth => firebase.auth));
+}
+
 
 }
