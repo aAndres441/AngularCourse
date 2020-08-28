@@ -1,36 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Post } from '../../shared/post/post.model';
 import { Subject, Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { map, tap, catchError, finalize } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-
-import { environment } from 'src/environments/environment';
-import { map, tap, catchError, finalize } from 'rxjs/operators';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { auth } from 'firebase/app/';
 import * as firebase from 'firebase';
-import 'firebase/database';
+import 'firebase/database'; 
+
+/* 
 import { promise } from 'protractor';
 import { resolve } from 'path';
 import { rejects } from 'assert';
-import { runInThisContext } from 'vm';
+import { runInThisContext } from 'vm'; */
 
-@Injectable({
-  providedIn: 'root'
-})
-export class PostService {
-  
-  
+@Injectable({providedIn: 'root'})
+      /* {providedIn: 'root'} no seria necesario en root si lo usara solo para una cosa*/
+
+   export class PostService {
+
   /* para ej tutorial */
   private loadedPosts: Post[] = [];
   private postCollection: AngularFirestoreCollection<Post>;
   posts: Observable<Post[]>;
 
+  /* taodo para image */
+  private MEDIA_STORAGE_PATH = 'imagenesUdemy'; // Para crear una carpeta en firebase con ese nombre
   filePath: string;  
+  downloadUrl: string;  
   
   private posts2: Post[] = [
-    new Post ( 100, 'JOrge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
-    new Post ( 101, 'clock', 'In two binding', 'https://tse3.mm.bing.net/th?id=OIP.WwiZsucIqy6R4taHgUJ2CQHaHa&pid=Api&P=0&w=300&h=300'),
+    new Post ( 100, 'Jorge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
+    new Post ( 101, 'Clock', 'In two binding', 'https://tse3.mm.bing.net/th?id=OIP.WwiZsucIqy6R4taHgUJ2CQHaHa&pid=Api&P=0&w=300&h=300'),
     new Post ( 102, 'Lemur', 'In my mind', 'https://tse1.mm.bing.net/th?id=OIP.hNOV7KRYdK93MsE6SXHMVQHaLH&pid=Api&P=0&w=300&h=300')
   ];
 
@@ -42,13 +47,16 @@ export class PostService {
   private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
   private cadena2 = environment.firebaseConfig.databaseURL + 'Jugadores.json';
 
-  // public db = firebase.firestore();
+  private provideGoogle = new auth.GoogleAuthProvider();
+  private provideFace = new auth.FacebookAuthProvider();
+
+   public db = firebase.firestore();
   // Get a reference to the storage service, which is used to create references in your storage bucket
-  // storage = firebase.storage();
+   storageGetReference = firebase.storage();
   // Create a storage reference from our storage service
-  // storageRef = this.storage.ref();
+   // storageCreateRef = firebase.storage().ref();
+   storageCreateRef = this.storageGetReference.ref();
   
-  storage: any;
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'User/json' })
@@ -56,8 +64,8 @@ export class PostService {
   
   constructor(private http: HttpClient,
               private firestore: AngularFirestore,
-              private readonly afs: AngularFirestore,
-              private afsAuth: AngularFireAuth) {
+              private readonly storage: AngularFireStorage,
+              private aFireAuth: AngularFireAuth) {
 
       /*  this.postCollection = this.firestore.collection('posts');
       this.posts = this.postCollection.snapshotChanges()
@@ -124,17 +132,11 @@ createPost(postData: Post) {
     }); */
 }
 
-/* 
-//Crea un nuevo gato
-  public createCat(data: {nombre: string, url: string}) {
-    return this.firestore.collection('cats').add(data);
-  }
-   */
 
   createPost3(post: Post) {
     return this.postCollection.add(post);
   }
-   
+
   add(post: Post) {
     this.posts2.push(post);
     this.onChange.next(this.posts2.slice());
@@ -153,13 +155,13 @@ createPost(postData: Post) {
     if (post.title) {
       return this.http.put(this.cadena + post.title, body, httpOptins)
         .pipe(
-              map((data: any) => /* alert(`${data}SII`)) */ alert('Si'))
-            );
+              map((data: any) => alert(`${data}SII`))
+              );
       } else {
         return this.http.post<Post>(this.cadena + post.title, body, httpOptins)
           .pipe(
                 map(
-                  (data: any) =>/*  alert(`${data}NO`)) */  alert('noo'))
+                  (data: any) => alert(`${data}NO`))
               );
       }
   }
@@ -202,29 +204,14 @@ fetchPosts() {
   // return this.getPosts();
 } 
 
-getTodosPost () {
+getTodosPost() {
   console.log('HELLOo');
-  
+
   const res = this.firestore.collection('Post').snapshotChanges();
   console.log(res);
-  
   return ;
 }
 
-/* 
- //Obtiene todos los gatos
-  public getCats() {
-    return this.firestore.collection('cats').snapshotChanges();
-  } 
-  //Obtiene un gato
-  public getCat(documentId: string) {
-    return this.firestore.collection('cats').doc(documentId).snapshotChanges();
-  }
-  */
- getCat(query: string) {
-  throw new Error("Method not implemented.");
-} 
-  
   getosts2(): Post[] {
     return this.posts2.slice();
   }
@@ -279,10 +266,10 @@ getTodosPost () {
     const index = this.posts2.indexOf(pos);
     if (index > -1 ) {
       this.posts2.splice(index, 1);
-      
+
       this.onChange.next(this.posts2.slice());
       return true;
-    } 
+    }
     return false;
   }
 
@@ -312,16 +299,6 @@ getTodosPost () {
           );
   }
 
-  /* 
-  public deleteCat(documentId) {
-  this.firestoreService.deleteCat(documentId).then(() => {
-    console.log('Documento eliminado!');
-  }, (error) => {
-    console.error(error);
-  });
-}
- */
-
   deleteAll() {
     while (this.posts2.length) {
       this.posts2.splice(0, 1);
@@ -331,13 +308,13 @@ getTodosPost () {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-  
+
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-  
+
       // TODO: better job of transforming error for user consumption
       console.log(`${operation} failed: ${error.message}`);
-  
+
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
@@ -353,9 +330,7 @@ getTodosPost () {
         return p.id === id;
       }
     );
-
     if (res) {
-
       if (image) {
         alert(' add whith image');
         const body = new Post(
@@ -367,7 +342,7 @@ getTodosPost () {
         // this.add(post);
         this.onCreatePost(body);
       } else {
-        alert(res.toString() + ' pppp ' + post.toString());
+        alert(res.toString() + ' service_updatePost ' + post.toString());
         res = post;
         /* informamos a otros componentes del cambio en la copia de la matriz, que dessuscribo en el comp a usar*/
         this.onChange.next(this.posts2.slice());
@@ -381,27 +356,26 @@ getTodosPost () {
           }); }
       } else {
         alert('no actialixo ');
-      }}
-  /*  updatePost4(post: Post, image?: any) {
+      }
+    }
+
+   updatePost4(post: Post, image?: any) {
     if (image) {
-      alert('updatePost4 RRR');
+      alert('updatePost4 >> add');
       // this.uploadImag(post, image);
       this.add(post);
     } else {
-      alert('updatePost4 OOOO');
+      alert('updatePost4 >> No ADD');
       // return this.postCollection.doc(post.title).update(post);
       return this.add(post);
-
     }
-  } */
- 
-
-  /* 
-  //Actualiza un gato
-  public updateCat(documentId: string, data: any) {
-    return this.firestore.collection('cats').doc(documentId).set(data);
   }
-   */
+
+   updatePost5({ id, newPost}: { id: number; newPost: Post; }) {
+    this.posts2[id] = newPost;
+    this.onChange.next(this.posts2.slice());
+    this.viewPost.next(newPost);
+  }
 
   updatePost2(newPost: Post) {
     const index = this.posts2.indexOf(newPost);
@@ -414,27 +388,40 @@ getTodosPost () {
 
       this.http.post(this.cadena, newPost)
       .subscribe(resp => { console.log(resp + 'RESPUESTA updatePost2');
-            alert('SIIII');
+                           alert('SIIII');
      }, () => {
       alert('NO');
     });
     }
-
     this.add(newPost);
   }
-  
+
   updatePost3(post: Post) {
     return this.postCollection.doc(post.title).update(post);
   }
 
-/*   updatePost2(id: number, newPost: Post) {
-    this.posts2[id] = newPost;
-    this.onChange.next(this.posts2.slice());
-    this.viewPost.next(newPost);
-  } */
+  
+/* createPost(postData: Post) {
+  // Send Http request POST
+  alert('desde service' + postData.toString());
 
- 
- /*  uploadImag(post: Post, image: any): void {
+  const body = {
+    id: postData.id,
+    title: postData.title,
+    content: postData.content,
+    imageUrl: postData.imageUrl,
+    data: postData.data};
+
+  this.http.post(this.cadena, body)
+  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+     }, () => {
+      alert('NO');
+    });
+} */
+
+
+   /*///////////  Upload image IMAGEN//////////////////////////*/
+   uploadImag(post: Post, image: any): void {
     this.filePath = `image${image.name}`;
     alert('Ala imagen + ' +   this.filePath);
     const fileRef = this.storage.ref(this.filePath);
@@ -442,15 +429,49 @@ getTodosPost () {
     task.snapshotChanges()
       .pipe(
         finalize(() => {
-          fileRef.getDownload().subscribe(url => {
+          fileRef.getDownloadURL().subscribe(url => {
             this.downloadUrl = url;
-            this.savePost(post);
+            this.updatePost4(post, image);
           });
         }) ).subscribe();
-  } */
-  
-  
-  /* JUGADORES */
+  }
+  // para controlar que no se guarden imagenes con igual nombre
+   private generateNameImage(name: string): string {
+     return `${this.MEDIA_STORAGE_PATH}/${new Date().getTime()}-${name}`;
+     // return this.MEDIA_STORAGE_PATH + '/' + new Date().getTime() + '-' + name
+   }
+  /*///////////// carga imagen////////////////////// */
+uploadImg(event: any) {
+  throw new Error('Method not implemented.');
+}
+
+
+  ////////////////  USER  /////////////////////////////
+registerUser(email: string, password: string) {
+  // tslint:disable-next-line: no-shadowed-variable
+  return new Promise(( resolve, reject) => {
+    this.aFireAuth.createUserWithEmailAndPassword(email, password)
+    .then(userData => resolve(userData),
+    err => reject(err));
+  });
+}
+onLogingoogle() {
+  return this.aFireAuth.signInWithPopup(new auth.GoogleAuthProvider ());
+}
+
+onLoginFace() {
+  return this.aFireAuth.signInWithPopup(this.provideFace);
+}
+
+onLogoutUser() {
+  return this.aFireAuth.signOut();
+}
+
+isAuth() {
+  return this.aFireAuth.authState.pipe(map( auth => firebase.auth));
+}
+
+  /* /////////////////JUGADORES ////////////////////////*/
   pruebaGuardarajugador(datJugador) { // : Observable<any>
     /* VALE*/
      this.http.post(this.cadena2, datJugador).subscribe(resp => {
@@ -492,55 +513,31 @@ getTodosPost () {
       console.log('Error adding ' + error);
     }); */
   }
-
-  /* 
-
-createPost(postData: Post) {  
-  // Send Http request POST 
-  alert('desde service' + postData.toString());
-
-  const body = {
-    id: postData.id,
-    title: postData.title,
-    content: postData.content,
-    imageUrl: postData.imageUrl,
-    data: postData.data};
-
-  this.http.post(this.cadena, body)
-  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
-     }, () => {
-      alert('NO');
-    });
-} */
-
-/* carga imagen */
-uploadImg(event: any) {
-  throw new Error("Method not implemented.");
-}
-
-registerUser(email: string, password: string) {
-  // tslint:disable-next-line: no-shadowed-variable
-  return new Promise(( resolve, reject) => {
-    this.afsAuth.createUserWithEmailAndPassword(email, password)
-    .then(userData => resolve(userData),
-    err => reject(err));
-  });
-}
-onLogingoogle() {
-  return this.afsAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider ());
-}
-
-onLoginFace() {
-  return this.afsAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
-}
-
-onLogoutUser() {
-  return this.afsAuth.signOut();
-}
-
-isAuth() {
-  return this.afsAuth.authState.pipe(map(auth => firebase.auth));
-}
-
+  /* ///////////////GATO CAT ///////////////////////
+  /* Crea un nuevo gato*/
+  public createCat(data: { nombre: string, url: string }) {
+    return this.firestore.collection('cats').add(data);
+  }
+  // Obtiene todos los gatos
+  public getCats() {
+    return this.firestore.collection('cats').snapshotChanges();
+  }
+  // Obtiene un gato
+  public getCat(documentId: string) {
+    return this.firestore.collection('cats').doc(documentId).snapshotChanges();
+  }
+  public deleteCat(documentId) {
+    return this.firestore.collection('cats').doc(documentId).delete()
+      .then(() => {
+        console.log('Documento eliminado!');
+      }, (error) => {
+        console.error(error);
+      });
+  }
+  // Actualiza un gato
+  public updateCat(documentId: string, data: any) {
+    return this.firestore.collection('cats').doc(documentId).set(data);
+  }
+   
 
 }

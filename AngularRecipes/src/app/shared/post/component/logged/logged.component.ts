@@ -77,7 +77,9 @@ export class LoggedComponent implements OnInit {
         console.log('Promesa desde Google ' + res.user.displayName + 'Img ' + res.user.photoURL);
         this.imgen = res.user.photoURL;
         // this.router.navigate(['users/list']);
-      }).catch(err => {console.log(err + ' Error');
+      }).catch(err => {console.log(err + ' Error'), alert(err + ' Error => al Login');
+                      // this.onLogin();
+                       this.router.navigate(['/login']);
       });
   }
 
