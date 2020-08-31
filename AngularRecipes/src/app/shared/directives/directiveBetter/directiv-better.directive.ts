@@ -6,7 +6,7 @@ import { Directive, Renderer2, OnInit, ElementRef, HostListener, HostBinding, In
 
 export class DirectivBetterDirective implements OnInit {
 
-  @HostBinding('style.backgroundColor') propiedadBackground: string = 'violet';
+  @HostBinding('style.backgroundColor') propiedadBackground = 'violet';
 
   /* arriba dice: accede en elemento en que esta usandose, a su propiad estilo (style..),
   sera llamado en el @hostListener */
@@ -15,11 +15,11 @@ export class DirectivBetterDirective implements OnInit {
    y lo llamo desde @HostListener, donde le cambio ese color*/
 
   @Input() colorDefault = 'orange';
-  @Input() colorSecond: string = 'yellow';
+  @Input() colorSecond = 'yellow';
 
-  @HostBinding('style.backgroundColor') propBackground: string 
+  @HostBinding('style.backgroundColor') propBackground: string;
 
-  
+
 
   constructor(private renders: Renderer2, private elRef: ElementRef) {
   }
@@ -30,7 +30,7 @@ export class DirectivBetterDirective implements OnInit {
  */  }
 
   /*@HostListener es evento emitido por el DOM y se ejecutara simpre que le paso una cadena como argumento,
-  Tambien puede recibir eventos o argumentos como click en los parametros, como 
+  Tambien puede recibir eventos o argumentos como click en los parametros, como
   mouseOver(eventData: Event) */
 
   @HostListener('mouseenter') mouseover(data: Event) {
@@ -39,7 +39,7 @@ export class DirectivBetterDirective implements OnInit {
 
    /* @HOSTLISTENER */
   @HostListener('mouseleave') mouseleave(data: Event) {
-    this.renders.setStyle(this.elRef.nativeElement, 'backgroundColor', 'pink');    
+    this.renders.setStyle(this.elRef.nativeElement, 'backgroundColor', 'pink');
   }
 
   /* @HOSTBINDING */

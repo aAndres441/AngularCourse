@@ -9,14 +9,14 @@ export class DropdownDirective {
 
   /* constructor() { } */
 
-  @HostBinding('class.open') isOpen = false; 
+  @HostBinding('class.open') isOpen = false;
 
-  /*  HostBinding nos permite vincular 
-  las prop del elem donde se coloca la Directva, 
+  /*  HostBinding nos permite vincular
+  las prop del elem donde se coloca la Directva,
   en este caso accedo al elem y vinculo la clase del componente para que cambie segun la prop bool*/
 /* HostListener , escucho el evento click y ejecuto aca mismo un metodo que llamo toggle*/
 
-@HostListener('click') toggleOpen(){
+@HostListener('click') toggleOpen() {
   this.isOpen = !this.isOpen;
 }
 

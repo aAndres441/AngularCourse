@@ -10,9 +10,10 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { auth } from 'firebase/app/';
 import * as firebase from 'firebase';
-import 'firebase/database'; 
+import 'firebase/database';
+import { Image } from '../post/component/image.model';
 
-/* 
+/*
 import { promise } from 'protractor';
 import { resolve } from 'path';
 import { rejects } from 'assert';
@@ -30,9 +31,9 @@ import { runInThisContext } from 'vm'; */
 
   /* taodo para image */
   private MEDIA_STORAGE_PATH = 'imagenesUdemy'; // Para crear una carpeta en firebase con ese nombre
-  filePath: string;  
-  downloadUrl: string;  
-  
+
+  downloadUrl: string;
+
   private posts2: Post[] = [
     new Post ( 100, 'Jorge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
     new Post ( 101, 'Clock', 'In two binding', 'https://tse3.mm.bing.net/th?id=OIP.WwiZsucIqy6R4taHgUJ2CQHaHa&pid=Api&P=0&w=300&h=300'),
@@ -45,7 +46,7 @@ import { runInThisContext } from 'vm'; */
   logeado = new Subject<boolean>();
 
   private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
-  private cadena2 = environment.firebaseConfig.databaseURL + 'Jugadores.json';
+  private cadena2 = `${environment.firebaseConfig.databaseURL}Jugadores.json`;
 
   private provideGoogle = new auth.GoogleAuthProvider();
   private provideFace = new auth.FacebookAuthProvider();
@@ -56,12 +57,12 @@ import { runInThisContext } from 'vm'; */
   // Create a storage reference from our storage service
    // storageCreateRef = firebase.storage().ref();
    storageCreateRef = this.storageGetReference.ref();
-  
-  
+
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'User/json' })
   };
-  
+
   constructor(private http: HttpClient,
               private firestore: AngularFirestore,
               private readonly storage: AngularFireStorage,
@@ -72,7 +73,7 @@ import { runInThisContext } from 'vm'; */
         .pipe(changes => {
           return changes.pipe( ps => {
             const data = ps.toPromise;
-            data.title = ps.payload.doc.title; 
+            data.title = ps.payload.doc.title;
             return data;
           })
         }); */
@@ -97,15 +98,15 @@ import { runInThisContext } from 'vm'; */
 /*const inicio = AngularFireModule.initializeApp(environment.firebaseConfig);*/
 
 
-   /* ADD or CREATE */
- onCreatePost(postData ?: Post) {  
-  // Send Http request POST 
+/* *******************   ADD or CREATE   ************************* */
+ onCreatePost(postData ?: Post) {
+  // Send Http request POST
   this.createPost(postData);
   this.add(postData);
 }
 
-createPost(postData: Post) {  
-  // Send Http request POST 
+createPost(postData: Post) {
+  // Send Http request POST
   alert('desde service');
 
   const body = {
@@ -115,21 +116,11 @@ createPost(postData: Post) {
     imageUrl: postData.imageUrl,
     data: postData.data};
 
-  this.http.post(this.cadena, body)
-  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
-     }, () => {
-      alert('NO');
-    });
- /*  this.http.post(this.cadena, body)
-  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
-     }, () => {
-      alert('NO');
-    }); */
-  /* this.http.post(this.cadena, body)
-  .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
-     }, () => {
-      alert('NO');
-    }); */
+  this.http.post(this.cadena, body) // this.http.post(this.cadena, postData) es lo mismo
+    .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+      }, () => {
+        alert('NO');
+      });
 }
 
 
@@ -154,6 +145,7 @@ createPost(postData: Post) {
     };
     if (post.title) {
       return this.http.put(this.cadena + post.title, body, httpOptins)
+        // return this.http.put(this.cadena, post)  pa mi es asi
         .pipe(
               map((data: any) => alert(`${data}SII`))
               );
@@ -166,8 +158,7 @@ createPost(postData: Post) {
       }
   }
 
-/* ******************************************** */
-/* GET */
+/* *******************   GET   ************************* */
 
 getDatabaseDatas() {
   return this.firestore.collection.length;
@@ -202,7 +193,7 @@ fetchPosts() {
   /* this.onChange.next(this.loadedPosts.slice()); */
   // return this.loadedPosts;
   // return this.getPosts();
-} 
+}
 
 getTodosPost() {
   console.log('HELLOo');
@@ -229,7 +220,7 @@ getTodosPost() {
     return this.http.get<Post>(environment.firebaseConfig + 'Post/' + id , httpOptions).pipe(
       map((data: Post) => data)
     );
-  }  
+  }
 
   getPostTitle(title: string): Post {
     const post = this.posts2.find(
@@ -243,9 +234,9 @@ getTodosPost() {
     return null;
   }
 
-  /* DELETE */
+  /* *******************   DELETE   ************************* */
 
-  delete(id: number): boolean { 
+  delete(id: number): boolean {
     if (this.posts2.splice(id, 1)) {
       this.onChange.next(this.posts2.slice());
       return true;
@@ -256,11 +247,11 @@ getTodosPost() {
   deletePost3(pos: Post) {
     // return this.postCollection.doc(post.title).delete();
     this.postCollection.doc(pos.title).delete();
-    // this.onChange.next(this.postCollection);   
+    // this.onChange.next(this.postCollection);
     /* const index = this.posts2.indexOf(pos);
     if (index > -1 ) {
       this.posts2.splice(index, 1);
-    } */ 
+    } */
   }
   deletePost4(pos: Post): boolean {
     const index = this.posts2.indexOf(pos);
@@ -273,26 +264,35 @@ getTodosPost() {
     return false;
   }
 
-/** DELETE: delete from the server */
+/*///////////      DELETE: delete from the server firebase ////////////////*/
   deletePost5(pos?: Post): Observable<Post> {
     const id = typeof pos === 'number' ? pos : pos.title;
     const url = `${environment.firebaseConfig.databaseURL + 'Post.json'}/${id}`;
+    // private cadena = environment.firebaseConfig.databaseURL + 'Posts.json'; Esta no tiene el id
 
+    alert ( `{url -} ${url}`);
     return this.http.delete<Post>(url, this.httpOptions)
       .pipe(
-      tap(_ => console.log(`deleted post id=${id}`)),
+      tap(_ => {
+        return console.log(`deleted post id=${id}`);
+        alert(`deleted post id=${id}`);
+      }),
       catchError(this.handleError<Post>('deletepost'))
     );
     this.onChange.next(this.posts2.slice());
   }
-
-  deletePost(post: Post) {
+/*
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'User/json' })
+  }; */
+  deletePost(post: Post): Observable<Post> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.delete(this.cadena + post.title, httpOptions)
+    return this.http.delete<Post>(this.cadena + post.title, httpOptions)
+     // private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
       .pipe(
             map(
               (data: any) => data)
@@ -320,7 +320,7 @@ getTodosPost() {
     };
   }
 
-  /* UPDATE or EDIT*/ 
+  /* UPDATE or EDIT*/
 
   // updatePost(id: number, postInfo: { title: string, contenido: string }): void {
   updatePost(id: number, post: Post, image?: any): void {
@@ -387,8 +387,8 @@ getTodosPost() {
       this.viewPost.next(newPost);  // para mostrar magen
 
       this.http.post(this.cadena, newPost)
-      .subscribe(resp => { console.log(resp + 'RESPUESTA updatePost2');
-                           alert('SIIII');
+        .subscribe(resp => { console.log(resp + 'RESPUESTA updatePost2');
+                             alert('SIIII');
      }, () => {
       alert('NO');
     });
@@ -418,31 +418,37 @@ getTodosPost() {
     });
 } */
 
-
+ /*///////////// carga imagen////////////////////// */
+ uploadImag2(event: any) {
+  alert('Method not implemented 1' );
+  alert('Method not implemented 2' + event);
+}
    /*///////////  Upload image IMAGEN//////////////////////////*/
-   uploadImag(post: Post, image: any): void {
-    this.filePath = `image${image.name}`;
-    alert('Ala imagen + ' +   this.filePath);
-    const fileRef = this.storage.ref(this.filePath);
-    const task = this.storage.upload(this.filePath, image);
-    task.snapshotChanges()
+   uploadImag(images: Image[]): void {
+    for (const oneImg of images) {
+      oneImg.uploading = true;  // avisa que se esta subiendo imagen file, no se si mejor lo borro.
+      // Absajo, creamos un nombre con el titulo de la imagen para que sea unico, gracias al metodo de abajo
+      const filePathName = this.generateNameImage(oneImg.title);
+      const fileRef = this.storage.ref(filePathName); // creamos una referenci a la ruta donde la guardaremos
+      const task = this.storage.upload(filePathName, oneImg.file); // sube la imagen aca con esos datos
+
+      oneImg.uploadPercent = task.percentageChanges(); // devuelve esto que sirve para mostrar la barra de carga
+
+      task.snapshotChanges()  // abajo es la magia de firebase
       .pipe(
         finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-            this.downloadUrl = url;
-            this.updatePost4(post, image);
-          });
-        }) ).subscribe();
+          oneImg.downloadUrl = fileRef.getDownloadURL();
+          oneImg.uploading = false;
+        })
+      ).subscribe();
+     }
   }
-  // para controlar que no se guarden imagenes con igual nombre
+
+  // Genero nombre, para controlar que no se guarden imagenes con igual nombre
    private generateNameImage(name: string): string {
      return `${this.MEDIA_STORAGE_PATH}/${new Date().getTime()}-${name}`;
      // return this.MEDIA_STORAGE_PATH + '/' + new Date().getTime() + '-' + name
    }
-  /*///////////// carga imagen////////////////////// */
-uploadImg(event: any) {
-  throw new Error('Method not implemented.');
-}
 
 
   ////////////////  USER  /////////////////////////////
@@ -454,6 +460,7 @@ registerUser(email: string, password: string) {
     err => reject(err));
   });
 }
+
 onLogingoogle() {
   return this.aFireAuth.signInWithPopup(new auth.GoogleAuthProvider ());
 }
@@ -467,26 +474,39 @@ onLogoutUser() {
 }
 
 isAuth() {
-  return this.aFireAuth.authState.pipe(map( auth => firebase.auth));
+  return this.aFireAuth.authState.pipe(map( () => firebase.auth));
+   // (auth) => firebase.auth)
 }
 
   /* /////////////////JUGADORES ////////////////////////*/
-  pruebaGuardarajugador(datJugador) { // : Observable<any>
+  pruebaGuardarajugador(datoJugador) { // : Observable<any>
     /* VALE*/
-     this.http.post(this.cadena2, datJugador).subscribe(resp => {
-       }, () => {
-        alert('NO');
-      });
-    /* NO ANDA
+    // private cadena2 = environment.firebaseConfig.databaseURL + 'Jugadores.json';
+     const cadenasa = `${environment.firebaseConfig.databaseURL}Jugadores.json`;
+     this.http.post(this.cadena2, datoJugador)
+      .subscribe(resp => {
+        }, () => {
+          alert('NO');
+        });
+
+    /* NO ANDA pero deberia
     const httpOptins = {
-      headers: new HttpHeaders({ 'Content-Type': 'fenix/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'Jugadores/json' })
     };
     const body = {
-      first: datJugador.first,
-      last: datJugador.last,
-      born: datJugador.born
+      first: datoJugador.first,
+      last: datoJugador.last,
+      born: datoJugador.born
     };
-    if (datJugador.first) {
+
+    this.http.post(this.cadena, body)
+    .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+      }, () => {
+        alert('NO');
+      });
+
+
+    if (datoJugador.first) {
       alert('SII')
       return this.http.post(this.cadena2 + datJugador.title, body, httpOptins)
         .pipe(
@@ -515,8 +535,22 @@ isAuth() {
   /* ///////////////GATO CAT ///////////////////////
   /* Crea un nuevo gato*/
   public createCat(data: { nombre: string, url: string }) {
+
+    /* ver si anda esto, dejando el return tambien, es invento para crear Cat */
+    /* const cadena3 = environment.firebaseConfig;
+    const httpOptions3 = {
+      headers: new HttpHeaders({ 'Content-Type': 'Cat/json' })
+    };
+    const body3 = {
+      first: data.nombre,
+      mail: data.url,
+      born: new Date().getTime()
+    };
+    this.http.post(cadena3 + 'Cat', body3, httpOptions3); */
+
     return this.firestore.collection('cats').add(data);
   }
+
   // Obtiene todos los gatos
   public getCats() {
     return this.firestore.collection('cats').snapshotChanges();
@@ -537,6 +571,5 @@ isAuth() {
   public updateCat(documentId: string, data: any) {
     return this.firestore.collection('cats').doc(documentId).set(data);
   }
-
 
 }

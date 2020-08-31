@@ -24,7 +24,7 @@ const COMPONENTS =
     OneUserComponent
   ];
 
-const CONTAINER = [  
+const CONTAINER = [
   UserComponent
 ];
 

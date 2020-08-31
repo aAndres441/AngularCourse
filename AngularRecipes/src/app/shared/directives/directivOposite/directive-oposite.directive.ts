@@ -8,7 +8,7 @@ export class DirectiveOpositeDirective {
   /* cambiara eta property con el set cada vez que cambia afuera con el parametro */
   @Input() set appDirectiveOposite(condition: boolean) {
     if (!condition) {
-      this.vcRef.createEmbeddedView(this.templateRef)
+      this.vcRef.createEmbeddedView(this.templateRef);
       /* crea una vista en el contenedor con la referencia de plantilla que le mando */
     } else {
       this.vcRef.clear();

@@ -20,7 +20,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
    posts: Post[] = [];
    posts2: Post[] = [];
    // private randomSubject = false;
-  randomSubject = false;
+   randomSubject = false;
    image: ImageData;
    post: Post;
    viewOnePost: Subscription;
@@ -32,7 +32,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
               private route: ActivatedRoute,
               private service: PostService,
               private matDialog: MatDialog) { }
-    
+
   ngOnInit() {
 
      /*  this.posts = this.service.getPosts();
@@ -112,7 +112,6 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
   getPosts(): Post[] {
    // return this.service.getPosts();
      return this.service.getosts2();
-    
   }
 
   onDelete(ps: Post): boolean {
@@ -137,7 +136,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onEdit(epost?: Post) {
     // this.service.edit(epost);
-    
+
    ///////  this.service.updatePost2(epost);
 
    /*  this.viewOnePost = this.service.viewPost
@@ -150,7 +149,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     // alert(this.post.imageUrl + ' la imagen desde ts');
     // this.router.navigate(['/postEdit']);
     this.service.viewPost.next(epost);
-    
+
     this.openDialog(epost);
   }
 
@@ -178,7 +177,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
         alert(' result ' + res);
       });
   }
-
+/* ///////////////  JUGADOR  ///////////////////*/
   pruebaGuardarajugador() {
    /* jugador: {
       first: 'Andres',
@@ -195,7 +194,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     /* .subscribe(
       dato=>{alert(dato+'kkk')}
     ); */
-    
+
      /*  .then(docRef => {
       console.log('Document id ' + docRef.id);
       })
@@ -217,8 +216,8 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     /* this.router.navigate(['../payment']); */
     /* this.router.navigate(['/']); */
     /* this.router.navigate(['../postEdit']); */
-    this.router.navigate(['postEdit'], {relativeTo: this.route}); 
-    // this.router.navigate(['/post', 'postEdit']); 
+    this.router.navigate(['postEdit'], {relativeTo: this.route});
+    // this.router.navigate(['/post', 'postEdit']);
 
   }
 
@@ -238,10 +237,9 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.logeado.next(this.loggeado);
   }
 
-  getTodosPost (){
+  getTodosPost() {
     this.service.getTodosPost();
   }
 
- 
 
 }

@@ -49,8 +49,8 @@ const FIREBASE = [
   AngularFirestoreModule,
   AngularFireAuth,
   AngularFireStorageModule
-  
-  /* AngularFireModule.initializeApp (environment.firebaseConfig, 'posts') */  
+
+  /* AngularFireModule.initializeApp (environment.firebaseConfig, 'posts') */
 ];
 
 @NgModule({
@@ -58,6 +58,7 @@ const FIREBASE = [
     AppComponent,
     BorrarComponent
   ],
+
   imports: [
     ...MODULES,
     ...FIREBASE
@@ -66,7 +67,7 @@ const FIREBASE = [
 
   /* no quiero importar FormsModule aca en import, lo estoy haciendo en shared*/
   // Tenga en cuenta que el AppRoutingModule es el último .
-  
+
   providers: [
     AccountService,
     ShoppingService,
@@ -75,9 +76,10 @@ const FIREBASE = [
     PostService,
     AngularFireAuth
   ],
-    
+
   bootstrap: [AppComponent],
-  
+
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
+
 export class AppModule { }

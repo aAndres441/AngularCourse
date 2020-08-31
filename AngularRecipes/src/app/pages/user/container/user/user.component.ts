@@ -12,7 +12,7 @@ import { UserServiceSubject } from '../../userServiceSubject';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit, OnDestroy{
+export class UserComponent implements OnInit, OnDestroy {
 
  /*  users: User[];
   activeUsers: string[];

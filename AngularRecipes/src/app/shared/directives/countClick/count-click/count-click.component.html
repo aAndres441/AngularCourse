@@ -1,0 +1,42 @@
+<p>count-click works!</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-3 col-md-3">
+            <button class="btn btn-warning" #btnIncrement (click)="incre()">Increment</button>
+        </div>
+        <div class="col-xs-3 col-md-3">
+            <input type="text"  placeholder="Change "  #name
+                (input)="changeName1($event)"
+                (change)="changeName2($event)"
+                >
+        </div>
+
+        <label for="">Select</label>
+        <div class="col-xs-2 col-md-2">            
+            <input type="number"  #datoHtml >
+        </div>
+        <div class="col-xs-2 col-md-2">
+            <input type="text" [value]="name.value" placeholder="carga del html">
+        </div>
+        <div class="col-xs-2 col-md-2">
+            <input type="text" [value]="countClicks" placeholder="carga prop ts"> <!-- carga prop countClicks del ts -->
+        </div>
+        <div class="col-xs-2 col-md-2">
+            <input type="number" [value]="btnIncrement" placeholder="carga prop ts"> <!-- carga prop countClicks del ts -->
+        </div>
+        
+
+        <button class="btn btn-danger" style="width: 100%;" (click)="reset()">Reset</button>
+        
+    </div>
+</div>
+<!--  <div class="col-xs-4 col-sm-4">
+       <input type="text" placeholder="aca es feferencia html"  #desdeHtml >
+     </div>
+    <div class="col-xs-4 col-sm-4">
+      <input type="text" [value]="desdeHtml.value" placeholder="carga del html">
+    </div>
+     <div class="col-xs-4 col-sm-4">
+      <input type="text" [value]="base" placeholder="carga de prop">
+     </div> -->

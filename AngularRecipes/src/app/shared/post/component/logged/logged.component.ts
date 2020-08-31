@@ -8,7 +8,7 @@ import {AngularFireStorage } from '@angular/fire/storage';
 import { AuthGuard } from 'src/app/shared/guards/auth.guard';
 import { Router } from '@angular/router';
 import { PostService } from 'src/app/shared/services/post.service';
-import { Image } from '../postImage/image';
+import { Image } from '../image.model';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators'; // para .
 import { Post } from '../../post.model';
@@ -112,7 +112,8 @@ export class LoggedComponent implements OnInit {
 
   /* Carga imagen en el Storage */
   onLoadImg(event: any) {
-     /* solo usare del parametro event en console, el target, de aca el files y el que esta en primer lugar que es su nombre */
+     /* solo usare del parametro event en console, el target,
+     de aca el files y el que esta en primer lugar que es su nombre */
 
     console.log('sube ' , event.target.files[0], 'Todo ' , event);
     this.imgParaLoad = event.target.files[0];
@@ -121,7 +122,7 @@ export class LoggedComponent implements OnInit {
     console.log('timeStamp ' , event.timeStamp);
 
     const idAleatorio = Math.random().toString(36).substring(2);
-    
+
     const file = event.target.files[0]; // el mismo elemento imagen
     const filePath = `uploads/profileId_${idAleatorio}`; // crea una carpeta y sera la ruta
     const refStorage = this.storage.ref(filePath); // referencia
@@ -140,19 +141,19 @@ export class LoggedComponent implements OnInit {
 
     alert('Subiendo ' + this.imgParaLoadnombre + '..' + this.imgParaLoad + ' time: ' + this.imgTimeStamp);
 
-    /* this.service.uploadImg(this.post, this.imgParaLoad) */
-    this.service.uploadImg(event);
+    this.service.uploadImag(this.imgParaLoad);
+    // this.service.uploadImag2(event);
   }
 
   /* registra ususrio y su imagen mas arriba */
   registerUser() {
-    alert('Cargar Image URL : ' + this.imgUrl.subscribe());
+    alert('Cargar Image URL : ' + this.imgUrl);
     this.service.registerUser(this.userName, this.password)
       .then((res) => {
         this.service.isAuth().subscribe( usu => {
           if (usu) {
             console.log('usu actual ' + usu);
-            
+
             usu.prototype({  // creo que sera este function dice updateProfile
               displayName: '',
               photoURL: this.imagUser.nativeElement.value,
@@ -165,7 +166,7 @@ export class LoggedComponent implements OnInit {
         /* this.router.navigate(['./recipe']); */
       }). catch (err => console.log('err', err.message));
   }
-  
+
   buscarRestaurant(title: string) {
     // invento todo esto
     const query = `SELECT * FROM POSTS WHERE title LIKE${title}LIMIT 10`;
