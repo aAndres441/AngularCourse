@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class RecipeItemComponent implements OnInit, OnDestroy {
 
-  
+
   @Input() recipe: Recipe;
   @Input() index: number;
   // @Output() detail = new EventEmitter<void>();
@@ -25,7 +25,7 @@ export class RecipeItemComponent implements OnInit, OnDestroy {
               private service: RecipeService) { }
 
   ngOnInit() {
-   
+
     /* confirm('INDEX ' + this.index.toString());
  */
    /*  const unaid = +this.route.snapshot.params.id;
@@ -53,14 +53,14 @@ export class RecipeItemComponent implements OnInit, OnDestroy {
 /*   addDetail(num: number) {
     confirm('A la pelotita' + num + `index ` + this.index);
     this.router.navigate(['/recipes', num],
-      
+
       {
         queryParams: { ID: num },
         fragment: 'loading' + this.recipe.name
       }
     );
 } */
-    /* 
+    /*
   Llama al metodo del servicio y emite la receta seleccionada en html (click)="addDetail()"
      this.serviceRecipe.recipeSelected.emit(this.recipe);
      Tambien elimino este servicio pues paso datos dinamicamente por URL    */
@@ -75,7 +75,7 @@ export class RecipeItemComponent implements OnInit, OnDestroy {
           this.recipe2 = rec;
         }
       );
-      
+
     this.recipe2 = this.service.getOneRecipe(this.index);
 
     // this.service.recipeSelectSub.next(this.recipe2); /* esto es para avisar al servicio*/

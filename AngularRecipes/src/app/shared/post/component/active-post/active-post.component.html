@@ -3,7 +3,15 @@
   <div class="header">
     <!-- <em> <s> <b> <q> <u> <i> -->
     <div class="row" style="text-align: center;">
-      <div  class="col-xs-10 col-sm-10 col-md-10 alert is-helpful">
+      <div class="col-xs-2 col-sm-2 col-md-2"style="float: left">
+        <button class="btn" id="wahtsapp" id="btnWhatsapp" (click)="toPost()">
+           <a routerLink="/post">
+            <!-- <a [routerLink]="/home">HOME</a> 
+            routerLink="/shopping/list"-->
+            <i class="fa fa-reply" > </i></a>
+        </button>
+      </div>
+      <div  class="col-xs-8 col-sm-8 col-md-8 alert is-helpful">
         <h2><b>{{title}} - </b><q><u><i><small> Formulario</small></i></u></q></h2>        
       </div>
 
@@ -13,7 +21,7 @@
             <i class="fab fa-whatsapp" aria-hidden="true"> </i>
           </a>
         </button>
-      </div>
+      </div>      
     </div>
   </div>
   

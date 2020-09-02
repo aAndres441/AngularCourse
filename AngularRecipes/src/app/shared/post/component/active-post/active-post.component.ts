@@ -169,7 +169,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
  Si imagen que agrego con handle es igual a original del init, le asigna original. 
  pero si no pasa al else para el nuevo post*/
 
-    if(this.imageNew === this.imageOriginal){
+    if (this.imageNew === this.imageOriginal){
       newPost.image = this.imageOriginal;
       alert('misma img');
       this.service.updatePost(newPost.id , newPost);
@@ -177,12 +177,12 @@ export class ActivePostComponent implements OnInit, OnDestroy {
       alert('otra img ');
       this.service.updatePost(newPost.id, newPost, this.imageNew);
     }
-    
+
     // this.service.updatePost2(newPost);
   }
 
   ngOnDestroy(): void {
-    this.suscripcion.unsubscribe();
+    //this.suscripcion.unsubscribe();
     this.postSuscripcion.unsubscribe();
   }
 
@@ -297,6 +297,21 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   handleImage(event: any): void {
     this.imageOriginal = event.value;
     alert(`2 Hello!!${this.imageNew}`);
+  }
+
+  toPost() {
+   /*  this.router.navigate(['./'],  // '/shopping', 'list'
+    {
+      queryParams: { ID: 'Pepe' },
+      fragment: 'loading' + 'Hello'
+    } 
+);*/
+    /* this.router.navigate(['../postEdit'], {relativeTo: this.route,
+        queryParams: { ID: '1973' },
+         fragment: 'Mal'}); */
+
+         this.router.navigate(['../login'], { relativeTo: this.route });
+  
   }
 
 }
