@@ -85,9 +85,10 @@
                 </div>
             </div>
 
-            <div *ngIf="loggeado; else noFenix"> FENIX Login</div>
+            <div>
+                <div *ngIf="loggeado; else noFenix"> FENIX Login</div>
             
-            <ng-template *ngIf="loggeado" #noFenix>logout</ng-template>
+            <ng-template *ngIf="!loggeado" #noFenix>logout</ng-template>
             
             <app-logged *ngIf="loggeado"></app-logged> 
 
@@ -102,6 +103,7 @@
                     </span>
                 </div>
 
+            </div>
                 <!-- -TABLA ----- -->
                 <table class="table-responsive" >
                     <!--  <thead style="text-align: center;">Tabla </thead> -->
@@ -186,6 +188,10 @@
         <button class="btn btn-success" style=" width: 50%; background-color:rgb(130, 130, 204)"
             (click)="irarouteredit()">Ir a router edit
         </button>
+    </div>
+
+    <div class="container" style="border: 2px solid oranfge">
+        <app-count-click></app-count-click>
     </div>
 
 <!-- 

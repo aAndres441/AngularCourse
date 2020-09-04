@@ -21,7 +21,7 @@
                         <li class="list-group-item" 
                         *ngFor="let ev of evenNumbers"
                         [ngClass]="{myOdd: ev % 2 !== 0}"
-                        [ngStyle]="{backgroundColor: ev % 2 !== 0 ? 'yellow' : 'transparent'}">
+                        [ngStyle]="{backgroundColor: ev % 2 === 0 ? 'yellow' : 'transparent'}">
                             {{ev}}
                         </li>
                 </div>
@@ -72,13 +72,24 @@
         <div style="border: lightslategrey dashed 1px">
             <h4><em>SWITCH</em> con@ViewChild- @Output - @Input</h4>
             <div class="col-sm-5">
-                <input type="number" #valorParaSwitch placeholder="Numero">
+                <input type="number" #valorParaSwitch placeholder="Numero" > 
             </div>
             <div class="col-sm-2">
                 <input type="text" [value]="valorParaSwitch.value">
             </div>
             <br>
             <button class="btn btn-success" style="width: 90%;" (click)="addNumero()">Add Numero</button>
+            <br>
+
+            <div class="row" > <!-- ej aclarandome el ngStyle afecta o que quiero -->
+            <div class="col-sm-4">
+                <input type="text" [(ngModel)]="valor" placeholder="Viene de prop valor" [ngStyle]="{backgroundColor:  'greenyellow', color:'indigo'}" >
+            </div> 
+            <div class="col-sm-4">
+                <input type="text" [value]="valor" [ngStyle]="{backgroundColor: 'greenyellow', color:'indigo'}" >
+            </div>
+        </div>
+            <br>
         
             <div [ngSwitch]="valor">
                 <p *ngSwitchCase='1'>value is : {{valor}}</p>

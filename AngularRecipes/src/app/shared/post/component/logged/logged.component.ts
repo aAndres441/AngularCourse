@@ -309,7 +309,7 @@ changeName(event: Event) {   // solo para mostrar el input del htmml
 }
 
   onUserName(event: string) {
-    this.userName = event;
+    this.base = event;
     alert('userName2 ' + this.userName);
   }
   onEmail(event: string) {

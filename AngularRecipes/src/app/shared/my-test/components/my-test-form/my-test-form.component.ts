@@ -6,7 +6,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '
   styleUrls: ['./my-test-form.component.css']
 })
 export class MyTestFormComponent implements OnInit {
-  
+
   mio = false;
   userName = ' ';
   lastName = 'Manini';
@@ -20,7 +20,7 @@ export class MyTestFormComponent implements OnInit {
   dates = [];
   newCity = '';
 
-  
+
 prueboName2 = '';
 @ViewChild('unValor') unValor: ElementRef;
 

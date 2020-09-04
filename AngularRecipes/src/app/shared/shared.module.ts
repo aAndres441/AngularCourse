@@ -25,11 +25,13 @@ import { DirectivBetterDirective } from './directives/directiveBetter/directiv-b
 import { DirectiveOpositeDirective } from './directives/directivOposite/directive-oposite.directive';
 import { DirectiveCardDirective } from './directives/directivCard/directive-card.directive';
 import { DropdownDirective } from './directives/dropdown.directive';
+import { CountClickComponent } from './directives/countClick/count-click/count-click.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
 import { ConvertToKPipe } from './pipes/convert-to-k.pipe';
 import { ModalComponentComponent } from './modal/modal-component/modal-component.component';
+import { IncrementalComponent } from './helpers/incrementReusable/incremental/incremental.component';
 
 const COMPONENTS = [
   FooterComponent,
@@ -47,7 +49,10 @@ const COMPONENTS = [
   StarComponent,
   ConvertToKPipe,
   ContactComponent,
-  OrderComponent
+  OrderComponent,
+  ModalComponentComponent,
+  CountClickComponent,
+  IncrementalComponent
 ];
 
 const MODULES = [
@@ -70,7 +75,6 @@ const MODULES = [
   
   declarations: [
     ...COMPONENTS,
-    ModalComponentComponent
   ],
 
   imports: [

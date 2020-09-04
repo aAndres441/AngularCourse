@@ -40,7 +40,8 @@ a{
 }
 
 .default a:hover{
-    background-color:brown; /* Add a hover color */
+    background-color:rgb(197, 230, 222); /* Add a hover color */
+    border-radius: 22%;
   }
 
  .default a:active {

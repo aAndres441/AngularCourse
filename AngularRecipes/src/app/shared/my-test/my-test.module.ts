@@ -5,13 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { MyTestComponent } from './container/index';
 
 import {
-   MyTestListComponent, 
+   MyTestListComponent,
    MyTestFormComponent,
    MyTestBindingComponent,
-   MyDirectivasComponent 
+   MyDirectivasComponent
   } from './components/index';
-/* import { 
-  MyDirectivasComponent 
+/* import {
+  MyDirectivasComponent
 } from './components/my-directivas/my-directivas.component';
  */
 
@@ -44,7 +44,7 @@ const COMPONENTS = [
     ...COMPONENTS,
     ...CONTAINER
   ],
-  
+
  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class MyTestModule { }

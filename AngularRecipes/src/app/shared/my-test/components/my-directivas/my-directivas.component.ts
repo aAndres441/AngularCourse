@@ -24,14 +24,14 @@ export class MyDirectivasComponent implements OnInit {
 
   addNumero() {
     this.valor = this.valorParaSwitch.nativeElement.value;
-    if (this.valor == 1 || this.valor == 10) {
+    if (this.valor === 1 || this.valor === 10) {
       alert(this.valor + 'IMMPECA el  valor ' + this.valor);
       console.log(this.valor + 'IMMPECA el  valor ' + this.valor);
-    }else
+    } else {
     alert(this.valorParaSwitch.nativeElement.value + ' valor ' + this.valor);
- 
-   
+    }
+
   }
-  
+
 
 }

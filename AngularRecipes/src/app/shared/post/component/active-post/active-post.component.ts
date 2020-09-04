@@ -28,13 +28,13 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   loadedPosts2: Observable<Post[]>;
   // posts: Post[] = [];
   // post: Post;
-  submitted = false; // solo para cambiar valor de envio 
+  submitted = false; // solo para cambiar valor de envio
   editMode = false;
   title = ' New Post';
   suggestedName = 'Albodiga';
   private postSuscripcion: Subscription;
   private suscripcion: Subscription; // se suscribe para mostrarlo y desuscribir
-  
+
 
   /* postNew: Post = {
     title: '',
@@ -75,7 +75,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     // console.log('ActivePostComponent1 ' + this.firestore.doc);
     // console.log('ActivePostComponent2, length=  ' + this.service.getDatabaseDatas());
 
-    // this.submitted = false; // solo para cambiar valor de envio  
+    // this.submitted = false; // solo para cambiar valor de envio
 
     /* Solo para inventar Subject random*/
     this.suscripcion = this.service.randomSub
@@ -156,7 +156,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
       this.onEditPost(newPost);
     }
     // this.onCancel();
-  } 
+  }
 
   /* ---- EDIT  ---- */
   private onEditPost(newPost: Post) {
@@ -166,10 +166,10 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     console.log('Itityle' + this.title);
 
  /* es por si no tiene imagen
- Si imagen que agrego con handle es igual a original del init, le asigna original. 
+ Si imagen que agrego con handle es igual a original del init, le asigna original.
  pero si no pasa al else para el nuevo post*/
 
-    if (this.imageNew === this.imageOriginal){
+    if (this.imageNew === this.imageOriginal) {
       newPost.image = this.imageOriginal;
       alert('misma img');
       this.service.updatePost(newPost.id , newPost);
@@ -182,7 +182,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    //this.suscripcion.unsubscribe();
+    // this.suscripcion.unsubscribe();
     this.postSuscripcion.unsubscribe();
   }
 
@@ -191,8 +191,8 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     this.router.navigate(['../login'], { relativeTo: this.route });
   }
   onCreatePost(postData: Post) {
-    alert('CREATE')
-    // Send Http request POST // , this.image  
+    alert('CREATE');
+    // Send Http request POST // , this.image
     // this.openDialog();
     this.service.onCreatePost(postData);
     /* .subscribe(resp => {
@@ -304,14 +304,14 @@ export class ActivePostComponent implements OnInit, OnDestroy {
     {
       queryParams: { ID: 'Pepe' },
       fragment: 'loading' + 'Hello'
-    } 
+    }
 );*/
     /* this.router.navigate(['../postEdit'], {relativeTo: this.route,
         queryParams: { ID: '1973' },
          fragment: 'Mal'}); */
 
          this.router.navigate(['../login'], { relativeTo: this.route });
-  
+
   }
 
 }
