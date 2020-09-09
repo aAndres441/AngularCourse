@@ -8,6 +8,7 @@ import { ActivePostComponent, NewComponent } from './component/index';
 import { PostComponent } from './container/post/post.component';
 import { LoggedComponent } from './component/logged/logged.component';
 import { ImageDirective } from './component/helpers/image.directive';
+import { IncrementalComponent } from '../helpers/incrementReusable/incremental/incremental.component';
 
 
 const firebase = require('firebase/app');

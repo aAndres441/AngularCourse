@@ -1,1 +1,2 @@
-export * from './hobbie/hobbie.component'
+export * from './hobbie/hobbie.component';
+

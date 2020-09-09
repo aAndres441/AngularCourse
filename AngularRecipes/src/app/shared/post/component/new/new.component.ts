@@ -26,12 +26,15 @@ export class NewComponent implements OnInit, OnDestroy {
   /* loadedPosts2: Observable<Post[]>; */
    posts: Post[] = [];
   // post: Post;
-  submitted = false; // solo para cambiar valor de envio 
+  submitted = false; // solo para cambiar valor de envio
   editMode = false;
   title = ' New Post';
+  incrementa = 10;
+  incrementaString = this.incrementa.toString();
+  private incremenSuscripcion: Subscription;
+  pi = 3.14159265358979323846264338327950288419716939937510;
  /*  suggestedName = 'Albodiga'; */
   private postSuscripcion: Subscription;
-  
   /* postNew: Post = {
     title: '',
     content: '',
@@ -44,11 +47,11 @@ export class NewComponent implements OnInit, OnDestroy {
               private matDialog: MatDialog
               ) { }
 
-  ngOnInit() { 
+  ngOnInit() {
 
     this.editMode = this.post != null; // editMode sera true si hay post2
     // this.editMode = this.loadedPosts.length != null;
-    
+
     this.initForm();
 
     this.postSuscripcion = this.service.onChange
@@ -57,13 +60,21 @@ export class NewComponent implements OnInit, OnDestroy {
           this.posts = ps;
         }
       );
-    
+
+    this.incremenSuscripcion = this.service.IncrementalChange
+      .subscribe(
+        (ssuu) => {
+          this.incrementa = ssuu;
+        }
+      );
+
       /* Aca termina On init */
   }
 
   private initForm() {
 
     this.newPost = new FormGroup({
+      incremental: new FormControl(10, [Validators.required, Validators.min(4)]),
       id: new FormControl('', [Validators.required]),
       title: new FormControl('', [Validators.required,
                 this.notAllowName.bind(this),
@@ -76,38 +87,43 @@ export class NewComponent implements OnInit, OnDestroy {
 
       imagePost: new FormControl('', [Validators.required])
     });
+
+    // muestro esos valores de ese input en consola
+    this.newPost.get('id').valueChanges.subscribe(value => {console.log('Id', value); });
+    this.newPost.get('title').valueChanges
+      .subscribe(value => {console.log('Title' , value);
+      });
+    this.newPost.get('incremental').valueChanges
+      .subscribe(value => {console.log('Incremental', value);
+      });
+
   }
-  
+
   onSubmit() {
     console.log
-    (this.newPost.value.id +'..'+
-      this.newPost.value.title+'..'+
-      this.newPost.controls.content.value+'..'+
-      this.newPost.value.imagePost)
+    (`${this.newPost.value.id}..${this.newPost.value.title}..${this.newPost.controls.content.value}..${this.newPost.value.imagePost}`);
     const newPost = new Post (
-      this.newPost.value.id,
+      this.newPost.value.incremental,
       this.newPost.value.title,
       this.newPost.controls.content.value,
       this.newPost.value.imagePost);
     alert('desde newTs' + newPost.toString());
 
     this.imageOriginal = newPost.imageUrl;
-      
-   
+
     this.onCreatePost(newPost);
  }
-  
   onCreatePost(postData: Post) {
-   
-      this.service.onCreatePost(postData);  
-      
+
+      this.service.onCreatePost(postData);
+
       /* .then(() => {
         console.log('Documento creado exitósamente!');
-       
+
       }, (error) => {
         console.error(error);
       }); */
-      
+
      /* .subscribe(resp => {
       console.log(resp + 'RESPUESTA');
      }, () => {
@@ -119,11 +135,12 @@ export class NewComponent implements OnInit, OnDestroy {
     alert('// this.fgNew.reset();');
     this.router.navigate(['../login'], {relativeTo: this.route});
   }
+
   ngOnDestroy(): void {
     this.postSuscripcion.unsubscribe();
+    this.incremenSuscripcion.unsubscribe();
   }
 
- 
   notTitle(controler: FormControl): Promise<any> | Observable<any> {
     const result = new Promise<any>((resolve, reject) => {
       setTimeout(() => {
@@ -143,17 +160,17 @@ export class NewComponent implements OnInit, OnDestroy {
     }
     return null;
   }
-  
-  onClearPosts() {
+
+  ozClearPosts() {
     alert(this.loadedPosts.length + 'DATOOS desde new');
     // Send Http request
     this.service.deleteAll();
   }
-  
+
   delete2(hero: Post): void {
     this.loadedPosts = this.loadedPosts.filter(h => h !== hero);
     this.service.deletePost(hero).subscribe();
-    
+
   }
 
   cambiaEdit() {
@@ -169,5 +186,55 @@ export class NewComponent implements OnInit, OnDestroy {
     this.title = (event.target as HTMLInputElement).value;
   }
 
+  /* INVENTO INCREMENTAL como app-incrementa desde helper */
+  
+  restaIncremental() {
+    this.incrementa --;
+    this.service.IncrementalChange.next(this.incrementa);
+    /* this.incrementaString = this.incrementa.toString(); */
 
+    console.log(this.incrementa);
+ }
+
+  sumaIncremental() {
+   this.incrementa ++;
+   this.service.IncrementalChange.next(this.incrementa);
+    /* this.incrementaString = this.incrementa.toString(); */
+   console.log(this.incrementa);
+}
+  myOnChange = (_: any) => {};  // es una funcion vacia que recibe un valor any
+  myOnTouch = () => {};  // es una funcion vacia que NO recibe un valor any
+
+
+
+    /* RELOJ */
+    /* <span id="liveclock" 
+      style="position:absolute;left:0;top:0;">
+    </span> */
+
+    show5() {
+      const Digital = new Date();
+      let hours = Digital.getHours();
+      let minutes = Digital.getMinutes();
+      const seconds = Digital.getSeconds();
+
+      const dn = 'PM'
+      if (hours < 12) {
+        const dn = 'AM';
+      }
+      if (hours > 12) {
+        hours = hours - 12;
+      }
+      if (hours === 0) {
+        hours = 12;
+      }
+
+      /* if (minutes<=9) {
+      minutes="0"+ minutes;
+      }
+      if (seconds<=9)
+      seconds="0"+seconds */
+
+      /* termina reloj  */
+    }
 }

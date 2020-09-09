@@ -74,6 +74,8 @@ export class LoggedComponent implements OnInit {
      /* this.afAuth.signInWithPopup(new auth.GoogleAuthProvider ()) */
      this.service.onLogingoogle() // le puse esto hacia servicio pero sirve el de arriba
       .then((res) => {
+        console.log(res);
+
         console.log('Promesa desde Google ' + res.user.displayName + 'Img ' + res.user.photoURL);
         this.imgen = res.user.photoURL;
         // this.router.navigate(['users/list']);
@@ -119,7 +121,7 @@ export class LoggedComponent implements OnInit {
     this.imgParaLoad = event.target.files[0];
     this.imgParaLoadnombre = event.target.files[0].name;
     this.imgTimeStamp = event.timeStamp;
-    console.log('timeStamp ' , event.timeStamp);
+    console.log('timeStamp ' , event.timeStamp, + '..', this.imgParaLoad);
 
     const idAleatorio = Math.random().toString(36).substring(2);
 
@@ -129,25 +131,27 @@ export class LoggedComponent implements OnInit {
 
     const task = this.storage.upload(filePath, file); // con esto sube la imagen con su ruta y la imagen
 
-    /* guarda el porcentaje de subida */
+    /* guarda el porcentaje de subida, no lo estoy usando, pero si lo uso en service */
     this.uploadPercent = task.percentageChanges();
 
     /* aca obtenemos la ruta de la imagen */
     task.snapshotChanges()
       .pipe(finalize(() => {
         this.imgUrl = refStorage.getDownloadURL();
+        console.log('snapshotChanges', this.imgUrl);
       }))
       .subscribe();
 
-    alert('Subiendo ' + this.imgParaLoadnombre + '..' + this.imgParaLoad + ' time: ' + this.imgTimeStamp);
+    alert('Subiendo ' + this.imgParaLoadnombre + '..' + this.imgParaLoad + ' time: ' + this.imgTimeStamp );
 
     this.service.uploadImag(this.imgParaLoad);
     // this.service.uploadImag2(event);
   }
 
-  /* registra ususrio y su imagen mas arriba */
+  /* registra usuario y su imagen mas arriba */
   registerUser() {
     alert('Cargar Image URL : ' + this.imgUrl);
+    console.log('Cargar Image URL : ' + this.imgUrl);
     this.service.registerUser(this.userName, this.password)
       .then((res) => {
         this.service.isAuth().subscribe( usu => {

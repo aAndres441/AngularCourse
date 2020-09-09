@@ -10,7 +10,7 @@ export class ValidatorsRecipes {
         return null;
     }
 
-    static nameLength (control: FormControl): {} {
+    static nameLength(control: FormControl): {} {
         if ( control.value.length > 20) {
             return ({nameMaxLength: true});
         }

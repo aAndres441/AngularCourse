@@ -11,29 +11,28 @@ export class BorrarComponent implements OnInit {
   name = 'Inicia';
   price = 0;
 
-  errorMessage: string;
+  errorMessage = 'Hello!!';
 
   constructor(private route: ActivatedRoute) { }
 
-  ngOnInit() {   
-  }
-  
+  ngOnInit() {    }
+
   changeName(event: Event) {
     this.name = (event.target as HTMLInputElement).value;
   }
-  
+
   updateLastName(event): any {
     this.name = event.target.value;
   }
 
   changePrice(event: Event) {
-    this.price = Number((event.target as HTMLInputElement).value); // (<HTMLInputElement>event.target).value    
+    this.price = Number((event.target as HTMLInputElement).value); // (<HTMLInputElement>event.target).value
   }
-  
+
   updatePrice(e): any {
     this.price = e.target.value;
   }
-  
+
   /* window.addEventListener('load', inicio, false);
 
     function inicio() {
@@ -42,15 +41,15 @@ export class BorrarComponent implements OnInit {
     }
 
     function guardar(evt) {
-        localStorage.setItem(document.getElementById('ingles').value, document.getElementById('castellano').value);        
+        localStorage.setItem(document.getElementById('ingles').value, document.getElementById('castellano').value);
         document.getElementById('ingles').value='';
         document.getElementById('castellano').value='';
     }
 
     function recuperar(evt) {
-        if (localStorage.getItem(document.getElementById('ingles').value) == null) 
+        if (localStorage.getItem(document.getElementById('ingles').value) == null)
             alert('No está almacenala la palabra '+document.getElementById('ingles').value);
-        else  
+        else
             document.getElementById('castellano').value=localStorage.getItem(document.getElementById('ingles').value);
     } */
 

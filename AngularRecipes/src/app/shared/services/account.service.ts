@@ -61,11 +61,11 @@ export class AccountService {
   /* this.oldServicio.mostrateDato(status); */
 
   /* para subject pero  no anda */
-  /* this.onChangeAcou.next(this.accounts[id]);
-  this.onChangeAcounts.next(this.accounts); */
+  this.onChangeAcou.next(this.accounts[id]);
+  this.onChangeAcounts.next(this.accounts);
 
   /* para emit */ 
-  this.notifyStatusUpdate2.emit(this.accounts[id]);
+  /* this.notifyStatusUpdate2.emit(this.accounts[id]); */
   
 }
 

@@ -5,13 +5,13 @@ export class Ingredient {
     public name: string;
     public amount: number;
 
-    constructor(name: string, amount: number) {        
+    constructor(name: string, amount: number) {
 
         if (amount > 0 && name !== '') {
             this.name = name;
             this.amount = amount;
             this.id = this.lastId();
-            
+
         } else {
             this.error();
         }

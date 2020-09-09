@@ -41,6 +41,7 @@ import { runInThisContext } from 'vm'; */
   ];
 
   onChange = new Subject<Post[]>();
+  IncrementalChange = new Subject<number>();
   randomSub = new Subject<boolean>();
   viewPost = new Subject<Post>();
   logeado = new Subject<boolean>();
@@ -425,11 +426,13 @@ getTodosPost() {
 }
    /*///////////  Upload image IMAGEN//////////////////////////*/
    uploadImag(images: Image[]): void {
+     console.log('length');
+     
     for (const oneImg of images) {
       oneImg.uploading = true;  // avisa que se esta subiendo imagen file, no se si mejor lo borro.
       // Absajo, creamos un nombre con el titulo de la imagen para que sea unico, gracias al metodo de abajo
       const filePathName = this.generateNameImage(oneImg.title);
-      const fileRef = this.storage.ref(filePathName); // creamos una referenci a la ruta donde la guardaremos
+      const fileRef = this.storage.ref(filePathName); // creamos una referencia a la ruta donde la guardaremos
       const task = this.storage.upload(filePathName, oneImg.file); // sube la imagen aca con esos datos
 
       oneImg.uploadPercent = task.percentageChanges(); // devuelve esto que sirve para mostrar la barra de carga

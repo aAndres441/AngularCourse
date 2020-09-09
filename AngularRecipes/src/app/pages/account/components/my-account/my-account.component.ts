@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 import { OldAccountService } from 'src/app/shared/services/oldAccount.service';
 import { AccountService } from 'src/app/shared/services/account.service';
@@ -16,25 +16,24 @@ import { Account } from '../../account.Model';
 
 
 })
-export class MyAccountComponent implements OnInit {
+export class MyAccountComponent implements OnInit, OnDestroy {
 
   @Input() account: {id: number,  name: string, status: string };
   @Input() id: number;
   private postAccount: Subscription;
   unaAccount: Account;
 
-  
 
 /*   @Output() statusChanged = new EventEmitter<{ id: number, newStatus: string }>();
  */
   constructor( private servicio: AccountService) { }
 
   ngOnInit() {
-    /* this.postAccount = this.servicio.onChangeAcou
+    this.postAccount = this.servicio.onChangeAcou
     .subscribe((pp) => {
       this.unaAccount = pp;
     });
-    alert(this.unaAccount.name + ' es el name '); */
+   // alert(this.unaAccount.name + ' es el name ');
   }
 
   onSetStatus(newStatus: string) {
@@ -53,10 +52,10 @@ export class MyAccountComponent implements OnInit {
          // this.account.status = unStatus,
          alert('status From my account: ' + this.account.status + '..'),
          console.log('status From my account: ' + this.account.status + '..')
-         
-
-    );
-
+     );
+  }
+  ngOnDestroy() {
+    this.postAccount.unsubscribe();
   }
 
 }

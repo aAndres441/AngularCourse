@@ -1,8 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';/* 
-import { HttpClientModule } from '@angular/common/http'; */
+import { RouterModule } from '@angular/router';
+/*import { HttpClientModule } from '@angular/common/http'; */
 
 import { MyTestModule } from './my-test/my-test.module';
 import { GameModule } from './game/game.module';
@@ -68,11 +68,11 @@ const MODULES = [
 ];
 
 @NgModule({
-  
+
   providers: [
     AuthGuard
   ],
-  
+
   declarations: [
     ...COMPONENTS,
   ],
@@ -80,13 +80,13 @@ const MODULES = [
   imports: [
     ...MODULES
   ],
-  
+
   exports: [
     ...COMPONENTS,
     ...MODULES
   ],
 
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-  
+
 })
 export class SharedModule { }

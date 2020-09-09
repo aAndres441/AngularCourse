@@ -176,16 +176,17 @@
                 <input 
                     class="form-control"
                     formControlName= "nombre"
-                    name="nombre"                    
-                    type="text" id="nombre"
+                    name="nombre" required                   
+                    type="text" id="nombre" #nombre
                     placeholder="Nombre" title="Nombre">
             </div>
             <span class="help-block" style="color: red;"
                   *ngIf="!fgNew.get('nombre').valid && fgNew.get('nombre').touched">                  
                             <span *ngIf="fgNew.get('nombre').errors['required']">Nombre requerido si o si</span>                 
-                            <span *ngIf="fgNew.get('nombre').errors['nameMaxLength']">Largo max 20</span>
-                            <span *ngIf="fgNew.get('nombre').required">Req</span>
-                            <span *ngIf="fgNew.get('nombre').minLength">Min 4</span>
+                            <span *ngIf="fgNew.get('nombre').errors['nameMaxLength']">Largo max 8</span>
+                            <span *ngIf="fgNew.get('nombre').errors['nameMaxLength']">Largo max 8</span>
+                            <!-- <span *ngIf="fgNew.get('nombre').required">Req</span>
+                            <span *ngIf="fgNew.get('nombre').minLength">Min 4</span> -->
                             <span *ngIf="fgNew.get('nombre').errors['nombreProhibido']">No puede ingresar ese nombre</span>
                             <span *ngIf="fgNew.get('nombre').errors['nameIsForbiddenObject']">Imposible nombre</span>
             </span>
@@ -246,7 +247,7 @@
             <br><br>
             <div class="row">
                 <div class="form-group">
-                    <div class="col-xs-6 col-xs-offset-1">
+                    <div class="col-xs-6 col-xs-offset-2">
                         <label for="rating">Rating</label>
                     </div>
                     <div class="col-xs-4">
@@ -286,6 +287,7 @@
                 <div class="col-xs-12" 
                     formArrayName="ingres">  <!-- este es del control ts y le asigno esos nombres a c/control --> 
                     <label for="">Ingredientes</label> 
+                    <!-- *ngFor="let ingCtrl of fgNew.get('ingres').controls; let i = index"  -->
                     <div class="row" 
                         *ngFor="let ingCtrl of fgNew.get('ingres').controls; let i = index" 
                         [formGroupName]="i"
@@ -295,11 +297,11 @@
                             <input type="text" 
                                 class="form-control" 
                                 formControlName="name" 
-                                placeholder="Ingtredient" id="name">
+                                placeholder="Ingtredient" id="name" #name>
                         </div>
                         <!-- <span class="help-block" style="color: red;"
-                             *ngIf="!fgNew.get('ingres.name').valid">
-                            name invalid
+                             *ngIf="!fgNew.get('ingres.name').valid && fgNew.get('ingres.name').touched">
+                            ingred name invalid
                         </span> -->
                         <div class="col-xs-3">
                             <input type="number" 

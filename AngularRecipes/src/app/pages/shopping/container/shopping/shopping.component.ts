@@ -1,15 +1,16 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, OnDestroy } from '@angular/core';
 import { Ingredient } from 'src/app/shared/ingredient/ingredient.model';
 import { ShoppingService } from '../../services/shopping.service';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-shopping',
   templateUrl: './shopping.component.html',
   styleUrls: ['./shopping.component.css']
 })
-export class ShoppingComponent implements OnInit {
-  
+export class ShoppingComponent implements OnInit, OnDestroy {
+
   title = 'SHOPPING';
 
 /* @Output() agrega = new EventEmitter<{name: string, amount: number}>(); */
@@ -18,7 +19,7 @@ iWantAdd: boolean;
 textoError = '';
 ingredients: Ingredient [] = [];
 elem: Ingredient;
-
+private unTexto: Subscription; // para suscribir unTexto string del servicio
 
 constructor(private service: ShoppingService,
             private route: ActivatedRoute,
@@ -32,10 +33,13 @@ constructor(private service: ShoppingService,
           this.newIngredAdded = ingred;
         }); */
 
-   /*  this.service.errorToAdd.subscribe(
+    this.unTexto = this.service.unText
+    .subscribe(
       (data: string) => {
         this.textoError = data;
-      }); */
+      });
+
+    alert(this.ingredients.length);
 
   }
 
@@ -48,7 +52,7 @@ constructor(private service: ShoppingService,
     alert('SE ELIMINA PAN 2' + this.ingredients.length);
     alert('SE ELIMINA PAN' + this.elem.name);
   }
-  
+
   edit() {
     this.router.navigate(['/shopping','id', 'edit'],
     // '../', this.id, 'edit'
@@ -69,4 +73,9 @@ constructor(private service: ShoppingService,
      );
   }
  /* queryParamsHandling: 'preserve' */
+
+ ngOnDestroy(): void {
+  this.unTexto.unsubscribe();
+}
+
 }

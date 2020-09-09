@@ -11,7 +11,7 @@
     </div>
 
     <hr style="border: blueviolet 2px dotted;">
-
+    
     <div class="row">
        
         <div class="col-xs-12 col-sm-6" >
@@ -21,6 +21,11 @@
                 [txtError]="textoError">
             </app-shopping-list>
             <br>
+           <!--  *ngIf="ingredients; else infoText" 
+                (delete)="onDelete($event)" 
+                [txtError]="textoError">
+            SI SACO ESTO ESTA BIEN PUES AHORA NO USA EMITTER SINO Subscription DEL SERVICIO
+            <br> -->
             <ng-template #infoText>
                 <p>Please add a ingredient </p>
             </ng-template>
@@ -30,8 +35,8 @@
             <app-shopping-edit>
             </app-shopping-edit>
         </div>
-
     </div>
     
+<p>{{textoError}}+ textoError</p>
     
 </div>

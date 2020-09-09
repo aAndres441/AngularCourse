@@ -17,9 +17,11 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
 misIngredientes: Ingredient[];
 private ingChangeSubscrib: Subscription; // para desuscribir ingredientsChange2 del servicio
+private otroText: Subscription; // para desuscribir ingredientsChange2 del servicio
 
-@Input() txtError = 'HOLA';
-txtError2 = 'HOLA';
+@Input() txtError = 'HOLA1';
+txtError2 = 'HOLA2';
+otroText2 = '';
 
 constructor(private servicio: ShoppingService) { }
 
@@ -36,6 +38,12 @@ constructor(private servicio: ShoppingService) { }
       }
     );
     this.misIngredientes = this.servicio.getIngredients();
+    /* invento subs */
+    this.otroText = this.servicio.unText
+    .subscribe(
+      (valor: string) => {
+        this.otroText2 = valor;
+      });
   }
 
  /* no los uso por ahora*/
@@ -59,12 +67,14 @@ constructor(private servicio: ShoppingService) { }
 /* agrego este subject en el servicio para escucharlo donde quiera,
  sera en shoppingComponent, en su onInit() ver*/
 this.servicio.startIngredEdit.next(index); // .next(index); o (ingred.id)
+this.servicio.unText.next('FENIX list');
 // alert(' shopping-list id= ' + index + ' ok');
   }
 
 
   ngOnDestroy() {
     this.ingChangeSubscrib.unsubscribe();
+    this.otroText.unsubscribe();
   }
 
 }

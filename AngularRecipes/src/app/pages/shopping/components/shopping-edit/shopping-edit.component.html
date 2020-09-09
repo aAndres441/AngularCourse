@@ -27,7 +27,8 @@
                 >
             </div>            
             <span class="help-block" style="color: red;"
-                *ngIf="!name.valid && name.touched">Invalid name
+                *ngIf="!name.valid && name.touched">
+                Invalid name
             </span>
             <div class="col-sm-5 form-group">
                 <!-- <label for="name">Name</label> -->
@@ -42,8 +43,49 @@
             <!--  required
                 pattern="^[1-9]+[0-9]*$" -->
             <span class="help-block" style="color: red;"
-                *ngIf="!amount.valid && amount.touched">Invalid amount
+                *ngIf="!amount.valid && amount.touched">
+                Invalid amount
             </span>
+            <br>
+            <!-- ACA abajo uso el helper incremental como componente reusable -->
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="name">STOCK increment</label>
+                </div>
+                <div class="col-xs-6 col-md-6" style="border: 1px solid yellow">
+                    <app-incremental 
+                        class="form-control"
+                        ngModel                
+                        name="stockIncremental"
+                        required
+                        #stockIncremental="ngModel"
+                        id="stockIncremental"
+                    >
+                </app-incremental>
+                </div>
+                <span class="help-block" style="color: rgb(202, 233, 92);"
+                    *ngIf="!stockIncremental.valid && stockIncremental.touched">
+                    Invalid stock
+                </span>
+                <!-- termina incremental -->
+                <br>
+                <div class="col-sm-4">
+                    <label for="name">STOCK</label>
+                </div>
+                <div class="col-sm-5 form-group">                    
+                    <input class="form-control"
+                    ngModel                
+                    name="stock"
+                    required
+                    #stock="ngModel" 
+                    pattern="^[1-9]+[0-9]*$"
+                    type="number"  id="stock" placeholder="stock">
+                </div>
+                <span class="help-block" style="color: rgb(114, 188, 248);"
+                    *ngIf="!stock.valid && stock.touched">
+                    Invalid stock
+                </span>
+            </div>
             
             <div class="row">
                 <div class="col-xs-12" style="text-align:center; margin: auto;">

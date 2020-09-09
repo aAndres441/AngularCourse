@@ -80,8 +80,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loggeado = res;
       });
 
-      /* termina OnInit() */
-  }
+  } /* termina OnInit() */
 
   ngOnDestroy(): void {
    this.postSubscription.unsubscribe();
@@ -227,7 +226,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload() {
       this.router.navigate(['home'], {
-        /* relativeTo: this.route, 
+        /* relativeTo: this.route,
         queryParams: { ID: '1973' },
          fragment: 'Mal'
        }); */

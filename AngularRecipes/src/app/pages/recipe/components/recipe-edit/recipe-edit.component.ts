@@ -21,7 +21,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   recipeName: string;
   numbers = [1, 2, 3];
   /* myObsInterval: Subscription;*/
-  
+
   // recipe1: Recipe;
   formNewRecipe: FormGroup;
 
@@ -31,7 +31,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   imgDefault = 'src\assets\Imagenes\flor Pajarito.jpg';
 
   @ViewChild('formEdit') f: NgForm;
- /* esto puedo borrrars solo entrevera  
+ /* esto puedo borrrars solo entrevera
   @ViewChild('descriptionEdit', { static: false }) descriptionEdit: ElementRef;
   @ViewChild('descripEdit', { static: false }) descripEdit: ElementRef;
   @ViewChild('idEdit2', { static: false }) idEdit: ElementRef; */
@@ -61,26 +61,26 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
     this.myObsInterval = interval(1000).subscribe(count => {
       alert(count + ' yes');
    } ); */
-   
+
 
     // recupero id del parametro
     this.route.params.subscribe(
       (param: Params) => {
         this.id = +param.id;
         /* alert('PARAMS= ' + param.id + 'frag ' + param.name);
-        
+
         this.recipeName =  param.fragment; */
         // this.idEditDefault = +param.id;
 
         this.editMode = param.id != null;  // editMode sera true si hay id
-        
+
         this.initForm();  // estoy usando esto
-        
+
         /* this.router.navigate(['recipes', this.id , 'edit'], {
           queryParams: { ID: this.id },
           fragment: 'editing'
         }); */
-        // editMode es true si al comparar param.id con null  me devuelve algo. 
+        // editMode es true si al comparar param.id con null  me devuelve algo.
         /* this.status = 'Ocupado' ? 'Libre' : 'Ocupado'; */
         // console.log(this.editMode);
 
@@ -114,7 +114,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
       /* New recipe, reactive, no lo estoy usando */
     /* this.formNewRecipe = new FormGroup({
         name: new FormControl('Rabos', Validators.required),
-        description: new FormControl(null, [Validators.required, 
+        description: new FormControl(null, [Validators.required,
                           this.notValidtDescrip.bind(this),
                           Validators.maxLength(10)]),
         ingredients: new FormControl(null, Validators.required),
@@ -127,9 +127,9 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
       ); */
 
       /********************New recipe form reactive********************** */
-   
+
       /* CREO un metodo initForm() que lo inicia si es editMode o no */
-      
+
      /* solo para mostrar */
     /* this.fgNew.statusChanges.subscribe(
       (value) => alert(value)
@@ -145,7 +145,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
     let recipeImagenPath = '';
     let recipeDecripBuscada = '';
     let recipeBuscadaRating = null;
-    let recipeIngredientsBuscado = new FormArray([]);
+    const recipeIngredientsBuscado = new FormArray([]);
 
     if (this.editMode) {
       this.title = 'My Recipe';
@@ -169,7 +169,8 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
 
     this.fgNew = new FormGroup({
       nombre: new FormControl(recipeNameBuscado, [Validators.required,
-                            Validators.minLength(4),
+                            Validators.minLength(5),
+                            Validators.minLength(6),
                             ValidatorsRecipes.nameLength,
                             this.forbbidenNames.bind(this),
                             ValidatorsRecipes.nameForbidden]),
@@ -177,7 +178,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
                                                         ValidatorsRecipes.descMaxLength]), // , Validators.minLength(4)
       imagePath: new FormControl(recipeImagenPath, [Validators.required]), // , Validators.pattern(/^[1-9]+[0-9]*$/)
       rating: new FormControl(recipeBuscadaRating, Validators.required),
-      ingres: recipeIngredientsBuscado
+      ingres: recipeIngredientsBuscado  // se agregaran en el onAddIngredient()
     });
     /* ---termina initForm --------------- */
   }
@@ -185,7 +186,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
   /* ngOnDestroy(): void {
     this.myObsInterval.unsubscribe();
   } */
-  
+
   /* --------------- para form reactive  ((ACTUAL))  ---------------- */
   onSubmitThisRecipe() {
     this.submitted = true;
@@ -197,6 +198,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
                   this.fgNew.value.imagePath,
                   this.fgNew.value.rating,
                   this.fgNew.value.ingres);
+    alert(`RECIPE ${newReci.name}.${newReci.ingredients.length}`);
     if (this.editMode) {
       this.servicio.updateRecipe(this.id, newReci); // this.fgNew.value || newReci
     } else {
@@ -204,13 +206,13 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
     }
      // llamo al cancel() al terminar el submit y asi vuelve a tras
     this.onCancel();
-  }  
+  }
 
   onCancel() {
     // this.fgNew.reset();
     this.router.navigate(['../'], {relativeTo: this.route});
   }
-  
+
   onAddIngredient() {
    /*   const control = new FormControl(null, Validators.required);
      this.getControls().push(control);
@@ -222,9 +224,9 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
         amount: new FormControl(null, [Validators.required,
                               Validators.pattern(/^[1-9]+[0-9]*$/)])
       })
-    );      
+    );
     /* alert ('SON ' + control.value ); */
-/* 
+/*
      alert('esto' + this.fgNew.get('nombre').value);
      alert('tambien ' +  this.fgNew.value.nombre);
      alert('Ahora ' +  this.fgNew.controls.name.value); */
@@ -253,15 +255,15 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
 
    /*  this.nameEditDEfault = this.f.value.nameEdit;
     this.recipe2.name = this.f.value.nameEdit;*/
- 
-    alert('First name initial ' + this.recipe2.name.charAt(0) + '---');   
-    ///this.f.reset();
+
+    alert('First name initial ' + this.recipe2.name.charAt(0) + '---');
+    // this.f.reset();
   }
-  
+
   addValuea() {
     // alert(1 + this.f.status);
     // alert(4 + this.f.value.nameEdit);
-  
+
     const suggestedName = 'Superuser';
     alert('pasa al edit');
     this.f.form.patchValue({
@@ -305,7 +307,7 @@ export class RecipeEditComponent implements OnInit { // , OnDestroy
 
   /*   ----------------  no lo estoy usando, solo prueba ------------------*/
   get controls() { // a getter!
-    return (this.fgNew.get('ingredients') as FormArray).controls;
+    return (this.fgNew.get('ingres') as FormArray).controls;
   }
   getControls() {
     return (this.fgNew.get('ingredients') as FormArray).controls;
