@@ -179,7 +179,15 @@
         *ngIf="!newPost.get('imagePost').valid && newPost.get('imagePost').touched">
         Required URL
       </span>
+      
+      <hr>
     </div>
+    <!-- progress-bar -->
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+      [style.width]="(uploadPercent | async) + '%'">
+      </div>
+    </div>    
 
     <hr>
     <!--     <span class="pull-right">

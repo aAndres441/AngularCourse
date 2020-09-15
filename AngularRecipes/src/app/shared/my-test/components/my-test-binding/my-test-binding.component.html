@@ -42,6 +42,14 @@
         </div>
     </div>
 
+    <hr style="border: rgb(226, 214, 43) dotted  3px;">
+     <label style="text-align: center;">This is a SWITCH, you must write 'a' or 'b' </label>
+    <div class="container" style="border: 1px solid yellow">
+        <input type="text"id="lolo" #lolo placeholder="Escribe que Sera" style=" width:30%">
+        <button class="btn btn-danger" style=" width:70%" (click)="queEs(lolo.value)">que Es</button>
+        <input type="text" [value]="lolo.value" style=" width:40%">
+        <input type="text" [value]="esOno" style=" width:40%"> 
+    </div>
     <hr style="border: rgb(226, 43, 195) dotted  3px;">
 
     <div class="row">

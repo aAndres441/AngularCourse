@@ -18,7 +18,8 @@ import { Post } from '../../post.model';
 @Component({
   selector: 'app-logged',
   templateUrl: './logged.component.html',
-  styleUrls: ['./logged.component.css']
+  styleUrls: ['./logged.component.css'],
+  providers: []
 })
 export class LoggedComponent implements OnInit {
 
@@ -32,6 +33,11 @@ export class LoggedComponent implements OnInit {
   uploadPercent: Observable<number>;
   imgUrl: Observable<string>; // sera Url de la imagen subida al storage
 
+  /* TODO para cargar imagen con directiva */
+  imageLista: Image[] = [];
+  isOverDropArrastrado = false; // controla cuando entra el raton
+
+  imagenUsadaDirectiv: Image;
   imgParaLoad: any;
   imgParaLoadnombre = '';
   imgTimeStamp = '';
@@ -112,7 +118,7 @@ export class LoggedComponent implements OnInit {
     this.afAuth.signOut();
   }
 
-  /* Carga imagen en el Storage */
+  /* Carga imagen en el Storage , mas abajo carga una sola imagen en onUpload()*/
   onLoadImg(event: any) {
      /* solo usare del parametro event en console, el target,
      de aca el files y el que esta en primer lugar que es su nombre */
@@ -128,7 +134,6 @@ export class LoggedComponent implements OnInit {
     const file = event.target.files[0]; // el mismo elemento imagen
     const filePath = `uploads/profileId_${idAleatorio}`; // crea una carpeta y sera la ruta
     const refStorage = this.storage.ref(filePath); // referencia
-
     const task = this.storage.upload(filePath, file); // con esto sube la imagen con su ruta y la imagen
 
     /* guarda el porcentaje de subida, no lo estoy usando, pero si lo uso en service */
@@ -144,8 +149,13 @@ export class LoggedComponent implements OnInit {
 
     alert('Subiendo ' + this.imgParaLoadnombre + '..' + this.imgParaLoad + ' time: ' + this.imgTimeStamp );
 
-    this.service.uploadImag(this.imgParaLoad);
+    // this.service.uploadImag(this.imgParaLoad);
     // this.service.uploadImag2(event);
+  }
+
+  /* carga una imagen, ademas usa directiva */
+  onUpload(): void {
+    this.service.uploadImag(this.imageLista); // le pasamos una o mas imagenes
   }
 
   /* registra usuario y su imagen mas arriba */
@@ -171,6 +181,7 @@ export class LoggedComponent implements OnInit {
       }). catch (err => console.log('err', err.message));
   }
 
+  /* TODOS INVENTOS */
   buscarRestaurant(title: string) {
     // invento todo esto
     const query = `SELECT * FROM POSTS WHERE title LIKE${title}LIMIT 10`;
@@ -179,6 +190,11 @@ export class LoggedComponent implements OnInit {
     };
     this.title = res[0].substr(1, 5);
  }
+ deleteUser() {
+ alert('Aca va al invento del serviciom');
+ this.service.deleteUser('dato');
+ }
+  /* TERMINA TODOS INVENTOS */
 
  /*  $("#btnMostrar").show();
   $("#panelLog").hide(); */

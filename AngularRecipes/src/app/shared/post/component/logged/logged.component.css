@@ -9,7 +9,7 @@ input[type=text], input[type=password] {
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 1px solid rgb(140, 163, 85);
   box-sizing: border-box;
 }
 
@@ -23,6 +23,55 @@ button {
   cursor: pointer;
   width: 100%;
 }
+/* boton directiva */
+#directiva{
+  background-color: khaki;
+  background: khaki linear-gradient(90deg,rgb(161, 226, 175), rgb(194, 191, 28)) repeat-y;
+  color: cyan;
+  font-size: 22px;
+}
+.card{
+  height: 350px;  
+}
+.card-header {
+  text-transform: uppercase;
+  background: lightblue linear-gradient(180deg,rgb(103, 231, 131), rgb(28, 194, 28)) repeat-x;
+  border-color: blue;
+  height: 3.5rem;
+  color: aliceblue;
+  font-size: 1rem;
+  font-weight: bold;
+}
+ .drop-zone {
+  margin-top: 2rem;
+  border: dotted 2px rgb(230, 245, 16);
+  color: rgb(212, 27, 236);
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.subir{
+  width: 30%;
+  border-radius: 50%;
+}
+ .card-body {
+  /* flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  border-left: solid 1px red;
+}
+ .container-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table {
+  padding-top: 2rem;
+}
+/* termina directivas */
 
 /* Add a hover effect for buttons */
 button:hover {
@@ -52,7 +101,7 @@ button:hover {
 
 /* Avatar image */
 img.avatar, .fenix {
-  width: 20%;
+  width: 30%;
   border-radius: 50%;
 }
 

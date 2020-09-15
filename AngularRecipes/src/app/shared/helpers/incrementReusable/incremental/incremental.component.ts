@@ -55,7 +55,7 @@ export class IncrementalComponent implements OnInit, ControlValueAccessor {
     this.myOnTouch = fn;
   }
 
-  setDisabledState?(state: boolean): void {
+  setDisabledState(state: boolean): void {
     this.isDisabled = state;
   }
 

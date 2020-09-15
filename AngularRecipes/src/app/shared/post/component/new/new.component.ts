@@ -10,6 +10,8 @@ import { PostService } from '../../../services/post.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialogModule, MatDialogConfig, MatDialog  } from '@angular/material/dialog';
 import { ModalComponentComponent } from 'src/app/shared/modal/modal-component/modal-component.component';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new',
@@ -29,6 +31,13 @@ export class NewComponent implements OnInit, OnDestroy {
   submitted = false; // solo para cambiar valor de envio
   editMode = false;
   title = ' New Post';
+
+  uploadPercent: Observable<number>;
+  imgUrl: Observable<string>; // sera Url de la imagen subida al storage
+  imgParaLoad: any;
+  imgParaLoadnombre = '';
+  imgTimeStamp = '';
+
   incrementa = 10;
   incrementaString = this.incrementa.toString();
   private incremenSuscripcion: Subscription;
@@ -44,7 +53,8 @@ export class NewComponent implements OnInit, OnDestroy {
   constructor(private service: PostService,
               private route: ActivatedRoute,
               private router: Router,
-              private matDialog: MatDialog
+              private matDialog: MatDialog,
+              public storage: AngularFireStorage
               ) { }
 
   ngOnInit() {
@@ -178,9 +188,40 @@ export class NewComponent implements OnInit, OnDestroy {
     alert(this.editMode + 'EDIT ');
   }
 
-  handleImage() {
+  handleImage(event: any) {
+    /* solo usare del parametro event en console, el target,
+    de aca el files y el que esta en primer lugar que es su nombre */
 
+   console.log('sube ' , event.target.files[0], 'Todo ' , event);
+   this.imgParaLoad = event.target.files[0];
+   this.imgParaLoadnombre = event.target.files[0].name;
+   this.imgTimeStamp = event.timeStamp;
+   console.log('timeStamp ' , event.timeStamp, + '..', this.imgParaLoad);
+
+   const idAleatorio = Math.random().toString(36).substring(2);
+   const file = event.target.files[0]; // el mismo elemento imagen
+   const filePath = `uploads/profileId_${idAleatorio}`; // crea una carpeta y sera la ruta
+   const refStorage = this.storage.ref(filePath); // referencia
+
+   const task = this.storage.upload(filePath, file); // con esto sube la imagen con su ruta y la imagen
+
+    /* guarda el porcentaje de subida, no lo estoy usando, pero si lo uso en service */
+   this.uploadPercent = task.percentageChanges();
+
+    /* aca obtenemos la ruta de la imagen */
+   task.snapshotChanges()
+      .pipe(finalize(() => {
+        this.imgUrl = refStorage.getDownloadURL();
+        console.log('snapshotChanges', this.imgUrl);
+      }))
+      .subscribe();
+
+   alert('Subiendo ' + this.imgParaLoadnombre + '..' + this.imgParaLoad + ' time: ' + this.imgTimeStamp);
+
+   this.service.uploadImag(this.imgParaLoad);
+    // this.service.uploadImag2(event);
   }
+
 
   changeName(event: Event) {   // solo para mostrar el input del htmml
     this.title = (event.target as HTMLInputElement).value;
@@ -192,7 +233,8 @@ export class NewComponent implements OnInit, OnDestroy {
     this.incrementa --;
     this.service.IncrementalChange.next(this.incrementa);
     /* this.incrementaString = this.incrementa.toString(); */
-
+    this.myOnTouch();
+    this.myOnChange(this.incrementa);
     console.log(this.incrementa);
  }
 
@@ -200,6 +242,10 @@ export class NewComponent implements OnInit, OnDestroy {
    this.incrementa ++;
    this.service.IncrementalChange.next(this.incrementa);
     /* this.incrementaString = this.incrementa.toString(); */
+
+   this.myOnTouch();
+   this.myOnChange(this.incrementa);
+
    console.log(this.incrementa);
 }
   myOnChange = (_: any) => {};  // es una funcion vacia que recibe un valor any

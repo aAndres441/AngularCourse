@@ -2,21 +2,20 @@ import { Image } from '../image.model';
 
 export class ImageValidator {
 
-    private acceptType = ['image/jpg', 'image.png'];
+    private acceptType = ['image/jpg', 'image/png'];
 
-    validateType(fileType: string): boolean {
+    validateType(tipoArchivo: string): boolean {
 
-        /* return fileType === '' || fileType === undefined ? false : true;
-        si pasa tipo imagen que no esta devuelve false sino true por estar incliudo en acceptType*/
+        /* return tipoArchivo === '' || tipoArchivo === undefined ? false : true;
+        si pasa tipo imagen vacio o undefined retorna false sino true por el includes en array acceptType*/
 
-        return fileType === '' || fileType === undefined
+        return tipoArchivo === '' || tipoArchivo === undefined
             ? false
-            : this.acceptType.includes(fileType);
+            : this.acceptType.includes(tipoArchivo);
     }
 
-
     // comprueba si la imag tiene cargada igual nombre a las que estan en el array
-    checkDropped(fileName: string, files: Image[]): boolean {
+    checkNameRepit(fileName: string, files: Image[]): boolean {
         let res = false;
         for (const fil of files) {
             if (fil.title === fileName) {

@@ -1,27 +1,93 @@
 <p>logged works!</p>
-
+<div class="container" style="background-color: deepskyblue;">
+  <!-- Directiva de nombre appImage desde helper-->
+  <button class="btn btn-primary" appImage id="directiva">
+    Directiv download img
+  </button>
+  <hr>
+  <div class="row">
+    <div class="col-xs-4 col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h4>Files</h4>
+        </div>
+        <div class="card-body">
+          <div class="drop-zone">
+            <span>Drop Zone</span>
+            <h4>Drop your images</h4>
+            <img src='\assets\Imagenes\nube.jpg' alt="Subir ficheros" class="subir">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-8 mt-5 col-md-8 mt-5">
+      <div class="card">
+        <div class="card-header">
+          <h4>Files to Upload</h4>
+        </div>
+        <div class="card-body" *ngIf="imgParaLoad" >
+          <h4  style="margin-top: 2rem;">Files</h4>          
+          <table class="table">
+            <thead>
+              <tr>
+                <th>File name</th>
+                <th>Size</th>
+                <th>Progress</th>
+                <th>URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{imgParaLoad.name}}</td>
+                <td>{{imgParaLoad.size}}</td>
+                <td>{{imgParaLoad.uploadPercent}}
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-success" 
+                    role="progressbar" 
+                    [style.width]="(uploadPercent | async) + '%'">>
+                    </div>
+                  </div>
+                </td>
+                <td>{{imgParaLoad.type}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="container-buttons">
+            <button class="btn btn-danger" 
+              (click)="imageLista=[]"> <!-- Limpia el array de imagenes del ts -->
+              Clean All
+            </button>
+            <button class="btn btn-primary" 
+              (click)="onUpload()"
+              [disabled]="imageLista.length===0"> 
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <hr>
 <div id="panelLog">
-
-  <div>
-    <p id="root"> bbbbb
-    </p>
-  </div>
-
-  <div id="root2" style="max-width: 110px">
-    <h1 id="email"> cdcdc</h1>
-  </div>
 
   <p id="pMostrarLogueado"></p>
 
-  <hr>
-    <div><app-incremental></app-incremental></div>
-    <div><app-count-click></app-count-click></div>
-    <div><app-star></app-star></div>
+  <div class="container" style="border: 1px solid orange">
+    <p>app-incremental y app-count-click</p>
+    <app-incremental></app-incremental>
+  </div>
+  <div>
+    <app-count-click></app-count-click>
+  </div>
+  <div>
+    <app-star></app-star>
+  </div>
   <hr>
 
   <form action="action" method="post">
 
-    <div class="imgcontainer">
+    <div class="imgcontainer" >
       <!-- <img src="img_avatar2.png" alt="Avatar" class="avatar"> -->
       <img src='assets\Imagenes\centro-atletico-fenix.jpg' alt="Fenix" class="fenix">
     </div>
@@ -29,15 +95,13 @@
     <div class="container">
       <!-- // la clase container deja mas chico el div -->
       <label for="txtUserName"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" 
-        id="txtUserName" #txtUserName name="txtUserName" required>
+      <input type="text" placeholder="Enter Username" id="txtUserName" #txtUserName name="txtUserName" required>
 
       <label for="txtEmail"><b>E-mail</b></label>
       <input type="text" id="txtEmail" #txtEmail name="txtEmail" placeholder="Email">
 
       <label for="slcSexo"><b>Gender</b></label>
-      <select id="slcSexo" name="slcSexo" #slcSexo 
-        data-role="slider" style=" width: 100% ; display: block;">
+      <select id="slcSexo" name="slcSexo" #slcSexo data-role="slider" style=" width: 100% ; display: block;">
         <option value="" [disabled]>Select one</option>
         <option value="Hommo">Hombre</option>
         <option value="Women">Mujer</option>
@@ -45,33 +109,30 @@
       </select>
 
       <label for="txtpsw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" 
-         #txtpsw required>
-         
-         <!-- elijo una imagen y con change llama al metodo que le pasa el evento -->
-      <label for="imagen"><b>Choose imagen</b> </label>
-      <input type="file" name="imagen" id="imagen" 
-        accept=".jpg, .png" 
-        (change)="onLoadImg($event)" >   
+      <input type="password" placeholder="Enter Password" #txtpsw required>
 
-        <br>
+      <!-- elijo una imagen y con change llama al metodo que le pasa el evento -->
+      <label for="imagen"><b>Choose imagen</b> </label>
+      <input type="file" name="imagen" id="imagen" accept=".jpg, .png" (change)="onLoadImg($event)">
+
+      <br>
 
       <!-- progress-bar -->
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
-        [style.width]="(uploadPercent | async) + '%'">
+      <div class="progress mt-12"> <!-- seria margin top = 12 -->
+        <div class="progress-bar progress-bar-striped bg-success" 
+            role="progressbar"
+          [style.width]="(uploadPercent | async) + '%'">
         </div>
       </div>
-      
-        <hr>
-        <!-- Solo para ver la imgUrl -->      
+
+      <hr>
+      <!-- Solo para ver la imgUrl -->
       <div *ngIf="imgUrl | async; then btnDisable1 else btnDisable2"></div>
-                 
+
       <div>
         <ng-template #btnDisable1>
           <button class="btn btn-danger" id="btnAncor" style="display: block; background-color: brown; width: 100%;"
-            [disabled]='!imgUrl' 
-            (click)='registerUser()'>
+            [disabled]='!imgUrl' (click)='registerUser()'>
             <i class="fa fa-anchor" style="font-size: 24px;"></i>
             Register
           </button>
@@ -79,22 +140,21 @@
           <input type="text" [value]="imgUrl | async" #imagUrl>
 
           <span class="pull-right" style="display: block;">
-            <div class="imgcontainer" >
+            <div class="imgcontainer">
               <img [src]=imgParaLoad alt="{{imgParaLoadnombre}}" class="fenix">
               <!-- class="img-responsive" style="max-height: 150px;" -->
             </div>
           </span>
         </ng-template>
-  
+
         <ng-template #btnDisable2>
-          <h2>Ant</h2> 
+          <h2>Ant</h2>
         </ng-template>
       </div>
 
       <div class="row">
         <div class="col-xs-6 col-md-6">
-          <button class="btn btn-facebook" style="background-color: rgb(98, 98, 202);"
-             (click)="onLoginFace()">
+          <button class="btn btn-facebook" style="background-color: rgb(98, 98, 202);" (click)="onLoginFace()">
             <a style="color: white">
               <i class="fa fa-child" style="font-size: 24px;"></i>
               Facebook
@@ -102,8 +162,7 @@
           </button>
         </div>
         <div class="col-xs-6 col-md-6">
-          <button class="btn btn-google" style="background-color: rgb(202, 98, 162);" 
-            (click)="onLoginGoogle()">
+          <button class="btn btn-google" style="background-color: rgb(202, 98, 162);" (click)="onLoginGoogle()">
             <a style="color: white">
               <i class="material-icons" style="font-size: 24px;"> transfer_within_a_station</i>
               Google
@@ -123,7 +182,7 @@
 
       <label>
         <input type="checkbox" checked="checked" name="remember">
-         Remember me
+        Remember me
       </label>
     </div>
 
@@ -139,71 +198,72 @@
   <div class="ancla">
     <a href="" (click)="onLogoutFace()"><span>OUT Fecebook</span></a>
   </div>
- 
-  <span class="pull-right">  
-    <img [src]= imgParaLoad alt="{{imgParaLoadnombre}}" class="fenix">
-    <img [src]= imgParaLoad alt="{{imgParaLoadnombre}}" class="img-responsive" style="max-height: 150px;">
-    <img [src]= imgParaLoad alt="{{imgen}}" class="img-responsive" style="max-height: 150px;">
-  </span> 
+
+  <span class="pull-right">
+    <img [src]=imgParaLoad alt="{{imgParaLoadnombre}}" class="fenix">
+    <img [src]=imgParaLoad alt="{{imgParaLoadnombre}}" class="img-responsive" style="max-height: 150px;">
+    <img [src]=imgParaLoad alt="{{imgen}}" class="img-responsive" style="max-height: 150px;">
+  </span>
 
   <!--...................... INVENTO .....................-->
   <hr>
   <label for="title">Change Title <i class="fa fa-tasks"></i></label>
-  <div class="row">        
-  <div class="col-md-6 col-xs-6">        
-    <input type="text" class="form-control" id="title"  name="title"
-      placeholder="Change title" 
-      (input)="changeName($event)" />    
-  </div>        
-  <div class="col-md-6 col-xs-6">
-    <input type="text" [value]="title">
+  <div class="row">
+    <div class="col-md-6 col-xs-6">
+      <input type="text" class="form-control" id="title" name="title" placeholder="Change title"
+        (input)="changeName($event)" />
+    </div>
+    <div class="col-md-6 col-xs-6">
+      <input type="text" [value]="title">
+    </div>
   </div>
-</div> 
-<hr>
+  <hr>
   <!-- ----------------------------------------------------- -->
   <!------------------------  CARGAR DATOS DESDE HTML ----------------- -->
-   <!-- ,,,para pasar data desde HTML referencia -->
-   <div class="row" style="border: solid 1px rgb(233, 11, 185); color: crimson; border-radius: 55%; background-color: darkkhaki; opacity: 66%;">
+  <!-- ,,,para pasar data desde HTML referencia -->
+  <div class="row"
+    style="border: solid 1px rgb(233, 11, 185); color: crimson; border-radius: 55%; background-color: darkkhaki; opacity: 66%;">
     <h4 style="text-align: center;">Example data charge</h4>
-     <div class="col-xs-4 col-sm-4">
-       <input type="text" placeholder="aca es feferencia html"  #desdeHtml >
-     </div>
-     <div class="col-xs-4 col-sm-4">
+    <div class="col-xs-4 col-sm-4">
+      <input type="text" placeholder="aca es feferencia html" #desdeHtml>
+    </div>
+    <div class="col-xs-4 col-sm-4">
       <input type="text" [value]="desdeHtml.value" placeholder="carga del html">
     </div>
-     <div class="col-xs-4 col-sm-4">
+    <div class="col-xs-4 col-sm-4">
       <input type="text" [value]="base" placeholder="carga de prop">
-     </div>
-     <div class="col-xs-8 col-sm-8">
+    </div>
+    <div class="col-xs-8 col-sm-8">
       <button (click)="btnVerDato(txtUserName.value, txtpsw.value, txtEmail.value, slcSexo.value)">Ver datos </button>
-     </div>
-     <div class="col-xs-4 col-sm-4">
+    </div>
+    <div class="col-xs-4 col-sm-4">
       <button (click)="reset()">Reset </button>
-     </div>
-   </div>
-      <hr>        
-      <hr>
+    </div>
+  </div>
+  <hr>
+  <hr>
 </div>
 
 <!-- COMPONENTE REUSABLE app-incremental DESDE HELPERS -->
-<h1>Usando Angular element, componente reusable</h1>
-<div class="container" style="border: 2px solid blueviolet"> 
-  <app-incremental></app-incremental>
-</div>
-<div class="container">
-    <h2>Agrego topo lo que quiera</h2>
-    <button class="btn btn-success" style="width: 80%;">
-      Boton
-    </button>
-
-    <!--  Deberia agregar en modulo de este componente schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]-->
-   <!--  <reusable 
+<div class="container" style="border: 1px solid rgb(162, 226, 43)">
+  <h3>Using Angular element, reusable component, but cannot be shown</h3>
+  <div class="container" style="border: 2px solid blueviolet; display: flexbox;">
+    <app-incremental></app-incremental>
+  </div>
+  <br>
+  <button style="width: 80%;">
+    Nothing
+  </button>
+  <!--  Deberia agregar en modulo de este componente schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]-->
+  <!--  <reusable 
         title='AngularElement' 
         description='Fenix Che' 
         speaker='Andres'>
     </reusable> -->
-
-    
+  <br>
+  <button (click)="deleteUser()">
+    Add User
+  </button>
 </div>
 
 

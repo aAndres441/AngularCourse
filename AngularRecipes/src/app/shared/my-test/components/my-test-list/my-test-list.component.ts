@@ -33,10 +33,10 @@ export class MyTestListComponent implements OnInit {
     /* alert('panel Dice -' + this.panel.nativeElement.textContent); */
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     /* alert('panel Dice  de ngAfterViewInit -' + this.panel.nativeElement.textContent); */
   }
-  ngAfterContentInit(){
+  ngAfterContentInit() {
     /* alert('ngAfterContentInit'); */
     console.log('onAfterViewInit');
     console.log('after content ' + this.myIdContentChild.nativeElement.textContent);
@@ -46,8 +46,8 @@ export class MyTestListComponent implements OnInit {
     this.crearTuna.emit({
       /* Abajo le asigno el valor de input no usando el doubleDataBinding */
       name: address.value,
-      desc: this.newDescription     
-    });   
+      desc: this.newDescription
+    });
   }
 
   onAddCrasas() {
@@ -58,18 +58,16 @@ export class MyTestListComponent implements OnInit {
   }
 
   delete() {
-    alert(+'...'+ this.newPos)
+    alert(+'...' + this.newPos);
     this.deleteListaPlantas.emit(
       {pos: this.newPos
       });
-      
+
    /*  this.newName = '';
     this.newDescription = '';
     this.newPos = -1; */
 
   }
-
-  
 
 
 }

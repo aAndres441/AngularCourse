@@ -33,6 +33,7 @@ import { runInThisContext } from 'vm'; */
   private MEDIA_STORAGE_PATH = 'imagenesUdemy'; // Para crear una carpeta en firebase con ese nombre
 
   downloadUrl: string;
+  private porcentage: Observable<number>;
 
   private posts2: Post[] = [
     new Post ( 100, 'Jorge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
@@ -48,17 +49,17 @@ import { runInThisContext } from 'vm'; */
 
   private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
   private cadena2 = `${environment.firebaseConfig.databaseURL}Jugadores.json`;
+  private cadena3 = `${environment.firebaseConfig.databaseURL}User.json`;
 
   private provideGoogle = new auth.GoogleAuthProvider();
   private provideFace = new auth.FacebookAuthProvider();
 
-   public db = firebase.firestore();
-  // Get a reference to the storage service, which is used to create references in your storage bucket
-   storageGetReference = firebase.storage();
-  // Create a storage reference from our storage service
-   // storageCreateRef = firebase.storage().ref();
-   storageCreateRef = this.storageGetReference.ref();
-
+  public db = firebase.firestore();
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+  storageGetReference = firebase.storage();
+    // Create a storage reference from our storage service
+    // storageCreateRef = firebase.storage().ref();
+  storageCreateRef = this.storageGetReference.ref();
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'User/json' })
@@ -97,10 +98,51 @@ import { runInThisContext } from 'vm'; */
   }
 
 /*const inicio = AngularFireModule.initializeApp(environment.firebaseConfig);*/
+mostrardatos() {
+  console.log('Referencia db ', this.db,
+  'Ref storage ', this.storageCreateRef);
+}
+
+// ************** IMAGENES ****************************
+/*///////////// carga imagen////////////////////// */
+uploadImag2(event: any) {
+  alert('Method not implemented 1' );
+  alert('Method not implemented 2' + event);
+}
+   /*///////////  Upload image IMAGEN metodo que las sube//////////////////////////*/
+  uploadImag(images: Image[]): void {
+    for (const oneImg of images) {
+      oneImg.uploading = true;  // avisa que se esta subiendo imagen file, no se si mejor lo borro.
+      // Absajo, creamos un nombre con el titulo de la imagen para que sea unico, gracias al metodo de abajo
+      const filePathName = this.generateNameImage(oneImg.title);
+      const fileRef = this.storage.ref(filePathName); // creamos una referencia a la ruta donde la guardaremos
+      const task = this.storage.upload(filePathName, oneImg.file); // sube la imagen aca con esos datos
+
+      oneImg.uploadPercent = task.percentageChanges(); // guarda porcentaje para mostrar la barra de carga
+      this.porcentage = task.percentageChanges();
+      task.snapshotChanges()  // abajo es la magia de firebase
+        .pipe(
+          finalize(() => {
+            oneImg.downloadUrl = fileRef.getDownloadURL();
+            oneImg.uploading = false;
+          })
+        ).subscribe();
+    }
+  }
+
+  getPercentage(): Observable<number> {
+    return this.porcentage;
+  }
+  // Genero nombre, para controlar que no se guarden imagenes con igual nombre
+   private generateNameImage(name: string): string {
+     return `${this.MEDIA_STORAGE_PATH}/${new Date().getTime()}-${name}`;
+     // return this.MEDIA_STORAGE_PATH + '/' + new Date().getTime() + '-' + name
+   }
 
 
 /* *******************   ADD or CREATE   ************************* */
- onCreatePost(postData ?: Post) {
+ 
+onCreatePost(postData ?: Post) {
   // Send Http request POST
   this.createPost(postData);
   this.add(postData);
@@ -162,6 +204,7 @@ createPost(postData: Post) {
 /* *******************   GET   ************************* */
 
 getDatabaseDatas() {
+  console.log('Largo desde service ', this.firestore.collection.length);
   return this.firestore.collection.length;
 }
 
@@ -419,41 +462,6 @@ getTodosPost() {
     });
 } */
 
- /*///////////// carga imagen////////////////////// */
- uploadImag2(event: any) {
-  alert('Method not implemented 1' );
-  alert('Method not implemented 2' + event);
-}
-   /*///////////  Upload image IMAGEN//////////////////////////*/
-   uploadImag(images: Image[]): void {
-     console.log('length');
-     
-    for (const oneImg of images) {
-      oneImg.uploading = true;  // avisa que se esta subiendo imagen file, no se si mejor lo borro.
-      // Absajo, creamos un nombre con el titulo de la imagen para que sea unico, gracias al metodo de abajo
-      const filePathName = this.generateNameImage(oneImg.title);
-      const fileRef = this.storage.ref(filePathName); // creamos una referencia a la ruta donde la guardaremos
-      const task = this.storage.upload(filePathName, oneImg.file); // sube la imagen aca con esos datos
-
-      oneImg.uploadPercent = task.percentageChanges(); // devuelve esto que sirve para mostrar la barra de carga
-
-      task.snapshotChanges()  // abajo es la magia de firebase
-      .pipe(
-        finalize(() => {
-          oneImg.downloadUrl = fileRef.getDownloadURL();
-          oneImg.uploading = false;
-        })
-      ).subscribe();
-     }
-  }
-
-  // Genero nombre, para controlar que no se guarden imagenes con igual nombre
-   private generateNameImage(name: string): string {
-     return `${this.MEDIA_STORAGE_PATH}/${new Date().getTime()}-${name}`;
-     // return this.MEDIA_STORAGE_PATH + '/' + new Date().getTime() + '-' + name
-   }
-
-
   ////////////////  USER  /////////////////////////////
 registerUser(email: string, password: string) {
   // tslint:disable-next-line: no-shadowed-variable
@@ -481,6 +489,62 @@ isAuth() {
    // (auth) => firebase.auth)
 }
 
+/*  INVENTO DELETE USER */
+deleteUser(ud: string) { // ej id MEAJzcyoJpxS8MODC0z
+  // const usser =0;
+  const unPostborrar = new Post(44, 'LALA', 'Mayor',
+  'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171');
+  ud = 'MEAJzcyoJpxS8MODC0z';
+  const de = this.db;
+  const db2 = this.firestore.collection('User');
+ /*  console.log('db', db2);
+  console.log('db2', db2);
+  const db3 = this.firestore.collection('Post').add(unPostborrar);
+  console.log('Post', db3);
+  const db4 = this.firestore.collection('Post').doc('-MF6jkTO_WqUkrn-_ob3');
+  console.log(' Name', db4);
+
+  const unUsu1 =  this.db.collection('User').doc(ud).get();
+  const unUsu2 =  db2.doc(ud).snapshotChanges();
+  const unUsu3 =  this.db.collection('User').doc(ud);
+  console.log('el usu1 ', unUsu1);
+  console.log('el usu2 ', unUsu2);
+
+  unUsu3.delete().then(() => {
+    console.log('ELIMINADO');
+  }, (error) => {
+    console.log('ERROR');
+  });
+  */
+/* 0tro */
+ /*  this.firestore.collection('Post').add(unPostborrar)
+ .then(() => {
+    console.log('CREADO');
+  }, (error) => {
+    console.log('ERROR al crear');
+  }); */
+/* 0tro */
+  // Send Http request POST
+  this.http.post(this.cadena, unPostborrar)
+    .subscribe(resp => {
+      console.log(resp.toString() + 'RESPUESTA service createPost');
+      }, () => {
+        console.log('NO');
+      });
+
+
+}
+/* Termina invento, se puede borrar */
+
+/* public deleteCat(documentId: string) {
+    return this.firestore.collection('cats').doc(documentId).delete()
+      .then(() => {
+        console.log('Documento eliminado!');
+      }, (error) => {
+        console.error(error);
+      });
+  } */
+
   /* /////////////////JUGADORES ////////////////////////*/
   pruebaGuardarajugador(datoJugador) { // : Observable<any>
     /* VALE*/
@@ -502,8 +566,8 @@ isAuth() {
       born: datoJugador.born
     };
 
-    this.http.post(this.cadena, body)
-    .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+    this.http.post(this.cadena2, body)
+    .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createJugador');
       }, () => {
         alert('NO');
       });
@@ -562,7 +626,7 @@ isAuth() {
   public getCat(documentId: string) {
     return this.firestore.collection('cats').doc(documentId).snapshotChanges();
   }
-  public deleteCat(documentId) {
+  public deleteCat(documentId: string) {
     return this.firestore.collection('cats').doc(documentId).delete()
       .then(() => {
         console.log('Documento eliminado!');

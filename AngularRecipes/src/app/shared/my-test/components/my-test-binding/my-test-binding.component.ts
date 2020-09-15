@@ -17,7 +17,7 @@ export class MyTestBindingComponent implements OnInit {
   /* ABAJO 2 formas de crear un Array */
   /* @Input() lstComidas = new Array<any>(); 
   @Input() lstComidas: (type: string, name: string, content: string ) => any[];
-  
+
   @Input() bebida1: string;
 
   /*  importa con alias, que se usara desde afuera como ej para cargar el dato  */
@@ -34,6 +34,7 @@ export class MyTestBindingComponent implements OnInit {
   clicks = [];
   log = [];
   dates = [];
+  esOno = ''; // usado para switch
   mascotas = [
     {
       tipo: 'Gato',
@@ -75,7 +76,7 @@ export class MyTestBindingComponent implements OnInit {
     if (this.status === 'Ocupado') { this.status = 'Libre'; }
     else if (this.status === 'Libre') { this.status = 'Ocupado'; }
     console.log('es: '  +  this.status);
-  
+
     /* this.status = 'Ocupado' ? 'Libre' : 'Ocupado'; */
 
     /*no me anda el switch como debe ser  */
@@ -90,9 +91,8 @@ export class MyTestBindingComponent implements OnInit {
         break;
     }
     console.log('es: ' + this.status); */
-    
+  }
 
-  } 
   getColor() {
     return this.status === 'Ocupado' ? 'yellow' : 'black';
   }
@@ -122,5 +122,24 @@ export class MyTestBindingComponent implements OnInit {
        return 'blue';
      }
    } */
+
+   /* un SWITCH */
+   queEs(lolo: string) {
+    switch (lolo) {
+      case 'a':
+        this.esOno = 'SI';
+        console.log('es: ', this.esOno);
+        break;
+      case 'b':
+        this.esOno = 'NO';
+        console.log('es: ', this.esOno);
+        break;
+      default:
+        this.esOno = ' Va de nuevo';
+        console.log('es: ', this.esOno);
+        break;
+    }
+  }
+
 }
 
