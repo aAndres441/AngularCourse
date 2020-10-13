@@ -3,6 +3,11 @@ form {
   border: 3px solid #d30707;
 }
 
+/* Para ngClass de directiva */
+.file-over{
+  background-color: darkorange;
+}
+
 /* Full-width inputs */
 input[type=text], input[type=password] {
   width: 100%;

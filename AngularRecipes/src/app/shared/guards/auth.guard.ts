@@ -8,7 +8,7 @@ import { UpperCasePipe } from '@angular/common';
   providedIn: 'root'
 })
 export class AuthGuard   {
-  
+
   loggeadIn = false;
 
   /* metodo para simular la demora en una respuesta del servidor, etc,
@@ -47,7 +47,7 @@ export class AuthGuard   {
   logInFacebook() {
     this.loggeadIn = false;
   }
-  
+
   logOut() {
     this.loggeadIn = false;
   }

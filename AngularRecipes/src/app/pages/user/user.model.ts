@@ -27,6 +27,16 @@ export class User {
         this.timeStamp = new Date();
         this.price = price;
     }
+    /* constructor(id: number, name: string, lastname: string, email: string, status: string, price: number) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.status = status;
+        this.timeStamp = new Date();
+        this.price = price;
+        this.role = 'Admin';
+    } */
 
     /* ///  DIRECTIVA ////   escuchamos el evento, obtenemos los datos y los usamos */
     @HostListener('click', ['$event.target']) onClick(btn) {

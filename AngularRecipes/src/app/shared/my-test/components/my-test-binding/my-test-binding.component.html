@@ -79,6 +79,8 @@
             getColor()
             <br>
 
+            <!-- Abajo: usara directiva ngClass, mostrara del ts styles: ['.onLine {color: white; font-size:15px; background-color:violet;}']
+            segun la prop status -->
             <p [ngClass]="{onLine: status === 'Ocupado' }">{{lastName}} es {{getStatus()}}</p>
 
             <div [ngStyle]="{backgroundColor: getColor()}">

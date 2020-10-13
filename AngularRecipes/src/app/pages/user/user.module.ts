@@ -24,7 +24,7 @@ const COMPONENTS =
     OneUserComponent
   ];
 
-const CONTAINER = [  
+const CONTAINER = [
   UserComponent
 ];
 
@@ -39,7 +39,7 @@ const MODULES = [
     ...COMPONENTS,
     ...CONTAINER
   ],
-  
+
   imports: [
    ...MODULES
   ],

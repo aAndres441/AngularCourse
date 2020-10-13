@@ -52,13 +52,24 @@ export class UserService {
     new User(12, 'Rolo', 'Duarte', 'inactive', 12),
     new User(13, 'Analia', 'Lacalle', 'active', 4),
     new User(14, 'Marcos', 'Kaka', 'inactive', 54),
-    new User(1, 'Max', 'Capotte', 'active', 8),
-    new User(2, 'Anna', 'Frank', 'active', 21),
+    new User(1, 'Max', 'Capotte',  'active', 8),
+    new User(2, 'Anna', 'Frank',  'active', 21),
     new User(3, 'Julio', 'Iglesias', 'active', 11),
-    new User(4, 'Carlitos', 'Bala', 'inactive', 9),
-    new User(5, 'Mariana', 'Venezolana', 'inactive', 14),
+    new User(4, 'Carlitos', 'Bala',  'inactive', 9),
+    new User(5, 'Mariana', 'Venezolana',  'inactive', 14),
     new User(6, 'Pepe', 'Parada', 'inactive', 44),
-    new User(22, 'Pauli', 'Genaro', 'inactive', 100),
+    new User(22, 'Pauli', 'Genaro',  'inactive', 100),
+    /* new User(11, 'Ale', 'Santana', 'ale@.com', 'active', 9),
+    new User(12, 'Rolo', 'Duarte', 'rolo@.com', 'inactive', 12),
+    new User(13, 'Analia', 'Lacalle', 'ana@.com', 'active', 4),
+    new User(14, 'Marcos', 'Kaka', 'mar@.com', 'inactive', 54),
+    new User(1, 'Max', 'Capotte', 'max@.com', 'active', 8),
+    new User(2, 'Anna', 'Frank', 'ann@.com', 'active', 21),
+    new User(3, 'Julio', 'Iglesias', 'jul@.com', 'active', 11),
+    new User(4, 'Carlitos', 'Bala', 'care@.com', 'inactive', 9),
+    new User(5, 'Mariana', 'Venezolana', 'mar@.com', 'inactive', 14),
+    new User(6, 'Pepe', 'Parada', 'pep@.com', 'inactive', 44),
+    new User(22, 'Pauli', 'Genaro', 'pau@.com', 'inactive', 100), */
   ];
 
   usersChanges = new EventEmitter<User>();
@@ -68,7 +79,7 @@ export class UserService {
 
   onChange = new Subject<User[]>();
   onChangeOrder = new Subject<Order[]>();
-/* 
+/*
   users3: User[] = []; */
   users2: Observable<User[]>;
   private usersCollection: AngularFirestoreCollection<User>;
@@ -113,7 +124,7 @@ export class UserService {
         element.status = 'inactive';
         this.usersInActive.push(element);
         this.usersActive.splice(id, 1);
-      }}); 
+      }});
     */
 
 
@@ -129,7 +140,7 @@ export class UserService {
         this.resActive.push(element);
       }
     });
-    return this.resActive;*/    
+    return this.resActive;*/
   }
 
   getUsers(): User[] {
@@ -149,13 +160,13 @@ export class UserService {
   } */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-  
+
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-  
+
       // TODO: better job of transforming error for user consumption
       console.log(`${operation} failed: ${error.message}`);
-  
+
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
@@ -258,7 +269,9 @@ deleteAll() {
 
   update(usu: User): Observable<any>  {
     console.log(usu);
-    
+
     throw new Error('Method not implemented.');
   }
+
+
 }

@@ -218,7 +218,10 @@ export class NewComponent implements OnInit, OnDestroy {
 
    alert('Subiendo ' + this.imgParaLoadnombre + '..' + this.imgParaLoad + ' time: ' + this.imgTimeStamp);
 
-   this.service.uploadImag(this.imgParaLoad);
+
+   // elegi subir solo una imagen, pero en logged puede subir muchas
+   this.service.onUploadAllImag(this.imgParaLoad);
+   // this.service.uploadImag(this.imgParaLoad);
     // this.service.uploadImag2(event);
   }
 

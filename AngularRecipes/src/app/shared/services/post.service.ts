@@ -5,13 +5,14 @@ import { environment } from 'src/environments/environment';
 import { map, tap, catchError, finalize } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { auth } from 'firebase/app/';
 import * as firebase from 'firebase';
 import 'firebase/database';
 import { Image } from '../post/component/image.model';
+import { User } from 'src/app/pages/user/user.model';
 
 /*
 import { promise } from 'protractor';
@@ -31,9 +32,11 @@ import { runInThisContext } from 'vm'; */
 
   /* taodo para image */
   private MEDIA_STORAGE_PATH = 'imagenesUdemy'; // Para crear una carpeta en firebase con ese nombre
-
+  private acceptType = ['image/jpg', 'image/png'];
+  imageLista: Image[] = [];
   downloadUrl: string;
   private porcentage: Observable<number>;
+  onChangeImage = new Subject<Image[]>();
 
   private posts2: Post[] = [
     new Post ( 100, 'Jorge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
@@ -46,6 +49,12 @@ import { runInThisContext } from 'vm'; */
   randomSub = new Subject<boolean>();
   viewPost = new Subject<Post>();
   logeado = new Subject<boolean>();
+
+  userLogueadoID: string;
+  userLogueadoName: string;
+  userLogueadoEmail = '';
+  userLogueadoURL = '';
+  userLogueadoPhoto = '';
 
   private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
   private cadena2 = `${environment.firebaseConfig.databaseURL}Jugadores.json`;
@@ -105,18 +114,20 @@ mostrardatos() {
 
 // ************** IMAGENES ****************************
 /*///////////// carga imagen////////////////////// */
-uploadImag2(event: any) {
+onUploadAllImag2(event: any) {
   alert('Method not implemented 1' );
   alert('Method not implemented 2' + event);
 }
    /*///////////  Upload image IMAGEN metodo que las sube//////////////////////////*/
-  uploadImag(images: Image[]): void {
+  onUploadAllImag(images ?: Image[]): void {
     for (const oneImg of images) {
       oneImg.uploading = true;  // avisa que se esta subiendo imagen file, no se si mejor lo borro.
-      // Absajo, creamos un nombre con el titulo de la imagen para que sea unico, gracias al metodo de abajo
+      // Abajo, creamos un nombre con el titulo de la imagen para que sea unico, gracias al metodo de abajo
       const filePathName = this.generateNameImage(oneImg.title);
+      console.log('filePathName, filePathName');
+
       const fileRef = this.storage.ref(filePathName); // creamos una referencia a la ruta donde la guardaremos
-      const task = this.storage.upload(filePathName, oneImg.file); // sube la imagen aca con esos datos
+      const task = this.storage.upload(filePathName, oneImg); // sube la imagen aca con esos datos
 
       oneImg.uploadPercent = task.percentageChanges(); // guarda porcentaje para mostrar la barra de carga
       this.porcentage = task.percentageChanges();
@@ -127,6 +138,8 @@ uploadImag2(event: any) {
             oneImg.uploading = false;
           })
         ).subscribe();
+      this.imageLista.push(oneImg);
+      this.onChangeImage.next(this.imageLista.slice());
     }
   }
 
@@ -139,9 +152,77 @@ uploadImag2(event: any) {
      // return this.MEDIA_STORAGE_PATH + '/' + new Date().getTime() + '-' + name
    }
 
+ // prueba borrar, solo lo estoy usando con botton extraer de prueba, puede servir para new post
+   /* extrarerImageness(imgs: Image[]): void { */
+  extrarerImageness(img?: Image): void {
+    console.log(img.title, 'TITULO');
+    if (this.imageLista.length) {
+      alert('NO');
+      const imgs = this.imageLista;
+      console.log('Length from service', imgs.length);
 
+      /* for (const prop of Object.getOwnPropertyNames(imgs)) { */
+      for (const temp of imgs) {
+        console.table(temp);
+
+        /*  const temp = imgs[prop]; */
+        if (this.canBeLoaded(temp)) {
+          console.log('temp', temp);
+          // const newImage = new Image(temp.);
+          const newImage = new Image(temp.title, temp.size2, temp.detail, temp.type);
+          this.imageLista.push(newImage);
+          this.onChangeImage.next(this.imageLista.slice());
+        }
+      }
+    } else {
+      alert('SI');
+      /*
+      lo de canBeLoaded no puede comprobar pues  no encuentra lista para validateType
+      if (this.canBeLoaded(img)) {
+        this.imageLista.push(img);
+        console.log('largoo', this.imageLista.length);
+        this.onChangeImage.next(this.imageLista.slice());
+      } */
+      this.imageLista.push(img);
+      console.log('largoo', this.imageLista.length);
+    }
+
+  }
+    // valida el archivo a subir, usando metodos con extends la clase ImageValidator
+    private canBeLoaded(ima: Image): boolean {
+      let res = false;
+      if (!this.checkNameRepit(ima.title, this.imageLista) &&
+        this.validateType(ima.detail)) { // this.validateType(archivo.file.type)) si fuera type Image
+        res = true;
+      }
+      console.log(res, 'canBeLoaded');
+      return res;
+    }
+    // comprueba si la imag tiene cargada igual nombre a las que estan en el array
+    checkNameRepit(fileName: string, files: Image[]): boolean {
+      let res = false;
+      for (const fil of files) {
+          if (fil.title === fileName) {
+              res = true;
+          }
+      }
+      return res;
+  }
+  validateType(tipoArchivo: string): boolean {
+
+    /* return tipoArchivo === '' || tipoArchivo === undefined ? false : true;
+    si pasa tipo imagen vacio o undefined retorna false sino true por el includes en array acceptType*/
+
+    return tipoArchivo === '' || tipoArchivo === undefined
+        ? false
+        : this.acceptType.includes(tipoArchivo);
+  }
+
+  getImageList(): Image[] {
+    return this.imageLista;
+  }
 /* *******************   ADD or CREATE   ************************* */
- 
+
 onCreatePost(postData ?: Post) {
   // Send Http request POST
   this.createPost(postData);
@@ -165,7 +246,6 @@ createPost(postData: Post) {
         alert('NO');
       });
 }
-
 
   createPost3(post: Post) {
     return this.postCollection.add(post);
@@ -244,6 +324,8 @@ getTodosPost() {
 
   const res = this.firestore.collection('Post').snapshotChanges();
   console.log(res);
+  console.log();
+   this.isAuth();
   return ;
 }
 
@@ -382,7 +464,7 @@ getTodosPost() {
           post.title,
           post.content,
           image);
-        // this.uploadImag(post, image);
+        // this.onUploadAllImag(post, image);
         // this.add(post);
         this.onCreatePost(body);
       } else {
@@ -406,7 +488,7 @@ getTodosPost() {
    updatePost4(post: Post, image?: any) {
     if (image) {
       alert('updatePost4 >> add');
-      // this.uploadImag(post, image);
+      // this.onUploadAllImag(post, image);
       this.add(post);
     } else {
       alert('updatePost4 >> No ADD');
@@ -485,8 +567,26 @@ onLogoutUser() {
 }
 
 isAuth() {
+  // invento a ver si sale
+  this.aFireAuth.authState.subscribe(user => {
+    if ( user) {
+      this.userLogueadoID = user.uid;
+      this.userLogueadoName = user.displayName;
+      this.userLogueadoEmail = user.email;
+      this.userLogueadoURL = user.displayName;
+      this.userLogueadoPhoto = user.photoURL;
+
+      console.log('FOTO1 ', this.userLogueadoPhoto);
+    } else {
+      console.log('FOTO2 ');
+    }
+    console.log('USUARIO- ' ,  this.firestore.collection('User'));
+    console.log('REF- ' ,  firebase.storage().ref().bucket);
+  });
+
   return this.aFireAuth.authState.pipe(map( () => firebase.auth));
    // (auth) => firebase.auth)
+
 }
 
 /*  INVENTO DELETE USER */
@@ -531,10 +631,112 @@ deleteUser(ud: string) { // ej id MEAJzcyoJpxS8MODC0z
       }, () => {
         console.log('NO');
       });
+}
 
+/* Tratando de obtener datos de Firebase */
+updateUser(user?: User) {
+  /* const usewrRef = firebase.firestore().collection('User').add({
+    oneName: 'Lala',
+    comentario: 'Immpeca'
+  }); */
+
+ /*  const UsuCollection1 = firebase.firestore().collection('User').get()
+  .then((resp) => {resp.docs.map((item) => {console.log('FENIX', item);
+  }); }); */
+
+ // const UsuCollection2 = this.firestore.collection('User');
+ // const UsuCollection3: AngularFirestoreDocument<User> = this.firestore.doc('User');
+
+ /* this.posts = this.postCollection.snapshotChanges()
+      .pipe(changes => {
+        return changes.pipe( ps => {
+          const data = ps.toPromise;
+          data.title = ps.payload.doc.title;
+          return data;
+        })
+      });  */
+
+  alert('YES-' );
+  // console.log('YES-BD ', UsuCollection2);
+  console.table(['YES-BD', 'Banana', 'Manzana' ]);
+
+  const db = firebase.firestore();
+  console.log('Firebase =  ', db);
+
+  const storageCreateRef = firebase.storage().ref();
+  console.log('Referencia db ', storageCreateRef);
+
+  const storageCreateRef2 = firebase.storage().ref().bucket;
+  console.log('Nombre db 2 ', storageCreateRef2);
+
+  /* const citiesRef = db.collection('Post');
+  const allCities = citiesRef.get()
+  .then(lala => {
+    lala.forEach(doc => {
+      console.log(doc.id, '=>', doc.data());
+    });
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
+  }); */
+
+  /* const dato =   db.collection('Fly').doc('Fly').get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      console.log('Document data:', doc.data());
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
+ */
+  /* const citiesRef1 = db.collection('Fly');
+  const citiesRef2 = db.collection('Post');
+  const citiesRef3 =  this.firestore.collection('User').snapshotChanges().pipe();
+  Object.keys(citiesRef1).map((k) => {console.log('1 ' , k );
+  });
+  Object.keys(citiesRef2).map((k) => {console.log('2 ' , k );
+  });
+  Object.keys(citiesRef3).map((k) => {console.log('3 ' , k );
+  }); */
+
+  /* const storageCreateRef3 = localStorage.getItem('User');
+  const daaa = JSON.parse(storageCreateRef3);
+  Object.keys(daaa).map(k => {console.log('DESDE MAP ', k);
+  }); */
+
+  /* const dato2 = async value => await (await db.collection('User').get())
+    .docs[0].data();
+  Object.keys(dato2).map(k => {console.log('Feni ' ,  k); }); */
+
+
+  /* const dato = async value => await db.collection('User').get()
+  .then((resp) => resp.docs.map((item) => {
+    console.log('item ', item);
+  }) );
+  console.log('DAto ', dato); */
+
+  /* const datt = this.firestore.collection('Fly').snapshotChanges()
+  .pipe().subscribe((dato)=>{
+      console.log(dato, 'Datt');
+  });
+   */
+
+  /* const res =  this.firestore.collection('Fly').snapshotChanges()
+  .pipe(finalize(() => {
+    alert('TA');
+  }))
+  .subscribe(() => {
+    console.log('Documento eliminado!');
+  }, (error) => {
+    console.error(error);
+  }); */
 
 }
-/* Termina invento, se puede borrar */
+
+/* Termina invento */
 
 /* public deleteCat(documentId: string) {
     return this.firestore.collection('cats').doc(documentId).delete()
@@ -599,6 +801,19 @@ deleteUser(ud: string) { // ej id MEAJzcyoJpxS8MODC0z
       console.log('Error adding ' + error);
     }); */
   }
+  /* -----------------termina jugador ------------*/
+
+  /*--------- prueba Usuario -------------*/
+  pruebaGuardarUsu(datoUsu: any) {
+  const cadenasa = `${environment.firebaseConfig.databaseURL}Usu.json`;
+  this.http.post(this.cadena3, datoUsu)
+      .subscribe(resp => { console.log('SIIII guardo usuario');
+        }, () => {
+          alert('NO guardo usuario');
+        });
+      }
+
+  /* -------------termina usuario ----------------------*/
   /* ///////////////GATO CAT ///////////////////////
   /* Crea un nuevo gato*/
   public createCat(data: { nombre: string, url: string }) {
@@ -618,13 +833,49 @@ deleteUser(ud: string) { // ej id MEAJzcyoJpxS8MODC0z
     return this.firestore.collection('cats').add(data);
   }
 
-  // Obtiene todos los gatos
+  // Obtén todos los documentos de una colección
   public getCats() {
     return this.firestore.collection('cats').snapshotChanges();
   }
+
+  public getCats2()  {
+    const db = firebase.firestore();
+    const citiesRef = db.collection('cities');
+    const allCities = citiesRef.get()
+    .then(dato => {
+      dato.forEach(doc => {
+        console.log(doc.id, '=>', doc.data());
+      });
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
+    });
+  }
+
+
+  // recuperar varios documentos con una solicitud a través de una consulta
+  public getCats3() {
+    const db = firebase.firestore();
+    const citiesRef = db.collection('cities');
+    const query = citiesRef.where('capital', '==', true).get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          console.log('No matching documents.');
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          console.log(doc.id, '=>', doc.data());
+        });
+      })
+      .catch(err => {
+        console.log('Error getting documents', err);
+      });
+  }
+
   // Obtiene un gato
   public getCat(documentId: string) {
-    return this.firestore.collection('cats').doc(documentId).snapshotChanges();
+    return this.firestore.collection('Fly').doc(documentId).snapshotChanges();
   }
   public deleteCat(documentId: string) {
     return this.firestore.collection('cats').doc(documentId).delete()

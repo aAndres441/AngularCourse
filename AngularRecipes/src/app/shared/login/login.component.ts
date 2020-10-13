@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
   }
 
   onLogingGoogle() {
-   
     this.afAuth.signInWithPopup(new auth.GoogleAuthProvider ());
     this.router.navigate(['/test']);
   }
@@ -38,7 +37,7 @@ export class LoginComponent implements OnInit {
   onLogoutGoogle() {
     // this.afAuth;
   }
-  
+
   onLogout() {
     this.authServ.logOut();
   }

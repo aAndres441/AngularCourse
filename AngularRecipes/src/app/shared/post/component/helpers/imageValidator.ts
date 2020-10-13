@@ -15,10 +15,10 @@ export class ImageValidator {
     }
 
     // comprueba si la imag tiene cargada igual nombre a las que estan en el array
-    checkNameRepit(fileName: string, files: Image[]): boolean {
+    checkNameRepit(fileName: string, files: File[]): boolean {
         let res = false;
         for (const fil of files) {
-            if (fil.title === fileName) {
+            if (fil.name === fileName) {
                 res = true;
             }
         }

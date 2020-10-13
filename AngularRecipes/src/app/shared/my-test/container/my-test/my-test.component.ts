@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class MyTestComponent implements OnInit {
 
-/*   @ContentChild('idParaContentChild', { static: true }) myIdContentChild: ElementRef; 
+/*   @ContentChild('idParaContentChild', { static: true }) myIdContentChild: ElementRef;
  */
   todasLasComidas = [
     { type: 'Carne', name: 'Asado', content: 'a punto' },
@@ -20,7 +20,7 @@ export class MyTestComponent implements OnInit {
 
   refresco1 = 'Orange crush';
   refresco2 = 'Paso de los toros';
-  
+
   constructor( private router: Router) {
   }
 
@@ -49,7 +49,7 @@ export class MyTestComponent implements OnInit {
 
   addCrasa(eventDatos: {name: string, desc: string}) {
    /*  alert('name: ' + eventDatos.name); */
-    
+
     this.plantas.push({
       type: 'Crasa',
       name: eventDatos.name,
@@ -57,12 +57,12 @@ export class MyTestComponent implements OnInit {
     });
   }
 
-  deletePlantasLista(eventDatos: {dato: number}){
+  deletePlantasLista(eventDatos: {dato: number}) {
    /*  alert('numero: ' + eventDatos.dato); */
     this.plantas.splice(eventDatos.dato);
   }
 
-  testBindeo(){
+  testBindeo() {
      /* {relativeTo: this.route} */
     /* this.router.navigate(['test', 'bindeo'], */
     this.router.navigate(['test', 'bindeo'],
@@ -71,8 +71,8 @@ export class MyTestComponent implements OnInit {
       fragment: 'feni'
      } */
      );
-  }  
-  
+  }
+
 }
 
 

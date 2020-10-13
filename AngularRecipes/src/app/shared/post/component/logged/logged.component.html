@@ -1,7 +1,8 @@
-<p>logged works!</p>
-<div class="container" style="background-color: deepskyblue;">
+<div class="container" style="background-color: deepskyblue; margin-top: 2rem;">
   <!-- Directiva de nombre appImage desde helper-->
-  <button class="btn btn-primary" appImage id="directiva">
+  <button class="btn btn-primary" 
+      appImage 
+      id="directiva">
     Directiv download img
   </button>
   <hr>
@@ -11,13 +12,44 @@
         <div class="card-header">
           <h4>Files</h4>
         </div>
+        <!--Abajo agrego Directiva desde helper, appImage -->
         <div class="card-body">
-          <div class="drop-zone">
-            <span>Drop Zone</span>
+          <!-- Abajo: directiva appImage, Inputs files y imageList para probar 2 tipos,
+          Escuchara evento mouseOver y cambia prop por el evento
+        Ademas ngClass cambia segun prop -->
+          <div 
+            class="drop-zone"
+            appImage
+            [imageList]="imageLista"
+            [files]="listFiles"
+            (mouseOver)="isOverDropArrastrado=$event"
+            [ngClass]="{'file-over': isOverDropArrastrado}"
+            >
+            <!-- <span>Drop Zone</span> -->
             <h4>Drop your images</h4>
             <img src='\assets\Imagenes\nube.jpg' alt="Subir ficheros" class="subir">
           </div>
         </div>
+        <div>
+        <button class="btn btn-success" id="mi_boton" #mi_boton 
+            style="display: block;width:90%;"
+          (click)="prevent()">
+          <i class="fa fa-anchor" style="font-size: 24px;"></i>          
+          prevent
+        </button>
+        </div>
+        <div>
+          <button id="mi_enlace" #mi_enlace 
+            (click)="enlace()">
+            <a href="https://www.w3schools.com/icons/fontawesome_icons_webapp.asp" 
+              target="blank">
+              Font Awesome Icons
+           </a>
+          </button>          
+        </div>
+        <div><button class="btn btn-primary"
+          (click)="extrarerImageness()">extract to
+        </button></div>
       </div>
     </div>
     <div class="col-xs-8 mt-5 col-md-8 mt-5">
@@ -36,19 +68,40 @@
                 <th>URL</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>{{imgParaLoad.name}}</td>
-                <td>{{imgParaLoad.size}}</td>
-                <td>{{imgParaLoad.uploadPercent}}
+            <!--     <td *ngIf="fi.uploadPercent | async as uploadPercent"> 
                   <div class="progress">
                     <div class="progress-bar progress-bar-striped bg-success" 
-                    role="progressbar" 
-                    [style.width]="(uploadPercent | async) + '%'">>
+                        role="progressbar" 
+                        [ngStyle]="{width: (uploadPercent | async) + '%'}">
+                        o
+                        [style.width]="(uploadPercent | async) + '%'">
+                      >
+                      {{uploadPercent |  number : "1.0-0"}} %
                     </div>
                   </div>
                 </td>
-                <td>{{imgParaLoad.type}}</td>
+              <td>{{fi.file.size / 1024 / 1024 | number: ".2.2"} MB}</td>
+              <td *ngIf="fi.downloadUrl | async as downloadUrl">
+                <a href="downloadUrl" target="blank">URL</a>
+                {{fi.downloadUrl}}
+              </td> -->
+            <tbody>
+              <tr *ngFor="let fi of imageLista">
+                <td>{{fi.title}}</td>
+                <td>{{fi.size2}}  KB</td>
+            
+                <td>
+                  <!-- progress-bar -->
+                  <div class="progress mt-12"> <!-- seria margin top = 12 -->
+                    <div class="progress-bar progress-bar-striped bg-success" 
+                        role="progressbar"
+                        [ngStyle]="{width: (uploadPercent | async) + '%'}">
+                    </div>
+                  </div>
+                </td>
+                <td>                   
+                   <a href="{{imgUrl | async}}" target="blank">{{imgUrl | async}}</a>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -58,7 +111,7 @@
               Clean All
             </button>
             <button class="btn btn-primary" 
-              (click)="onUpload()"
+              (click)="onUploadAllImag()"
               [disabled]="imageLista.length===0"> 
               Upload
             </button>
@@ -73,7 +126,7 @@
 
   <p id="pMostrarLogueado"></p>
 
-  <div class="container" style="border: 1px solid orange">
+  <div class="container" style="border: 1px double orange">
     <p>app-incremental y app-count-click</p>
     <app-incremental></app-incremental>
   </div>
@@ -84,6 +137,11 @@
     <app-star></app-star>
   </div>
   <hr>
+
+            <button class="btn" style="background-color: yellow; color: black;" 
+              (click)="updateUser()"> 
+              Great Data reel
+            </button>
 
   <form action="action" method="post">
 
@@ -113,7 +171,11 @@
 
       <!-- elijo una imagen y con change llama al metodo que le pasa el evento -->
       <label for="imagen"><b>Choose imagen</b> </label>
-      <input type="file" name="imagen" id="imagen" accept=".jpg, .png" (change)="onLoadImg($event)">
+      <input type="file" 
+        name="imagen" 
+        id="imagen" 
+        accept=".jpg, .png" 
+        (change)="onLoadImg($event)">
 
       <br>
 
@@ -131,24 +193,38 @@
 
       <div>
         <ng-template #btnDisable1>
-          <button class="btn btn-danger" id="btnAncor" style="display: block; background-color: brown; width: 100%;"
-            [disabled]='!imgUrl' (click)='registerUser()'>
-            <i class="fa fa-anchor" style="font-size: 24px;"></i>
-            Register
-          </button>
+          <h2 style="color: blue; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+            Data of image
+          </h2>
+          <div class="container-buttons">
+            <button class="btn btn-danger" id="btnAncor" #btnAncor 
+              style="display: block; background-color: brown; width: 100%;"
+              [disabled]='!imgUrl' 
+              (click)='registerUser()'>
+              <i class="fa fa-anchor" style="font-size: 24px;"></i>
+              Register
+            </button>
+            <button class="btn btn-primary" 
+              (click)="updateUser()"> 
+              update User
+            </button>
+          </div> 
 
           <input type="text" [value]="imgUrl | async" #imagUrl>
-
-          <span class="pull-right" style="display: block;">
-            <div class="imgcontainer">
-              <img [src]=imgParaLoad alt="{{imgParaLoadnombre}}" class="fenix">
-              <!-- class="img-responsive" style="max-height: 150px;" -->
-            </div>
-          </span>
+          
         </ng-template>
 
+        <!-- <span class="pull-right" style="display: block;"> -->
+          <div class="imgcontainer">
+            <img [src]=imgParaLoad alt="{{imgParaLoadnombre}}" class="fenix">
+            <!-- class="img-responsive" style="max-height: 150px;" -->
+          </div>
+        <!-- </span> -->
+
         <ng-template #btnDisable2>
-          <h2>Ant</h2>
+          <h2 style="color: blue; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+            Ant
+          </h2>
         </ng-template>
       </div>
 
@@ -225,7 +301,7 @@
     style="border: solid 1px rgb(233, 11, 185); color: crimson; border-radius: 55%; background-color: darkkhaki; opacity: 66%;">
     <h4 style="text-align: center;">Example data charge</h4>
     <div class="col-xs-4 col-sm-4">
-      <input type="text" placeholder="aca es feferencia html" #desdeHtml>
+      <input type="text" placeholder="aca ref html" #desdeHtml>
     </div>
     <div class="col-xs-4 col-sm-4">
       <input type="text" [value]="desdeHtml.value" placeholder="carga del html">
@@ -251,9 +327,10 @@
     <app-incremental></app-incremental>
   </div>
   <br>
-  <button style="width: 80%;">
+  <button style="width: 80%;" (click)="cualquierFuncion(2,5)"> 
     Nothing
   </button>
+  <!-- cualquierFuncion(dato1: number, dato2: number) -->
   <!--  Deberia agregar en modulo de este componente schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]-->
   <!--  <reusable 
         title='AngularElement' 

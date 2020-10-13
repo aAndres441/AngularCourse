@@ -25,10 +25,10 @@ prueboName2 = '';
 @ViewChild('unValor') unValor: ElementRef;
 
   @Output() eventoCity = new EventEmitter<{city: string, alim: string}>();
- 
-  /* referencia local que podria ser el mismo compnente */ 
+
+  /* referencia local que podria ser el mismo compnente */
   @ViewChild('alimento') alimento: ElementRef;
-  
+
   mascotas = [
     {
       tipo: 'Gato',
@@ -94,12 +94,11 @@ prueboName2 = '';
   }
 
   cargaDatos(address: HTMLInputElement) {
-    
     this.eventoCity.emit({
       city: this.newCity,
       alim: this.alimento.nativeElement.value
     });
-    
+
     this.alimentos.push(this.alimento.nativeElement.value);
 
    /*  alert('address - ' +  address.value);
