@@ -18,7 +18,6 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
    // Para Subject: acordarse de ondestroy y de asignar variable para desuscript
    title = 'POST';
    posts: Post[] = [];
-   posts2: Post[] = [];
    // private randomSubject = false;
    randomSubject = false;
    image: ImageData;
@@ -35,9 +34,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
 
-     /*  this.posts = this.service.getPosts();
-      this.editMode = this.posts != null;
-      */
+     // this.editMode = this.posts != null;
 
     /* para mostrar si selecciono un post */
     this.viewOnePost = this.service.viewPost
@@ -47,7 +44,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
 
-    this.posts = this. getPosts();
+    this.posts = this. fetchPosts();
 
     this.postSubscription = this.service.onChange
     .subscribe(
@@ -56,29 +53,20 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
 
-      /* termina ej tutorial */
-
     /*  defaultProject = AngularFireModule.initializeApp (environment.firebaseConfig),
     console.log(defaultProject.name);  // "[DEFAULT]"
     */
-      // console.log('PostComponent1 ' + this.firestore.doc);
-    // console.log('PostComponent2, length=  ' + this.service.getDatabaseDatas());
-      // console.log('PostComponent3 ' + this.service.getLosPosts());
 
       // PRUEBA PARA BORRAR FIRE
     // this.service.pruebaGuardar();
 
-    this.service.fetchPosts().pipe(map(
-      (data: Post[]) => {
-        this.posts2.push(...data);
-        console.log(this.posts.length + 'post22');
-      })
-    );
-
+    /* Loggeado */
     this.logSubscription = this.service.logeado
       .subscribe((res) => {
         this.loggeado = res;
       });
+
+    alert( 'HAY ' + this.posts.length);
 
   } /* termina OnInit() */
 
@@ -108,9 +96,10 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.randomSub.next(this.randomSubject); // invento paraver subbmited en postActive
   }
 
-  getPosts(): Post[] {
-   // return this.service.getPosts();
-     return this.service.getosts2();
+  fetchPosts(): Post[] {
+    this.posts = this.service.fetchPosts();
+    return this.posts;
+   //  return this.service.fetchPosts();
   }
 
   onDelete(ps: Post): boolean {
@@ -248,9 +237,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.logeado.next(this.loggeado);
   }
 
-  getTodosPost() {
-    this.service.getTodosPost();
-  }
+
 
 
 }

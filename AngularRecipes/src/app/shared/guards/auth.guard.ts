@@ -35,7 +35,7 @@ export class AuthGuard   {
   }
 
   logIn() {
-    this.loggeadIn = true;
+   return this.loggeadIn = true;
   }
 
   logInEmail() {

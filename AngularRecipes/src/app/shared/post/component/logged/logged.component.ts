@@ -98,13 +98,16 @@ export class LoggedComponent implements OnInit, OnDestroy {
    /* *********** LOGIN *******************************/
   onLoginGoogle(): void  {
    // con la variable provider de google en el popup
-    this.afAuth.signInWithPopup(this.providerGoogle2)
+    // this.afAuth.signInWithPopup(this.providerGoogle2)
+    this.service.onLogingoogle()
       .then ((res) => {
-        console.log('promesa se ejecuta cuando se resuelve lo anterior ' + res.user.email);
+        console.log('Devuelve promesa que se ejecuta cuando se resuelve lo anterior ' + res.user.email
+          + ' - IMAGEN: ' + res.user.photoURL);
         // this.router.navigate(['/payment']);
-        console.log('Promesa desde Google ' + res.user.displayName + ' - IMAGEN: ' + res.user.photoURL);
+
         this.imgen = res.user.photoURL;
         this.email = res.user.email;
+
         // invento
         this.usuarioMio = new User(
            Number(res.user.uid),
@@ -113,26 +116,29 @@ export class LoggedComponent implements OnInit, OnDestroy {
           status = res.user.email,
           100
           ) ;
+
         this.service.pruebaGuardarUsu(this.usuarioMio);
 
         /* saving user data in localstorage when logged in and setyting up null when logged out */
-        this.afAuth.authState.subscribe(usuer => {
+        /// this.afAuth.authState.subscribe(usuer => {
+        this.service.isAuth().subscribe(usuer => {
           if (usuer) {
             this.usuarioMio2 = usuer;
-            const valor1 = localStorage.setItem('User', JSON.stringify(this.usuarioMio2));
+          // const valor1 = localStorage.setItem('User', JSON.stringify(this.usuarioMio2));
             const valor2 = JSON.parse(localStorage.getItem('User'));
-            console.log('Estamos en onLoginGoogle if- valor1 -' , valor1, 'valor2-' , valor2 );
+            const valor3 = JSON.parse(localStorage.getItem('Fly'));
+            console.log('Estamos en onLoginGoogle if- -' , 'valor2-' , valor2, 'FLY ' , valor3);
 
             /*
-             firebase.auth() */  // se autentica y llamo login con firebase,
-     // .signInWithPopup(provider)  // levanta ventana popUp de provider de google
-     // .then(function (result) {  // cuando trae el permiso, resuelve cuando ejecuta el login con identificado el usu y muestro
-     /*    console.log(result.user);
-        $("#root2").html("My name" + result.user.displayName +
-          " Photo: " + "<img src='" + result.user.photoURL + "'/>"
-          + "Mi mail : " + result.user.email);
-        $("#email").html(result.user.email);
-      });
+                    firebase.auth() */  // se autentica y llamo login con firebase,
+            // .signInWithPopup(provider)  // levanta ventana popUp de provider de google
+            // .then(function (result) {  // cuando trae el permiso, resuelve cuando ejecuta el login con identificado el usu y muestro
+            /*    console.log(result.user);
+                $("#root2").html("My name" + result.user.displayName +
+                  " Photo: " + "<img src='" + result.user.photoURL + "'/>"
+                  + "Mi mail : " + result.user.email);
+                $("#email").html(result.user.email);
+              });
             */
           } else {
             localStorage.setItem('User', null);
@@ -140,21 +146,21 @@ export class LoggedComponent implements OnInit, OnDestroy {
             console.log('Estamos en onLoginGoogle else');
           }
         /* /*  firebase.auth().onAuthStateChanged(function (user) {
-    if (user) { */
-      // User is signed in.
-    /*   let displayName = user.displayName;
-      let email = user.email;
-      let emailVerified = user.emailVerified;
-      let photoURL = user.photoURL;
-      let isAnonymous = user.isAnonymous;
-      let uid = user.uid;
-      let providerData = user.providerData; */
-      // ...
-   /*  } else { */
-      // User is signed out.
-      // ...
- /*    }
-  }); */
+            if (user) { */
+              // User is signed in.
+            /*   let displayName = user.displayName;
+              let email = user.email;
+              let emailVerified = user.emailVerified;
+              let photoURL = user.photoURL;
+              let isAnonymous = user.isAnonymous;
+              let uid = user.uid;
+              let providerData = user.providerData; */
+              // ...
+          /*  } else { */
+              // User is signed out.
+              // ...
+        /*    }
+          }); */
 
       });
 
@@ -179,7 +185,10 @@ export class LoggedComponent implements OnInit, OnDestroy {
   }
 
   onLogin() {
-    this.authServ.logIn();  // esto es del guardia
+    const res = this.authServ.logIn();  // esto es del guardia
+    console.log('LOGADO ', res);
+    const dato = this.authServ.isAuthenicated();
+    alert('LOG ' + dato);
   }
 
   onLoginFace(): void  {
@@ -193,12 +202,20 @@ export class LoggedComponent implements OnInit, OnDestroy {
   }
 
   onLogoutGoogle() {
-    // this.afAuth.signOut();
-    // o
-    this.service.onLogoutUser();
+     this.afAuth.signOut();
+     const rs = this.service.onLogoutUser()
+      .then (() => {console.log(' FUE ' , rs);
+                    const dato = this.authServ.isAuthenicated();
+                    alert('LOG ' + dato); })
+      .catch(err => {console.log(err); }
+      );
   }
+
   onLogout() {
-    /* this.service.onLogoutUser() */
+    this.authServ.logOut();
+    const dato = this.authServ.isAuthenicated();
+    alert('LOG ' + dato);
+    this.service.onLogoutUser();
   }
   onLogoutFace() {
     alert('RANDOM ' + Math.random().toString(36).substring(2));
@@ -218,89 +235,89 @@ export class LoggedComponent implements OnInit, OnDestroy {
   }
 
   onLoadImg(event: any): void {
-     /* solo usare del parametro event en console, el target,
-     de aca el files y el que esta en primer lugar que es su nombre */
+    /* solo usare del parametro event en console, el target,
+    de aca el files y el que esta en primer lugar que es su nombre */
 
-    console.log('sube ' , event.target.files[0], 'Todo ' , event);
+    console.log('sube ', event.target.files[0], 'Todo ', event);
     this.imgParaLoad = event.target.files[0];
     this.imgParaLoadnombre = event.target.files[0].name;
     this.size = event.target.files[0].size;
     this.imgTimeStamp = event.timeStamp;
     this.type = event.target.files[0].type;
-    console.log('timeStamp ' , event.timeStamp, + '..', this.imgParaLoad);
+    console.log('timeStamp ', event.timeStamp, + '..', this.imgParaLoad);
 
     const idAleatorio = Math.random().toString(36).substring(2);
 
     /* if (!this.canBeLoaded(img)) { */
-    if (!this.checkNameRepit(this.imgParaLoadnombre)) {
+    /////// if (!this.checkNameRepit(this.imgParaLoadnombre)) {
 
-      alert('Arranca onLoadImg con' + this.imageLista.length + '- ID: ' + idAleatorio);
+    alert('Arranca onLoadImg con' + this.imageLista.length + '- ID: ' + idAleatorio);
 
-      const file = event.target.files[0]; // el mismo elemento imagen
-      console.log('FILE ', file, 'TYPE ' , this.type);
+    const file = event.target.files[0]; // el mismo elemento imagen
+    console.log('FILE ', file, 'TYPE ', this.type);
 
-      const filePath = `uploadsImgs/profileId_${idAleatorio}`; // crea una carpeta y sera la ruta
-      const refStorage = this.storage.ref(filePath); // referencia
-      const task = this.storage.upload(filePath, file); // con esto sube la imagen con su ruta y la imagen
+    const filePath = `uploadsImgs/profileId_${idAleatorio}`; // crea una carpeta y sera la ruta
+    const refStorage = this.storage.ref(filePath); // referencia
+    const task = this.storage.upload(filePath, file); // con esto sube la imagen con su ruta y la imagen
 
-      /* guarda el porcentaje de subida, no lo estoy usando, pero si lo uso en service */
-      this.uploadPercent = task.percentageChanges();
+    /* guarda el porcentaje de subida, no lo estoy usando, pero si lo uso en service */
+    this.uploadPercent = task.percentageChanges();
 
-      /* aca obtenemos la ruta de la imagen */
-      task.snapshotChanges()
-        .pipe(finalize(() => {
-          this.imgUrl = refStorage.getDownloadURL();
-        }))
-        .subscribe();
+    /* aca obtenemos la ruta de la imagen */
+    task.snapshotChanges()
+      .pipe(finalize(() => {
+        this.imgUrl = refStorage.getDownloadURL();
+      }))
+      .subscribe();
 
-      alert('Subiendo ' + this.imgParaLoadnombre + '..' + this.size );
-      const img = new Image(this.imgParaLoadnombre, this.size,  'no descriptions', this.type);
-      /* img.setdownloadUrl(this.imgUrl); */
+    alert('Subiendo ' + this.imgParaLoadnombre + '.size.' + this.size + ' URL ' + this.imgUrl);
+    const img = new Image(this.imgParaLoadnombre, this.size, 'no descriptions', this.type);
+    /* img.setdownloadUrl(this.imgUrl); */
 
-      this.service.extrarerImageness(img);
+    this.service.extrarerImageness(img); // ver que aca verifica de nuevo en el service
 
-      // this.imageLista.push(img);
+    /// this.imageLista.push(img);
+    alert('termina onLoadImg con' + this.imageLista.length + '- ID: ' + idAleatorio);
 
-      for (const key of this.imageLista) {
-        console.table(key);
-      }
-      alert('termina onLoadImg con' + this.imageLista.length + '- ID: ' + idAleatorio);
-
-
-    } else {
-      console.log('Name of the image is repeated ');
-      alert('Name of the image is repeated ');
-    }
 
     // this.service.onUploadAllImag(this.imgParaLoad);
     // this.service.onUploadAllImag2(event);
+
+    ///// this.imageLista = this.getImageList();
   }
 
   getImageList(): Image[] {
     return this.service.getImageList();
   }
 
-  /* registra usuario y su imagen mas arriba */
+  /* REGISTRA usuario y su imagen mas arriba */
+
   registerUser() {
     alert('Cargar Image URL : ' + this.imgUrl);
-    console.log('Cargar Image URL : ' + this.imgUrl);
-    this.service.registerUser(this.userName, this.password)
-      .then(() => {
-        this.service.isAuth().subscribe( usu => {
-          if (usu) {
-            console.log('usu actual ');
+   // this.imgUrl.(x=>console.log(x)).subscribe();
+   // console.log(JSON.stringify(this.imgUrl));
+    // console.log('Cargar Image URL : ' + this.imgUrl);
 
-            usu.prototype({  // creo que sera este function dice updateProfile
-              displayName: '',
+    this.service.registerUser(this.email, this.password)
+      .then(() => {  // LO RESUELVO, llamo al metodo que me da el actual logado
+        this.service.isAuth().subscribe( usu => { // obtengo el usuario
+          if (usu) {
+            console.log('usu actual ', usu.name);
+            usu.updateProfile({//  deberia actualizar el usu
+              displayName: 'Pepito',
               photoURL: this.imagUser.nativeElement.value,
-            }).then( () => {console.log('user Update!');
-            /* this.router.navigate(['./recipe']); */
+            }).then((res) => { // ME DEVUELVE
+              console.log('Promesa desde Google, UPDATE!! ' + res.displayName + 'Img ' );
+              console.log('Promesa desde Google, UPDATE!! ' + res.disp.displayName + 'Img ' + res.user.photoURL);
+              this.imgen = res.user.photoURL;
+              // this.router.navigate(['users/list']);
+              /* this.router.navigate(['./recipe']); */
             }).catch(error => {console.log('erreo', error);
           });
           }
         });
         /* this.router.navigate(['./recipe']); */
-      }). catch (err => console.log('err', err.message));
+      }). catch (err => console.log('err', err.message));  //  Y SI FALLA
   }
 
   updateUser(usu?: User) {this.updateUsu(usu); }
@@ -309,6 +326,11 @@ export class LoggedComponent implements OnInit, OnDestroy {
     alert('service.updateUser');
     this.service.updateUser(usu);
   }
+
+fetchPosts() {
+ this.service.fetchPosts();
+}
+
 
   /* TODOS INVENTOS */
   buscarRestaurant(title: string) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Post } from '../../shared/post/post.model';
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable, of, pipe } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { map, tap, catchError, finalize } from 'rxjs/operators';
 
@@ -13,6 +13,7 @@ import * as firebase from 'firebase';
 import 'firebase/database';
 import { Image } from '../post/component/image.model';
 import { User } from 'src/app/pages/user/user.model';
+import { Key } from 'protractor';
 
 /*
 import { promise } from 'protractor';
@@ -38,11 +39,12 @@ import { runInThisContext } from 'vm'; */
   private porcentage: Observable<number>;
   onChangeImage = new Subject<Image[]>();
 
-  private posts2: Post[] = [
+  private posts2: Post[] = [];
+  /* private posts2: Post[] = [
     new Post ( 100, 'Jorge', 'Caminante', 'https://tse3.mm.bing.net/th?id=OIP.0F55zIrLRsqZHae9hGlwSAHaEJ&pid=Api&P=0&w=304&h=171'),
     new Post ( 101, 'Clock', 'In two binding', 'https://tse3.mm.bing.net/th?id=OIP.WwiZsucIqy6R4taHgUJ2CQHaHa&pid=Api&P=0&w=300&h=300'),
     new Post ( 102, 'Lemur', 'In my mind', 'https://tse1.mm.bing.net/th?id=OIP.hNOV7KRYdK93MsE6SXHMVQHaLH&pid=Api&P=0&w=300&h=300')
-  ];
+  ]; */
 
   onChange = new Subject<Post[]>();
   IncrementalChange = new Subject<number>();
@@ -52,7 +54,7 @@ import { runInThisContext } from 'vm'; */
 
   userLogueadoID: string;
   userLogueadoName: string;
-  userLogueadoEmail = '';
+  userLogueadoEmail: string;
   userLogueadoURL = '';
   userLogueadoPhoto = '';
 
@@ -108,6 +110,7 @@ import { runInThisContext } from 'vm'; */
 
 /*const inicio = AngularFireModule.initializeApp(environment.firebaseConfig);*/
 mostrardatos() {
+  // const db = firebase.firestore();
   console.log('Referencia db ', this.db,
   'Ref storage ', this.storageCreateRef);
 }
@@ -119,12 +122,19 @@ onUploadAllImag2(event: any) {
   alert('Method not implemented 2' + event);
 }
    /*///////////  Upload image IMAGEN metodo que las sube//////////////////////////*/
-  onUploadAllImag(images ?: Image[]): void {
+  onUploadAllImag(images ?: any[]): void {
+
+    alert ('LEngth ' + images.length);
+
     for (const oneImg of images) {
       oneImg.uploading = true;  // avisa que se esta subiendo imagen file, no se si mejor lo borro.
       // Abajo, creamos un nombre con el titulo de la imagen para que sea unico, gracias al metodo de abajo
-      const filePathName = this.generateNameImage(oneImg.title);
-      console.log('filePathName, filePathName');
+      
+      alert ('NAME ' + oneImg.name);
+      
+      const filePathName = this.generateNameImage(oneImg.name);
+
+      console.log('filePathName,' , filePathName);
 
       const fileRef = this.storage.ref(filePathName); // creamos una referencia a la ruta donde la guardaremos
       const task = this.storage.upload(filePathName, oneImg); // sube la imagen aca con esos datos
@@ -142,6 +152,28 @@ onUploadAllImag2(event: any) {
       this.onChangeImage.next(this.imageLista.slice());
     }
   }
+    /* -------------   Sube de a una Imagen  ----------- */
+  onUploadOneImag(oneImg: Image): void {
+    oneImg.uploading = true;  // avisa que se esta subiendo imagen file, no se si mejor lo borro.
+    // Abajo, creamos un nombre con el titulo de la imagen para que sea unico, gracias al metodo de abajo
+    const filePathName = this.generateNameImage(oneImg.title);
+    console.log('filePathName, filePathName');
+
+    const fileRef = this.storage.ref(filePathName); // creamos una referencia a la ruta donde la guardaremos
+    const task = this.storage.upload(filePathName, oneImg); // sube la imagen aca con esos datos
+
+    oneImg.uploadPercent = task.percentageChanges(); // guarda porcentaje para mostrar la barra de carga
+    this.porcentage = task.percentageChanges();
+    task.snapshotChanges()  // abajo es la magia de firebase
+      .pipe(
+        finalize(() => {
+          oneImg.downloadUrl = fileRef.getDownloadURL();
+          oneImg.uploading = false;
+        })
+      ).subscribe();
+    this.imageLista.push(oneImg);
+    this.onChangeImage.next(this.imageLista.slice());
+}
 
   getPercentage(): Observable<number> {
     return this.porcentage;
@@ -155,39 +187,55 @@ onUploadAllImag2(event: any) {
  // prueba borrar, solo lo estoy usando con botton extraer de prueba, puede servir para new post
    /* extrarerImageness(imgs: Image[]): void { */
   extrarerImageness(img?: Image): void {
-    console.log(img.title, 'TITULO');
-    if (this.imageLista.length) {
-      alert('NO');
-      const imgs = this.imageLista;
-      console.log('Length from service', imgs.length);
 
-      /* for (const prop of Object.getOwnPropertyNames(imgs)) { */
-      for (const temp of imgs) {
-        console.table(temp);
-
-        /*  const temp = imgs[prop]; */
-        if (this.canBeLoaded(temp)) {
-          console.log('temp', temp);
-          // const newImage = new Image(temp.);
-          const newImage = new Image(temp.title, temp.size2, temp.detail, temp.type);
-          this.imageLista.push(newImage);
-          this.onChangeImage.next(this.imageLista.slice());
-        }
-      }
-    } else {
-      alert('SI');
-      /*
-      lo de canBeLoaded no puede comprobar pues  no encuentra lista para validateType
-      if (this.canBeLoaded(img)) {
-        this.imageLista.push(img);
-        console.log('largoo', this.imageLista.length);
-        this.onChangeImage.next(this.imageLista.slice());
-      } */
-      this.imageLista.push(img);
-      console.log('largoo', this.imageLista.length);
+    if (!this.imageLista.length) {
+      alert('NO hay listado');
     }
 
+    if (!img) {
+      alert('no hay imagen a subir');
+
+    } else {
+      console.log(img.title, 'TITULO');
+      // const imgs = this.imageLista; // esto deberia ser imagenes del parametro cuando sube muchas
+      // console.log('Length from service', imgs.length);
+      /* for (const prop of Object.getOwnPropertyNames(imgs)) { */
+      // for (const temp of imgs) {
+      // console.table(temp);
+      /*  const temp = imgs[prop]; */
+      // if (this.canBeLoaded(temp)) {
+      //  console.log('temp', temp);
+      // const newImage = new Image(temp.);
+      //  const newImage = new Image(temp.title, temp.size2, temp.detail, temp.type);
+      //  this.imageLista.push(newImage);
+      // this.onChangeImage.next(this.imageLista.slice());
+
+
+
+      if (!this.checkNameRepit(img.title, this.imageLista)) {
+        this.imageLista.push(img);
+        this.onChangeImage.next(this.imageLista.slice());
+        console.log('largoo', this.imageLista.length);
+        alert(this.imageLista.length);
+        for (const temp of this.imageLista) {
+          console.table(temp);
+        }
+      } else {
+        console.log('Name of the image is repeated ');
+        alert('Name of the image is repeated ');
+      }
+
+    }
+    /*
+    lo de canBeLoaded no puede comprobar pues  no encuentra lista para validateType
+    if (this.canBeLoaded(img)) {
+      this.imageLista.push(img);
+      console.log('largoo', this.imageLista.length);
+      this.onChangeImage.next(this.imageLista.slice());
+    } */
   }
+
+
     // valida el archivo a subir, usando metodos con extends la clase ImageValidator
     private canBeLoaded(ima: Image): boolean {
       let res = false;
@@ -240,8 +288,11 @@ createPost(postData: Post) {
     imageUrl: postData.imageUrl,
     data: postData.data};
 
-  this.http.post(this.cadena, body) // this.http.post(this.cadena, postData) es lo mismo
-    .subscribe(resp => { console.log(resp.toString() + 'RESPUESTA service createPost');
+  // this.http.post(this.cadena, body) // this.http.post(this.cadena, postData) es lo mismo
+  this.http.post<Post>(this.cadena, body)  // this.http.post(this.cadena, postData) es lo mismo
+    .subscribe(
+      resp => {
+        console.log(resp.toString() + 'RESPUESTA service createPost');
       }, () => {
         alert('NO');
       });
@@ -269,8 +320,7 @@ createPost(postData: Post) {
     if (post.title) {
       return this.http.put(this.cadena + post.title, body, httpOptins)
         // return this.http.put(this.cadena, post)  pa mi es asi
-        .pipe(
-              map((data: any) => alert(`${data}SII`))
+        .pipe(map((data: any) => alert(`${data}SII`))
               );
       } else {
         return this.http.post<Post>(this.cadena + post.title, body, httpOptins)
@@ -288,46 +338,155 @@ getDatabaseDatas() {
   return this.firestore.collection.length;
 }
 
-getPosts(): Post[] {
-  /* getPosts(): Observable<Post[]> { */
+ fetchPosts(): Post[] {  // obtiene y agrega Post
+   this.getTodosPost();
+   // return this.loadedPosts;
+   return this.posts2.slice();
 
-  // this.fetchPosts();
-   return this.loadedPosts.slice();
-
-  /* this.http.get(environment.firebaseConfig.databaseURL + 'Posts') */
-  /*  this.http.get(environment.firebaseConfig.databaseURL)
-   .pipe(map(
-     (data: Post[]) => { this.posts.push( ...data); })
-   );
-   return this.posts.slice(); */
 }
 
-fetchPosts() {
-  /* this.http.get('https://angularcourse-bc12b.firebaseio.com.Posts.json') */
-  // this.http.get(environment.firebaseConfig.databaseURL)
-  return this.http.get(this.cadena);
-   /*  .subscribe(posts => {
-      this.loadedPosts.push(...posts[0]);
-      alert ('SII lLArgo ' + this.loadedPosts[0].content);
-      this.onChange.next(this.loadedPosts.slice());
-      // return this.getPosts();
-  }, () => {
-      alert ('NADA');
-    }); */
-  /* this.onChange.next(this.loadedPosts.slice()); */
-  // return this.loadedPosts;
-  // return this.getPosts();
-}
+private getTodosPost() {
+  alert('ACA getTodosPost DEL SERVICO y los agrega al array local');
 
-getTodosPost() {
   console.log('HELLOo');
+  const referenciaDeUsuario = `${environment.firebaseConfig.databaseURL}User.json`;
+  const referenciaDePost1 = `${environment.firebaseConfig.databaseURL}Posts.json`;
+  const referenciaDePost2 = this.cadena;
+  const referenciaDeFly = `${environment.firebaseConfig.databaseURL}Fly.json`;
+  const db = firebase.firestore();
+
+  console.log('Referencia db ', db, 'Ref storage ', this.storageCreateRef);
 
   const res = this.firestore.collection('Post').snapshotChanges();
-  console.log(res);
-  console.log();
-   this.isAuth();
-  return ;
-}
+  console.log('res ', res.pipe());
+
+  const cef3 =  this.firestore.collection('User').snapshotChanges().pipe();
+  const miRef = db.collection('User');
+
+  Object.keys(miRef).map((k) => {console.log('MAP ' , k ); });
+
+ // this.isAuth();
+
+  /* otra */
+  /* const dato2 = async value => await (await db.collection('User').get())
+    .docs[0].data();
+  Object.keys(dato2).map(k => {console.log('Feni ' ,  k); }); */
+
+  /* console.log('USUARIO- ' ,  this.firestore.collection('User'));
+  console.log('REF- ' ,  firebase.storage().ref().bucket); */
+
+  /* Estoy llamando post de BD por su key, creo un nuevo post y agrega a lista post local */
+  this.http.get<Post>(referenciaDePost1)
+  .subscribe((posts) => {
+    for (const key in posts) {
+      if (Object.prototype.hasOwnProperty.call(posts, key)) { // dice que, si tiene prop key
+        const element = posts[key];
+
+        // console.log('POSTS ' , element);
+
+        const id = element.id;
+        const titulo = element.title + '';
+        const content = element.content + '';
+        const imageUrl = element.imageUrl + '';
+
+        const neePst: Post = new Post (id, titulo, content, imageUrl);
+        this.posts2.push(neePst);
+        this.onChange.next(this.posts2.slice());
+        /*
+        this.onChange.next(this.loadedPosts.slice());
+        return this.loadedPosts; */
+
+        // muestro titulo del Post
+        console.log('***'
+        , element.title,
+         '/ ', id
+        , '/ ', titulo
+        , '/ ', content
+        , '/ ', imageUrl);
+
+      }
+    }
+  });
+
+  /* ----------------------- POST ------------------------------------ */
+  /*-------  muestra solo Id de firebase del objeto Post/ ---------*/
+  this.http.get<Post>(referenciaDePost1)
+    .subscribe(posts => {
+      Object.keys(posts).map((k) => {// const blob = new Blob([JSON.stringify(Post)], {type : 'application/json'});
+       // console.table([ k]);
+       console.log('ID de Post ' + k );
+      });
+  }, () => {
+      alert ('NADA');
+    });
+
+    /*-------  muestra todo el objeto Post/ ---------*/
+  this.http.get(referenciaDePost1)
+    .subscribe(fl => {
+      console.log('All post from BD ', fl);
+    });
+
+  /* --- agrego a la matriz el Objets js del get con operadores Observables pipe y map antes des suscribe- */
+  this.http.get<Post>(referenciaDePost1)
+  /*sera el tipo de cuerpo de respuesta que luego será manejado automáticamente por Angular HttpClient y TypeScript entiende */
+    .pipe(map((response) => {
+      const postArray: Post[] = [];
+      for (const key in response) {
+        if (Object.prototype.hasOwnProperty.call(response, key)) {
+          // const element = response[key];
+          postArray.push({ ...response[key], IdFirebase: key });
+          // el operador de propagación ademas de la key que podria usar despues como delete
+        }
+      }
+      return postArray;
+    })).subscribe((pst) => {
+      pst.forEach(element => {
+        console.log(element.title);
+      });
+      console.log('Los post son : ', pst);
+      //  console.table([pst]);
+      this.loadedPosts = pst;
+    });
+
+    /* ----------------------------------------------------------- */
+/* --------------------- USU -------------------------------------- */
+  this.http.get<User>(referenciaDeUsuario)
+  .subscribe((usus) => {
+    for (const key in usus) {
+      if (Object.prototype.hasOwnProperty.call(usus, key)) {
+        const element = usus[key];
+        console.log('USUS ' , element.name);
+      }
+    }
+  });
+
+  this.http.get<User>(referenciaDeUsuario)
+  .subscribe((dato) => {
+    Object.keys(dato).map((k) => {
+      console.log('Dato de Usuario ' + k );
+    });
+  }, () => {
+      alert ('NADA');
+    });
+/* ----------------------------------------------------------- */
+/* ----------------FLY------------------------------------------- */
+  this.http.get(referenciaDeFly)
+  .subscribe((flys) => {
+    for (const key in flys) {
+      if (Object.prototype.hasOwnProperty.call(flys, key)) {
+        const element = flys[key];
+        console.log('FLYS ' , element);
+      }
+    }
+  });
+  this.http.get(referenciaDeFly)
+  .subscribe(fl => {
+        console.log('All Flys from BD  ' , fl);
+    });
+
+
+
+} /* Termina  getTodosPost*/
 
   getosts2(): Post[] {
     return this.posts2.slice();
@@ -343,8 +502,8 @@ getTodosPost() {
         'Content-Type':  'application/json'
       })
     };
-    return this.http.get<Post>(environment.firebaseConfig + 'Post/' + id , httpOptions).pipe(
-      map((data: Post) => data)
+    return this.http.get<Post>(environment.firebaseConfig + 'Post/' + id , httpOptions)
+      .pipe(map((data: Post) => data)
     );
   }
 
@@ -419,10 +578,7 @@ getTodosPost() {
     };
     return this.http.delete<Post>(this.cadena + post.title, httpOptions)
      // private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
-      .pipe(
-            map(
-              (data: any) => data)
-          );
+      .pipe(map((data: any) => data));
   }
 
   deleteAll() {
@@ -544,15 +700,6 @@ getTodosPost() {
     });
 } */
 
-  ////////////////  USER  /////////////////////////////
-registerUser(email: string, password: string) {
-  // tslint:disable-next-line: no-shadowed-variable
-  return new Promise(( resolve, reject) => {
-    this.aFireAuth.createUserWithEmailAndPassword(email, password)
-    .then(userData => resolve(userData),
-    err => reject(err));
-  });
-}
 
 onLogingoogle() {
   return this.aFireAuth.signInWithPopup(new auth.GoogleAuthProvider ());
@@ -563,31 +710,57 @@ onLoginFace() {
 }
 
 onLogoutUser() {
+  alert('SALE con RANDOM ' + Math.random());
   return this.aFireAuth.signOut();
 }
 
-isAuth() {
-  // invento a ver si sale
-  this.aFireAuth.authState.subscribe(user => {
+isAuth(): any {
+  // invento a ver si sale, este sera el usu logado actualmente
+ /*  this.aFireAuth.authState.subscribe(user => {
     if ( user) {
       this.userLogueadoID = user.uid;
       this.userLogueadoName = user.displayName;
       this.userLogueadoEmail = user.email;
       this.userLogueadoURL = user.displayName;
       this.userLogueadoPhoto = user.photoURL;
-
-      console.log('FOTO1 ', this.userLogueadoPhoto);
+      console.log('Estamos en isAuth del servicio con - ', this.userLogueadoPhoto);
     } else {
       console.log('FOTO2 ');
     }
     console.log('USUARIO- ' ,  this.firestore.collection('User'));
     console.log('REF- ' ,  firebase.storage().ref().bucket);
-  });
+  }); */
+  console.log('USUARIO- ' ,  this.firestore.collection('User'));
+  console.log('REF- ' ,  firebase.storage().ref().bucket);
 
-  return this.aFireAuth.authState.pipe(map( () => firebase.auth));
-   // (auth) => firebase.auth)
-
+ // return this.aFireAuth.authState.pipe(map( () => firebase.auth));
+  return this.aFireAuth.authState.pipe(map(aut => aut));
 }
+
+  ////////////////  USER  /////////////////////////////
+  registerUser(email: string, password: string) {
+    return new Promise(( resolve, reject) => {
+      this.aFireAuth.createUserWithEmailAndPassword(email, password)
+      .then(userData => resolve(userData),
+      err => reject(err));
+    });
+  }
+   /*--------- prueba Usuario -------------*/
+   pruebaGuardarUsu(datoUsu: any) {
+     /* 
+     private cadena = environment.firebaseConfig.databaseURL + 'Posts.json';
+  private cadena2 = `${environment.firebaseConfig.databaseURL}Jugadores.json`;
+  private cadena3 = `${environment.firebaseConfig.databaseURL}User.json`; */
+    const cadenasa = `${environment.firebaseConfig.databaseURL}Lala.json`; // es = a cadena 3
+    this.http.post(this.cadena3, datoUsu)
+        .subscribe(resp => {
+          console.log('SIIII se guardo usuario');
+          }, (error) => {
+            console.log(error, 'NO guardo usuario');
+          });
+        }
+
+    /* -------------termina usuario ----------------------*/
 
 /*  INVENTO DELETE USER */
 deleteUser(ud: string) { // ej id MEAJzcyoJpxS8MODC0z
@@ -803,17 +976,6 @@ updateUser(user?: User) {
   }
   /* -----------------termina jugador ------------*/
 
-  /*--------- prueba Usuario -------------*/
-  pruebaGuardarUsu(datoUsu: any) {
-  const cadenasa = `${environment.firebaseConfig.databaseURL}Usu.json`;
-  this.http.post(this.cadena3, datoUsu)
-      .subscribe(resp => { console.log('SIIII guardo usuario');
-        }, () => {
-          alert('NO guardo usuario');
-        });
-      }
-
-  /* -------------termina usuario ----------------------*/
   /* ///////////////GATO CAT ///////////////////////
   /* Crea un nuevo gato*/
   public createCat(data: { nombre: string, url: string }) {

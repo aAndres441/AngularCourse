@@ -61,9 +61,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
 
     this.initForm();
     this.initValuesForm();
-    // this.fetchPosts();
-    // this.service.getPosts()
-    this.loadedPosts = this.service.getPosts();
+    this.loadedPosts = this.service.fetchPosts();
 
     this.postSuscripcion = this.service.onChange
       .subscribe(
@@ -242,12 +240,12 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   }
 
   private fetchPosts() {
-    this.service.fetchPosts()
-      .subscribe(pss => {
-        alert('SII' + pss.toString());
-      }, () => {
-        alert('NADA');
-      });
+      if (this.service.fetchPosts()) {
+        const post: Post[] = this.service.fetchPosts();
+        alert('SI');
+      } else {
+        alert('NO');
+      }
   }
   /*  this.postSuscripcion = this.service.onChange
       .subscribe(

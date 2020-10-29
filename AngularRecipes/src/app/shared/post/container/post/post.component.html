@@ -22,13 +22,16 @@
             </div>
         </nav>
         <hr>
-        <button class="btn btn-warning" style=" width: 60%; background-color:rgb(130, 130, 204)" (click)="onNewPost()">
+        <button class="btn btn-warning" style=" width: 60%; background-color:rgb(130, 130, 204)" 
+            (click)="onNewPost()">
             New Post
         </button>
-        <button class="btn btn-warning" style=" width: 40%;" (click)="activarSubject()">
+        <button class="btn btn-warning" style=" width: 40%;" 
+            (click)="activarSubject()">
             Change (submitted)
         </button>
-        <button class="btn btn-warning" style=" width: 20%;" (click)="getTodosPost ()">
+        <button class="btn btn-dafault" style=" width: auto,20%;" 
+            (click)="fetchPosts ()">
             get All Post            
         </button>
         <hr>
@@ -88,23 +91,21 @@
 
             <div>
                 <div *ngIf="loggeado; else noFenix"> Capurro</div>
-            
+                <hr>
                 <ng-template *ngIf="!loggeado" #noFenix>logout</ng-template>
-                
+                <hr>
                 <app-logged *ngIf="loggeado"></app-logged> 
-
-                <div *ngIf="posts.length" >
-                    
-                    <div class="row" *ngIf="post">
-                        <span class="pull-right">
-                            <img [src]="post.imageUrl" 
-                            alt="{{post.title}}" 
-                            class="img-responsive" 
-                            style="max-height: 90px;">
-                        </span>
+                <hr>
+                    <div *ngIf="posts.length" >                    
+                        <div class="row" *ngIf="post">
+                            <span class="pull-right">
+                                <img [src]="post.imageUrl" 
+                                alt="{{post.title}}" 
+                                class="img-responsive" 
+                                style="max-height: 90px;">
+                            </span>
+                        </div>
                     </div>
-
-                </div>
                     <!-- -TABLA ----- -->
                     <table class="table-responsive" >
                         <!--  <thead style="text-align: center;">Tabla </thead> -->

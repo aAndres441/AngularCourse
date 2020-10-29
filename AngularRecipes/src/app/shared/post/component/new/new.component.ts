@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 
 import { Subscription, Observable, from } from 'rxjs';
+import { Image } from '../image.model';
 import { Post } from '../../post.model';
 import { PostService } from '../../../services/post.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -37,6 +38,9 @@ export class NewComponent implements OnInit, OnDestroy {
   imgParaLoad: any;
   imgParaLoadnombre = '';
   imgTimeStamp = '';
+  size: number;
+  detail = '';
+  type = '';
 
   incrementa = 10;
   incrementaString = this.incrementa.toString();
@@ -100,8 +104,7 @@ export class NewComponent implements OnInit, OnDestroy {
 
     // muestro esos valores de ese input en consola
     this.newPost.get('id').valueChanges.subscribe(value => {console.log('Id', value); });
-    this.newPost.get('title').valueChanges
-      .subscribe(value => {console.log('Title' , value);
+    this.newPost.get('title').valueChanges.subscribe(value => {console.log('Title' , value);
       });
     this.newPost.get('incremental').valueChanges
       .subscribe(value => {console.log('Incremental', value);
@@ -193,10 +196,17 @@ export class NewComponent implements OnInit, OnDestroy {
     de aca el files y el que esta en primer lugar que es su nombre */
 
    console.log('sube ' , event.target.files[0], 'Todo ' , event);
-   this.imgParaLoad = event.target.files[0];
+   let newImagen: Image = null; // invento para subir e iterar imagen en service
+   const imagesArray: Image[] = [];
+   const postArray: Post[] = [];
+   this.imgParaLoad = event.target.files[0]; // el mismo elemento imagen
    this.imgParaLoadnombre = event.target.files[0].name;
    this.imgTimeStamp = event.timeStamp;
-   console.log('timeStamp ' , event.timeStamp, + '..', this.imgParaLoad);
+   this.size = event.target.files[0].size;
+   this.detail = event.target.namespaceURI;
+   this.type = event.target.files[0].type;
+
+   console.log('URL ' , this.detail, + '..', this.imgParaLoad);
 
    const idAleatorio = Math.random().toString(36).substring(2);
    const file = event.target.files[0]; // el mismo elemento imagen
@@ -216,12 +226,16 @@ export class NewComponent implements OnInit, OnDestroy {
       }))
       .subscribe();
 
-   alert('Subiendo ' + this.imgParaLoadnombre + '..' + this.imgParaLoad + ' time: ' + this.imgTimeStamp);
-
-
    // elegi subir solo una imagen, pero en logged puede subir muchas
-   this.service.onUploadAllImag(this.imgParaLoad);
-   // this.service.uploadImag(this.imgParaLoad);
+   newImagen = new Image(this.imgParaLoadnombre, this.size, this.detail, this.type);
+   alert('La new Imagen es; ' + newImagen.title + ' -DETALLE ; ' + newImagen.detail + ' -SIZE ' + newImagen.size2);
+   // imagesArray.push(newImagen);
+   imagesArray.push(this.imgParaLoad);
+
+   this.service.onUploadAllImag(imagesArray);
+  //  this.service.onUploadAllImag(this.imgParaLoad);
+  // this.service.onUploadOneImag(this.imgParaLoad);
+   /* this.service.onUploadOneImag(newImagen); */
     // this.service.uploadImag2(event);
   }
 
@@ -231,7 +245,7 @@ export class NewComponent implements OnInit, OnDestroy {
   }
 
   /* INVENTO INCREMENTAL como app-incrementa desde helper */
-  
+
   restaIncremental() {
     this.incrementa --;
     this.service.IncrementalChange.next(this.incrementa);
@@ -255,9 +269,8 @@ export class NewComponent implements OnInit, OnDestroy {
   myOnTouch = () => {};  // es una funcion vacia que NO recibe un valor any
 
 
-
     /* RELOJ */
-    /* <span id="liveclock" 
+    /* <span id="liveclock"
       style="position:absolute;left:0;top:0;">
     </span> */
 
@@ -267,7 +280,7 @@ export class NewComponent implements OnInit, OnDestroy {
       let minutes = Digital.getMinutes();
       const seconds = Digital.getSeconds();
 
-      const dn = 'PM'
+      const dn = 'PM';
       if (hours < 12) {
         const dn = 'AM';
       }
@@ -286,4 +299,15 @@ export class NewComponent implements OnInit, OnDestroy {
 
       /* termina reloj  */
     }
+
+    onBack() {
+      alert('// this.fgNew.reset();');
+      this.router.navigate(['/post']);
+    }
+    // sirven las dos formas de rutas
+
+      /* this.router.navigate(['/post'], {relativeTo: this.route,
+        queryParams: { From: '1973' },
+         fragment: 'Free'});
+    } */
 }

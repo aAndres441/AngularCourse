@@ -46,9 +46,9 @@ import { CanDeactivateGuard } from './server/components/edit-server/can-deactiva
 
 
 const myRoutes: Routes = [
-  
+
   {path: 'home', component: HomeComponent},
-  
+
   {path: 'users', component: UserComponent, children: [
     {path: 'active', component: ActiveUsersComponent },
     {path: 'usuTest', component: UserTestComponent },
@@ -56,12 +56,12 @@ const myRoutes: Routes = [
     {path: 'list', component: UserListComponent },
     {path: ':id', component: OneUserComponent },
     {path: ':id/new', component: UserFormComponent },
-    
+
   ]},
 /* ,
     {path: ':usuTest', component: UserTestComponent }, */
   /*  {path: ':list', component: UserListComponent }, */
-  
+
   {path: 'recipes', component: RecipeComponent, children: [
     /* {path: '', component: RecipeListComponent}, */
     /* {path: '', component: RecipeItemComponent}, */
@@ -71,13 +71,13 @@ const myRoutes: Routes = [
     {path: ':id/edit', component: RecipeEditComponent},
   ]},
  // {path: 'item', component: RecipeItemComponent},
-  
+
   {path: 'shopping', component: ShoppingComponent, children: [
     {path: 'list', component: ShoppingListComponent},
     {path: ':id/edit', component: ShoppingEditComponent}
   ]},
   // {path: 'shopping/:edit', component: ShoppingEditComponent},
-    
+
   { path: 'server',
      canActivate: [AuthServerGuard], // esto es para usuario registrado sino login
     // component: ServerComponent, canActivate: [AuthServerGuard], // esto es para usuario registrado sino login
@@ -91,24 +91,24 @@ const myRoutes: Routes = [
       { path: ':id/edit', component: EditServerComponent, canDeactivate: [CanDeactivateGuard] }
       // le egregamos prop canDeactivate para ejecutar metodo, cada vez que queremos dejar esta RUTA
     ]},
-  
+
   {path: 'test', component: MyTestComponent, children: [
     {path: 'bindeo', component: MyTestBindingComponent},
   ] },
 
   {path: 'borrar', component: BorrarComponent},
-  
+
   {path: 'account', component: AccountComponent, children: [
      {path: ':id', component: NewAccountComponent }
   ]},
 
   {path: 'newId', component: NewAccountComponent},
-  
+
   {path: 'newAcc', component: MyAccountComponent},
 
   {path: 'post', component: PostComponent/*, children:  [
-     {path: 'postEdit', component: ActivePostComponent}, 
-    {path: 'postNew', component: NewComponent} 
+     {path: 'postEdit', component: ActivePostComponent},
+    {path: 'postNew', component: NewComponent}
   ] */
   },
   {path: 'postEdit', component: ActivePostComponent},
@@ -122,9 +122,9 @@ const myRoutes: Routes = [
   {path: 'login', component: LoginComponent },
   {path: 'contact', component: ContactComponent},
 
-  {path: '', redirectTo: 'home' , pathMatch: 'full'},  // determinada para cuando se carga la app  
+  {path: '', redirectTo: 'home' , pathMatch: 'full'},  // determinada para cuando se carga la app
   {path: '**', redirectTo: 'error' , pathMatch: 'full'},  // determinada por si n o coincide ninguna direccion y siempre al final,+
-  
+
 ];
 
 @NgModule({

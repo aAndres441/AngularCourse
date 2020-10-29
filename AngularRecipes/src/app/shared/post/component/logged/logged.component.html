@@ -1,5 +1,7 @@
 <div class="container" style="background-color: deepskyblue; margin-top: 2rem;">
   <!-- Directiva de nombre appImage desde helper-->
+  
+  <button class="btn btn-danger" (click)= "fetchPosts()">Fetch Posts</button>
   <button class="btn btn-primary" 
       appImage 
       id="directiva">
@@ -173,10 +175,27 @@
       <label for="imagen"><b>Choose imagen</b> </label>
       <input type="file" 
         name="imagen" 
-        id="imagen" 
+        id="imagen" #imagen
         accept=".jpg, .png" 
-        (change)="onLoadImg($event)">
+        (change)="onLoadImg($event)"
+      >
 
+        <!-- **************************** -->
+        <button *ngIf="imgUrl | async; else vemos"
+          type="submit" class="btn btn-primary"> 
+          Entelechy
+        </button>
+        <br>
+        <hr>
+        <input 
+          type="hidden"
+          [value]="imgUrl | async"
+        >
+        <hr>
+        <ng-template #vemos>
+          <h3 style="text-transform: uppercase; color: chartreuse;">Entelechy</h3>
+        </ng-template>
+        <!-- **************************** -->
       <br>
 
       <!-- progress-bar -->
@@ -215,10 +234,12 @@
         </ng-template>
 
         <!-- <span class="pull-right" style="display: block;"> -->
-          <div class="imgcontainer">
-            <img [src]=imgParaLoad alt="{{imgParaLoadnombre}}" class="fenix">
+        <div class="imgcontainer">
+          <img [src]=imgParaLoad  
+            alt="{{imgParaLoadnombre}}" 
+            class="fenix">
             <!-- class="img-responsive" style="max-height: 150px;" -->
-          </div>
+        </div>
         <!-- </span> -->
 
         <ng-template #btnDisable2>
@@ -230,7 +251,8 @@
 
       <div class="row">
         <div class="col-xs-6 col-md-6">
-          <button class="btn btn-facebook" style="background-color: rgb(98, 98, 202);" (click)="onLoginFace()">
+          <button class="btn btn-facebook" style="background-color: rgb(98, 98, 202);" 
+            (click)="onLoginFace()">
             <a style="color: white">
               <i class="fa fa-child" style="font-size: 24px;"></i>
               Facebook
@@ -238,7 +260,8 @@
           </button>
         </div>
         <div class="col-xs-6 col-md-6">
-          <button class="btn btn-google" style="background-color: rgb(202, 98, 162);" (click)="onLoginGoogle()">
+          <button class="btn btn-google" style="background-color: rgb(202, 98, 162);" 
+            (click)="onLoginGoogle()">
             <a style="color: white">
               <i class="material-icons" style="font-size: 24px;"> transfer_within_a_station</i>
               Google
@@ -249,10 +272,16 @@
 
       <div class="row">
         <div class="col-xs-6">
-          <button class="btn btn-warning" (click)="onLogin()">Login</button>
+          <button class="btn btn-warning"
+           (click)="onLogin()">
+           Login
+          </button>
         </div>
         <div class="col-xs-6">
-          <button class="btn btn-info" (click)="onLogout()">Logout</button>
+          <button class="btn btn-info"
+           (click)="onLogout()">
+           Logout
+          </button>
         </div>
       </div>
 
@@ -269,13 +298,13 @@
   </form>
 
   <div class="ancla">
-    <a href="" (click)="onLogoutGoogle()"><span>OUT Google</span></a>
+    <a routerLink="/post" (click)="onLogoutGoogle()"> <i class="fas fa-democrat" style="color:rgb(255, 251, 15); font-size: 25px"></i><span>OUT Google</span></a>
   </div>
   <div class="ancla">
-    <a href="" (click)="onLogoutFace()"><span>OUT Fecebook</span></a>
+    <a routerLink="/test" (click)="onLogoutFace()"><span>OUT Fecebook</span></a>
   </div>
 
-  <span class="pull-right">
+  <span class="pull-right"> <!-- todos inventos, imagen seria la del usuario -->
     <img [src]=imgParaLoad alt="{{imgParaLoadnombre}}" class="fenix">
     <img [src]=imgParaLoad alt="{{imgParaLoadnombre}}" class="img-responsive" style="max-height: 150px;">
     <img [src]=imgParaLoad alt="{{imgen}}" class="img-responsive" style="max-height: 150px;">

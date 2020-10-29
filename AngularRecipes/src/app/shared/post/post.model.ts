@@ -5,6 +5,7 @@ export class Post {
     image: ImageData;
     imageUrl: any;
     data: Date;
+    IdFirebase?: string;
 
     constructor(id: number, title: string, content: string, imag: any) {
         this.id = id;

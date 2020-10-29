@@ -96,7 +96,7 @@ button, [type=button], [type=reset], [type=submit] {
   float: right ;
   transition-duration: 0.4s;  
   color: aliceblue;
-  background-color: #ebebba;
+  background-color: #d8d8ce;
   width: 20%;
 }
 .btnLoggin:hover, .btnAdd:hover{
