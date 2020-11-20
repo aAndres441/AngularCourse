@@ -14,16 +14,18 @@
 
 <mat-dialog-content class="dialog-content col-xs-12 col-md-12"> 
   
-  <div *ngIf="data.content; else showNewform"> <!--Si existe post => viene de openDialog de data.content active post ts-->
-     
-    <app-active-post [postInput]="data.content"></app-active-post>  <!-- pasamos al active ts el post -->
+  <div *ngIf="data.content; then editPost else showNewform"> <!--Si existe post => viene de openDialog de data.content active post ts-->
+     </div>
+    <!-- <app-active-post [postInput]="data.content"></app-active-post> -->  <!-- pasamos al active ts el post -->
          
-  </div>
-   
-  <ng-template #showNewform style="background-color: rgb(230, 245, 175);">
-   
-    <app-new></app-new> 
+  
 
+  <ng-template #editPost>
+    <app-active-post [postInput]="data.content"></app-active-post>  <!-- pasamos al active ts el post -->
+  </ng-template>
+   
+  <ng-template #showNewform style="background-color: rgb(230, 245, 175);">   
+    <app-new></app-new> 
   </ng-template>
        
 </mat-dialog-content>

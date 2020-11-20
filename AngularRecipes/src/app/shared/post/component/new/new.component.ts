@@ -126,6 +126,7 @@ export class NewComponent implements OnInit, OnDestroy {
 
     this.onCreatePost(newPost);
  }
+
   onCreatePost(postData: Post) {
 
       this.service.onCreatePost(postData);
@@ -174,7 +175,7 @@ export class NewComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  ozClearPosts() {
+  clearAllPosts() {
     alert(this.loadedPosts.length + 'DATOOS desde new');
     // Send Http request
     this.service.deleteAll();
@@ -277,12 +278,12 @@ export class NewComponent implements OnInit, OnDestroy {
     show5() {
       const Digital = new Date();
       let hours = Digital.getHours();
-      let minutes = Digital.getMinutes();
+      const minutes = Digital.getMinutes();
       const seconds = Digital.getSeconds();
 
       const dn = 'PM';
       if (hours < 12) {
-        const dn = 'AM';
+        const dno = 'AM';
       }
       if (hours > 12) {
         hours = hours - 12;

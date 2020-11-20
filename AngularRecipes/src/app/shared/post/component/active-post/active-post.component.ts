@@ -23,6 +23,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   postForm: FormGroup;
   imageNew: any;
   imageOriginal: any;
+  IdFirebase = '';
   @Input() postInput: Post;  // recibira desde Modal dialogo
   loadedPosts: Post[] = [];
   loadedPosts2: Observable<Post[]>;
@@ -30,7 +31,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   // post: Post;
   submitted = false; // solo para cambiar valor de envio
   editMode = false;
-  title = ' New Post';
+  title = '';
   suggestedName = 'Albodiga';
   private postSuscripcion: Subscription;
   private suscripcion: Subscription; // se suscribe para mostrarlo y desuscribir
@@ -58,6 +59,8 @@ export class ActivePostComponent implements OnInit, OnDestroy {
 
     this.imageNew = this.postInput.imageUrl;
     this.imageOriginal = this.postInput.imageUrl;
+
+    this.IdFirebase = this.postInput.IdFirebase;
 
     this.initForm();
     this.initValuesForm();
@@ -99,7 +102,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   private initForm() {
     this.title = `Edit  ${this.postInput.title}`;
 
-    const postt: Post = this.service.getPostTitle(this.postInput.title);
+    // const postt: Post = this.service.getPostTitle(this.postInput.title);
 
     this.postForm = new FormGroup({
       id: new FormControl('', [Validators.required]),
@@ -136,7 +139,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
 
   onSubmit() {
 
-    console.log(this.postForm.value + 'Enviando1 onSubmit');
+    console.log(this.postForm.status + 'Enviando1 onSubmit');
     alert(this.postForm.statusChanges + '.statusChanges onSubmit');
     const newPost = new Post(
       this.postForm.value.id,
@@ -160,8 +163,9 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   private onEditPost(newPost: Post) {
     alert('EDIT');
     console.log('IMG new ' + this.imageNew);
-    console.log('IMG Original' + this.imageOriginal);
-    console.log('Itityle' + this.title);
+    console.log('IMG Original ' + this.imageOriginal);
+    console.log('Itityle ' + this.title);
+    console.log('IdFirebase ' + this.IdFirebase);
 
  /* es por si no tiene imagen
  Si imagen que agrego con handle es igual a original del init, le asigna original.
@@ -173,7 +177,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
       this.service.updatePost(newPost.id , newPost);
     } else {
       alert('otra img ');
-      this.service.updatePost(newPost.id, newPost, this.imageNew);
+      this.service.updatePost(newPost.id, newPost, this.imageNew, this.IdFirebase);
     }
 
     // this.service.updatePost2(newPost);

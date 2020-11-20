@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, range, Subscription } from 'rxjs';
 import { PostService } from '../../../services/post.service';
 import { Post } from '../../post.model';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { ModalComponentComponent } from 'src/app/shared/modal/modal-component/modal-component.component';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-post',
@@ -25,7 +26,11 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
    viewOnePost: Subscription;
    editMode = false;
    loggeado = false;
+   error = false;
+   private errorSub: Subscription;
    private logSubscription: Subscription;
+   isFetchingPost = false;
+   private fetchingPost: Subscription;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -33,6 +38,13 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
               private matDialog: MatDialog) { }
 
   ngOnInit() {
+
+    // Invento con filter rxjs
+    const numerito: Observable<number> = range(0, 14);
+    numerito.pipe(map(x => x * 3), filter(x => x % 2 === 0))
+    .subscribe((y) => {
+        console.log(y);
+      });
 
      // this.editMode = this.posts != null;
 
@@ -44,12 +56,19 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
 
-    this.posts = this. fetchPosts();
+    this.posts = this.fetchPosts();
 
     this.postSubscription = this.service.onChange
     .subscribe(
       (ps: Post[]) => {
         this.posts = ps;
+      }
+    );
+
+    this.errorSub = this.service.elErrorSubj
+    .subscribe(
+      (er: boolean ) => {
+        this.error = er;
       }
     );
 
@@ -66,7 +85,11 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loggeado = res;
       });
 
-    alert( 'HAY ' + this.posts.length);
+      /* mientras carga datos de BD */
+    this.fetchingPost = this.service.fetchingPost
+      .subscribe((res) => {
+        this.isFetchingPost = res;
+      });
 
   } /* termina OnInit() */
 
@@ -74,6 +97,8 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
    this.postSubscription.unsubscribe();
    this.viewOnePost.unsubscribe();
    this.logSubscription.unsubscribe();
+   this.fetchingPost.unsubscribe();
+   this.errorSub.unsubscribe();
   }
 
   onNewPost() {
@@ -96,12 +121,15 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.randomSub.next(this.randomSubject); // invento paraver subbmited en postActive
   }
 
+ /* Podemos suscribirnos a un return desde service del get (return this.http.get<Post>..)
+  que retorna un observable de pipe sin suscribirse o
+  se suscribe en el servicio si al cmponente no quiere recibir la respuesta como en Create o puede retornar el array*/
   fetchPosts(): Post[] {
     this.posts = this.service.fetchPosts();
     return this.posts;
-   //  return this.service.fetchPosts();
   }
 
+  /* ********   DELETE  ***************************** */
   onDelete(ps: Post): boolean {
     /* let res : boolean; */
     confirm(`Delete ${ps.title}?`);
@@ -109,11 +137,26 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.service.deletePost4(ps);
   }
 
-  deletePost5(pos: Post) {
-    this.posts = this.posts.filter(h => h !== pos);
-    this.service.deletePost5(pos).subscribe();
+  deletePost(pos: Post) { // delete desde BD
+    confirm(`Delete ${pos.title}?`);
+
+    // abajo Elimina del array el post seleccionado
+    // this.posts = this.posts.filter(h => h !== pos);
+
+    // estaba esta
+    // this.service.deletePost5(pos).subscribe((dato) => {console.log('Fenix' + dato.title); });
+   // this.service.deletePost(pos);
+    this.service.deletePost(pos).subscribe((dato) => {console.log('Fenix' + dato.title); });
   }
 
+  onDeleteAll() {
+    this.service.deleteAll()
+    .subscribe(() => {
+      this.posts = [];
+    });
+  }
+
+  /* ********   ADD & EDIT  ***************************** */
   onAdd(ps?: Post) {
     // alert('onAdd component' + ps.title);
     // this.service.onCreatePost(ps);
@@ -147,7 +190,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
       ID: 22,
       title: ' Fenix',
       message: post ? 'Editar post' : 'New post', // si hay post le mando este msg
-      content: post  // si hay post le mando este content
+      content: post  // si hay post le mando este content y abre dialogo de edit
     };
     config.autoFocus = true;
     config.disableClose = true;
@@ -237,6 +280,9 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.logeado.next(this.loggeado);
   }
 
+ mostrardatos() {
+   this.service.mostrardatos();
+ }
 
 
 

@@ -23,7 +23,7 @@ export class ModalComponentComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.editOrNo = this.data.content;
+    this.editOrNo = this.data.content; // si recbe un config.data con content
     if (this.editOrNo) {
       alert(`Dialog: ${this.data.content.title} iD ${this.data.content.id}`);
       this.post = this.data.content;

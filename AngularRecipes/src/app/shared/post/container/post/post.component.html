@@ -7,32 +7,32 @@
                             ( here must stay router-outlet)
             </small></i></u></q>
         </h4>
-      
+
         <div class="col-xs-12 col-sm-12">
-            <router-outlet></router-outlet>            
+            <router-outlet></router-outlet>
         </div>
         <hr>
         <nav class="navbar navbar-inverse">
             <div class="icon-bar-2">
-                <a routerLink="/home" 
-                    class="active" 
+                <a routerLink="/home"
+                    class="active"
                     (click)="newPost()">
                     <i class="fa fa-cannabis"></i>
                 </a>
             </div>
         </nav>
         <hr>
-        <button class="btn btn-warning" style=" width: 60%; background-color:rgb(130, 130, 204)" 
+        <button class="btn btn-warning" style=" width: 60%; background-color:rgb(130, 130, 204)"
             (click)="onNewPost()">
             New Post
         </button>
-        <button class="btn btn-warning" style=" width: 40%;" 
+        <button class="btn btn-warning" style=" width: 40%;"
             (click)="activarSubject()">
             Change (submitted)
         </button>
-        <button class="btn btn-dafault" style=" width: auto,20%;" 
+        <button class="btn btn-dafault" style=" width: auto,20%;"
             (click)="fetchPosts ()">
-            get All Post            
+            get All Post
         </button>
         <hr>
     </div>
@@ -54,9 +54,29 @@
     <!-- <div class="row" style="background-color: #9ac48a;"> -->
     <div class="col-xs-12 col-sm-12 col-md-12" >
 
-            <div *ngIf="posts.length>1; else noTask">
-            </div>
+            <div *ngIf="posts.length>1 && !isFetchingPost; else noTask"> </div>
+            <!-- <div *ngIf="posts.length>1 && !isFetchingPost; else noTask"> </div> -->
+            <div *ngIf="posts.length>1 && !isFetchingPost; then seguro else noseguro"> </div> 
+            <button class="btn btn-danger" (click)= "isFetchingPost =!isFetchingPost">boolean</button>
+            <button class="btn btn-danger" (click)= "mostrardatos()">view data</button>
+            <button class="btn btn-danger" (click)= "onDeleteAll()">Delete All</button>
+            <ng-template #seguro> <h3>seguro!!!!</h3></ng-template>
+            <ng-template #noseguro> <h3>noseguro!!!!</h3></ng-template>
 
+            <div class="alert" *ngIf="!error" style="background-color: rgb(253, 181, 255);">
+                <h3>An error has be ocurred!! ....</h3>
+                <p>{{error}}</p>
+            </div>
+            <div *ngIf="isFetchingPost && !error" style="background-color: moccasin;">
+                <h3>LOADING ....</h3>
+            </div>
+             <!-- progress-bar -->
+    <!--         <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                [style.width]="(uploadPercent | async) + '%'">
+                </div>
+            </div>  -->
+            
             <ng-template #noTask>
                 <h4 *ngIf="posts.length==0" style="text-align: center; font-weight:500 red; color: red;">
                     THERE IS NOT POSTS YET
@@ -64,7 +84,7 @@
                 <p *ngIf="posts.length===1" style="background-color: greenyellow; text-align: center">
                     Careful: there's few post
                 </p>
-            </ng-template>              
+            </ng-template>
 
             <div>
                 <button (click)="onAdd()" class="btnAdd">
@@ -90,24 +110,25 @@
             </div>
 
             <div>
-                <div *ngIf="loggeado; else noFenix"> Capurro</div>
+                <div *ngIf="loggeado; else noFenix"> <h3>Capurro</h3></div>
                 <hr>
                 <ng-template *ngIf="!loggeado" #noFenix>logout</ng-template>
                 <hr>
-                <app-logged *ngIf="loggeado"></app-logged> 
+                <app-logged *ngIf="loggeado"></app-logged>
                 <hr>
-                    <div *ngIf="posts.length" >                    
+                    <div *ngIf="posts.length" >
                         <div class="row" *ngIf="post">
                             <span class="pull-right">
-                                <img [src]="post.imageUrl" 
-                                alt="{{post.title}}" 
-                                class="img-responsive" 
+                                <img [src]="post.imageUrl"
+                                alt="{{post.title}}"
+                                class="img-responsive"
                                 style="max-height: 90px;">
                             </span>
                         </div>
                     </div>
                     <!-- -TABLA ----- -->
                     <table class="table-responsive" >
+                        <h3>Tabla</h3>
                         <!--  <thead style="text-align: center;">Tabla </thead> -->
                         <tbody style="align-self: center;">
                             <tr>
@@ -118,43 +139,43 @@
                                 <th>Add</th>
                                 <th>Edit</th>
                             </tr>
-                            <tr *ngFor="let ps of posts">                            
-                                <td >                            
-                                    <a class="list-group-item clearfix" 
+                            <tr *ngFor="let ps of posts">
+                                <td >
+                                    <a class="list-group-item clearfix"
                                         (click)="viewDetail()"
                                         >
                                         <!-- [routerLink]="[newPost]"
-                                        routerLinkActive='active'                
+                                        routerLinkActive='active'
                                         [queryParams]= "{ID: [index] }"
                                         fragment= {{ps.title.name}} -->
 
-                                            <!-- (click)="viewDetail()"  -->                 
+                                            <!-- (click)="viewDetail()"  -->
                                         <!--invento Subject  -->
-                                
+
                                         <!-- [queryParams]="{feniEdit:'1'}"
                                                                         fragment='loading' -->
-                                
+
                                         <!-- elimine este metodo que estaba entre las <a> despues de cursor: pointer;"
-                                                                pues paso el item por url en [routerLink]="[index]" desde html list    
+                                                                pues paso el item por url en [routerLink]="[index]" desde html list
                                                             (click)="addDetail()" -->
-                                
-                                        <!-- [routerLink]="[index]" 
+
+                                        <!-- [routerLink]="[index]"
                                                             le paso numero index a la ruta para ir al detalle -->
-                                
+
                                         <!--  routerLink="['/start]" -->
-                                
+
                                         <!-- [routerLink]="['/reipe',recipe.id]"  -->
-                                
-                                
+
+
                                         <div class="pull-left">
-                                            {{ps.title | uppercase}} 
-                                        </div>                            
+                                            {{ps.title | uppercase}}
+                                        </div>
                                     </a>
                                 </td>
                                 <td colspan="2">{{ps.content}}</td>
                                 <td>{{ps.data |date:'shortDate'}}</td>
                                 <td>
-                                    <button (click)="onDelete(ps)"
+                                    <button (click)="deletePost(ps)"
                                         class="w3-btn w3-white w3-border w3-border-red w3-text-red w3-round-large"
                                         style="vertical-align: inherit">
                                         <i class="far fa-trash-alt"></i>
@@ -193,7 +214,7 @@
     </div>
 
 
-<!-- 
+<!--
 <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #c1cf8f;">
     <app-active-post></app-active-post>
 </div> -->
@@ -208,16 +229,16 @@
 
 <!-- NO SE VEN NINGUNA DE ABAJO -->
 <hr><hr>
-<!-- en directives --> 
-<!-- <div class="container" style="border: 2px solid orange"> 
+<!-- en directives -->
+<!-- <div class="container" style="border: 2px solid orange">
     <app-count-click></app-count-click>
 </div> -->
 <!-- en helpers -->
-<!-- <div class="container" style="border: 2px solid blueviolet"> 
+<!-- <div class="container" style="border: 2px solid blueviolet">
     <app-incremental></app-incremental>
 </div> -->
 <!-- <div class="container" style="border: 2px solid rgb(43, 226, 113)">
     <app-succes-alert></app-succes-alert>
-  </div> 
+  </div>
 <hr><hr>-->
 

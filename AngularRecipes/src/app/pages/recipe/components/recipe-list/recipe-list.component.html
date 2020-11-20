@@ -30,7 +30,8 @@
                 <div class="row">
                     <div class="col-xs-4">                    
                         <input type="text" style="color: palevioletred;"
-                        [(ngModel)]="filterName" palevioletred
+                        [(ngModel)]="filterName"
+                        palevioletred
                         placeholder="Filter for name"
                         >
                         
@@ -67,7 +68,7 @@
 <div class="row">
    
     <div class="col-xs-12">  <!-- *ngIf="recipes.length>0; else infoText"> -->
-<!-- | filterRecipesPipe:filterName:'name' donde na,e esprpèrty-->
+<!-- | filterRecipesPipe:filterName:'name' donde name es propèrty-->
         <app-recipe-item 
             *ngFor="let rec of recipes | filterRecipesPipe:filterName:'name'; let i = index " 
             [recipe]="rec" 
