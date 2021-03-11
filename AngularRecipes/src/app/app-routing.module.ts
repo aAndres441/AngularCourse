@@ -22,6 +22,7 @@ import { MyTestComponent } from './shared/my-test/container/my-test/my-test.comp
 import { MyTestBindingComponent } from './shared/my-test/components/index';
 
 import { BorrarComponent } from './borrar/borrar.component';
+import { OrderComponent } from './shared/order/component/order.component';
 import { PaymentComponent } from './pages/payment/container/payment/payment.component';
 import { HomeComponent } from './shared/home/home.component';
 import { ErrorComponent } from './shared/error/error.component';
@@ -116,6 +117,7 @@ const myRoutes: Routes = [
   {path: 'postLogged', component: LoggedComponent},
 
   {path: 'payment', component: PaymentComponent},
+  {path: 'order', component: OrderComponent},
   {path: 'error', component: ErrorComponent, data: {mensajito: 'Page not found guy!'}},
   {path: 'game', component: GameComponent },
   {path: 'hobbie', component: HobbieComponent},

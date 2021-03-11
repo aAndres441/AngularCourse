@@ -22,8 +22,8 @@
             <li><a href="#"><span class="glyphicon glyphicon-heart"></span> Login</a></li>
           </ul>
         </li>
-      </ul>
-      <hr>
+    </ul>
+    <hr>
     <div class="navbar">
         <a routerLink="/home">Home</a>
         <a href="#news">News</a>
@@ -65,7 +65,9 @@
         <div class="col-md-4">
             <p style="border: lime solid 1px;">..{{userName}}..{{lastName}}</p>
 
-            <p *ngIf="isActualizado; else parrafoOculto" [ngClass]="{onLine:!isActualizado}">Visble, #parrafoOculto -
+            <p *ngIf="isActualizado; else parrafoOculto" 
+                [ngClass]="{onLine:!isActualizado}">
+                Visble, #parrafoOculto -
                 {{lastName}}
             </p>
 
@@ -173,4 +175,128 @@
         </ul>
 
     </div>
+
+    <!-- Aca todo ej DATA-BINDING, interpolacion, property binding, eventBinding -->
+    
+    <div class="container mt-4"> <!-- se actualizara con interpolacion a los 3000 -->
+        <h3>Estamos utilizando diferentes Databindings</h3>    
+      
+        <label for="">{{lastName}}</label>  
+
+        <input
+            type="text"
+            class="form/control" 
+            [placeholder]="miPlaceholder"
+            [disabled]="isActualizado">
+    
+        <img [src]="miSrc"
+            alt="Img" 
+            width="200px" height="200px"
+        >
+
+        <label for=" ">
+           <span>
+            'Debo importar en raiz o en modulo a usar, 
+            import  FormsModule  from '@angular/forms'
+           </span>
+        </label>
+        <input type="text" placeholder="ingrese Two way Data-Binding"
+            [(ngModel)]= "miTexto">
+        <h4> Cambiara: <span style="color: green;">
+            {{miTexto}}
+            </span>
+        </h4>
+
+        <div>
+            <input type="text">
+            <h3>{{miTexto}}</h3>
+            <br>
+            <button 
+                (click)="cambiarTexto()" 
+                class="btn btn-secondary">
+                Click Me EventBinding
+            </button>
+        </div>
+
+        <div class="container mt-2">
+            <h3 style="text-transform: uppercase; display: block; width: 100%;">
+                Directives
+            </h3>
+            <button class="btn btn-primary ml-auto"(click)="toogle()">Toogle</button>
+            <div class="row">
+                <label for="Listado de mascotas"></label>
+            </div>
+            <table class="table-responsive" 
+                    *ngIf="isActualizado"
+                     #registro2
+                     >
+
+                <thead style="text-align: center;">Tabla >
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Gender</th>
+                    <th>Condition</th>
+                    <th>State</th>
+                    <th>Delete</th>
+                    <th>Add</th>
+                </thead>
+
+                <tbody style="border: double 2px pink; align-self: center;">
+                    <tr *ngFor="let m of mascotas; let i = index"
+                        [ngSwitch]="m.condition">
+                        <td>{{i + 2}}</td>
+                        <td>{{m.tipo}}</td>
+                        <td>
+                            <span [ngClass]="m.gender === 'X' ? 'badge badge-success' : 'badge badge-secondary'">
+                                {{m.gender}}
+                            </span>
+                        </td>
+                        <td>
+                            <span *ngSwitchCase="'Cachorro'" class="badge badge-success">
+                                {{m.condition}}
+                            </span>
+                            <span *ngSwitchCase="'Joven'" class="badge badge-secondary">
+                                {{m.condition}}
+                            </span>
+                            <span *ngSwitchCase="'Adulto'" class="badge badge-danger">
+                                {{m.condition}}
+                            </span>
+                        </td>
+                        <td  
+                            [ngStyle]="{'font-style': m.estado === true ? 'italic' : 'normal'}">
+                            {{m.estado}}
+                        </td>
+                        <td>Delete</td>
+                        <td>Add</td>
+                        <td>
+                            <button (click)="cambiarTexto()"
+                                class="w3-btn w3-white w3-border w3-border-red w3-text-red w3-round-large"
+                                style="vertical-align: inherit">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button (click)="cambiarTexto()"
+                                class="w3-btn w3-white w3-border w3-border-red w3-text-red w3-round-large">
+                                <font style="vertical-align: inherit;">
+                                    <i class="fas fa-plus"></i>
+                                </font>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div #registro1>
+                <h3 style="color: greenyellow;"
+                *ngIf="mascotas.length<4"
+                >Hay pocos registros
+            </h3>
+            </div>
+        </div>
+        
+        <!-- termina iterpolacion -->
+    </div>
+
 </div>

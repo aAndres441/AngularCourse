@@ -2,3 +2,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+ /* Podria agregar aca bootstrap si no lo quierpo haceren indexHTML.
+ Lo agregaria en estilos de la carpeta angular.json 
+ "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "src/styles.css"
+            ], 
+y aca lo importo
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+*/

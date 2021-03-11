@@ -94,7 +94,8 @@
                 <input type="text" [value]="alimento.value">
             </div>
             
-            <div class="col-sm-12" *ngFor="let m of mascotas; let i=index" (click)="showDetail(p)" (ionSelect)="set(i)">
+            <div class="col-sm-12" *ngFor="let m of mascotas; let i=index" >
+                <!-- (click)="showDetail(p)" (ionSelect)="set(i)" -->
                 <h5 style="text-align: center"><strong>Nombre: {{m.tipo  | uppercase}} - Gender: <i> {{m.gender}}</i></strong></h5>
             </div>
             

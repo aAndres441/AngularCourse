@@ -104,11 +104,8 @@ export class NewComponent implements OnInit, OnDestroy {
 
     // muestro esos valores de ese input en consola
     this.newPost.get('id').valueChanges.subscribe(value => {console.log('Id', value); });
-    this.newPost.get('title').valueChanges.subscribe(value => {console.log('Title' , value);
-      });
-    this.newPost.get('incremental').valueChanges
-      .subscribe(value => {console.log('Incremental', value);
-      });
+    this.newPost.get('title').valueChanges.subscribe(value => {console.log('Title' , value); });
+    this.newPost.get('incremental').valueChanges.subscribe(value => {console.log('Incremental', value);});
 
   }
 
@@ -116,11 +113,11 @@ export class NewComponent implements OnInit, OnDestroy {
     console.log
     (`${this.newPost.value.id}..${this.newPost.value.title}..${this.newPost.controls.content.value}..${this.newPost.value.imagePost}`);
     const newPost = new Post (
-      this.newPost.value.incremental,
+      this.newPost.value.id,
       this.newPost.value.title,
       this.newPost.controls.content.value,
       this.newPost.value.imagePost);
-    alert('desde newTs' + newPost.toString());
+    alert('desde newPost: ' + newPost.toString());
 
     this.imageOriginal = newPost.imageUrl;
 
@@ -276,10 +273,10 @@ export class NewComponent implements OnInit, OnDestroy {
     </span> */
 
     show5() {
-      const Digital = new Date();
-      let hours = Digital.getHours();
-      const minutes = Digital.getMinutes();
-      const seconds = Digital.getSeconds();
+      const digital = new Date();
+      let hours = digital.getHours();
+      const minutes = digital.getMinutes();
+      const seconds = digital.getSeconds();
 
       const dn = 'PM';
       if (hours < 12) {

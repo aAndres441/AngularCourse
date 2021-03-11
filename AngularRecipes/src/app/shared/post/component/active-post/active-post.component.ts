@@ -140,7 +140,7 @@ export class ActivePostComponent implements OnInit, OnDestroy {
   onSubmit() {
 
     console.log(this.postForm.status + 'Enviando1 onSubmit');
-    alert(this.postForm.statusChanges + '.statusChanges onSubmit');
+    alert(this.postForm.value.title.statusChanges + '.statusChanges onSubmit');
     const newPost = new Post(
       this.postForm.value.id,
       this.postForm.value.title,

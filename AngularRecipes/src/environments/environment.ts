@@ -17,7 +17,23 @@ export const environment = {
     measurementId: 'G-QYPHRZ3MH1'
   },
 };
+/* esto es mio
+// added .firestore to test firestore locally w/ emulator 
+const db = firebase.initializeApp(firebaseConfig).firestore(); 
 
+// for debugging
+firebase.firestore.setLogLevel('debug')
+
+// Uncomment the below line to use cloud functions with the emulator
+firebase.functions().useFunctionsEmulator('http://localhost:5001')
+// firebase.firestore().settings({ experimentalForceLongPolling: true });
+
+// uncomment this to test firestore locally w/ emulator 
+  db.settings({
+    host: "localhost:8080",
+    ssl: false
+  });
+   */
 
 /*
  * For easier debugging in development mode, you can import the following file

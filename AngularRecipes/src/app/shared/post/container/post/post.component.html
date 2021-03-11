@@ -1,6 +1,8 @@
 <div class="row" style="border: solid 2px black" style="background-color: #9ac48a;">
 
     <h1 style="color: rgb(250, 247, 82);text-shadow: darkturquoise;">Entelechy</h1>
+
+
     <div class="col-md-12 col-sm-12 col-xs-12" >
         <h4 style="text-align: center;">
             <q><u><i><small>
@@ -11,6 +13,12 @@
         <div class="col-xs-12 col-sm-12">
             <router-outlet></router-outlet>
         </div>
+        <hr>
+
+        <hr>
+<p>app-order/app-order</p>
+        <app-order></app-order>
+
         <hr>
         <nav class="navbar navbar-inverse">
             <div class="icon-bar-2">
@@ -50,6 +58,50 @@
         </div>
     </div>
 
+    <hr>
+    <div class="content">        
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="row" style="background-color: fuchsia;">
+                    <button class="btn btn-block btn-success" (click)="isActualizado = !isActualizado"> actualiza solo libre/ocupado</button>
+                    <div class="row">       
+                        <div class="col-xs-3"> 
+                            <button (click)="addInvento1(2,4)" [disabled]='isActualizado'>
+                                <i class="far fa-trash-alt"></i>
+                                addInvento1
+                            </button>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="number" 
+                            name="nu1"
+                            [(ngModel)]="numeroUno"  >
+                            <div class="col-md-4 ">
+                                <input type="number" [value]="numeroUno" placeholder="...">
+                            </div> 
+                        </div>
+                        <hr>
+                        <div class="col-xs-3"> 
+                            <button (click)="addInvento1(2,4)" [disabled]='!isActualizado'>
+                                <i class="far fa-home-alt"></i>
+                                addInvento2
+                            </button>
+                        </div>
+                        <div class="col-xs-9">
+                            <input type="number" 
+                            name="nu2"
+                            [(ngModel)]="numeroDos"  >
+                            <div class="col-md-4 ">
+                                <input type="number" [value]="numeroDos" placeholder="...">
+                            </div> 
+                        </div>
+                    </div>
+                    <input type="number" [value]>
+                </div>
+            </div>           
+        </div>
+    </div>
+            <br>
+
     <!-- View posts -->
     <!-- <div class="row" style="background-color: #9ac48a;"> -->
     <div class="col-xs-12 col-sm-12 col-md-12" >
@@ -57,13 +109,13 @@
             <div *ngIf="posts.length>1 && !isFetchingPost; else noTask"> </div>
             <!-- <div *ngIf="posts.length>1 && !isFetchingPost; else noTask"> </div> -->
             <div *ngIf="posts.length>1 && !isFetchingPost; then seguro else noseguro"> </div> 
-            <button class="btn btn-danger" (click)= "isFetchingPost =!isFetchingPost">boolean</button>
+            <button class="btn btn-danger" (click)= "isFetchingPost =!isFetchingPost" (click)= "error =!error">boolean</button>
             <button class="btn btn-danger" (click)= "mostrardatos()">view data</button>
             <button class="btn btn-danger" (click)= "onDeleteAll()">Delete All</button>
-            <ng-template #seguro> <h3>seguro!!!!</h3></ng-template>
-            <ng-template #noseguro> <h3>noseguro!!!!</h3></ng-template>
+            <ng-template #seguro> <h3>seguro!!!! {{isFetchingPost}} </h3></ng-template>
+            <ng-template #noseguro> <h3>noseguro!!!! {{isFetchingPost}}</h3></ng-template>
 
-            <div class="alert" *ngIf="!error" style="background-color: rgb(253, 181, 255);">
+            <div class="alert" *ngIf="error" style="background-color: rgb(253, 181, 255);">
                 <h3>An error has be ocurred!! ....</h3>
                 <p>{{error}}</p>
             </div>
@@ -112,7 +164,7 @@
             <div>
                 <div *ngIf="loggeado; else noFenix"> <h3>Capurro</h3></div>
                 <hr>
-                <ng-template *ngIf="!loggeado" #noFenix>logout</ng-template>
+                <ng-template #noFenix>logout</ng-template>
                 <hr>
                 <app-logged *ngIf="loggeado"></app-logged>
                 <hr>
@@ -126,9 +178,52 @@
                             </span>
                         </div>
                     </div>
+                    <!-- BUSCADOR -->
+                    <div class="flex justify-between flex-col md:flex-row mb-2 mt-10">
+                        <div class="flex flex-wrap">
+                            <h3 class="text font-bold text-gray-500">Search Products</h3>                            
+                        </div>
+                        <div class="flex">
+                            <p class="mr-5 text-lg">Price</p>
+                            <div class="inline-block " style="width: 100%;">
+                                <select [(ngModel)]="operador" name="operador"
+                                    class="focus:outline-none border-green-500px">
+                                    <option selected value=">">Major</option>
+                                    <option selected value="==">Equal</option>
+                                    <option selected value="<">Minor</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="number" value="2" min="1" max="10" 
+                                name="idCollection"
+                                [(ngModel)]="idCollection"                         
+                                (click)="getById()"
+                                (keup.enter)="getById()"
+                                >
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap">
+                            <div class="relative">
+                                <input type="search" placeholder="Name" 
+                                    name="nameCollection"
+                                    [(ngModel)]="nameCollection" 
+                                    (keup.enter)="getByNombre()" >
+                                <div class="col-md-4 ">
+                                    <input type="text" [value]="nameCollection" placeholder="...">
+                                </div>                                
+                                <button type="submit" class="btn btn-default" 
+                                    style=" inset-block: inherit; color: blueviolet;" 
+                                    (click)="getByNombre()">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
                     <!-- -TABLA ----- -->
                     <table class="table-responsive" >
-                        <h3>Tabla</h3>
+                        <h3 style="text-transform: uppercase; display: block; width: 100%;">Tabla</h3>
                         <!--  <thead style="text-align: center;">Tabla </thead> -->
                         <tbody style="align-self: center;">
                             <tr>

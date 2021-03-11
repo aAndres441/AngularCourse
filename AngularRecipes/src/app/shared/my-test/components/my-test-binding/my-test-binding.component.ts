@@ -28,6 +28,11 @@ export class MyTestBindingComponent implements OnInit {
   lastName = 'Manini';
   isActualizado = true;
   status = 'Ocupado';
+  /* para databinding */
+  miPlaceholder = "Ingrese algo aqui";
+  miSrc = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwUXD17prFtnvxtGWIzQ6wiktS2AzY0RRo6w&usqp=CAU";
+  miTexto = 'Esto es Data-Binding';
+  /* termina databinding */
   alimentos: string[];
   view = false;
   click: number;
@@ -36,13 +41,25 @@ export class MyTestBindingComponent implements OnInit {
   dates = [];
   esOno = ''; // usado para switch
   mascotas = [
-    {
-      tipo: 'Gato',
-      gender: 'Machito'
+    { tipo: 'Gato',
+      gender: 'M',
+      estado: true,
+      condition: 'Cachorro'
     },
-    {
-      tipo: 'Lombriz',
-      gender: 'verde'
+    { tipo: 'Lombriz',
+      gender: 'H',
+      estado: false,
+      condition: 'Joven'
+    },
+    { tipo: 'Horse',
+      gender: 'X',
+      estado: true,
+      condition: 'Adulto'
+    },
+    { tipo: 'Bird',
+      gender: 'X',
+      estado: false,
+      condition: 'Joven'
     }
   ];
 
@@ -52,6 +69,9 @@ export class MyTestBindingComponent implements OnInit {
     this.click = 0;
 
     this.alimentos = ['a1', 'a2'];
+
+    setInterval(()=> this.lastName = "Geronimo",3000);
+    setInterval(()=> this.isActualizado = true,3000);
   }
 
   ngOnInit() {
@@ -138,8 +158,18 @@ export class MyTestBindingComponent implements OnInit {
         this.esOno = ' Va de nuevo';
         console.log('es: ', this.esOno);
         break;
-    }
+    }   
   }
+
+  cambiarTexto(): void{
+    this.miTexto = 'cambio Zito, two way data-binding';
+  }
+
+  toogle(): void{
+this.isActualizado = !this.isActualizado;
+  }
+
+  
 
 }
 

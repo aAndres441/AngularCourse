@@ -14,6 +14,9 @@ import 'firebase/database';
 import { Image } from '../post/component/image.model';
 import { User } from 'src/app/pages/user/user.model';
 import { error, Key } from 'protractor';
+import { PortalHostDirective } from '@angular/cdk/portal';
+import { constants } from 'perf_hooks';
+import { LoginComponent } from '../login/login.component';
 
 /*
 import { promise } from 'protractor';
@@ -54,6 +57,38 @@ import { runInThisContext } from 'vm'; */
 
   postArrayOfKeys: string[] = [];
 
+  imageArray: [
+    {"id": "1460",
+    "width": 810,
+    "height": 1080,
+    "url": "https://www.animalesoviparos.net/wp-content/uploads/2019/09/peces-1280x720.jpg",
+    "full": {
+      "width": 1080,
+      "height": 1440,
+      "url": "https://cumbrepuebloscop20.org/wp-content/uploads/2018/10/discus-fish-1943755_640.jpg"
+    },
+    "big": {
+      "width": 500,
+      "height": 670,
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYOHM1Pl0id2UbwQJL5pstii_kF4ANYAMWYg&usqp=CAU"
+    },
+    "medium": {
+      "width": 120,
+      "height": 160,
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYOHM1Pl0id2UbwQJL5pstii_kF4ANYAMWYg&usqp=CAU"
+    },
+    "small": {
+      "width": 120,
+      "height": 100,
+      "url": "https://conceptodefinicion.de/wp-content/uploads/2014/04/hoja.jpg"
+    }    
+  } ];
+
+   addInvento1(x:number, y: number) {
+    return x+y;
+  }
+   addInvento2 = (x:number, y: number) => y+x;
+
   onChange = new Subject<Post[]>();
   IncrementalChange = new Subject<number>();
   randomSub = new Subject<boolean>();
@@ -90,7 +125,7 @@ import { runInThisContext } from 'vm'; */
               private readonly storage: AngularFireStorage,
               private aFireAuth: AngularFireAuth) {
 
-      /*  this.postCollection = this.firestore.collection('posts');
+      /*  this.postCollection = this.firestore.collection('Posts');
       this.posts = this.postCollection.snapshotChanges()
         .pipe(changes => {
           return changes.pipe( ps => {
@@ -119,9 +154,21 @@ import { runInThisContext } from 'vm'; */
 
 /*const inicio = AngularFireModule.initializeApp(environment.firebaseConfig);*/
 mostrardatos() {
-  // const db = firebase.firestore();
-  console.log('Referencia db ', this.db,
-  'Reference from our storage ', firebase.storage().ref().bucket);
+  const db = firebase.firestore();
+  console.log('Ref fire ', firebase);
+  console.log('Ref db0 ', firebase.firestore());
+  console.log('Ref db1 ', firebase.firestore().app.name);
+  console.log('Ref db2 ', firebase.firestore().app.options);
+  console.log('Ref Storage ', firebase.storage());
+  console.log('Ref Storage2 ', firebase.storage().ref());
+  console.log('Ref from storage ', firebase.storage().ref().bucket);
+  console.log('Ref Child ', firebase.storage().ref().child[0]);
+  console.log('Ref from BD Post ', firebase.storage().ref('Posts').bucket);
+
+    // Create a reference to the Posts collection
+  const postsRef1 = this.db.collection('Posts');
+  console.log('postsRef1' , postsRef1, '---------lo mismo',
+     firebase.firestore().collection('Posts'));
 
   const referenciaDePost1 = `${environment.firebaseConfig.databaseURL}Posts.json`;
   const idAleatorio = Math.random().toString(36).substring(2);
@@ -129,8 +176,6 @@ mostrardatos() {
   const filePath = `${referenciaDePost1} ${idAleatorio}`; // nombra carpeta y sera la ruta
   const filePath2 = `Lalalala_${idAleatorio}`; // nombre carpeta y sera la ruta
 
-  // const refStorage = this.storage.ref('Posts.json'); // referencia
-  const refStorage = this.storage.ref('Posts'); // referencia
   // const refStorage = this.storage.ref('lal'); // referencia
 
   // tslint:disable-next-line: no-unused-expression
@@ -150,20 +195,23 @@ mostrardatos() {
       }))
       .subscribe(); */
 
+      /*----------- OBTENGO Post IDFireStore  -----------------*/
   this.http.get(referenciaDePost1)
   .subscribe(dat => {
     Object.keys(dat).map((elId) => {
-      console.log('ID from BD  ' , elId);
+      console.log('ID Post from BD  ' , elId);
      });
     });
 
+  console.log(`**** refPost  ${referenciaDePost1}
+                * ID  ${idAleatorio}
+                Nº  ${numAleatorio}`);
 
-  console.log(`**** refPost  ${referenciaDePost1}* ID  ${idAleatorio} Nº  ${numAleatorio}`);
-  
   // console.log(`**** refStorage  ${refStorage.child[0].title}`);
   // console.log(`**** task  ${task}`);
-    
 
+
+  /* ***********  Termina mostrardatos  ****************** */
 }
 
 // ************** IMAGENES ****************************
@@ -352,18 +400,17 @@ createPost(postData: Post) {
       );
   } else {
     return this.http.post<Post>(this.cadena, body, httpOptions)
-      .pipe(map((data: any) => {
-
+      .pipe(map((data: Post) => {
+        // esto de abajo no suma nada o sea ni sirve
         for (const key in data) {
           if (Object.prototype.hasOwnProperty.call(data, key)) {
             this.postArrayOfKeys.push(...key);
             alert('ARRAY ' + this.postArrayOfKeys.length);
-            console.table(key);
+            console.table(`${key}Algun dato`);
 
             alert('ARRAY length ' + this.postArrayOfKeys.length);
           }
-        }
-        alert(`${data}NO believe it`);
+        }        
         // return postArray;
       }))
       .subscribe(
@@ -422,6 +469,8 @@ createPost(postData: Post) {
           for (const key in data) {
             if (Object.prototype.hasOwnProperty.call(data, key)) {
               postArray.push({ ...data[key], IdFirebase: key });
+              console.table(postArray);
+              
             }
           }
           alert(`${data}NO`);
@@ -438,6 +487,7 @@ getDatabaseDatas() {
 
  fetchPosts(): Post[] {  // obtiene y agrega Post
    this.getTodosPost();
+
    return this.loadedPosts.slice();
   // return this.posts2.slice();
 
@@ -445,30 +495,115 @@ getDatabaseDatas() {
 
 private getTodosPost() {
  // alert('ACA getTodosPost DEL SERVICO y los agrega al array local');
-
+ // const uid = userData?.uid;
   console.log('HELLOo');
   const referenciaDeUsuario = `${environment.firebaseConfig.databaseURL}User.json`;
   const referenciaDePost1 = `${environment.firebaseConfig.databaseURL}Posts.json`;
   const referenciaDePost2 = this.cadena;
   const referenciaDeFly = `${environment.firebaseConfig.databaseURL}Fly.json`;
   const db = firebase.firestore();
+// storageGetReference = firebase.storage();
+// storageCreateRef = this.storageGetReference.ref();
+let options= " select * from Posts";
+ 
+  console.log('Referencia db ', db,
+              'MORE REF= ' , db.app.options.valueOf(),
+              'Ref storage ', this.storageCreateRef );
 
-  console.log('Referencia db ', db, 'Ref storage ', this.storageCreateRef);
+  /* ----------------------- POST ------------------------------------ */
 
-  const res = this.firestore.collection('Posts').snapshotChanges();
-  console.log('res ', res.pipe());
+  this.fetchingPost.next(true);
+  /*-------  muestra todo el objeto Post/ ---------*/
+  this.http.get(referenciaDePost1)
+  .subscribe(fl => {
+    console.log('All post from BD ', fl);
+  });
 
-  const cef3 =  this.firestore.collection('User').snapshotChanges().pipe();
+  /* Estoy llamando post de BD por su key, creo un nuevo post y agrega a lista post local */
+  /* --- agrego a la matriz el Objets js del get con operadores Observables pipe y map antes des suscribe- */
+
+    /*Podria hacer que el subscribe de abajo no es necesario pues usamos el rteurn,
+    que devuelve un observble y lo subscribimos en el componente, tanto en OnInit como cuando
+    llamo ce nuevo al metodo del servicio, seria
+    this.service.fetchPosts().subscribe(psts=>{this post = psts})
+     ni tampoco necesitariamos subject pues existe solo un componente interesado.
+     Seria return this.http.get<Post>(referenciaDePost1)..hasta return postArray;*/
+
+this.http.get<Post>(referenciaDePost1)
+/*sera el tipo de cuerpo de respuesta que luego será manejado automáticamente por Angular HttpClient y TypeScript entiende */
+  .pipe(
+    map((response) => {
+    const postArray: Post[] = [];
+    for (const key in response) {
+      if (Object.prototype.hasOwnProperty.call(response, key)) {
+        const eleme = response[key];
+        ///////////////////if()
+        postArray.push({ ...eleme, IdFirebase: key });
+        // el operador de propagación ademas de la key que podria usar despues como delete
+      }
+    }
+    console.log('Table of response');
+    console.table(response);
+    console.log('Table of posts');
+    console.table(postArray);
+    return postArray;
+  })).subscribe((pst) => {
+    pst.forEach(element => {
+      console.log(element.title);
+    }, (error: { message: boolean; }) => {
+      this.elErrorSubj.next(error.message);
+    });
+
+    // console.log('Los post son : ', pst);
+    //  console.table([pst]);
+
+    this.fetchingPost.next(false); ///primero lo hace true y al cargar pasa a false.
+    this.loadedPosts = pst;
+    this.onChange.next(this.loadedPosts.slice());
+  });
+
+  // this.isAuth();
+
+  /* this.http.get<Post>(referenciaDePost1).pipe */
+              
+  /* const dada = this.firestore.collection<Post>('Posts').snapshotChanges()
+  .pipe(changes => {
+    return changes.pipe(map(
+         actions => actions.map( a => {
+           const data = a.payload.doc.data() as Post;
+           const id = a.payload.doc.id;
+           console.log(id, '--------', data);
+           return{id, ...data};
+         })
+       ))}
+  ); */
+
+  /*muestro algo pero no es necesario (ni anda) ****** 
+  const dada = this.firestore.collection<Post>('Posts')
+  .snapshotChanges()
+  .pipe(map (
+         actions => actions.map( a => {
+           const data = a.payload.doc.data() as Post;
+           const id = a.payload.doc.id;
+           console.log( '----- document---');
+           console.log(id, '--------', data);
+           return{id, ...data};
+         })
+       )); */
+
+       //******* */ *** son los mismos o se muestra lo mismo *******
+  /* const cef3 =  this.firestore.collection('User')
+    .snapshotChanges()
+      .pipe();
   const miRef = db.collection('User');
 
-  Object.keys(miRef).map((k) => {
+  Object.keys(miRef).map((k) => { 
     console.log('MAP ' , k ); });
 
   Object.keys(firebase.firestore().collection('lala')).map((k) => {
     console.log(`KEY ${k}`);
-  });
-
- // this.isAuth();
+  }); */
+  // ************* Termina son los mismos o se muestra lo mismo **************
 
   /* otra */
   /* const dato2 = async value => await (await db.collection('User').get())
@@ -477,80 +612,38 @@ private getTodosPost() {
 
   /* console.log('USUARIO- ' ,  this.firestore.collection('User'));
   console.log('REF- ' ,  firebase.storage().ref().bucket); */
-
-/* ----------------------- POST ------------------------------------ */
-  this.fetchingPost.next(true);
-
+  console.log('REF00- ' ,  firebase.storage().ref()); 
+  console.log('REF11- ' ,  firebase.storage().ref().bucket); 
+  console.log('REF22- ' ,  `${environment.firebaseConfig.databaseURL}Posts.json`); 
+  //const referenciaDePost1 = `${environment.firebaseConfig.databaseURL}Posts.json`;
   /*-------  muestra solo Id de firebase del objeto Post/ ---------*/
-  this.http.get<Post>(referenciaDePost1)
+  /* this.http.get<Post>(referenciaDePost1)
     .subscribe(posts => {
-      Object.keys(posts).map((k) => {// const blob = new Blob([JSON.stringify(Post)], {type : 'application/json'});
+      Object.keys(posts).map((k) => {
+        // const blob = new Blob([JSON.stringify(Post)], {type : 'application/json'});
        // console.table([ k]);
        console.log('ID de Post ' + k );
       });
   }, () => {
       alert ('NADA post');
-    });
-// lo mismo que arriba
-  this.http.get<Post>(referenciaDePost1)
+    }); */
+
+ // *******          lo mismo que arriba
+  /* this.http.get<Post>(referenciaDePost1)
   .subscribe((pos) => {
+
     for (const key in pos) {
       if (Object.prototype.hasOwnProperty.call(pos, key)) {
         const element = pos[key];
-        console.log('IDD post ' , key);
+        console.log('IDD post ' , key, ' Name ', element.title);
       }
     }
-  });
+  }); */
 
-    /*-------  muestra todo el objeto Post/ ---------*/
-  this.http.get(referenciaDePost1)
-    .subscribe(fl => {
-      console.log('All post from BD ', fl);
-    });
-
-    /* Estoy llamando post de BD por su key, creo un nuevo post y agrega a lista post local */
-    /* --- agrego a la matriz el Objets js del get con operadores Observables pipe y map antes des suscribe- */
-
-      /*Podria hacer que el subscribe de abajo no es necesario pues usamos el rteurn,
-      que devuelve un observble y lo subscribimos en el componente, tanto en OnInit como cuando
-      llamo ce nuevo al metodo del servicio, seria
-      this.service.fetchPosts().subscribe(psts=>{this post = psts})
-       ni tampoco necesitariamos subject pues existe solo un componente interesado.
-       Seria return this.http.get<Post>(referenciaDePost1)..hasta return postArray;*/
-      
-  this.http.get<Post>(referenciaDePost1)
-  /*sera el tipo de cuerpo de respuesta que luego será manejado automáticamente por Angular HttpClient y TypeScript entiende */
-    .pipe(
-      map((response) => {
-      const postArray: Post[] = [];
-      for (const key in response) {
-        if (Object.prototype.hasOwnProperty.call(response, key)) {
-          // const element = response[key];
-          postArray.push({ ...response[key], IdFirebase: key });
-          // el operador de propagación ademas de la key que podria usar despues como delete
-
-        }
-      }
-      console.log('Table of posts');
-      console.table(postArray);
-      return postArray;
-    })).subscribe((pst) => {
-      pst.forEach(element => {
-        console.log(element.title);
-      }, (error: { message: boolean; }) => {
-        this.elErrorSubj.next(error.message);
-      });
-
-      console.log('Los post son : ', pst);
-      //  console.table([pst]);
-
-      this.fetchingPost.next(false);
-      this.loadedPosts = pst;
-      this.onChange.next(this.loadedPosts.slice());
-    });
+   
     /* ----------------------------------------------------------- */
-// aca es lo mismo que arriba pero creo un Post, despues mandaba post2 o loadPost
-  this.http.get<Post>(referenciaDePost1)
+ // aca es lo mismo que arriba pero creo un Post, despues mandaba post2 o loadPost
+  /* this.http.get<Post>(referenciaDePost1)
   .subscribe((posts) => {
     for (const key in posts) {
       if (Object.prototype.hasOwnProperty.call(posts, key)) { // dice que, si tiene prop key
@@ -560,31 +653,25 @@ private getTodosPost() {
         const content = element.content + '';
         const imageUrl = element.imageUrl + '';
         const neePst: Post = new Post (id, titulo, content, imageUrl);
-        this.posts2.push(neePst);
-
-       // this.fetchingPost.next(false);
-       /////// this.onChange.next(this.posts2.slice());
-        /* Lo Hace mas Arriba el onChange ()
-        this.onChange.next(this.loadedPosts.slice());
-        return this.loadedPosts; */
-
-        // muestro titulo del Post
+        this.posts2.push(neePst); 
+        
         console.log('***', element.title, '/ ', id, '/ ', titulo, '/ ', content, '/ ', imageUrl);
       }
-    }
-  });
-/* --------------------- USU -------------------------------------- */
-  this.http.get<User>(referenciaDeUsuario)
-
-      /*el subscribe de abajo no es necesario si usamos el rteurn,
+    }    
+  });*/
+ 
+ /* **************        IMPORTANTE    ****************************
+      el subscribe de abajo no es necesario si usamos el rteurn,
       que devuelve un observble y lo subscribimos en el componente
-       ni tampoco necesitariamos subject pues existe solo un componente interesado*/
-
+       ni tampoco necesitariamos subject pues existe solo un componente interesado
+  *******************************************************************************/
+/* --------------------- USU -------------------------------------- */
+  /* this.http.get<User>(referenciaDeUsuario)
   .subscribe((usus) => {
     for (const key in usus) {
       if (Object.prototype.hasOwnProperty.call(usus, key)) {
         const element = usus[key];
-        console.log('USUS ' , element.name);
+        console.log('USUS ' , element.name , 'con id = ' , key );
       }
     }
   });
@@ -596,10 +683,9 @@ private getTodosPost() {
     });
   }, () => {
       alert ('NADA usus');
-    });
-/* ----------------------------------------------------------- */
-/* ----------------FLY------------------------------------------- */
-  this.http.get(referenciaDeFly)
+    }); */
+ /* ----------------FLY------------------------------------------- */
+/*   this.http.get(referenciaDeFly)
   .subscribe((flys) => {
     for (const key in flys) {
       if (Object.prototype.hasOwnProperty.call(flys, key)) {
@@ -611,7 +697,8 @@ private getTodosPost() {
   this.http.get(referenciaDeFly)
   .subscribe(fl => {
         console.log('All Flys from BD  ' , fl);
-    });
+    }); */
+    /* ----------------------------------------------------------- */
 
 }
     /*............... Termina  getTodosPost   .........................*/
@@ -647,6 +734,40 @@ private getTodosPost() {
     return null;
   }
 
+   /* **************   consulta get  ********************/
+   /*  const cef3 =  this.firestore.collection('User').snapshotChanges().pipe();
+  const miRef = db.collection('User'); 
+  return this.http.post<Post>(this.cadena, body, httpOptions)*/
+
+   getById(valorid: number, operador: string) { /*  operador: '<'|'>'|'==' */
+   alert('Operador ' + operador + ' y id es ' + valorid);
+    const db = firebase.firestore();
+    // Create a reference to the Posts collection
+    const postsRef = db.collection('Posts');
+    console.log('Referencia ID ', this.db.collection('Posts').id);
+    console.log('Referencia WERE ', this.db.collection('Posts').where('id', '==' , valorid));
+    console.log('Referencia Order ', this.db.collection('Posts').orderBy('name'));
+    console.log('Referencia db ', this.db,
+    /* 
+    Object.keys(firebase.firestore().collection('lala')).map((k) => {
+    console.log(`KEY ${k}`); */
+  'Reference from our storage ', firebase.storage().ref().bucket,
+  'Collection: ', postsRef);
+    return db.collection('Posts'), ref => {
+      ref.where('id', operador, valorid); };
+    throw new Error('Method not implemented.');
+    
+  }
+  
+  getByNombre(name: string): any  {
+    const db = firebase.firestore();
+    // Create a query against the collection
+    console.log('queryRef  ', db.collection('Posts'));
+    return db.collection('Posts'),ref => {
+      ref.where('title', '==', name);
+  }
+}
+  
   /* *******************   DELETE   ************************* */
 
   /* const referenciaDePost1 = `${environment.firebaseConfig.databaseURL}Posts.json`;
@@ -671,13 +792,15 @@ private getTodosPost() {
 
   deletePost3(pos: Post) {
     // return this.postCollection.doc(post.title).delete();
-    this.postCollection.doc(pos.title).delete();
+    console.log();
+    
+    this.postCollection.doc(pos.IdFirebase).delete();
     // this.onChange.next(this.postCollection);
   }
 
   deletePost4(pos: Post): boolean {
     const index = this.loadedPosts.indexOf(pos);
-    alert(index);
+    alert(index + ' -index');
     if (index > -1 ) {
       this.loadedPosts.splice(index, 1);
 
@@ -686,16 +809,43 @@ private getTodosPost() {
     }
     return false;
   }
-
+miDelet(Poo:Post) {
+  console.log(firebase.firestore().collection('Posts').doc(Poo.IdFirebase).delete(), 'ID ', Poo
+  .IdFirebase);
+  return this.firestore.collection('Posts')
+    .doc(Poo.IdFirebase)
+      .delete()
+      .then(() => {
+        console.log('Documento eliminado!');
+      }, (error) => {
+        console.error(error);
+      });
+  
+}
 
 // DELETE: delete from the server firebase
   deletePost5(pos?: Post): Observable<Post> {
-    const name = typeof pos === 'number' ? pos : pos.title;
-    const id = typeof pos === 'number' ? pos : pos.IdFirebase;
-    const url = `${environment.firebaseConfig.databaseURL + 'Posts.json'}/${id}`;
+    const name = typeof pos === 'string' ? pos : pos.title;
+    const id = typeof pos === 'string' ? pos : pos.IdFirebase;
+    const url = `${environment.firebaseConfig.databaseURL + 'Posts.json'}/${id}`; // NO ANDA
+    const url2 = `${environment.firebaseConfig.databaseURL + 'Posts'}/${id}`;
+    const url3 = `https://angularcourse-bc12b.firebaseio.com/Posts/-MLSimYvqBZBOsjR1Pt2`;
     const cadena = environment.firebaseConfig.databaseURL + 'Posts.json'; // Esta no tiene el id
-
+ /* 
+      mixInfo() {
+this.userService.mixInfo().subscribe(r => {
+  r.forEach(user => {
+    const id = user.payload.doc.id;
+    const data = <UserInterface>user.payload.doc.data();
+    const { name, email, password, role } = data;
+    this.userService.editUser(id, { id, name, email, password, role })
+    this.getUsers();
+  });
+});
+ */
     console.log(`DELETE name-- ${name} id--${id} url-- ${url}` );
+    console.log(`DELETE name-- ${name} id--${id} url-- ${url2}` ); // esta esta bien
+    console.log(`url name-- https://angularcourse-bc12b.firebaseio.com/Posts/-MLSimYvqBZBOsjR1Pt2` ); // esta esta bien
 
     /* let dato = '';
     this.http.get<Post>(this.cadena)
@@ -710,22 +860,56 @@ private getTodosPost() {
         });
       }); */
 
-    const httpOptionsPost = {
+      const rooms = [];
+
+      const snapshot = this.db
+        .collection("Post3s")
+        .orderBy("title", "desc")
+        .get();
+
+        
+        
+        
+        /* .then(() => {
+          console.log('ELIMINADO');
+        }, (error) => {
+          console.log('ERROR');
+        }); */
+        /* const dato =   db.collection('Fly').doc('Fly').get()
+        .then(doc => {
+          if (!doc.exists) {
+            console.log('No such document!');
+          } else {
+            console.log('Document data:', doc.data());
+          }
+        })
+        .catch(err => {
+          console.log('Error getting document', err);
+        });
+      console.log(`snap , ${snapshot}`);
+      
+      /* snapshot.forEach(doc => {
+        let room = doc.data();
+        room.id = doc.id;
+        rooms.push(room);
+      }); */
+
+     const httpOptionsPost = {
         headers: new HttpHeaders({ 'Content-Type': 'Posts/json' })
       };
 
     // return this.http.delete<Post>(cadena + id + httpOptionsPost)
-    return this.http.delete<Post>( `${cadena}/${id}`)
+    return this.http.delete<Post>( `${url2}`)
       .pipe(
       tap(_ => {
          console.log(`Yes i can deleted post id=${id}`);
          alert(`deleted post id=${id}`);
          this.onChange.next(this.loadedPosts.slice());
-          /*
-        return this.loadedPosts; */
+          
+        // return this.loadedPosts; 
       }),
       catchError(this.handleError<Post>('NO can delete post'))
-    );
+    ); 
 
   }
 /*
@@ -740,7 +924,7 @@ private getTodosPost() {
         'Content-Type': 'application/json'
       })
     };
-    //return this.http.delete<Post>(this.cadena + post.title, httpOptions)
+    // return this.http.delete<Post>(this.cadena + post.title, httpOptions)
   /*  const id =  this.http.get<Post>(this.cadena+post.IdFirebase)
    .subscribe((dato) => {
      alert
@@ -748,17 +932,17 @@ private getTodosPost() {
 // const url = `${environment.firebaseConfig.databaseURL + 'Posts.json'}/${id}`;
     console.log(`DELETE name-- ${post.title} id--${post.IdFirebase}` );
    // return this.http.delete<Post>(`${this.cadena}/${post.IdFirebase},httpOptions`)
+   // // return this.http.delete<Post>(this.cadena + post.IdFirebase , httpOptions)
     return this.http.delete<Post>(this.cadena + post.IdFirebase , httpOptions)
-      .pipe(
+     /*  .pipe(
       tap(_ => {
          console.log(`Yes i can deleted post id=${post.IdFirebase}`);
          alert(`deleted post id=${post.IdFirebase}`);
          this.onChange.next(this.loadedPosts.slice());
-          /*
-        return this.loadedPosts; */
+         // return this.loadedPosts;
       }),
       catchError(this.handleError<Post>('NO can delete post'))
-    );
+    ); */
      
       // .pipe(map((data: any) => data));
      // .pipe(map((data: [string]) => data));
@@ -913,6 +1097,26 @@ isAuth(): any {
     console.log('USUARIO- ' ,  this.firestore.collection('User'));
     console.log('REF- ' ,  firebase.storage().ref().bucket);
   }); */
+
+  /* 
+  INVENTO
+  const db = firebase.firestore();
+      const uid = userData?.uid;
+      if (uid) {
+        const userRef = await db.collection('users').doc(uid);
+        const user = await userRef.get();
+        const userFields = user.data();
+        console.log('userFields is: ', userFields);
+        const {profilePicture, userName} = userFields;
+        console.log('profilePicture is: ', profilePicture);
+        console.log('userName is: ', userName);
+        setUserInfo(() => {
+          return {
+            profilePicture,
+            userName,
+          }
+        });
+        */
   console.log('USUARIO- ' ,  this.firestore.collection('User'));
   console.log('REF- ' ,  firebase.storage().ref().bucket);
 
@@ -1239,4 +1443,79 @@ updateUser(user?: User) {
     return this.firestore.collection('cats').doc(documentId).set(data);
   }
 
+  /* ******************************* iniciar auth  ********************** */
+  /* 
+  // added .firestore to test firestore locally w/ emulator 
+const db = firebase.initializeApp(firebaseConfig).firestore(); 
+
+// for debugging
+firebase.firestore.setLogLevel('debug')
+
+// Uncomment the below line to use cloud functions with the emulator
+firebase.functions().useFunctionsEmulator('http://localhost:5001')
+// firebase.firestore().settings({ experimentalForceLongPolling: true });
+
+// uncomment this to test firestore locally w/ emulator 
+  db.settings({
+    host: "localhost:8080",
+    ssl: false
+  }); */
+// INVENTO a ver si entro en firestore
+/*  const dato = firebase.firestore().doc('Posts');
+  console.log(dato , 'DAI'); */
+
+ /*  Object.keys(firebase.firestore().collection('xxx')).map((k) => {
+    console.log(`KEY ${k}`);
+  }); */
+
+  //console.log(firebase.firestore().doc('Posts').collection('Posts').get());
+  /* firebase.firestore().collection('Fly').doc('Paris').get()  
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      console.log('Document data:', doc.data());
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  }); */
+ /*  firebase.firestore().collection('Fly').where('Departeur','==','Paris').get()
+  .then(snapshot => {
+    if (snapshot.empty) {
+      console.log('No matching documents.');
+      return;
+    }
+    snapshot.forEach(doc => {
+      console.log(doc.id, '=>', doc.data());
+    });
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
+  }); */
+
+  /* firebase.firestore().collection('Posts').get()
+  .then(snapshot => {
+    snapshot.forEach(doc => {
+      console.log(doc.id, '=>', doc.data());
+    });
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
+  }); */
+  //console.log('DB= ' + citiesRef);
+ 
+/*  
+citiesRef.doc("SF").set({.doc('==')
+    name: "San Francisco", state: "CA", country: "USA",
+    capital: false, population: 860000,
+    regions: ["west_coast", "norcal"] });
+
+getByNombre(name: string) {
+    const db = firebase.firestore();
+    // Create a query against the collection
+    console.log('queryRef  ', db.collection('Posts'));
+    return db.collection('Posts'),ref => {
+      ref.where('title', '==', name);
+  } */
 }

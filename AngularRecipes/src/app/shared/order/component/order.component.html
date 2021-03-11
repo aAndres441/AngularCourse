@@ -1,1 +1,77 @@
-<p>order works!</p>
+<h1 style="text-align: center;">order works!</h1>
+
+<div>
+    <button (click)="cambioEventoTecla()">ESCAPE   
+    </button>
+    
+    <input type="text" 
+        onkeydown="keydownFunction()" 
+        onkeyup="keyupFunction()"
+        >
+    
+    <input type="text" onkeydown="myFunction()" placeholder="press">
+
+    <button (click)="myFunction()">Function   
+    </button>
+</div>
+
+<div class="col-sm-5">
+    <input type="text" #unValor  placeholder="un Valor" name="unValor" style="color: red;">
+</div>
+<div class="col-sm-2">
+    <input type="text" [value]="unValor.value" style="color: red;">
+</div>
+
+<i class="fa fa-ban fa-stack-2x text-danger" style="color:red;">
+</i>
+
+<hr><hr>
+<div>
+    <h3 style="color: blue; font-style: italic;">I will dysplay lists </h3>
+    <img src="assets\Imagenes\osos.png" width="10%">
+    <ul type="circle"> 
+        <li style="color: rgb(255, 72, 0);"><p>will unorder list </p></li>
+        <li><p>Lorem ipsum dolor sit </p></li>
+        <li><p>Lorem ipsum dolor sit </p></li>
+        <li style="color: rgb(255, 72, 0);"><p> will order list</p>
+            <ol start="14">
+                <li><p><span style="font-size:20px">&#9993;</span> </p></li>
+                <li><p><span style="font-size:20px">&#9989;</span> </p></li>
+                <li><p><span style="font-size:20px">&#9995;</span> </p></li>
+                <li><p>😉</p></li>
+            </ol>
+        </li>
+    </ul>
+    <hr>
+
+    
+    <div>
+        <table>
+            <thead style="text-align: center;">
+                <tr>
+                    <td colspan="3">TABLA</td>
+                </tr>            
+            </thead>
+            <tbody style="align-self: center; color: blue;">
+                <tr>
+                    <th>Name </th>
+                    <th>Length</th>
+                    <th>DELETE</th>
+                </tr>
+                <tr *ngFor="let m of mascotas ">
+                    <td>{{m | uppercase}}</td>
+                    <td>{{mascotas.length}}</td>
+                    <td>
+                        <button (click)= "isFetchingPost =!isFetchingPost"
+                        class="w3-btn w3-white w3-border w3-border-red w3-text-red w3-round-large"
+                        style="vertical-align: inherit">
+                        <i class="far fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
+</div>

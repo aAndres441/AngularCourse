@@ -28,7 +28,7 @@ export class ModalComponentComponent implements OnInit, OnDestroy {
       alert(`Dialog: ${this.data.content.title} iD ${this.data.content.id}`);
       this.post = this.data.content;
       this.titleModal = this.data.content.title;
-    } else { alert('no have content'); }
+    } else { alert('no have content, a  new post will be created'); }
 
     /* this.initForm(); */
   }
